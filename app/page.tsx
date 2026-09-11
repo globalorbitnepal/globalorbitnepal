@@ -40,7 +40,9 @@ export default async function HomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <HomeHero />
+      <div className="bg-black">
+        <HomeHero />
+      </div>
     </>
   );
 }
