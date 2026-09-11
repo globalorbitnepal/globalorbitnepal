@@ -69,9 +69,69 @@ export function IconMail({ className = "h-4 w-4" }: IconProps) {
   );
 }
 
+export function IconCode({ className = "h-7 w-7" }: IconProps) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="m8 8-4 4 4 4M16 8l4 4-4 4M13 5l-2 14" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+export function IconGrid({ className = "h-7 w-7" }: IconProps) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <rect x="4" y="4" width="6.5" height="6.5" rx="1.2" stroke="currentColor" strokeWidth="1.6" />
+      <rect x="13.5" y="4" width="6.5" height="6.5" rx="1.2" stroke="currentColor" strokeWidth="1.6" />
+      <rect x="4" y="13.5" width="6.5" height="6.5" rx="1.2" stroke="currentColor" strokeWidth="1.6" />
+      <rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.2" stroke="currentColor" strokeWidth="1.6" />
+    </svg>
+  );
+}
+
+export function IconHeadset({ className = "h-7 w-7" }: IconProps) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M5 13V11a7 7 0 0 1 14 0v2" stroke="currentColor" strokeWidth="1.6" />
+      <rect x="3.5" y="12" width="4" height="6" rx="1.2" stroke="currentColor" strokeWidth="1.6" />
+      <rect x="16.5" y="12" width="4" height="6" rx="1.2" stroke="currentColor" strokeWidth="1.6" />
+      <path d="M16.5 18v1a3 3 0 0 1-3 3H12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+export function IconPeople({ className = "h-7 w-7" }: IconProps) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <circle cx="9" cy="8" r="2.4" stroke="currentColor" strokeWidth="1.6" />
+      <circle cx="16" cy="9" r="2" stroke="currentColor" strokeWidth="1.6" />
+      <path d="M4.5 18c.4-2.8 2.4-4.2 4.5-4.2s4.1 1.4 4.5 4.2M13.5 18c.3-1.8 1.4-3 2.7-3 1.5 0 2.6 1.1 2.8 3" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+export function IconGlobe({ className = "h-7 w-7" }: IconProps) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <circle cx="12" cy="12" r="8" stroke="currentColor" strokeWidth="1.6" />
+      <path d="M4.5 12h15M12 4c2.2 2.4 3.3 5 3.3 8s-1.1 5.6-3.3 8c-2.2-2.4-3.3-5-3.3-8s1.1-5.6 3.3-8Z" stroke="currentColor" strokeWidth="1.5" />
+    </svg>
+  );
+}
+
+export function IconIdea({ className = "h-7 w-7" }: IconProps) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M9 18h6M10 21h4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+      <path d="M12 3a6 6 0 0 0-3.5 10.8c.6.5 1 1.2 1.1 2h4.8c.1-.8.5-1.5 1.1-2A6 6 0 0 0 12 3Z" stroke="currentColor" strokeWidth="1.6" />
+    </svg>
+  );
+}
+
 export const HERO_FEATURE_ICONS = {
-  dev: IconGear,
-  host: IconServers,
+  web: IconCode,
   seo: IconChart,
-  support: IconShield,
+  erp: IconGrid,
+  email: IconMail,
+  audit: IconSearch,
+  support: IconHeadset,
 } as const;

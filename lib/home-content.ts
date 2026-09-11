@@ -1,39 +1,44 @@
 export const HOME_POSITIONING = {
-  eyebrow: "Your technology partner",
-  headlineLead: "Digital Solutions",
-  headlineGold: "for a Bigger Tomorrow",
-  lede: "We build websites, web applications, mobile apps, ERP systems and provide hosting, dedicated servers, SEO and digital solutions to help businesses grow globally.",
+  eyebrow: "Your digital partner",
+  headlineLead: "Transforming",
+  headlineGold: "Ideas",
+  headlineRest: "Into Reality",
+  lede: "We build websites, develop custom apps & ERP systems, provide business email solutions, run data-driven SEO, and help businesses grow with technology — all under one roof.",
   primaryCta: { href: "/contact", label: "Start Your Project" },
-  secondaryCta: { href: "/services", label: "View Our Work" },
+  secondaryCta: { href: "/about", label: "Watch Our Story" },
+  script: "Building a Smarter Tomorrow",
 } as const;
 
 export const HOME_HERO_FEATURES = [
-  { key: "dev", title: "Custom", line: "Development" },
-  { key: "host", title: "VPS &", line: "Dedicated Servers" },
-  { key: "seo", title: "SEO &", line: "Digital Marketing" },
+  { key: "web", title: "Website", line: "Development" },
+  { key: "seo", title: "SEO & Digital", line: "Marketing" },
+  { key: "erp", title: "Custom Apps", line: "& ERP Systems" },
+  { key: "email", title: "Business", line: "Email Provider" },
+  { key: "audit", title: "Website", line: "Audit" },
   { key: "support", title: "Ongoing", line: "Support" },
 ] as const;
 
 export const HOME_TECHNOLOGIES = [
-  "WordPress",
-  "NestJS",
-  "Laravel",
-  "PHP",
   "Next.js",
-  "React.js",
-  "Vue.js",
-  "Nuxt.js",
-  "Angular",
+  "Laravel",
+  "React",
   "Node.js",
-  "Python",
-  "TypeScript",
+  "MySQL",
+  "PostgreSQL",
 ] as const;
 
 export const HOME_TRUST_STATS = [
-  { value: "50+", label: "Happy Clients" },
-  { value: "10+", label: "Countries Served" },
-  { value: "99.9%", label: "Uptime Guarantee" },
-  { value: "24/7", label: "Technical Support" },
+  { value: "100+", label: "Happy Clients" },
+  { value: "250+", label: "Projects Delivered" },
+  { value: "15+", label: "Countries Served" },
+  { value: "99%", label: "Client Satisfaction" },
+] as const;
+
+export const HOME_ORBIT_CARDS = [
+  { title: "Innovative Solutions", icon: "idea" },
+  { title: "Global Reach", icon: "globe" },
+  { title: "Trusted Partner", icon: "people" },
+  { title: "Real Business Impact", icon: "chart" },
 ] as const;
 
 export const HOME_QUOTE =

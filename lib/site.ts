@@ -16,12 +16,11 @@ export const FALLBACK_SITE = {
 } as const;
 
 export const FALLBACK_HEADER_NAV: FallbackNavItem[] = [
-  { label: "Home", href: "/", location: "HEADER" },
-  { label: "Services", href: "/services", location: "HEADER" },
+  { label: "Overview", href: "/", location: "HEADER" },
+  { label: "ERP Software", href: "/services", location: "HEADER" },
   { label: "Solutions", href: "/services/digital-solutions", location: "HEADER" },
-  { label: "Technologies", href: "/#technologies", location: "HEADER" },
   { label: "Our Work", href: "/#work", location: "HEADER" },
-  { label: "About", href: "/about", location: "HEADER" },
+  { label: "About Us", href: "/about", location: "HEADER" },
   { label: "Contact", href: "/contact", location: "HEADER" },
 ];
 

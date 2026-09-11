@@ -1,10 +1,10 @@
 /**
  * PM2 configuration for GlobalOrbitNepal only.
  * Do not start or restart HostingBeyond from this file.
- * Bind to 127.0.0.1 until Nginx is configured in a later step.
+ * Bind to 127.0.0.1. Nginx for arnav.theglobalorbit.com proxies here.
  *
  * Process name: globalorbitnepal
- * Port: 3001
+ * Port: 3031
  */
 module.exports = {
   apps: [
@@ -12,7 +12,7 @@ module.exports = {
       name: "globalorbitnepal",
       cwd: "/srv/apps/globalorbitnepal",
       script: "node_modules/next/dist/bin/next",
-      args: "start -p 3001 -H 127.0.0.1",
+      args: "start -p 3031 -H 127.0.0.1",
       interpreter: "node",
       instances: 1,
       exec_mode: "fork",
@@ -20,7 +20,7 @@ module.exports = {
       max_memory_restart: "512M",
       env: {
         NODE_ENV: "production",
-        PORT: "3001",
+        PORT: "3031",
         HOSTNAME: "127.0.0.1",
         UPLOAD_DIR: "/data/globalorbitnepal/uploads",
       },

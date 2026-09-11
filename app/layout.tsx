@@ -70,10 +70,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function RootLayout({ children }: LayoutProps<"/">) {
   const settings = await getSiteSettings();
-  const [headerRows, footerRows] = await Promise.all([
-    listVisibleNavItems("HEADER"),
-    listVisibleNavItems("FOOTER"),
-  ]);
+  const footerRows = await listVisibleNavItems("FOOTER");
 
   const companyName = settings?.companyName || FALLBACK_SITE.companyName;
   const tagline = settings?.tagline || FALLBACK_SITE.tagline;
@@ -87,7 +84,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
         <SiteShell
           companyName={companyName}
           tagline={tagline}
-          headerItems={toNavItems(headerRows, FALLBACK_HEADER_NAV)}
+          headerItems={FALLBACK_HEADER_NAV}
           footerItems={toNavItems(footerRows, FALLBACK_FOOTER_NAV)}
           email={settings?.email || FALLBACK_SITE.email}
           phone={settings?.phone || FALLBACK_SITE.phone}
