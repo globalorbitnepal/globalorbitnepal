@@ -1,5 +1,4 @@
 import { HOME_TECHNOLOGIES } from "@/lib/home-content";
-import { TECH_MARKS } from "@/components/home/tech-marks";
 
 export function TechMarquee() {
   const row = [...HOME_TECHNOLOGIES, ...HOME_TECHNOLOGIES];
@@ -20,19 +19,15 @@ export function TechMarquee() {
         <div className="relative min-w-0 flex-1 overflow-hidden">
           <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-10 bg-gradient-to-r from-[#f4efe4] to-transparent sm:w-16" />
           <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-gradient-to-l from-[#f4efe4] to-transparent sm:w-16" />
-          <div className="tech-marquee-track flex w-max items-center gap-10 pr-10">
-            {row.map((name, index) => {
-              const Mark = TECH_MARKS[name];
-              return (
-                <div
-                  key={`${name}-${index}`}
-                  className="flex items-center gap-2.5 text-[#2a3238]"
-                >
-                  {Mark ? <Mark /> : null}
-                  <span className="text-[13px] font-semibold">{name}</span>
-                </div>
-              );
-            })}
+          <div className="tech-marquee-track flex w-max items-center gap-4 pr-4">
+            {row.map((name, index) => (
+              <div
+                key={`${name}-${index}`}
+                className="inline-flex h-10 items-center rounded-full border border-[#e0d6c4] bg-white/70 px-4 text-[13px] font-semibold text-[#1c242c] shadow-[0_4px_12px_rgba(40,30,16,0.06)] backdrop-blur-md"
+              >
+                {name}
+              </div>
+            ))}
           </div>
         </div>
       </div>
