@@ -52,7 +52,8 @@ html {
   .reveal-delay-1,
   .reveal-delay-2,
   .reveal-delay-3,
-  .motion-safe\:animate-\[orbit-slow_48s_linear_infinite\] {
+  .motion-safe\:animate-\[orbit-slow_48s_linear_infinite\],
+  .tech-marquee-track {
     animation: none !important;
   }
 }
@@ -74,13 +75,17 @@ body {
   }
 }
 
-@keyframes orbit-slow {
+@keyframes tech-marquee {
   from {
-    transform: rotate(0deg);
+    transform: translateX(0);
   }
   to {
-    transform: rotate(360deg);
+    transform: translateX(-50%);
   }
+}
+
+.tech-marquee-track {
+  animation: tech-marquee 32s linear infinite;
 }
 
 @media (prefers-reduced-motion: no-preference) {

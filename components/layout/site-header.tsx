@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { BrandLogo } from "@/components/brand/brand-logo";
-import { IconMail, IconSearch } from "@/components/home/hero-icons";
+import { IconMail } from "@/components/home/hero-icons";
 import { NavLinks } from "@/components/layout/nav-links";
 import { BRAND_CONTACT } from "@/lib/home-content";
 import type { FallbackNavItem } from "@/lib/site";
@@ -30,9 +30,9 @@ export function SiteHeader({ items, email, phone }: SiteHeaderProps) {
   const displayEmail = email || BRAND_CONTACT.email;
 
   return (
-    <header className="relative z-50 bg-black text-white">
-      <div className="hidden border-b border-white/10 bg-[#070707] lg:block">
-        <div className="mx-auto flex h-8 max-w-[1360px] items-center justify-between px-8 text-[11px] text-white/70">
+    <header className="sticky top-0 z-50 border-b border-[#e4dac8]/80 bg-[#fbf8f1]/72 text-[#141c24] shadow-[0_10px_40px_rgba(40,30,16,0.06)] backdrop-blur-2xl">
+      <div className="hidden border-b border-[#e4dac8]/70 lg:block">
+        <div className="mx-auto flex h-8 max-w-[1600px] items-center justify-between px-8 text-[11px] font-medium text-[#5c564c]">
           <p className="tracking-[0.22em] uppercase">Ideas · Build · Grow Globally</p>
           <div className="flex items-center gap-5">
             <a className="inline-flex items-center gap-1.5" href={`tel:${displayPhone.replace(/\s/g, "")}`}>
@@ -48,29 +48,24 @@ export function SiteHeader({ items, email, phone }: SiteHeaderProps) {
           </div>
         </div>
       </div>
-      <div className="mx-auto flex max-w-[1360px] flex-col gap-3 px-5 py-2 sm:px-8 lg:h-[78px] lg:flex-row lg:items-center lg:gap-8 lg:py-0">
+      <div className="mx-auto flex max-w-[1600px] flex-col gap-3 px-5 py-2 sm:px-8 lg:h-[84px] lg:flex-row lg:items-center lg:gap-8 lg:py-0">
         <BrandLogo priority />
         <nav aria-label="Primary" className="lg:flex-1">
-          <NavLinks items={items} variant="headerDark" />
+          <NavLinks items={items} variant="headerGlass" />
         </nav>
         <div className="flex flex-wrap items-center gap-2.5">
-          <Link
-            href="/news"
-            aria-label="Search"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/20"
-          >
-            <IconSearch className="h-[15px] w-[15px]" />
-          </Link>
           <a
-            href={`mailto:${displayEmail}`}
-            className="inline-flex h-10 items-center gap-2 rounded-full border border-white/20 px-4 text-[12px] font-medium"
+            href={BRAND_CONTACT.webmail}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex h-10 items-center gap-2 rounded-full border border-[#d7ccb8] bg-white/45 px-4 text-[12px] font-semibold backdrop-blur-md"
           >
             <IconMail className="h-4 w-4" />
             Business Mail
           </a>
           <Link
             href="/contact"
-            className="inline-flex h-10 items-center gap-1.5 rounded-full bg-[#d4a017] px-5 text-[12px] font-semibold text-[#1a1408]"
+            className="inline-flex h-10 items-center gap-1.5 rounded-full bg-[#d4a017] px-5 text-[12px] font-semibold text-[#1a1408] shadow-[0_8px_20px_rgba(180,140,20,0.2)]"
           >
             Get a Quote
             <span aria-hidden="true">→</span>

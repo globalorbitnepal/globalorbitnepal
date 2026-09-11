@@ -6,20 +6,21 @@ import type { FallbackNavItem } from "@/lib/site";
 
 type NavLinksProps = {
   items: FallbackNavItem[];
-  variant?: "header" | "headerDark" | "footer";
+  variant?: "header" | "headerDark" | "headerGlass" | "footer";
 };
 
 export function NavLinks({ items, variant = "header" }: NavLinksProps) {
   const pathname = usePathname();
   const isFooter = variant === "footer";
-  const isDark = variant === "headerDark" || isFooter;
+  const isDark = variant === "headerDark";
+  const isGlass = variant === "headerGlass";
 
   return (
     <ul
       className={
         isFooter
           ? "mt-4 flex flex-col gap-2.5 text-sm"
-          : "flex flex-wrap items-center gap-x-7 gap-y-2 text-[14px] font-medium"
+          : "flex flex-wrap items-center gap-x-6 gap-y-2 text-[14px] font-semibold"
       }
     >
       {items.map((item) => {
@@ -35,6 +36,10 @@ export function NavLinks({ items, variant = "header" }: NavLinksProps) {
           className += current
             ? " text-[#d4a017] border-b-2 border-[#d4a017] pb-[3px]"
             : " text-white/90 hover:text-[#d4a017]";
+        } else if (isGlass) {
+          className += current
+            ? " text-[#b38616] border-b-2 border-[#d4a017] pb-[3px]"
+            : " text-[#1c242c] hover:text-[#b38616]";
         } else {
           className += current
             ? " text-[var(--color-ink)]"

@@ -15,17 +15,18 @@ export const HOME_HERO_FEATURES = [
 ] as const;
 
 export const HOME_TECHNOLOGIES = [
+  "WordPress",
+  "NestJS",
+  "Laravel",
+  "PHP",
   "Next.js",
   "React.js",
   "Vue.js",
   "Nuxt.js",
   "Angular",
   "Node.js",
-  "NestJS",
-  "Laravel",
   "Python",
   "TypeScript",
-  "WordPress",
 ] as const;
 
 export const HOME_TRUST_STATS = [
@@ -41,6 +42,7 @@ export const HOME_QUOTE =
 export const BRAND_CONTACT = {
   phone: "+91 11 3500 7890",
   email: "sales@theglobalorbit.com",
+  webmail: "https://webmail.globalorbitmail.cloud/",
 } as const;
 
 export const HOME_ABOUT = {
