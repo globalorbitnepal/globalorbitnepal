@@ -45,7 +45,7 @@ export function HomeHero() {
           sizes="100vw"
           className="object-cover object-[70%_40%]"
         />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(250,246,238,0.96)_0%,rgba(250,246,238,0.88)_28%,rgba(250,246,238,0.42)_52%,rgba(250,246,238,0.12)_72%,transparent_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(250,246,238,0.94)_0%,rgba(250,246,238,0.78)_32%,rgba(250,246,238,0.22)_58%,transparent_82%)]" />
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.35)_0%,transparent_18%,transparent_78%,rgba(244,239,230,0.75)_100%)]" />
       </div>
 
@@ -136,7 +136,7 @@ export function HomeHero() {
             alt=""
             fill
             sizes="(min-width: 1024px) 40vw, 90vw"
-            className="z-[1] object-contain object-center mix-blend-multiply drop-shadow-[0_30px_50px_rgba(40,30,16,0.18)]"
+            className="z-[1] object-contain object-center [mask-image:radial-gradient(circle,black_58%,transparent_76%)] [-webkit-mask-image:radial-gradient(circle,black_58%,transparent_76%)] drop-shadow-[0_30px_50px_rgba(40,30,16,0.22)]"
           />
           {HOME_ORBIT_CARDS.map((card, index) => {
             const Icon = ORBIT_ICONS[card.icon];
