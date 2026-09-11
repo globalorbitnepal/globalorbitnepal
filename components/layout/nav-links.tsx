@@ -19,7 +19,7 @@ export function NavLinks({ items, variant = "header" }: NavLinksProps) {
       className={
         isFooter
           ? "mt-4 flex flex-col gap-2.5 text-sm"
-          : "flex flex-wrap items-center gap-x-4 gap-y-2 text-[13px] sm:gap-x-6 sm:text-sm"
+          : "flex flex-wrap items-center gap-x-7 gap-y-2 text-[14px] font-medium"
       }
     >
       {items.map((item) => {
@@ -33,8 +33,8 @@ export function NavLinks({ items, variant = "header" }: NavLinksProps) {
           className += " text-white/70 hover:text-white";
         } else if (isDark) {
           className += current
-            ? " text-[var(--color-gold)] border-b-2 border-[var(--color-gold)] pb-0.5"
-            : " text-white/80 hover:text-[var(--color-gold)]";
+            ? " text-[#d4a017] border-b-2 border-[#d4a017] pb-[3px]"
+            : " text-white/90 hover:text-[#d4a017]";
         } else {
           className += current
             ? " text-[var(--color-ink)]"

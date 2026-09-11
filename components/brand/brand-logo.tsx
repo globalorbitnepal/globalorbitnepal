@@ -2,24 +2,23 @@ import Image from "next/image";
 import Link from "next/link";
 
 type BrandLogoProps = {
-  className?: string;
   priority?: boolean;
 };
 
-export function BrandLogo({ className = "", priority = false }: BrandLogoProps) {
+export function BrandLogo({ priority = false }: BrandLogoProps) {
   return (
     <Link
       href="/"
-      className={`relative block h-[58px] w-[168px] shrink-0 overflow-hidden sm:h-[64px] sm:w-[188px] ${className}`.trim()}
+      className="relative block h-[72px] w-[240px] shrink-0 overflow-hidden"
       aria-label="Global Orbit Pvt Ltd"
     >
       <Image
         src="/brand/logo.png"
         alt="Global Orbit Pvt Ltd"
-        fill
+        width={240}
+        height={72}
         priority={priority}
-        sizes="188px"
-        className="scale-[1.72] object-contain object-center"
+        className="h-[72px] w-[240px] scale-[1.85] object-contain object-center"
       />
     </Link>
   );

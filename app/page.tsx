@@ -1,9 +1,4 @@
-import { HomeAbout } from "@/components/home/home-about";
 import { HomeHero } from "@/components/home/home-hero";
-import { HomeServices } from "@/components/home/home-services";
-import { HomeSolutions } from "@/components/home/home-solutions";
-import { HomeWhy } from "@/components/home/home-why";
-import { PageCta } from "@/components/site/page-cta";
 import { getSiteSettings } from "@/lib/db/site-settings";
 import { organizationJsonLd } from "@/lib/seo";
 import { FALLBACK_SITE } from "@/lib/site";
@@ -46,11 +41,6 @@ export default async function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <HomeHero />
-      <HomeServices />
-      <HomeAbout />
-      <HomeWhy />
-      <HomeSolutions />
-      <PageCta companyName={companyName} email={settings?.email || undefined} />
     </>
   );
 }
