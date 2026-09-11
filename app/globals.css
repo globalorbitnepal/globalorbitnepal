@@ -64,6 +64,13 @@ body {
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
 }
 
+.glass-panel {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.46));
+  border: 1px solid rgba(255, 255, 255, 0.82);
+  box-shadow: 0 12px 36px rgba(36, 28, 14, 0.08);
+  backdrop-filter: blur(22px);
+}
+
 @keyframes reveal {
   from {
     opacity: 0;

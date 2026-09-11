@@ -20,7 +20,7 @@ export function NavLinks({ items, variant = "header" }: NavLinksProps) {
       className={
         isFooter
           ? "mt-4 flex flex-col gap-2.5 text-sm"
-          : "flex flex-wrap items-center gap-x-8 gap-y-2 text-[14px] font-medium"
+          : "flex flex-wrap items-center gap-x-7 gap-y-2 text-[15px] font-medium tracking-[-0.01em]"
       }
     >
       {items.map((item) => {
@@ -38,8 +38,8 @@ export function NavLinks({ items, variant = "header" }: NavLinksProps) {
             : " text-white/90 hover:text-[#d4a017]";
         } else if (isGlass) {
           className += current
-            ? " text-[#b38616] border-b-2 border-[#d4a017] pb-[3px]"
-            : " text-[#1c242c] hover:text-[#b38616]";
+            ? " text-[#c4a04a] border-b-2 border-[#e1b325] pb-[4px]"
+            : " text-[#2a3340] hover:text-[#c4a04a]";
         } else {
           className += current
             ? " text-[var(--color-ink)]"
