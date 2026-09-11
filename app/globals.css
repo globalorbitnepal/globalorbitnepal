@@ -1,0 +1,102 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f3efe6;
+  --foreground: #141c24;
+  --color-paper: #fbf8f1;
+  --color-mist: #ece6d9;
+  --color-line: #ddd4c4;
+  --color-ink: #141c24;
+  --color-muted: #5a645c;
+  --color-brand: #1c4a42;
+  --color-brand-dark: #12332e;
+  --color-hero: #10181c;
+  --color-hero-ink: #f4efe6;
+  --color-copper: #c46a3a;
+  --color-copper-light: #e0a078;
+  --color-gold: #c9a227;
+  --color-gold-light: #e0c05a;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-paper: var(--color-paper);
+  --color-mist: var(--color-mist);
+  --color-line: var(--color-line);
+  --color-ink: var(--color-ink);
+  --color-muted: var(--color-muted);
+  --color-brand: var(--color-brand);
+  --color-brand-dark: var(--color-brand-dark);
+  --color-hero: var(--color-hero);
+  --color-hero-ink: var(--color-hero-ink);
+  --color-copper: var(--color-copper);
+  --color-copper-light: var(--color-copper-light);
+  --color-gold: var(--color-gold);
+  --color-gold-light: var(--color-gold-light);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-fraunces);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reveal,
+  .reveal-delay-1,
+  .reveal-delay-2,
+  .reveal-delay-3,
+  .motion-safe\:animate-\[orbit-slow_48s_linear_infinite\] {
+    animation: none !important;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes orbit-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .reveal {
+    animation: reveal 0.7s ease both;
+  }
+
+  .reveal-delay-1 {
+    animation: reveal 0.75s ease 0.08s both;
+  }
+
+  .reveal-delay-2 {
+    animation: reveal 0.75s ease 0.16s both;
+  }
+
+  .reveal-delay-3 {
+    animation: reveal 0.75s ease 0.24s both;
+  }
+}

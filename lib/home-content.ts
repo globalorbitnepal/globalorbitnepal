@@ -1,0 +1,95 @@
+export const HOME_POSITIONING = {
+  eyebrow: "Your technology partner",
+  headlineLead: "Digital Solutions",
+  headlineGold: "for a Bigger Tomorrow",
+  lede: "We build websites, web applications, mobile apps, ERP systems and provide hosting, dedicated servers, SEO and digital solutions to help businesses grow globally.",
+  primaryCta: { href: "/contact", label: "Start Your Project" },
+  secondaryCta: { href: "/services", label: "View Our Work" },
+} as const;
+
+export const HOME_HERO_FEATURES = [
+  { key: "dev", title: "Custom", line: "Development" },
+  { key: "host", title: "VPS &", line: "Dedicated Servers" },
+  { key: "seo", title: "SEO &", line: "Digital Marketing" },
+  { key: "support", title: "Ongoing", line: "Support" },
+] as const;
+
+export const HOME_TECHNOLOGIES = [
+  "Next.js",
+  "React.js",
+  "Vue.js",
+  "Nuxt.js",
+  "Angular",
+  "Node.js",
+  "NestJS",
+  "Laravel",
+  "Python",
+  "TypeScript",
+  "WordPress",
+] as const;
+
+export const HOME_TRUST_STATS = [
+  { value: "50+", label: "Happy Clients" },
+  { value: "10+", label: "Countries Served" },
+  { value: "99.9%", label: "Uptime Guarantee" },
+  { value: "24/7", label: "Technical Support" },
+] as const;
+
+export const HOME_QUOTE =
+  "Technology is not just what we do, it's how we help ideas grow beyond borders.";
+
+export const BRAND_CONTACT = {
+  phone: "+91 11 3500 7890",
+  email: "sales@theglobalorbit.com",
+} as const;
+
+export const HOME_ABOUT = {
+  kicker: "The company",
+  title: "Built in Nepal. Accountable anywhere.",
+  paragraphs: [
+    "Global Orbit Nepal is an independent technology firm based in Kathmandu. We work with businesses, institutions, and operators who need software that holds up under real use—across time zones, languages, and the messy middle of operations.",
+    "The name is literal: a local centre of gravity, and a working radius that is global. We do not outsource the thinking. Engineering, conversation, and aftercare sit in the same company.",
+  ],
+  stats: [
+    { value: "Kathmandu", label: "Home office" },
+    { value: "End-to-end", label: "Design to operations" },
+    { value: "One team", label: "No anonymous bench" },
+  ],
+} as const;
+
+export const HOME_WHY = [
+  {
+    title: "Operators, not a pitch deck",
+    body: "We stay with the work after it ships. Monitoring, iteration, and honest timelines are part of the engagement—not extras.",
+  },
+  {
+    title: "Craft with restraint",
+    body: "Interfaces should feel considered, not loud. We spend the budget on structure, accessibility, and the tenth revision of a flow that matters.",
+  },
+  {
+    title: "Security as default",
+    body: "Least privilege, isolated systems, and no casual sharing of production data. Trust is a delivery requirement, not a slogan.",
+  },
+  {
+    title: "A Nepal advantage, without the cliché",
+    body: "Strong engineering, overlap with Asian and European hours, and a cost structure that funds quality instead of theatre.",
+  },
+] as const;
+
+export const HOME_SOLUTIONS = [
+  {
+    category: "Platforms",
+    title: "Customer and partner portals",
+    body: "Secure accounts, documents, and status—built so staff and clients see the same truth.",
+  },
+  {
+    category: "Commerce",
+    title: "Service and sales systems",
+    body: "Catalogues, orders, and billing that match how the business actually sells, including the exceptions.",
+  },
+  {
+    category: "Public sector & institutions",
+    title: "Information you can stand behind",
+    body: "Public sites and internal records with clear ownership, audit-friendly changes, and no mystery plugins.",
+  },
+] as const;
