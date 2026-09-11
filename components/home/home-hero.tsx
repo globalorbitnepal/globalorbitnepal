@@ -130,13 +130,13 @@ export function HomeHero() {
         </div>
 
         <div className="relative min-h-[420px] lg:col-span-5 lg:min-h-[560px]" id="work">
-          <div className="absolute inset-6 rounded-full bg-[#d4a017]/10 blur-3xl" />
+          <div className="absolute inset-6 rounded-full bg-[#d4a017]/15 blur-3xl" />
           <Image
             src="/brand/hero-globe.png"
             alt=""
             fill
             sizes="(min-width: 1024px) 40vw, 90vw"
-            className="object-contain object-center drop-shadow-[0_30px_50px_rgba(40,30,16,0.18)]"
+            className="z-[1] object-contain object-center mix-blend-multiply drop-shadow-[0_30px_50px_rgba(40,30,16,0.18)]"
           />
           {HOME_ORBIT_CARDS.map((card, index) => {
             const Icon = ORBIT_ICONS[card.icon];
