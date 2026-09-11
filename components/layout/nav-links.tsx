@@ -20,7 +20,7 @@ export function NavLinks({ items, variant = "header" }: NavLinksProps) {
       className={
         isFooter
           ? "mt-4 flex flex-col gap-2.5 text-sm"
-          : "flex flex-wrap items-center gap-x-6 gap-y-2 text-[14px] font-semibold"
+          : "flex flex-wrap items-center gap-x-8 gap-y-2 text-[14px] font-medium"
       }
     >
       {items.map((item) => {
