@@ -14,8 +14,8 @@ type SiteHeaderProps = {
 
 export function SiteHeader({ items }: SiteHeaderProps) {
   return (
-    <header className="sticky top-0 z-50 border-b border-white/70 bg-white/55 text-[#171c24] shadow-[0_8px_28px_rgba(36,28,14,0.05)] backdrop-blur-2xl">
-      <div className="mx-auto flex max-w-[1440px] flex-col gap-3 px-5 py-3 sm:px-8 lg:h-[84px] lg:flex-row lg:items-center lg:gap-8 lg:py-0">
+    <header className="glass-header sticky top-0 z-50 text-[#171c24]">
+      <div className="mx-auto flex max-w-[1440px] flex-col gap-3 px-5 py-3 sm:px-8 lg:h-[88px] lg:flex-row lg:items-center lg:gap-8 lg:py-0">
         <BrandLogo priority />
         <nav aria-label="Primary" className="lg:flex-1 lg:flex lg:justify-center">
           <NavLinks items={items} variant="headerGlass" />
@@ -25,14 +25,14 @@ export function SiteHeader({ items }: SiteHeaderProps) {
             href={BRAND_CONTACT.webmail}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex h-10 items-center gap-2 rounded-full border border-white/80 bg-white/55 px-4 text-[12px] font-semibold backdrop-blur-xl"
+            className="glass-chip inline-flex h-10 items-center gap-2 rounded-full px-4 text-[12px] font-semibold"
           >
             <IconMail className="h-4 w-4" />
             Business Mail
           </a>
           <Link
             href="/contact"
-            className="inline-flex h-10 items-center gap-1.5 rounded-full bg-[#e1b325] px-5 text-[13px] font-semibold text-[#1a1408] shadow-[0_8px_18px_rgba(180,140,20,0.22)]"
+            className="inline-flex h-10 items-center justify-center gap-1.5 rounded-full bg-[#e1b325] px-5 text-[13px] font-semibold text-[#1a1408] shadow-[0_8px_18px_rgba(180,140,20,0.22)]"
           >
             Get a Quote
             <span aria-hidden="true">→</span>

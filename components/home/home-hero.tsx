@@ -26,7 +26,7 @@ const PLACES = [
 export function HomeHero() {
   return (
     <section
-      className="relative isolate flex min-h-[calc(100svh-84px)] flex-col overflow-hidden bg-[#f4f1ea] text-[#171c24]"
+      className="relative isolate flex min-h-[calc(100svh-88px)] flex-col overflow-hidden bg-[#f4f1ea] text-[#171c24]"
       aria-labelledby="home-hero-heading"
     >
       <div className="absolute inset-0">
@@ -39,7 +39,7 @@ export function HomeHero() {
           sizes="100vw"
           className="object-cover object-[58%_46%] contrast-[1.05] saturate-[1.08]"
         />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(255,250,242,0.34)_0%,rgba(255,250,242,0.12)_16%,transparent_34%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(255,250,242,0.42)_0%,rgba(255,250,242,0.14)_18%,transparent_38%)]" />
       </div>
 
       <div className="relative z-[2] mx-auto w-full max-w-[1440px] flex-1 px-5 pt-7 sm:px-8 lg:px-10">
@@ -65,9 +65,12 @@ export function HomeHero() {
             {HOME_HERO_FEATURES.map((item) => {
               const Icon = HERO_FEATURE_ICONS[item.key];
               return (
-                <li key={item.key} className="glass-chip flex items-center gap-2.5 rounded-[20px] px-3 py-2.5">
-                  <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/80 text-[#c9a227]">
-                    <Icon className="h-4 w-4" />
+                <li
+                  key={item.key}
+                  className="glass-chip flex min-h-[92px] flex-col items-center justify-center gap-1.5 rounded-[22px] px-2 py-3 text-center"
+                >
+                  <span className="text-[#c9a227]">
+                    <Icon className="h-5 w-5" />
                   </span>
                   <span className="text-[11px] font-semibold leading-[1.15] text-[#1c242c]">
                     {item.title}
@@ -83,12 +86,14 @@ export function HomeHero() {
             <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-[#6b6458]">
               Technologies we work with
             </p>
-            <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2">
+            <div className="mt-3 flex flex-wrap items-center gap-2.5">
               {HOME_TECHNOLOGIES.map((name) => {
                 const Mark = TECH_MARKS[name];
                 return (
                   <span key={name} className="inline-flex items-center gap-1.5 text-[12px] font-semibold text-[#1c242c]">
-                    {Mark ? <Mark className="h-5 w-5" /> : null}
+                    <span className="glass-orb inline-flex h-8 w-8 items-center justify-center rounded-full">
+                      {Mark ? <Mark className="h-4 w-4" /> : null}
+                    </span>
                     {name}
                   </span>
                 );
@@ -134,37 +139,37 @@ export function HomeHero() {
           <li>Audit</li>
           <li>Support</li>
         </ul>
-        <div className="glass-chip absolute right-[24%] top-[18%] rounded-[18px] px-3.5 py-2.5 text-[12px] font-semibold text-[#1c242c]">
+        <div className="glass-chip absolute right-[24%] top-[18%] rounded-[22px] px-3.5 py-2.5 text-[12px] font-semibold text-[#1c242c]">
           <span className="mb-1 flex text-[#c9a227]">
             <IconIdea className="h-4 w-4" />
           </span>
           Innovative Solutions
         </div>
-        <div className="glass-chip absolute right-[7%] top-[22%] rounded-[18px] px-3.5 py-2.5 text-[12px] font-semibold text-[#1c242c]">
+        <div className="glass-chip absolute right-[7%] top-[22%] rounded-[22px] px-3.5 py-2.5 text-[12px] font-semibold text-[#1c242c]">
           <span className="mb-1 flex text-[#c9a227]">
             <IconGlobe className="h-4 w-4" />
           </span>
           Global Reach
         </div>
-        <div className="glass-chip absolute right-[30%] top-[48%] rounded-[18px] px-3.5 py-2.5 text-[12px] font-semibold text-[#1c242c]">
+        <div className="glass-chip absolute right-[30%] top-[48%] rounded-[22px] px-3.5 py-2.5 text-[12px] font-semibold text-[#1c242c]">
           <span className="mb-1 flex text-[#c9a227]">
             <IconPeople className="h-4 w-4" />
           </span>
           Trusted Partner
         </div>
-        <div className="glass-chip absolute right-[5%] top-[54%] rounded-[18px] px-3.5 py-2.5 text-[12px] font-semibold text-[#1c242c]">
+        <div className="glass-chip absolute right-[5%] top-[54%] rounded-[22px] px-3.5 py-2.5 text-[12px] font-semibold text-[#1c242c]">
           <span className="mb-1 flex text-[#c9a227]">
             <IconChart className="h-4 w-4" />
           </span>
           Real Business Impact
         </div>
-        <p className="absolute bottom-[18%] right-[15%] rounded-full bg-white/75 px-4 py-1.5 text-[10px] font-semibold uppercase tracking-[0.22em] text-[#5c564c] backdrop-blur-md">
+        <p className="glass-chip absolute bottom-[18%] right-[15%] rounded-full px-4 py-1.5 text-[10px] font-semibold uppercase tracking-[0.22em] text-[#5c564c]">
           Ideas · Technology · Growth
         </p>
       </div>
 
       <div className="relative z-10 mx-auto w-full max-w-[1440px] px-5 pb-6 pt-4 sm:px-8 lg:px-10">
-        <div className="glass-chip flex flex-col gap-5 rounded-[28px] px-5 py-4 sm:px-7 lg:flex-row lg:items-center">
+        <div className="glass-chip flex flex-col gap-5 rounded-[32px] px-5 py-4 sm:px-7 lg:flex-row lg:items-center">
           <ul className="grid flex-1 grid-cols-2 gap-4 sm:grid-cols-4">
             {HOME_TRUST_STATS.map((item, index) => {
               const Icon = STAT_ICONS[index];
