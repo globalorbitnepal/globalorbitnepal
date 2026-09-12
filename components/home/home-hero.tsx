@@ -31,15 +31,15 @@ export function HomeHero() {
     >
       <div className="absolute inset-0">
         <Image
-          src="/brand/hero-studio.png"
+          src="/brand/hero-uhd.jpg"
           alt=""
           fill
           priority
-          quality={100}
+          unoptimized
           sizes="100vw"
-          className="object-cover object-[58%_42%]"
+          className="object-cover object-[58%_46%] contrast-[1.05] saturate-[1.08]"
         />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(255,252,247,0.74)_0%,rgba(255,252,247,0.32)_20%,rgba(255,252,247,0.06)_38%,transparent_52%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(255,250,242,0.34)_0%,rgba(255,250,242,0.12)_16%,transparent_34%)]" />
       </div>
 
       <div className="relative z-[2] mx-auto w-full max-w-[1440px] flex-1 px-5 pt-7 sm:px-8 lg:px-10">

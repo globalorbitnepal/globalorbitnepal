@@ -9,16 +9,17 @@ export function BrandLogo({ priority = false }: BrandLogoProps) {
   return (
     <Link
       href="/"
-      className="relative block h-[56px] w-[240px] shrink-0"
+      className="relative block h-[58px] w-[276px] shrink-0"
       aria-label="Global Orbit Pvt Ltd"
     >
       <Image
         src="/brand/logo-clear.png"
         alt="Global Orbit Pvt Ltd"
-        width={240}
-        height={56}
+        width={514}
+        height={108}
         priority={priority}
-        className="h-[56px] w-[240px] object-contain object-left"
+        unoptimized
+        className="h-[58px] w-[276px] object-contain object-left"
       />
     </Link>
   );
