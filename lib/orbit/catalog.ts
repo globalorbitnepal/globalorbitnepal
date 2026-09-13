@@ -54,6 +54,18 @@ export const ORBIT_SOFTWARE: OrbitCard[] = [
     summary: "All-in-one platform — billing, CRM, analytics, and automation in a single dashboard.",
     href: "/orbit-software/saas-business-suite",
   },
+  {
+    slug: "custom-apps",
+    title: "Custom Web & Mobile Apps",
+    summary: "Operator apps for bookings, field teams, and customer portals — web first, mobile ready.",
+    href: "/orbit-software/custom-apps",
+  },
+  {
+    slug: "saas-management-system",
+    title: "SaaS Management System",
+    summary: "Backend for your own SaaS: tenants, billing, roles, usage meters, and admin consoles.",
+    href: "/orbit-software/saas-management-system",
+  },
 ];
 
 export const ORBIT_SOLUTIONS: OrbitCard[] = [
@@ -237,28 +249,61 @@ export const ORBIT_PACKAGES: (OrbitCard & { price: string; items: string[] })[] 
   },
 ];
 
+export const ORBIT_COUNTRIES = [
+  { name: "Nepal", code: "np" },
+  { name: "India", code: "in" },
+  { name: "United States", code: "us" },
+  { name: "United Kingdom", code: "gb" },
+  { name: "Australia", code: "au" },
+  { name: "UAE", code: "ae" },
+  { name: "Qatar", code: "qa" },
+  { name: "Saudi Arabia", code: "sa" },
+  { name: "Japan", code: "jp" },
+  { name: "Germany", code: "de" },
+  { name: "Canada", code: "ca" },
+  { name: "Singapore", code: "sg" },
+  { name: "Malaysia", code: "my" },
+  { name: "Thailand", code: "th" },
+  { name: "South Korea", code: "kr" },
+  { name: "France", code: "fr" },
+  { name: "Netherlands", code: "nl" },
+  { name: "Italy", code: "it" },
+  { name: "New Zealand", code: "nz" },
+  { name: "Bangladesh", code: "bd" },
+  { name: "Sri Lanka", code: "lk" },
+  { name: "China", code: "cn" },
+  { name: "Switzerland", code: "ch" },
+  { name: "South Africa", code: "za" },
+  { name: "Hong Kong", code: "hk" },
+] as const;
+
 export const ORBIT_PROJECTS = [
-  {
-    title: "Hotel booking site",
-    result: "Page 1 in 3 months · bookings +150%",
-    sector: "Hospitality",
-  },
-  {
-    title: "Trekking operator",
-    result: "Organic sessions 4× in two seasons",
-    sector: "Travel",
-  },
-  {
-    title: "Restaurant group",
-    result: "Online orders live · map pack visibility",
-    sector: "F&B",
-  },
-  {
-    title: "Manufacturing ERP",
-    result: "Work orders and inventory in one dashboard",
-    sector: "Industry",
-  },
-];
+  { title: "Himalaya Grand Hotel", sector: "Hotel website", result: "Direct bookings live · Google Page 1 for brand terms", country: "np" },
+  { title: "Lakeside Stay Pokhara", sector: "Hotel website", result: "Channel-ready rates · enquiry form to WhatsApp", country: "np" },
+  { title: "Annapurna Trails Co.", sector: "Trekking website", result: "Seasonal itineraries · 4× organic sessions", country: "np" },
+  { title: "Everest Region Lodges", sector: "Lodge website", result: "Fast on mountain data · group enquiry inbox", country: "np" },
+  { title: "Kathmandu Kitchen Group", sector: "Restaurant website", result: "Menus + map pack · table wait down in 30 days", country: "np" },
+  { title: "Thamel Cafe Circuit", sector: "Restaurant website", result: "Multi-location pages · local SEO citations", country: "np" },
+  { title: "Wellness Spa Retreat", sector: "Spa website", result: "Treatment list · appointment funnel", country: "np" },
+  { title: "Chitwan River Resort", sector: "Resort website", result: "Gallery + seasons · booking CTA conversion +62%", country: "np" },
+  { title: "Himalayan Threads", sector: "Ecommerce", result: "WooCommerce store · checkout in NPR + USD", country: "np" },
+  { title: "Daily Mart Online", sector: "Ecommerce", result: "Inventory sync · abandoned-cart recovery", country: "np" },
+  { title: "Valley International School", sector: "Education website", result: "Admissions forms · parent portal handoff", country: "np" },
+  { title: "City Care Hospital", sector: "Healthcare website", result: "Doctor schedules · appointment routing", country: "np" },
+  { title: "Biratnagar Plant ERP", sector: "ERP system", result: "BOM + work orders in one dashboard", country: "np" },
+  { title: "Central Warehouse WMS", sector: "Warehouse software", result: "Multi-location stock · pick paths", country: "np" },
+  { title: "TableLine POS", sector: "Restaurant POS", result: "KDS + split bills · same-day sales reports", country: "np" },
+  { title: "Orbit Billing Cloud", sector: "Billing SaaS", result: "GST invoices · tenant billing for 40+ shops", country: "np" },
+  { title: "Gulf Trek Desk", sector: "Travel website", result: "Arabic + English packages · agent login", country: "ae" },
+  { title: "Doha Stay Desk", sector: "Hotel website", result: "OTA sync + direct book · occupancy reporting", country: "qa" },
+  { title: "Sydney Nepal Tours", sector: "Travel website", result: "AU payments · seasonal campaign landing", country: "au" },
+  { title: "London Heritage Stays", sector: "Hotel website", result: "Core Web Vitals 95+ · UK search visibility", country: "gb" },
+  { title: "Tokyo Incoming Desk", sector: "Travel website", result: "JP/EN itineraries · form to CRM", country: "jp" },
+  { title: "Berlin Trade House", sector: "B2B website", result: "Catalog + RFQ workflow · DE/EN", country: "de" },
+  { title: "Toronto Learning Hub", sector: "Education website", result: "Course pages · Stripe checkout", country: "ca" },
+  { title: "Singapore SaaS Console", sector: "SaaS backend", result: "Tenant admin, roles, usage meters", country: "sg" },
+  { title: "USA Partner Portal", sector: "Custom app", result: "Dealer logins · order status API", country: "us" },
+] as const;
 
 export const ORBIT_WHY = [
   { title: "Ultra Fast Websites", body: "Sub-second loading times with optimized code and CDN delivery." },

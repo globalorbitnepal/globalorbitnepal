@@ -44,21 +44,30 @@ export function OrbitArticlePage({
   return (
     <>
       <OrbitPageHero eyebrow={eyebrow} title={title} lede={summary} headingId="article-hero" />
-      <section className="mx-auto max-w-3xl px-4 py-16 text-[15px] leading-8 text-white/75">
+      <section className="mx-auto max-w-3xl space-y-6 px-4 py-16 text-[15px] leading-8 text-white/75">
         <p>
-          Global Orbit Pvt Ltd delivers this work from Kathmandu for operators in Nepal and 15+ countries.
-          We combine website development, custom software, ERP, and SEO so the public site and the back
-          office stay in one accountable team.
+          Global Orbit Pvt Ltd delivers this work from Kathmandu for operators in Nepal and 25 countries.
+          Public websites, custom apps, ERP, web-based billing, SaaS products, and SEO sit in one company
+          so the marketing site and the back office do not drift apart.
         </p>
-        <p className="mt-6">
-          {summary} Typical engagements start with a free consultation, a written scope, and a timeline
-          you can share with finance. After launch we stay for maintenance, ranking work, and product
-          iteration.
+        <p>{summary}</p>
+        <h2 className="pt-4 text-2xl font-semibold text-white">What we actually ship</h2>
+        <ul className="list-disc space-y-2 pl-5">
+          <li>Business, hotel, trek, restaurant, and ecommerce websites with SEO-first structure</li>
+          <li>Custom web and mobile-ready apps for bookings, staff, and customer portals</li>
+          <li>ERP, POS, warehouse, and billing systems that match how the floor already works</li>
+          <li>SaaS products and SaaS management backends: tenants, roles, meters, invoices</li>
+          <li>Technical SEO, local SEO, and reporting you can read without a pitch deck</li>
+        </ul>
+        <h2 className="pt-4 text-2xl font-semibold text-white">How an engagement runs</h2>
+        <p>
+          Discussion, written scope, design, build, SEO pass, then launch support. You get a named person,
+          a timeline finance can hold, and aftercare — not a silent handoff to an unnamed bench.
         </p>
-        <p className="mt-6">
-          Talk to us with a short brief: what you run, who the customer is, and when you need to be live.
+        <p>
+          Start with a free consultation. Bring what you run, who the customer is, and when you need to be live.
         </p>
-        <Link href="/contact" className="orbit-btn-gold mt-8 inline-flex h-12 items-center rounded-full px-7 text-sm font-semibold">
+        <Link href="/contact" className="orbit-btn-gold mt-4 inline-flex h-12 items-center rounded-full px-7 text-sm font-semibold">
           Get Free Consultation
         </Link>
       </section>

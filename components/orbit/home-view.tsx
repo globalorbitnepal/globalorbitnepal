@@ -1,6 +1,9 @@
 import Link from "next/link";
+import { OrbitCountryFlags, OrbitFlag } from "@/components/orbit/flags";
+import { OrbitHeroVideo } from "@/components/orbit/hero-video";
 import { OrbitFaqList, OrbitTestimonials } from "@/components/orbit/interactive";
 import { OrbitCtaBand } from "@/components/orbit/page-hero";
+import { TECH_MARKS } from "@/components/home/tech-marks";
 import {
   ORBIT_AUTOMATION,
   ORBIT_INDUSTRIES,
@@ -11,6 +14,7 @@ import {
   ORBIT_TOOLS,
   ORBIT_WHY,
 } from "@/lib/orbit/catalog";
+import { HOME_TECHNOLOGIES } from "@/lib/home-content";
 
 function SectionHead({ id, title, lede }: { id: string; title: string; lede: string }) {
   return (
@@ -26,40 +30,54 @@ function SectionHead({ id, title, lede }: { id: string; title: string; lede: str
 export function OrbitHomeView() {
   return (
     <>
-      <section className="orbit-net relative overflow-hidden px-4 py-24 text-center sm:py-32" aria-labelledby="home-hero-heading">
-        <h1 id="home-hero-heading" className="mx-auto max-w-5xl text-4xl font-semibold tracking-tight text-white sm:text-6xl">
-          Website &amp; Software
-          <span className="mt-2 block">
-            Development Company <span className="text-[#2ee59d]">in Nepal</span>
-          </span>
-        </h1>
-        <p className="mx-auto mt-6 max-w-3xl text-[16px] leading-8 text-white/75">
-          Global Orbit is a Nepal-based website and software development company delivering business
-          websites, hotel websites, trekking websites, restaurant websites, custom software, ERP
-          systems, and SEO services — trusted by businesses across Kathmandu and 15+ countries.
-        </p>
-        <div className="mt-8 flex flex-wrap justify-center gap-3">
-          <Link href="/contact" className="orbit-btn-gold inline-flex h-12 items-center rounded-full px-7 text-sm font-semibold">
-            Get Free Consultation →
-          </Link>
-          <Link href="/services" className="orbit-btn-dark inline-flex h-12 items-center rounded-full px-7 text-sm font-semibold">
-            Explore Our Services
-          </Link>
+      <section className="relative isolate min-h-[88svh] overflow-hidden text-center" aria-labelledby="home-hero-heading">
+        <OrbitHeroVideo />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(4,16,40,0.55)_0%,rgba(4,16,40,0.72)_55%,rgba(6,18,46,0.94)_100%)]" />
+        <div className="relative z-[1] mx-auto flex min-h-[88svh] max-w-5xl flex-col items-center justify-center px-4 py-24">
+          <h1 id="home-hero-heading" className="text-4xl font-semibold tracking-tight text-white sm:text-6xl">
+            Website &amp; Software
+            <span className="mt-2 block">
+              Development Company <span className="text-[#2ee59d]">in Nepal</span>
+            </span>
+          </h1>
+          <p className="mt-6 max-w-3xl text-[16px] leading-8 text-white/80">
+            Websites, custom apps, ERP, web-based billing, SaaS products, SaaS management backends, and SEO
+            — one Kathmandu team for operators across 25 countries.
+          </p>
+          <div className="mt-8 flex flex-wrap justify-center gap-3">
+            <Link href="/contact" className="orbit-btn-gold inline-flex h-12 items-center rounded-full px-7 text-sm font-semibold">
+              Get Free Consultation →
+            </Link>
+            <Link href="/services" className="orbit-btn-dark inline-flex h-12 items-center rounded-full px-7 text-sm font-semibold">
+              Explore Our Services
+            </Link>
+          </div>
+          <p className="mt-8 text-xs font-semibold uppercase tracking-[0.18em] text-white/70">
+            <span className="text-[#2ee59d]">●</span> Websites &nbsp;
+            <span className="text-[#f0c43a]">●</span> Apps &amp; ERP &nbsp;
+            <span className="text-sky-400">●</span> SaaS &amp; SEO
+          </p>
+          <div className="mt-10">
+            <OrbitCountryFlags compact />
+          </div>
         </div>
-        <p className="mt-8 text-xs font-semibold uppercase tracking-[0.18em] text-white/60">
-          <span className="text-[#2ee59d]">●</span> Website Development &nbsp;
-          <span className="text-[#f0c43a]">●</span> Custom Software &nbsp;
-          <span className="text-sky-400">●</span> ERP &amp; SEO Services
-        </p>
       </section>
 
       <section className="border-y border-white/10 bg-[#071533] px-4 py-8" aria-label="Technologies we use">
         <p className="text-center text-[11px] font-semibold uppercase tracking-[0.28em] text-white/45">
           Technologies we use
         </p>
-        <p className="mt-3 text-center text-sm font-semibold text-white/80">
-          Next.js · Laravel · React · Node.js · WordPress · MySQL · PostgreSQL
-        </p>
+        <div className="mt-4 flex flex-wrap items-center justify-center gap-4">
+          {HOME_TECHNOLOGIES.map((name) => {
+            const Mark = TECH_MARKS[name];
+            return (
+              <span key={name} className="inline-flex items-center gap-2 text-sm font-semibold text-white/85">
+                {Mark ? <Mark className="h-6 w-6" /> : null}
+                {name}
+              </span>
+            );
+          })}
+        </div>
       </section>
 
       <section className="px-4 py-16 sm:py-20" aria-labelledby="software-heading">
@@ -120,13 +138,16 @@ export function OrbitHomeView() {
       <section className="bg-[#071533] px-4 py-16 sm:py-20" aria-labelledby="projects-heading">
         <SectionHead
           id="projects-heading"
-          title="Projects That Delivered Results"
-          lede="Real clients, real numbers — see how we transformed these businesses online."
+          title="25 sites that delivered results"
+          lede="Hotels, treks, restaurants, ecommerce, ERP, billing, and SaaS consoles — live work, not filler cards."
         />
-        <div className="mx-auto grid max-w-[1280px] gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mx-auto grid max-w-[1280px] gap-5 sm:grid-cols-2 lg:grid-cols-5">
           {ORBIT_PROJECTS.map((item) => (
             <article key={item.title} className="orbit-card rounded-2xl p-5">
-              <p className="text-xs uppercase tracking-[0.18em] text-[#f0c43a]">{item.sector}</p>
+              <div className="flex items-center justify-between gap-2">
+                <p className="text-xs uppercase tracking-[0.18em] text-[#f0c43a]">{item.sector}</p>
+                <OrbitFlag code={item.country} name={item.country} size={22} />
+              </div>
               <h3 className="mt-2 text-lg font-semibold text-white">{item.title}</h3>
               <p className="mt-2 text-sm text-white/65">{item.result}</p>
             </article>
@@ -177,11 +198,11 @@ export function OrbitHomeView() {
         </div>
       </section>
 
-      <section className="bg-[#071533] px-4 py-16 text-center sm:py-20">
-        <h2 className="text-3xl font-semibold text-white">Trusted By Businesses Across 15+ Countries</h2>
-        <p className="mx-auto mt-3 max-w-2xl text-white/65">
-          Helping brands grow globally through development, SEO, and digital marketing.
-        </p>
+      <section className="bg-[#071533] px-4 py-16 sm:py-20" aria-labelledby="countries-heading">
+        <div id="countries-heading" className="sr-only">
+          Countries
+        </div>
+        <OrbitCountryFlags />
       </section>
 
       <section className="px-4 py-16 sm:py-20" aria-labelledby="auto-heading">

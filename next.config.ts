@@ -5,6 +5,10 @@ const nextConfig: NextConfig = {
   serverExternalPackages: ["@prisma/client"],
   images: {
     qualities: [75, 96, 100],
+    remotePatterns: [
+      { protocol: "https", hostname: "flagcdn.com" },
+      { protocol: "https", hostname: "media.base44.com" },
+    ],
   },
   async redirects() {
     return [
