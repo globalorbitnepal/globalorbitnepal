@@ -265,9 +265,66 @@ li.orbit-card:hover {
   }
 }
 
+.orbit-hero-stage {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 132%;
+  aspect-ratio: 16 / 9;
+}
+
+@media (min-width: 768px) {
+  .orbit-hero-stage {
+    left: 50%;
+    right: auto;
+    top: 50%;
+    width: max(100%, calc((100svh - 84px) * 16 / 9));
+    transform: translate(-50%, -50%);
+  }
+}
+
+.orbit-hero-scrim {
+  background:
+    linear-gradient(90deg, rgba(4, 10, 22, 0.8) 0%, rgba(4, 10, 22, 0.34) 30%, rgba(4, 10, 22, 0) 54%),
+    linear-gradient(180deg, rgba(4, 10, 22, 0.45) 0%, rgba(4, 10, 22, 0) 24%, rgba(4, 10, 22, 0.72) 100%);
+}
+
+.orbit-pin-ring {
+  animation: orbit-pin-pulse 3s ease-out infinite;
+  opacity: 0.75;
+}
+
+.orbit-pin {
+  transform: translate(-1em, -50%);
+  animation: orbit-pin-float 5s ease-in-out infinite;
+}
+
+@keyframes orbit-pin-pulse {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.75;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+@keyframes orbit-pin-float {
+  0%,
+  100% {
+    transform: translate(-1em, -50%);
+  }
+  50% {
+    transform: translate(-1em, calc(-50% - 4px));
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .orbit-scan,
-  .orbit-ai-dot {
+  .orbit-ai-dot,
+  .orbit-pin-ring,
+  .orbit-pin {
     animation: none !important;
   }
 }

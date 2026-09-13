@@ -18,7 +18,6 @@ export function SiteHeader({ items }: SiteHeaderProps) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
-  const home = pathname === "/";
 
   useEffect(() => {
     setOpen(false);
@@ -33,11 +32,13 @@ export function SiteHeader({ items }: SiteHeaderProps) {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 text-white transition-colors duration-300 ${
-        scrolled || open || !home ? "bg-[#06101f]/72 backdrop-blur-xl" : "bg-transparent"
+      className={`fixed inset-x-0 top-0 z-50 border-b text-white transition-colors duration-300 ${
+        scrolled || open
+          ? "border-white/10 bg-[#050d1e]/92 backdrop-blur-xl"
+          : "border-transparent bg-[#050d1e]"
       }`}
     >
-      <div className="mx-auto flex h-[84px] max-w-[1400px] items-center gap-4 px-5 lg:px-10">
+      <div className="mx-auto flex h-[84px] max-w-[1600px] items-center gap-4 px-5 lg:px-10">
         <BrandLogo priority />
         <nav aria-label="Main navigation" className="hidden flex-1 justify-center lg:flex">
           <NavLinks items={items} variant="headerMock" />

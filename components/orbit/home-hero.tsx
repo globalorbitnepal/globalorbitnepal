@@ -1,181 +1,166 @@
 import Image from "next/image";
 import Link from "next/link";
-
-const MAP = { width: 1024, height: 585 } as const;
-
-const PINS = [
-  { code: "np", name: "Nepal", x: 550, y: 236 },
-  { code: "in", name: "India", x: 538, y: 318 },
-  { code: "us", name: "USA", x: 868, y: 246 },
-] as const;
+import { HeroGlobePins } from "@/components/orbit/hero-flags";
 
 const SERVICES = [
-  { title: "Web Development", line: "Modern & Scalable", icon: "web" },
-  { title: "ERP Software", line: "Business Automation", icon: "erp" },
+  { title: "Web Development", line: "Modern & Scalable", icon: "monitor" },
+  { title: "ERP Software", line: "Business Automation", icon: "gear" },
   { title: "Cloud & Hosting", line: "Secure & Reliable", icon: "cloud" },
-  { title: "Digital Growth", line: "SEO & Marketing", icon: "growth" },
+  { title: "Digital Growth", line: "SEO & Marketing", icon: "chart" },
 ] as const;
 
 const STATS = [
-  { value: "03+", label: "Studios", icon: "people" },
+  { value: "03+", label: "Studios", icon: "team" },
   { value: "25+", label: "Live Projects", icon: "code" },
   { value: "100+", label: "Happy Clients", icon: "users" },
   { value: "6+", label: "Years of Trust", icon: "award" },
 ] as const;
 
 function ServiceIcon({ name }: { name: string }) {
-  const common = "h-8 w-8 text-[#f0c43a]";
-  if (name === "web") {
+  const props = {
+    className: "h-8 w-8 shrink-0 text-[#f0c43a]",
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: 1.6,
+    strokeLinecap: "round" as const,
+    strokeLinejoin: "round" as const,
+    "aria-hidden": true,
+  };
+
+  if (name === "monitor") {
     return (
-      <svg className={common} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true">
-        <rect x="3" y="5" width="18" height="13" rx="1.5" />
-        <path d="M8 21h8M12 18v3" />
+      <svg {...props}>
+        <rect x="2.5" y="4.5" width="19" height="13" rx="1.6" />
+        <path d="M9 21h6M12 17.5V21" />
       </svg>
     );
   }
-  if (name === "erp") {
+  if (name === "gear") {
     return (
-      <svg className={common} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true">
-        <circle cx="12" cy="12" r="3" />
-        <path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M18.4 5.6 17 7M7 17l-1.4 1.4" />
+      <svg {...props}>
+        <circle cx="12" cy="12" r="3.2" />
+        <path d="M12 2.6v2.6M12 18.8v2.6M2.6 12h2.6M18.8 12h2.6M5.3 5.3l1.9 1.9M16.8 16.8l1.9 1.9M18.7 5.3l-1.9 1.9M7.2 16.8l-1.9 1.9" />
       </svg>
     );
   }
   if (name === "cloud") {
     return (
-      <svg className={common} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true">
-        <path d="M7 18h10a4 4 0 0 0 .4-8 6 6 0 0 0-11.5-1.6A3.5 3.5 0 0 0 7 18z" />
+      <svg {...props}>
+        <path d="M7 18.5h10.2a3.9 3.9 0 0 0 .4-7.8A6.2 6.2 0 0 0 6 9.2 3.7 3.7 0 0 0 7 18.5z" />
       </svg>
     );
   }
   return (
-    <svg className={common} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true">
-      <path d="M4 19V10l4 3 4-8 4 8 4-3v9H4z" />
+    <svg {...props}>
+      <path d="M4 20V11M9.3 20V5M14.7 20v-6.5M20 20V8" />
     </svg>
   );
 }
 
 function StatIcon({ name }: { name: string }) {
-  const common = "h-7 w-7 text-[#f0c43a]";
-  if (name === "people") {
+  const props = {
+    className: "h-7 w-7 shrink-0 text-[#f0c43a]",
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: 1.6,
+    strokeLinecap: "round" as const,
+    strokeLinejoin: "round" as const,
+    "aria-hidden": true,
+  };
+
+  if (name === "team") {
     return (
-      <svg className={common} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true">
-        <circle cx="9" cy="8" r="3" />
-        <circle cx="16" cy="9" r="2.4" />
-        <path d="M3.5 19a5.5 5.5 0 0 1 11 0M14 16.5a4.5 4.5 0 0 1 6.5 2.5" />
+      <svg {...props}>
+        <circle cx="8.6" cy="8.4" r="2.8" />
+        <circle cx="16.2" cy="9.2" r="2.2" />
+        <path d="M3.2 18.4a5.4 5.4 0 0 1 10.8 0M14.6 15.6a4.4 4.4 0 0 1 6.2 2.4" />
       </svg>
     );
   }
   if (name === "code") {
     return (
-      <svg className={common} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true">
-        <path d="m8 8-4 4 4 4M16 8l4 4-4 4M13 5l-2 14" />
+      <svg {...props}>
+        <path d="m8.4 7.8-4.2 4.2 4.2 4.2M15.6 7.8l4.2 4.2-4.2 4.2M13.4 4.6l-2.8 14.8" />
       </svg>
     );
   }
   if (name === "users") {
     return (
-      <svg className={common} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true">
-        <circle cx="12" cy="8" r="3" />
-        <path d="M5 19a7 7 0 0 1 14 0" />
+      <svg {...props}>
+        <circle cx="12" cy="8" r="3.1" />
+        <path d="M5.4 19.2a6.6 6.6 0 0 1 13.2 0" />
       </svg>
     );
   }
   return (
-    <svg className={common} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true">
-      <circle cx="12" cy="8" r="3" />
-      <path d="M8 21 12 11l4 10-4-2-4 2z" />
-    </svg>
-  );
-}
-
-function GlobeFlags() {
-  const size = 34;
-  return (
-    <svg
-      className="pointer-events-none absolute inset-0 h-full w-full"
-      viewBox={`0 0 ${MAP.width} ${MAP.height}`}
-      preserveAspectRatio="xMidYMid slice"
-      aria-hidden="true"
-    >
-      <defs>
-        {PINS.map((pin) => (
-          <clipPath id={`flag-clip-${pin.code}`} key={pin.code}>
-            <circle cx={pin.x} cy={pin.y} r={size / 2} />
-          </clipPath>
-        ))}
-      </defs>
-      {PINS.map((pin) => (
-        <g key={pin.code}>
-          <circle cx={pin.x} cy={pin.y} r={size / 2 + 2.5} fill="rgba(4,12,28,0.55)" stroke="rgba(255,255,255,0.85)" strokeWidth="1.6" />
-          <image
-            href={`https://flagcdn.com/w80/${pin.code}.png`}
-            x={pin.x - size / 2}
-            y={pin.y - size / 2}
-            width={size}
-            height={size}
-            clipPath={`url(#flag-clip-${pin.code})`}
-            preserveAspectRatio="xMidYMid slice"
-          />
-          <text
-            x={pin.x + size / 2 + 8}
-            y={pin.y + 5}
-            fill="white"
-            fontSize="15"
-            fontWeight="700"
-            style={{ fontFamily: "var(--font-jakarta), sans-serif" }}
-          >
-            {pin.name}
-          </text>
-        </g>
-      ))}
+    <svg {...props}>
+      <circle cx="12" cy="8.4" r="4.4" />
+      <path d="m8.6 13.4-1.4 7 4.8-2.6 4.8 2.6-1.4-7" />
     </svg>
   );
 }
 
 export function OrbitHomeHero() {
   return (
-    <section className="relative isolate min-h-[100svh] overflow-hidden text-white" aria-labelledby="home-hero-heading">
-      <Image
-        src="/brand/hero-earth.jpg"
-        alt=""
-        fill
-        priority
-        unoptimized
-        sizes="100vw"
-        className="object-cover object-center"
-      />
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#040c1c]/70 via-[#040c1c]/18 to-transparent" />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#06122e] to-transparent" />
-      <GlobeFlags />
+    <section
+      className="relative isolate min-h-[calc(100svh-84px)] overflow-hidden bg-[#040a16] text-white"
+      aria-labelledby="home-hero-heading"
+    >
+      <div className="orbit-hero-stage">
+        <Image
+          src="/brand/hero-globe.jpg"
+          alt="Earth seen from space above the Himalaya"
+          fill
+          priority
+          unoptimized
+          sizes="100vw"
+          className="object-cover"
+        />
+        <HeroGlobePins />
+      </div>
+      <div className="orbit-hero-scrim pointer-events-none absolute inset-0" />
 
-      <div className="relative z-[1] mx-auto flex min-h-[100svh] max-w-[1400px] flex-col justify-between px-5 pb-8 pt-28 lg:px-10 lg:pb-10 lg:pt-32">
-        <div className="max-w-[560px]">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.34em] text-[#f0c43a]">Built for a brighter tomorrow</p>
+      <div className="relative z-[1] mx-auto flex min-h-[calc(100svh-84px)] w-full max-w-[1600px] flex-col px-5 pb-7 pt-[calc(74.25vw+1.25rem)] md:pt-14 lg:px-10 lg:pb-9">
+        <div className="max-w-[46rem]">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.34em] text-[#f0c43a] sm:text-[12px] lg:text-[13px]">
+            Built for a brighter tomorrow
+          </p>
           <h1
             id="home-hero-heading"
-            className="mt-4 font-[family-name:var(--font-jakarta)] text-[42px] font-extrabold leading-[1.02] tracking-[-0.04em] sm:text-6xl lg:text-[68px]"
+            className="mt-4 font-[family-name:var(--font-jakarta)] text-[clamp(2.2rem,4.9vw,5.4rem)] font-extrabold leading-[1.03] tracking-[-0.035em]"
           >
             Digital Solutions
-            <span className="mt-1 block text-[#f0c43a]">for a Global World</span>
+            <span className="mt-1 block">
+              for a <span className="text-[#f0c43a]">Global World</span>
+            </span>
           </h1>
-          <p className="mt-5 max-w-[460px] text-[15px] leading-7 text-white/82">
-            We design and develop websites, web applications, ERP systems and digital solutions that help businesses grow,
-            operate smarter and reach further — from local to global.
+          <p className="mt-6 max-w-[34rem] text-[14px] leading-[1.85] text-white/85 sm:text-[15px] lg:text-[17px]">
+            We design and develop websites, web applications, ERP systems and digital solutions that help
+            businesses grow, operate smarter and reach further — from local to global.
           </p>
-          <div className="mt-8 flex flex-wrap items-center gap-3">
+          <div className="mt-8 flex flex-wrap items-center gap-4">
             <Link
               href="/contact"
-              className="inline-flex h-12 items-center gap-2 rounded-full bg-[#f0c43a] px-7 text-[14px] font-semibold text-[#1a1408]"
+              className="group inline-flex h-[56px] items-center gap-3 rounded-full bg-[#f0c43a] py-2 pl-7 pr-2 text-[15px] font-semibold text-[#1a1408] shadow-[0_16px_38px_rgba(240,196,58,0.32)] transition-colors hover:bg-[#ffe38a] lg:text-[16px]"
             >
               Start a project
-              <span aria-hidden="true">→</span>
+              <span
+                className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#12100a] text-[14px] text-[#f0c43a] transition-transform group-hover:translate-x-0.5"
+                aria-hidden="true"
+              >
+                →
+              </span>
             </Link>
             <Link
               href="/projects"
-              className="inline-flex h-12 items-center gap-2 rounded-full border border-white/35 bg-white/5 px-6 text-[14px] font-semibold text-white backdrop-blur-md"
+              className="orbit-glass inline-flex h-[56px] items-center gap-3 rounded-full py-2 pl-2 pr-7 text-[15px] font-semibold text-white lg:text-[16px]"
             >
-              <span className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-white/40" aria-hidden="true">
+              <span
+                className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white text-[11px] text-[#0b1220]"
+                aria-hidden="true"
+              >
                 ▶
               </span>
               View our work
@@ -183,42 +168,61 @@ export function OrbitHomeHero() {
           </div>
         </div>
 
-        <div className="mt-16">
-          <ul className="mx-auto flex max-w-4xl flex-wrap items-start justify-center gap-x-10 gap-y-6">
-            {SERVICES.map((item) => (
-              <li key={item.title} className="flex items-start gap-3 text-left">
+        <div className="mt-auto pt-12">
+          <ul className="mx-auto flex w-full max-w-[980px] flex-wrap justify-center gap-y-6 sm:flex-nowrap">
+            {SERVICES.map((item, index) => (
+              <li
+                key={item.title}
+                className={`flex w-1/2 items-center gap-3.5 px-3 sm:w-auto sm:flex-1 sm:justify-center ${
+                  index === 0 ? "" : "sm:border-l sm:border-white/20"
+                }`}
+              >
                 <ServiceIcon name={item.icon} />
                 <span>
-                  <span className="block text-[14px] font-semibold">{item.title}</span>
-                  <span className="block text-[12px] text-white/65">{item.line}</span>
+                  <span className="block text-[13px] font-semibold sm:text-[14px] lg:text-[15px]">
+                    {item.title}
+                  </span>
+                  <span className="block text-[11px] text-white/65 sm:text-[12px] lg:text-[13px]">
+                    {item.line}
+                  </span>
                 </span>
               </li>
             ))}
           </ul>
 
-          <div className="mx-auto mt-7 max-w-[820px] rounded-[28px] border border-white/18 bg-[#071018]/45 px-4 py-4 backdrop-blur-md sm:px-8">
-            <dl className="grid grid-cols-2 gap-4 sm:grid-cols-4 sm:divide-x sm:divide-white/15">
-              {STATS.map((item) => (
-                <div key={item.label} className="flex items-center justify-center gap-3 px-2">
-                  <StatIcon name={item.icon} />
-                  <div>
-                    <dt className="font-[family-name:var(--font-jakarta)] text-[22px] font-extrabold text-[#f0c43a]">{item.value}</dt>
-                    <dd className="text-[10px] font-semibold uppercase tracking-[0.16em] text-white/75">{item.label}</dd>
-                  </div>
+          <dl className="orbit-glass mx-auto mt-8 grid w-full max-w-[980px] grid-cols-2 rounded-[28px] px-3 py-5 sm:grid-cols-4 sm:px-6 sm:py-6">
+            {STATS.map((item, index) => (
+              <div
+                key={item.label}
+                className={`flex items-center justify-center gap-3.5 px-2 py-2 sm:py-0 ${
+                  index === 0 ? "" : "sm:border-l sm:border-white/18"
+                }`}
+              >
+                <StatIcon name={item.icon} />
+                <div>
+                  <dt className="font-[family-name:var(--font-jakarta)] text-[22px] font-extrabold leading-none text-[#f0c43a] sm:text-[26px] lg:text-[30px]">
+                    {item.value}
+                  </dt>
+                  <dd className="mt-1.5 text-[9px] font-semibold uppercase tracking-[0.18em] text-white/80 sm:text-[10px] lg:text-[11px]">
+                    {item.label}
+                  </dd>
                 </div>
-              ))}
-            </dl>
-          </div>
+              </div>
+            ))}
+          </dl>
 
-          <div className="mt-6 flex items-end justify-between gap-4">
-            <p className="flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[0.28em] text-white/70">
+          <div className="mt-7 flex items-end justify-between gap-6">
+            <p className="flex items-center gap-4 text-[9px] font-semibold uppercase tracking-[0.32em] text-white/70 sm:text-[10px]">
               Explore a smarter tomorrow
-              <span className="hidden h-px w-16 bg-white/50 sm:block" />
+              <span className="hidden h-px w-20 bg-white/45 sm:block" />
             </p>
-            <p className="font-[family-name:var(--font-script)] text-2xl leading-none text-white sm:text-[32px]">
+            <p className="text-right font-[family-name:var(--font-script)] text-[26px] leading-[1.15] text-white sm:text-[34px] lg:mr-16 lg:text-[40px]">
               Building
               <span className="block">a Smarter</span>
-              <span className="block">Tomorrow</span>
+              <span className="relative inline-block">
+                Tomorrow
+                <span className="absolute -bottom-1 left-0 h-[3px] w-full rounded-full bg-[#f0c43a]" aria-hidden="true" />
+              </span>
             </p>
           </div>
         </div>
