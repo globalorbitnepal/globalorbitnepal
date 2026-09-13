@@ -16,7 +16,7 @@ export default function ServicesPage() {
     <OrbitCatalogPage
       eyebrow="Solutions"
       title="Complete digital solutions for your business"
-      lede="From websites to Google rankings — one team in Kathmandu."
+      lede="From websites to Google rankings — one studio across Nepal, India, and the USA."
       items={ORBIT_SOLUTIONS}
     />
   );

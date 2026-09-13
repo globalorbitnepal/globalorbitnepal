@@ -2,10 +2,9 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BrandLogo } from "@/components/brand/brand-logo";
 import { NavLinks } from "@/components/layout/nav-links";
-import { ORBIT_BRAND } from "@/lib/orbit/brand";
 import type { FallbackNavItem } from "@/lib/site";
 
 type SiteHeaderProps = {
@@ -17,45 +16,52 @@ type SiteHeaderProps = {
 
 export function SiteHeader({ items }: SiteHeaderProps) {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
+  const home = pathname === "/";
+
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-white/10 bg-[#071533]/95 text-white backdrop-blur-xl">
-      <div className="mx-auto flex max-w-[1280px] items-center gap-4 px-4 py-3 lg:h-[84px] lg:px-8">
+    <header
+      className={`fixed inset-x-0 top-0 z-50 text-white transition-colors duration-300 ${
+        scrolled || open || !home ? "bg-[#06101f]/72 backdrop-blur-xl" : "bg-transparent"
+      }`}
+    >
+      <div className="mx-auto flex h-[84px] max-w-[1400px] items-center gap-4 px-5 lg:px-10">
         <BrandLogo priority />
         <nav aria-label="Main navigation" className="hidden flex-1 justify-center lg:flex">
-          <NavLinks items={items} variant="headerDark" />
+          <NavLinks items={items} variant="headerMock" />
         </nav>
-        <div className="ml-auto hidden items-center gap-4 xl:flex">
-          <div className="text-right text-[11px] font-semibold leading-4 text-white/85">
-            {ORBIT_BRAND.phones.map((phone) => (
-              <a key={phone.href} href={phone.href} className="block hover:text-[#f0c43a]">
-                {phone.label}
-              </a>
-            ))}
-          </div>
-          <Link
-            href="/contact"
-            className="orbit-btn-gold inline-flex h-10 items-center rounded-full px-5 text-[13px] font-semibold"
-          >
-            Get Started
-          </Link>
-        </div>
+        <Link
+          href="/contact"
+          className="ml-auto hidden h-11 items-center gap-2 rounded-full bg-[#f0c43a] px-6 text-[14px] font-semibold text-[#1a1408] lg:inline-flex"
+        >
+          Get Started
+          <span aria-hidden="true">→</span>
+        </Link>
         <button
           type="button"
-          className="ml-auto inline-flex h-10 w-10 items-center justify-center rounded-lg border border-white/15 lg:hidden"
+          className="ml-auto inline-flex h-10 w-10 items-center justify-center rounded-lg border border-white/20 lg:hidden"
           aria-expanded={open}
           aria-controls="mobile-nav"
           onClick={() => setOpen((value) => !value)}
         >
-          <span className="sr-only">Open menu</span>
-          <span aria-hidden="true" className="text-lg">
-            ☰
-          </span>
+          <span className="sr-only">{open ? "Close menu" : "Open menu"}</span>
+          <span aria-hidden="true">{open ? "×" : "☰"}</span>
         </button>
       </div>
       {open ? (
-        <div id="mobile-nav" className="border-t border-white/10 bg-[#071533] px-4 py-4 lg:hidden">
+        <div id="mobile-nav" className="border-t border-white/10 bg-[#06101f]/95 px-5 py-4 lg:hidden">
           <ul className="flex flex-col gap-3 text-sm font-medium">
             {items.map((item) => (
               <li key={item.href}>
@@ -71,10 +77,11 @@ export function SiteHeader({ items }: SiteHeaderProps) {
           </ul>
           <Link
             href="/contact"
-            className="orbit-btn-gold mt-4 inline-flex h-10 items-center rounded-full px-5 text-sm font-semibold"
+            className="mt-4 inline-flex h-11 items-center gap-2 rounded-full bg-[#f0c43a] px-6 text-sm font-semibold text-[#1a1408]"
             onClick={() => setOpen(false)}
           >
             Get Started
+            <span aria-hidden="true">→</span>
           </Link>
         </div>
       ) : null}

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Fraunces, Geist, Geist_Mono } from "next/font/google";
+import { Caveat, Geist, Geist_Mono, Plus_Jakarta_Sans } from "next/font/google";
 import { SiteShell } from "@/components/layout/site-shell";
 import { listVisibleNavItems } from "@/lib/db/nav-items";
 import { getSiteSettings } from "@/lib/db/site-settings";
@@ -23,10 +23,16 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const fraunces = Fraunces({
-  variable: "--font-fraunces",
+const jakarta = Plus_Jakarta_Sans({
+  variable: "--font-jakarta",
   subsets: ["latin"],
-  axes: ["SOFT", "WONK", "opsz"],
+  weight: ["500", "600", "700", "800"],
+});
+
+const caveat = Caveat({
+  variable: "--font-script",
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
 });
 
 function toNavItems(
@@ -79,7 +85,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${jakarta.variable} ${caveat.variable} h-full antialiased`}
     >
       <body className="min-h-full">
         <SiteShell

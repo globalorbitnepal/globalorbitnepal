@@ -8,7 +8,12 @@ export const ORBIT_BRAND = {
   salesEmail: "sales@theglobalorbit.com",
   webmail: "https://webmail.globalorbitmail.cloud/",
   whatsapp: "https://wa.me/9779823631899",
-  address: "Kathmandu, Nepal",
+  address: "Kathmandu · India · United States",
+  offices: [
+    { name: "Kathmandu", country: "Nepal", code: "np", role: "Headquarters & engineering" },
+    { name: "India", country: "India", code: "in", role: "Delivery studio" },
+    { name: "United States", country: "USA", code: "us", role: "Client office" },
+  ],
   social: [
     { label: "Facebook", href: "https://www.facebook.com/globalorbit" },
     { label: "Instagram", href: "https://www.instagram.com/globalorbit" },

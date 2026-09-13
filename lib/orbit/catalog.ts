@@ -383,7 +383,7 @@ export const ORBIT_FAQS = [
   },
   {
     q: "Do you work with international clients?",
-    a: "Yes. We serve businesses across 15+ countries from Kathmandu, with overlap hours for Asia, the Gulf, and Europe.",
+    a: "Yes. We serve 25 markets from offices in Nepal, India, and the United States, with overlap hours for Asia, the Gulf, Europe, and North America.",
   },
   {
     q: "What technologies do you use for web development?",
@@ -427,7 +427,12 @@ export const ORBIT_TESTIMONIALS = [
   {
     quote: "SEO reporting is honest. We see keywords, not vanity screenshots.",
     name: "Retail founder",
-    place: "Lalitpur",
+    place: "Mumbai",
+  },
+  {
+    quote: "US hours, Nepal engineering, one Slack. The site and the billing product shipped as one brief.",
+    name: "Operator",
+    place: "United States",
   },
   {
     quote: "Restaurant POS and website talk to each other. Table wait dropped in the first month.",

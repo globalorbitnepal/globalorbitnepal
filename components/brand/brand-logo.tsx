@@ -19,7 +19,7 @@ export function BrandLogo({ priority = false }: BrandLogoProps) {
         height={108}
         priority={priority}
         unoptimized
-        className="h-[48px] w-[228px] object-contain object-left"
+      className="h-[48px] w-[228px] object-contain object-left drop-shadow-[0_8px_18px_rgba(0,0,0,0.35)]"
       />
     </Link>
   );

@@ -1,21 +1,33 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ORBIT_BRAND } from "@/lib/orbit/brand";
 
 export function OrbitChrome() {
-  const [splash, setSplash] = useState(true);
+  const pathname = usePathname();
+  const [splash, setSplash] = useState(false);
   const [top, setTop] = useState(false);
 
   useEffect(() => {
-    const timer = window.setTimeout(() => setSplash(false), 1600);
+    const seen = window.sessionStorage.getItem("orbit-splash");
+    let timer: number | undefined;
+    if (!seen && pathname === "/") {
+      setSplash(true);
+      timer = window.setTimeout(() => {
+        setSplash(false);
+        window.sessionStorage.setItem("orbit-splash", "1");
+      }, 1600);
+    } else {
+      setSplash(false);
+    }
     const onScroll = () => setTop(window.scrollY > 400);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => {
-      window.clearTimeout(timer);
+      if (timer) window.clearTimeout(timer);
       window.removeEventListener("scroll", onScroll);
     };
-  }, []);
+  }, [pathname]);
 
   return (
     <>

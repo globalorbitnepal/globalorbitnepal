@@ -6,7 +6,7 @@ import type { FallbackNavItem } from "@/lib/site";
 
 type NavLinksProps = {
   items: FallbackNavItem[];
-  variant?: "header" | "headerDark" | "headerGlass" | "footer";
+  variant?: "header" | "headerDark" | "headerGlass" | "headerLuxury" | "headerMock" | "footer";
 };
 
 export function NavLinks({ items, variant = "header" }: NavLinksProps) {
@@ -14,13 +14,15 @@ export function NavLinks({ items, variant = "header" }: NavLinksProps) {
   const isFooter = variant === "footer";
   const isDark = variant === "headerDark";
   const isGlass = variant === "headerGlass";
+  const isLuxury = variant === "headerLuxury";
+  const isMock = variant === "headerMock";
 
   return (
     <ul
       className={
         isFooter
           ? "mt-4 flex flex-col gap-2.5 text-sm"
-          : "flex flex-wrap items-center gap-x-7 gap-y-2 text-[15px] font-medium tracking-[-0.01em]"
+          : "flex flex-wrap items-center gap-x-7 gap-y-2 text-[15px] font-medium"
       }
     >
       {items.map((item) => {
@@ -36,6 +38,14 @@ export function NavLinks({ items, variant = "header" }: NavLinksProps) {
           className += current
             ? " text-[#d4a017] border-b-2 border-[#d4a017] pb-[3px]"
             : " text-white/90 hover:text-[#d4a017]";
+        } else if (isMock) {
+          className += current
+            ? " text-[#f0c43a] border-b-2 border-[#f0c43a] pb-[3px]"
+            : " text-white/92 hover:text-[#f0c43a]";
+        } else if (isLuxury) {
+          className += current
+            ? " text-[#f0c43a]"
+            : " text-white/78 hover:text-white";
         } else if (isGlass) {
           className += current
             ? " text-[#c4a04a] border-b-2 border-[#e1b325] pb-[4px]"

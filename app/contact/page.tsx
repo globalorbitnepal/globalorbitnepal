@@ -7,7 +7,7 @@ import { buildPageMetadata } from "@/lib/seo";
 export async function generateMetadata(): Promise<Metadata> {
   return buildPageMetadata({
     title: "Contact",
-    description: "Free consultation with Global Orbit in Kathmandu. No commitment.",
+    description: "Free consultation with Global Orbit — offices in Nepal, India and the United States.",
     path: "/contact",
   });
 }
@@ -40,7 +40,11 @@ export default function ContactPage() {
                 Business Mail
               </a>
             </li>
-            <li>{ORBIT_BRAND.address}</li>
+            {ORBIT_BRAND.offices.map((office) => (
+              <li key={office.code}>
+                {office.country} — {office.role}
+              </li>
+            ))}
           </ul>
         </div>
         <div className="lg:col-span-7">

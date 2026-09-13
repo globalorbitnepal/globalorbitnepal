@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { OrbitChrome } from "@/components/layout/orbit-chrome";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
+import { SiteMain } from "@/components/layout/site-main";
 import type { FallbackNavItem } from "@/lib/site";
 
 type SiteShellProps = {
@@ -34,9 +35,7 @@ export function SiteShell({
         Skip to content
       </a>
       <SiteHeader companyName={companyName} items={headerItems} email={email} phone={phone} />
-      <main id="main-content" className="flex-1">
-        {children}
-      </main>
+      <SiteMain>{children}</SiteMain>
       <SiteFooter
         companyName={companyName}
         tagline={tagline}

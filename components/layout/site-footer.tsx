@@ -21,9 +21,10 @@ export function SiteFooter({ companyName, address }: SiteFooterProps) {
         <div>
           <BrandLogo />
           <p className="mt-4 max-w-sm text-sm leading-7 text-white/65">
-            Nepal-based website and software development company. We build business websites, hotel
-            websites, trekking websites, restaurant websites, e-commerce stores, custom software, and
-            ERP solutions. Based in {address || ORBIT_BRAND.address}.
+            Websites, apps, ERP, billing, SaaS, and SEO. Offices in Nepal, India, and the United States.
+          </p>
+          <p className="mt-3 text-xs uppercase tracking-[0.16em] text-[#f0c43a]">
+            {ORBIT_BRAND.address}
           </p>
         </div>
         <div>

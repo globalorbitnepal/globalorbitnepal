@@ -36,7 +36,7 @@ export default function ProjectsPage() {
             <p className="mt-3 text-sm leading-6 text-white/65">{item.result}</p>
             <p className="mt-4 text-sm leading-6 text-white/55">
               Built with SEO-first templates, analytics, and a handover your team can run. Aftercare sits in
-              the same Kathmandu company that designed and shipped it.
+              the same studio in Nepal, India, and the USA that designed and shipped it.
             </p>
           </article>
         ))}

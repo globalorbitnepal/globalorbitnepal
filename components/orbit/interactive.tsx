@@ -45,7 +45,7 @@ export function OrbitTestimonials() {
         </button>
         {ORBIT_TESTIMONIALS.map((entry, i) => (
           <button
-            key={entry.name}
+            key={`${entry.name}-${entry.place}`}
             type="button"
             aria-label={`Testimonial ${i + 1}`}
             className={`h-2 w-2 rounded-full ${i === index ? "bg-[#f0c43a]" : "bg-white/30"}`}

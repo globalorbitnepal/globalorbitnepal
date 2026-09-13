@@ -7,7 +7,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return buildPageMetadata({
     title: "About Us",
     description:
-      "Global Orbit is a Nepal-based website, app, ERP, SaaS and SEO company in Kathmandu.",
+      "Global Orbit Pvt Ltd — websites, apps, ERP, SaaS and SEO from offices in Nepal, India and the United States.",
     path: "/about",
   });
 }
@@ -17,8 +17,8 @@ export default function AboutPage() {
     <>
       <OrbitPageHero
         eyebrow="About Us"
-        title="Built in Nepal. Accountable in 25 countries."
-        lede="Global Orbit Pvt Ltd is an independent technology firm in Kathmandu. We build websites, custom apps, ERP, web-based billing, SaaS products, SaaS management backends, and SEO programmes."
+        title="Three offices. One craft."
+        lede="Global Orbit Pvt Ltd is an independent technology firm with offices in Nepal, India, and the United States. We build websites, custom apps, ERP, web-based billing, SaaS products, SaaS management backends, and SEO programmes."
         headingId="about-hero"
       />
       <section className="mx-auto max-w-3xl space-y-6 px-4 py-16 text-[15px] leading-8 text-white/75">
