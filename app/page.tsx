@@ -1,4 +1,4 @@
-import { HomeHero } from "@/components/home/home-hero";
+import { OrbitHomeView } from "@/components/orbit/home-view";
 import { getSiteSettings } from "@/lib/db/site-settings";
 import { organizationJsonLd } from "@/lib/seo";
 import { FALLBACK_SITE } from "@/lib/site";
@@ -40,9 +40,7 @@ export default async function HomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <div className="bg-[#f6f1e8]">
-        <HomeHero />
-      </div>
+      <OrbitHomeView />
     </>
   );
 }

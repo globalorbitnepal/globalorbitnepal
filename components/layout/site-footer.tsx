@@ -1,7 +1,6 @@
 import Link from "next/link";
-import { NavLinks } from "@/components/layout/nav-links";
-import { SERVICE_CATALOG } from "@/lib/content/services";
-import { Container } from "@/components/ui/container";
+import { BrandLogo } from "@/components/brand/brand-logo";
+import { ORBIT_BRAND, ORBIT_FOOTER_QUICK, ORBIT_FOOTER_SERVICES } from "@/lib/orbit/brand";
 import type { FallbackNavItem } from "@/lib/site";
 
 type SiteFooterProps = {
@@ -13,78 +12,76 @@ type SiteFooterProps = {
   address?: string;
 };
 
-export function SiteFooter({
-  companyName,
-  tagline,
-  items,
-  email,
-  phone,
-  address,
-}: SiteFooterProps) {
+export function SiteFooter({ companyName, address }: SiteFooterProps) {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="mt-auto border-t border-[var(--color-line)] bg-[var(--color-hero)] text-[var(--color-hero-ink)]">
-      <Container className="grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-4 lg:gap-12">
-        <div className="sm:col-span-2 lg:col-span-1">
-          <p className="font-[family-name:var(--font-display)] text-2xl tracking-tight">
-            {companyName}
+    <footer className="mt-auto border-t border-white/10 bg-[#041028] text-white">
+      <div className="mx-auto grid max-w-[1280px] gap-10 px-4 py-14 sm:grid-cols-2 lg:grid-cols-4 lg:px-8">
+        <div>
+          <BrandLogo />
+          <p className="mt-4 max-w-sm text-sm leading-7 text-white/65">
+            Nepal-based website and software development company. We build business websites, hotel
+            websites, trekking websites, restaurant websites, e-commerce stores, custom software, and
+            ERP solutions. Based in {address || ORBIT_BRAND.address}.
           </p>
-          {tagline ? (
-            <p className="mt-4 max-w-md text-sm leading-7 text-white/60">{tagline}</p>
-          ) : null}
-          <p className="mt-6 text-sm text-white/45">{address || "Kathmandu, Nepal"}</p>
         </div>
         <div>
-          <p className="text-xs uppercase tracking-[0.2em] text-white/40">Explore</p>
-          <nav aria-label="Footer">
-            <NavLinks items={items} variant="footer" />
-          </nav>
-        </div>
-        <div>
-          <p className="text-xs uppercase tracking-[0.2em] text-white/40">Services</p>
-          <ul className="mt-4 flex flex-col gap-2.5 text-sm">
-            {SERVICE_CATALOG.map((service) => (
-              <li key={service.slug}>
-                <Link
-                  href={`/services/${service.slug}`}
-                  className="text-white/70 transition-colors duration-200 hover:text-white"
-                >
-                  {service.title}
+          <h4 className="text-sm font-semibold">Quick Links</h4>
+          <ul className="mt-4 space-y-2 text-sm text-white/70">
+            {ORBIT_FOOTER_QUICK.map((item) => (
+              <li key={item.href}>
+                <Link href={item.href} className="hover:text-[#f0c43a]">
+                  › {item.label}
                 </Link>
               </li>
             ))}
           </ul>
         </div>
         <div>
-          <p className="text-xs uppercase tracking-[0.2em] text-white/40">Contact</p>
-          <ul className="mt-4 flex flex-col gap-2.5 text-sm text-white/70">
-            <li>
-              <Link className="transition-colors hover:text-white" href="/contact">
-                Contact form
-              </Link>
-            </li>
-            {email ? (
-              <li>
-                <a className="transition-colors hover:text-white" href={`mailto:${email}`}>
-                  {email}
-                </a>
+          <h4 className="text-sm font-semibold">Services</h4>
+          <ul className="mt-4 space-y-2 text-sm text-white/70">
+            {ORBIT_FOOTER_SERVICES.map((item) => (
+              <li key={item.href}>
+                <Link href={item.href} className="hover:text-[#f0c43a]">
+                  › {item.label}
+                </Link>
               </li>
-            ) : (
-              <li>Email to be published</li>
-            )}
-            {phone ? <li>{phone}</li> : null}
-            <li>Weekdays, Nepal Time</li>
+            ))}
           </ul>
         </div>
-      </Container>
-      <div className="border-t border-white/10">
-        <Container className="flex flex-col gap-2 py-5 text-xs text-white/35 sm:flex-row sm:items-center sm:justify-between">
-          <p>
-            © {year} {companyName}. All rights reserved.
-          </p>
-          <p>An independent technology company.</p>
-        </Container>
+        <div>
+          <h4 className="text-sm font-semibold">Contact Us</h4>
+          <ul className="mt-4 space-y-2 text-sm text-white/70">
+            {ORBIT_BRAND.phones.map((phone) => (
+              <li key={phone.href}>
+                <a href={phone.href} className="hover:text-[#f0c43a]">
+                  {phone.label}
+                </a>
+              </li>
+            ))}
+            <li>
+              <a href={`mailto:${ORBIT_BRAND.email}`} className="hover:text-[#f0c43a]">
+                {ORBIT_BRAND.email}
+              </a>
+            </li>
+            <li>
+              <a href={ORBIT_BRAND.webmail} target="_blank" rel="noreferrer" className="hover:text-[#f0c43a]">
+                Business Mail
+              </a>
+            </li>
+          </ul>
+          <div className="mt-5 flex flex-wrap gap-3 text-xs font-semibold uppercase tracking-[0.12em] text-white/55">
+            {ORBIT_BRAND.social.map((item) => (
+              <a key={item.label} href={item.href} target="_blank" rel="noreferrer" className="hover:text-white">
+                {item.label}
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+      <div className="border-t border-white/10 py-5 text-center text-xs text-white/40">
+        © {year} {companyName}. All rights reserved.
       </div>
     </footer>
   );

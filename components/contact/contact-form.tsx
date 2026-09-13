@@ -10,14 +10,14 @@ const initialState: InquiryFormState = {
 };
 
 const fieldClass =
-  "mt-2 w-full rounded-xl border border-[var(--color-line)] bg-[var(--color-paper)] px-4 py-3 text-sm text-[var(--color-ink)] outline-none transition-colors focus:border-[var(--color-brand)]";
+  "mt-2 w-full rounded-xl border border-white/15 bg-[#0a1a3c] px-4 py-3 text-sm text-white outline-none transition-colors focus:border-[#f0c43a]";
 
 export function ContactForm() {
   const [state, action, pending] = useActionState(submitInquiry, initialState);
 
   if (state.status === "success") {
     return (
-      <p className="rounded-2xl border border-[var(--color-line)] bg-[var(--color-mist)] px-6 py-8 text-base leading-7" role="status">
+      <p className="rounded-2xl border border-white/15 bg-[#0a1a3c] px-6 py-8 text-base leading-7 text-white" role="status">
         {state.message}
       </p>
     );
@@ -83,7 +83,7 @@ export function ContactForm() {
       <button
         type="submit"
         disabled={pending}
-        className="inline-flex min-h-11 items-center justify-center rounded-full bg-[var(--color-brand)] px-6 py-2.5 text-sm font-medium text-white transition-colors hover:bg-[var(--color-brand-dark)] disabled:opacity-60"
+        className="inline-flex min-h-11 items-center justify-center rounded-full bg-[#f0c43a] px-6 py-2.5 text-sm font-medium text-[#1a1408] disabled:opacity-60"
       >
         {pending ? "Sending…" : "Send enquiry"}
       </button>

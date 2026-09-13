@@ -1,8 +1,11 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useState } from "react";
 import { BrandLogo } from "@/components/brand/brand-logo";
-import { IconGlobe, IconMail } from "@/components/home/hero-icons";
 import { NavLinks } from "@/components/layout/nav-links";
-import { BRAND_CONTACT } from "@/lib/home-content";
+import { ORBIT_BRAND } from "@/lib/orbit/brand";
 import type { FallbackNavItem } from "@/lib/site";
 
 type SiteHeaderProps = {
@@ -13,39 +16,68 @@ type SiteHeaderProps = {
 };
 
 export function SiteHeader({ items }: SiteHeaderProps) {
+  const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+
   return (
-    <header className="glass-header sticky top-0 z-50 text-[#171c24]">
-      <div className="mx-auto flex max-w-[1440px] flex-col gap-3 px-5 py-3 sm:px-8 lg:h-[88px] lg:flex-row lg:items-center lg:gap-8 lg:py-0">
+    <header className="sticky top-0 z-50 border-b border-white/10 bg-[#071533]/95 text-white backdrop-blur-xl">
+      <div className="mx-auto flex max-w-[1280px] items-center gap-4 px-4 py-3 lg:h-[84px] lg:px-8">
         <BrandLogo priority />
-        <nav aria-label="Primary" className="lg:flex-1 lg:flex lg:justify-center">
-          <NavLinks items={items} variant="headerGlass" />
+        <nav aria-label="Main navigation" className="hidden flex-1 justify-center lg:flex">
+          <NavLinks items={items} variant="headerDark" />
         </nav>
-        <div className="flex flex-wrap items-center gap-2.5 lg:justify-end">
-          <a
-            href={BRAND_CONTACT.webmail}
-            target="_blank"
-            rel="noreferrer"
-            className="glass-chip inline-flex h-10 items-center gap-2 rounded-full px-4 text-[12px] font-semibold"
-          >
-            <IconMail className="h-4 w-4" />
-            Business Mail
-          </a>
+        <div className="ml-auto hidden items-center gap-4 xl:flex">
+          <div className="text-right text-[11px] font-semibold leading-4 text-white/85">
+            {ORBIT_BRAND.phones.map((phone) => (
+              <a key={phone.href} href={phone.href} className="block hover:text-[#f0c43a]">
+                {phone.label}
+              </a>
+            ))}
+          </div>
           <Link
             href="/contact"
-            className="inline-flex h-10 items-center justify-center gap-1.5 rounded-full bg-[#e1b325] px-5 text-[13px] font-semibold text-[#1a1408] shadow-[0_8px_18px_rgba(180,140,20,0.22)]"
+            className="orbit-btn-gold inline-flex h-10 items-center rounded-full px-5 text-[13px] font-semibold"
           >
-            Get a Quote
-            <span aria-hidden="true">→</span>
+            Get Started
           </Link>
-          <p className="hidden items-center gap-2 pl-1 text-[10px] font-semibold uppercase leading-tight tracking-[0.16em] text-[#5d574c] xl:flex">
-            <IconGlobe className="h-8 w-8 text-[#c4a04a]" />
-            <span>
-              Global Solutions
-              <span className="mt-0.5 block font-medium tracking-[0.08em]">For a Better Tomorrow</span>
-            </span>
-          </p>
         </div>
+        <button
+          type="button"
+          className="ml-auto inline-flex h-10 w-10 items-center justify-center rounded-lg border border-white/15 lg:hidden"
+          aria-expanded={open}
+          aria-controls="mobile-nav"
+          onClick={() => setOpen((value) => !value)}
+        >
+          <span className="sr-only">Open menu</span>
+          <span aria-hidden="true" className="text-lg">
+            ☰
+          </span>
+        </button>
       </div>
+      {open ? (
+        <div id="mobile-nav" className="border-t border-white/10 bg-[#071533] px-4 py-4 lg:hidden">
+          <ul className="flex flex-col gap-3 text-sm font-medium">
+            {items.map((item) => (
+              <li key={item.href}>
+                <Link
+                  href={item.href}
+                  className={pathname === item.href ? "text-[#f0c43a]" : "text-white"}
+                  onClick={() => setOpen(false)}
+                >
+                  {item.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <Link
+            href="/contact"
+            className="orbit-btn-gold mt-4 inline-flex h-10 items-center rounded-full px-5 text-sm font-semibold"
+            onClick={() => setOpen(false)}
+          >
+            Get Started
+          </Link>
+        </div>
+      ) : null}
     </header>
   );
 }

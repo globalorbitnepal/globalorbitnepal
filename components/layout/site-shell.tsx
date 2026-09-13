@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
-import { ConditionalFooter } from "@/components/layout/conditional-footer";
+import { OrbitChrome } from "@/components/layout/orbit-chrome";
+import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import type { FallbackNavItem } from "@/lib/site";
 
@@ -25,23 +26,18 @@ export function SiteShell({
   children,
 }: SiteShellProps) {
   return (
-    <div className="flex min-h-full flex-col">
+    <div className="flex min-h-full flex-col bg-[#06122e] text-[#e8eef8]">
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-full focus:bg-[var(--color-copper)] focus:px-4 focus:py-2 focus:text-sm focus:text-[var(--color-hero)]"
+        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-full focus:bg-[#f0c43a] focus:px-4 focus:py-2 focus:text-sm focus:text-[#1a1408]"
       >
         Skip to content
       </a>
-      <SiteHeader
-        companyName={companyName}
-        items={headerItems}
-        email={email}
-        phone={phone}
-      />
+      <SiteHeader companyName={companyName} items={headerItems} email={email} phone={phone} />
       <main id="main-content" className="flex-1">
         {children}
       </main>
-      <ConditionalFooter
+      <SiteFooter
         companyName={companyName}
         tagline={tagline}
         items={footerItems}
@@ -49,6 +45,7 @@ export function SiteShell({
         phone={phone}
         address={address}
       />
+      <OrbitChrome />
     </div>
   );
 }
