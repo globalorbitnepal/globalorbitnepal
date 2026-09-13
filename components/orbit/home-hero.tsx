@@ -18,7 +18,7 @@ const STATS = [
 
 function ServiceIcon({ name }: { name: string }) {
   const props = {
-    className: "h-8 w-8 shrink-0 text-[#f0c43a]",
+    className: "h-9 w-9 shrink-0 text-[#f0c43a] lg:h-11 lg:w-11",
     viewBox: "0 0 24 24",
     fill: "none",
     stroke: "currentColor",
@@ -60,7 +60,7 @@ function ServiceIcon({ name }: { name: string }) {
 
 function StatIcon({ name }: { name: string }) {
   const props = {
-    className: "h-7 w-7 shrink-0 text-[#f0c43a]",
+    className: "h-8 w-8 shrink-0 text-[#f0c43a] lg:h-10 lg:w-10",
     viewBox: "0 0 24 24",
     fill: "none",
     stroke: "currentColor",
@@ -122,28 +122,28 @@ export function OrbitHomeHero() {
       </div>
       <div className="orbit-hero-scrim pointer-events-none absolute inset-0" />
 
-      <div className="relative z-[1] mx-auto flex min-h-[calc(100svh-84px)] w-full max-w-[1600px] flex-col px-5 pb-7 pt-[calc(74.25vw+1.25rem)] md:pt-14 lg:px-10 lg:pb-9">
+      <div className="orbit-hero-content relative z-[1] mx-auto flex min-h-[calc(100svh-84px)] w-full max-w-[1600px] flex-col px-5 pb-7 lg:px-10 lg:pb-[clamp(1rem,2.4vh,2.25rem)]">
         <div className="max-w-[46rem]">
           <p className="text-[10px] font-semibold uppercase tracking-[0.34em] text-[#f0c43a] sm:text-[12px] lg:text-[13px]">
             Built for a brighter tomorrow
           </p>
           <h1
             id="home-hero-heading"
-            className="mt-4 font-[family-name:var(--font-jakarta)] text-[clamp(2.2rem,4.9vw,5.4rem)] font-extrabold leading-[1.03] tracking-[-0.035em]"
+            className="mt-4 font-[family-name:var(--font-jakarta)] text-[clamp(2.2rem,min(4.9vw,7.4vh),5.4rem)] font-extrabold leading-[1.03] tracking-[-0.035em]"
           >
             Digital Solutions
             <span className="mt-1 block">
               for a <span className="text-[#f0c43a]">Global World</span>
             </span>
           </h1>
-          <p className="mt-6 max-w-[34rem] text-[14px] leading-[1.85] text-white/85 sm:text-[15px] lg:text-[17px]">
+          <p className="mt-[clamp(0.75rem,2.2vh,1.5rem)] max-w-[34rem] text-[14px] leading-[1.75] text-white/85 sm:text-[15px] lg:text-[17px]">
             We design and develop websites, web applications, ERP systems and digital solutions that help
             businesses grow, operate smarter and reach further — from local to global.
           </p>
-          <div className="mt-8 flex flex-wrap items-center gap-4">
+          <div className="mt-[clamp(1rem,2.8vh,2rem)] flex flex-wrap items-center gap-4">
             <Link
               href="/contact"
-              className="group inline-flex h-[56px] items-center gap-3 rounded-full bg-[#f0c43a] py-2 pl-7 pr-2 text-[15px] font-semibold text-[#1a1408] shadow-[0_16px_38px_rgba(240,196,58,0.32)] transition-colors hover:bg-[#ffe38a] lg:text-[16px]"
+              className="group inline-flex h-[clamp(48px,6.4vh,56px)] items-center gap-3 rounded-full bg-[#f0c43a] py-2 pl-7 pr-2 text-[15px] font-semibold text-[#1a1408] shadow-[0_16px_38px_rgba(240,196,58,0.32)] transition-colors hover:bg-[#ffe38a] lg:text-[16px]"
             >
               Start a project
               <span
@@ -155,7 +155,7 @@ export function OrbitHomeHero() {
             </Link>
             <Link
               href="/projects"
-              className="orbit-glass inline-flex h-[56px] items-center gap-3 rounded-full py-2 pl-2 pr-7 text-[15px] font-semibold text-white lg:text-[16px]"
+              className="orbit-glass inline-flex h-[clamp(48px,6.4vh,56px)] items-center gap-3 rounded-full py-2 pl-2 pr-7 text-[15px] font-semibold text-white lg:text-[16px]"
             >
               <span
                 className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white text-[11px] text-[#0b1220]"
@@ -168,7 +168,7 @@ export function OrbitHomeHero() {
           </div>
         </div>
 
-        <div className="mt-auto pt-12">
+        <div className="mt-auto pt-[clamp(1rem,3vh,3rem)]">
           <ul className="mx-auto flex w-full max-w-[980px] flex-wrap justify-center gap-y-6 sm:flex-nowrap">
             {SERVICES.map((item, index) => (
               <li
@@ -190,7 +190,7 @@ export function OrbitHomeHero() {
             ))}
           </ul>
 
-          <dl className="orbit-glass mx-auto mt-8 grid w-full max-w-[980px] grid-cols-2 rounded-[28px] px-3 py-5 sm:grid-cols-4 sm:px-6 sm:py-6">
+          <dl className="orbit-glass mx-auto mt-[clamp(0.75rem,2.2vh,2rem)] grid w-full max-w-[980px] grid-cols-2 rounded-[28px] px-3 py-5 sm:grid-cols-4 sm:px-6 sm:py-[clamp(0.75rem,1.9vh,1.5rem)]">
             {STATS.map((item, index) => (
               <div
                 key={item.label}
@@ -211,12 +211,12 @@ export function OrbitHomeHero() {
             ))}
           </dl>
 
-          <div className="mt-7 flex items-end justify-between gap-6">
+          <div className="mt-[clamp(0.75rem,2.2vh,1.75rem)] flex items-end justify-between gap-6">
             <p className="flex items-center gap-4 text-[9px] font-semibold uppercase tracking-[0.32em] text-white/70 sm:text-[10px]">
               Explore a smarter tomorrow
               <span className="hidden h-px w-20 bg-white/45 sm:block" />
             </p>
-            <p className="text-right font-[family-name:var(--font-script)] text-[26px] leading-[1.15] text-white sm:text-[34px] lg:mr-16 lg:text-[40px]">
+            <p className="text-right font-[family-name:var(--font-script)] text-[clamp(20px,3vh,38px)] leading-[1.12] text-white lg:mr-16">
               Building
               <span className="block">a Smarter</span>
               <span className="relative inline-block">

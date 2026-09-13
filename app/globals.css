@@ -273,7 +273,11 @@ li.orbit-card:hover {
   aspect-ratio: 16 / 9;
 }
 
-@media (min-width: 768px) {
+.orbit-hero-content {
+  padding-top: calc(74.25vw + 1.25rem);
+}
+
+@media (min-width: 768px) and (min-aspect-ratio: 13 / 10) {
   .orbit-hero-stage {
     left: 50%;
     right: auto;
@@ -281,12 +285,16 @@ li.orbit-card:hover {
     width: max(100%, calc((100svh - 84px) * 16 / 9));
     transform: translate(-50%, -50%);
   }
+
+  .orbit-hero-content {
+    padding-top: clamp(1rem, 4vh, 3.5rem);
+  }
 }
 
 .orbit-hero-scrim {
   background:
-    linear-gradient(90deg, rgba(4, 10, 22, 0.8) 0%, rgba(4, 10, 22, 0.34) 30%, rgba(4, 10, 22, 0) 54%),
-    linear-gradient(180deg, rgba(4, 10, 22, 0.45) 0%, rgba(4, 10, 22, 0) 24%, rgba(4, 10, 22, 0.72) 100%);
+    linear-gradient(90deg, rgba(4, 10, 22, 0.72) 0%, rgba(4, 10, 22, 0.26) 28%, rgba(4, 10, 22, 0) 52%),
+    linear-gradient(180deg, rgba(4, 10, 22, 0.4) 0%, rgba(4, 10, 22, 0) 22%, rgba(4, 10, 22, 0.18) 62%, rgba(4, 10, 22, 0.5) 100%);
 }
 
 .orbit-pin-ring {

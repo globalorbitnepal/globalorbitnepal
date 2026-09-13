@@ -1,7 +1,7 @@
 const PINS = [
-  { code: "np", name: "Nepal", left: 50, top: 32.3, delay: "0s" },
-  { code: "in", name: "India", left: 48.6, top: 41, delay: "0.6s" },
-  { code: "us", name: "USA", left: 90.4, top: 41.5, delay: "1.2s" },
+  { code: "np", name: "Nepal", left: 52.2, top: 33.6, delay: "0s" },
+  { code: "in", name: "India", left: 50.26, top: 41.8, delay: "0.6s" },
+  { code: "us", name: "USA", left: 88.6, top: 36.8, delay: "1.2s" },
 ] as const;
 
 export function HeroGlobePins() {
