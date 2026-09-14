@@ -4,10 +4,10 @@ import { OrbitCountryFlags, OrbitFlag } from "@/components/orbit/flags";
 import { OrbitHomeHero } from "@/components/orbit/home-hero";
 import { OrbitFaqList, OrbitTestimonials } from "@/components/orbit/interactive";
 import { OrbitCtaBand } from "@/components/orbit/page-hero";
+import { OrbitOfficesSection } from "@/components/orbit/offices-section";
 import { OrbitSoftwareSection } from "@/components/orbit/software-section";
 import { OrbitSolutionsSection } from "@/components/orbit/solutions-section";
 import { HOME_TECHNOLOGIES } from "@/lib/home-content";
-import { ORBIT_BRAND } from "@/lib/orbit/brand";
 import {
   ORBIT_AUTOMATION,
   ORBIT_INDUSTRIES,
@@ -54,27 +54,7 @@ export function OrbitHomeView() {
 
       <OrbitSolutionsSection />
 
-      <section className="px-4 py-20 sm:py-24" aria-labelledby="offices-heading">
-        <SectionHead
-          id="offices-heading"
-          title="Three offices. One standard."
-          lede="Work originates in Kathmandu, India, and the United States — not a single-city shop pretending to be global."
-        />
-        <div className="mx-auto grid max-w-5xl gap-5 md:grid-cols-3">
-          {ORBIT_BRAND.offices.map((office) => (
-            <article key={office.code} className="orbit-card rounded-[28px] px-8 py-10 text-center">
-              <span className="mx-auto inline-flex ring-2 ring-[#f0c43a]/50 rounded-full">
-                <OrbitFlag code={office.code} name={office.country} size={72} rounded="full" />
-              </span>
-              <h3 className="mt-5 font-[family-name:var(--font-display)] text-2xl text-white">{office.country}</h3>
-              {office.name !== office.country ? (
-                <p className="mt-1 text-sm text-white/55">{office.name}</p>
-              ) : null}
-              <p className="mt-3 text-sm leading-6 text-white/70">{office.role}</p>
-            </article>
-          ))}
-        </div>
-      </section>
+      <OrbitOfficesSection />
 
       <section className="bg-[#071533]/60 px-4 py-20 sm:py-24" aria-labelledby="why-heading">
         <SectionHead
