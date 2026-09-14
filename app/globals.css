@@ -134,15 +134,15 @@ li.orbit-card:hover {
 }
 
 .orbit-soft-card {
-  background: linear-gradient(165deg, rgba(255, 255, 255, 0.14), rgba(8, 18, 40, 0.55));
-  border: 1px solid color-mix(in srgb, var(--soft-accent, #f0c43a) 42%, rgba(255, 255, 255, 0.18));
+  background: linear-gradient(165deg, rgba(255, 255, 255, 0.16), rgba(8, 18, 40, 0.58));
+  border: 1px solid color-mix(in srgb, var(--soft-accent, #f0c43a) 48%, rgba(255, 255, 255, 0.2));
   box-shadow:
-    0 18px 44px rgba(0, 0, 0, 0.32),
+    0 18px 44px rgba(0, 0, 0, 0.34),
     0 0 0 1px rgba(255, 255, 255, 0.04) inset,
-    0 1px 0 rgba(255, 255, 255, 0.22) inset,
-    0 0 36px var(--soft-glow, rgba(240, 196, 58, 0.18));
-  backdrop-filter: blur(22px) saturate(170%);
-  -webkit-backdrop-filter: blur(22px) saturate(170%);
+    0 1px 0 rgba(255, 255, 255, 0.24) inset,
+    0 0 40px var(--soft-glow, rgba(240, 196, 58, 0.2));
+  backdrop-filter: blur(24px) saturate(175%);
+  -webkit-backdrop-filter: blur(24px) saturate(175%);
   transition:
     transform 0.25s ease,
     border-color 0.25s ease,
@@ -151,12 +151,18 @@ li.orbit-card:hover {
 
 .orbit-soft-card:hover {
   transform: translateY(-5px);
-  border-color: color-mix(in srgb, var(--soft-accent, #f0c43a) 72%, white 10%);
+  border-color: color-mix(in srgb, var(--soft-accent, #f0c43a) 78%, white 12%);
   box-shadow:
-    0 26px 56px rgba(0, 0, 0, 0.42),
-    0 0 0 1px rgba(255, 255, 255, 0.06) inset,
-    0 1px 0 rgba(255, 255, 255, 0.28) inset,
-    0 0 48px var(--soft-glow, rgba(240, 196, 58, 0.28));
+    0 28px 58px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(255, 255, 255, 0.07) inset,
+    0 1px 0 rgba(255, 255, 255, 0.3) inset,
+    0 0 52px var(--soft-glow, rgba(240, 196, 58, 0.3));
+}
+
+@media (max-width: 519px) {
+  .orbit-soft-card {
+    min-height: 240px;
+  }
 }
 
 .orbit-glass-strong {
