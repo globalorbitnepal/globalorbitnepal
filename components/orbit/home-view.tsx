@@ -7,6 +7,7 @@ import { OrbitCtaBand } from "@/components/orbit/page-hero";
 import { OrbitOfficesSection } from "@/components/orbit/offices-section";
 import { OrbitSoftwareSection } from "@/components/orbit/software-section";
 import { OrbitSolutionsSection } from "@/components/orbit/solutions-section";
+import { OrbitWhySection } from "@/components/orbit/why-section";
 import { HOME_TECHNOLOGIES } from "@/lib/home-content";
 import {
   ORBIT_AUTOMATION,
@@ -14,7 +15,6 @@ import {
   ORBIT_PROCESS,
   ORBIT_PROJECTS,
   ORBIT_TOOLS,
-  ORBIT_WHY,
 } from "@/lib/orbit/catalog";
 
 function SectionHead({ id, title, lede }: { id: string; title: string; lede: string }) {
@@ -56,21 +56,7 @@ export function OrbitHomeView() {
 
       <OrbitOfficesSection />
 
-      <section className="bg-[#071533]/60 px-4 py-20 sm:py-24" aria-labelledby="why-heading">
-        <SectionHead
-          id="why-heading"
-          title="Why operators stay"
-          lede="Speed, structure, and aftercare — the unglamorous reasons a site still works on a Tuesday."
-        />
-        <div className="mx-auto grid max-w-[1280px] gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {ORBIT_WHY.map((item) => (
-            <article key={item.title} className="orbit-card rounded-[22px] p-6">
-              <h3 className="text-lg font-semibold text-white">{item.title}</h3>
-              <p className="mt-2 text-sm leading-6 text-white/62">{item.body}</p>
-            </article>
-          ))}
-        </div>
-      </section>
+      <OrbitWhySection />
 
       <section className="px-4 py-20 sm:py-24" aria-labelledby="projects-heading">
         <SectionHead
