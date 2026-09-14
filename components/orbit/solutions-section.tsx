@@ -104,7 +104,7 @@ export function OrbitSolutionsSection() {
                   } as CSSProperties
                 }
               >
-                <div className="relative z-[1] flex w-[52%] min-w-0 flex-col sm:w-[50%]">
+                <div className="relative z-[1] flex w-[48%] min-w-0 flex-col sm:w-[46%]">
                   <span
                     className="inline-flex h-10 w-10 items-center justify-center rounded-[12px]"
                     style={{
@@ -123,14 +123,14 @@ export function OrbitSolutionsSection() {
                   </span>
                 </div>
 
-                <div className="pointer-events-none absolute bottom-2 right-1 top-2 w-[48%] sm:right-2 sm:w-[50%]">
+                <div className="pointer-events-none absolute inset-y-2 right-1 w-[54%] sm:right-2 sm:w-[56%]">
                   <Image
                     src={`/brand/sol-previews/${num}.png`}
                     alt=""
                     fill
                     unoptimized
-                    sizes="(max-width:640px) 45vw, 220px"
-                    className="object-contain object-right-bottom mix-blend-lighten drop-shadow-[0_14px_28px_rgba(0,0,0,0.5)] transition-transform duration-300 group-hover:-translate-y-1 group-hover:scale-[1.03]"
+                    sizes="(max-width:640px) 55vw, 280px"
+                    className="object-contain object-right-bottom drop-shadow-[0_16px_32px_rgba(0,0,0,0.55)] transition-transform duration-300 group-hover:-translate-y-1 group-hover:scale-[1.03]"
                   />
                 </div>
               </Link>
