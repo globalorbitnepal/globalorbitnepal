@@ -187,9 +187,9 @@ export function OrbitOfficesSection() {
                   fill
                   unoptimized
                   sizes="(max-width:768px) 100vw, 33vw"
-                  className="object-cover object-center opacity-55 transition-transform duration-500 group-hover:scale-[1.04]"
+                  className="object-cover object-center opacity-70 transition-transform duration-500 group-hover:scale-[1.04]"
                 />
-                <div className="absolute inset-0 bg-gradient-to-b from-[#07111f]/55 via-[#07111f]/72 to-[#050b16]/96" />
+                <div className="absolute inset-0 bg-gradient-to-b from-[#07111f]/40 via-[#07111f]/55 to-[#050b16]/94" />
               </div>
 
               <div className="relative z-[1] flex h-full flex-col p-5 sm:p-6">
