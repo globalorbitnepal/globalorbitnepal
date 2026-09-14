@@ -105,7 +105,7 @@ function StatIcon({ name }: { name: string }) {
 export function OrbitHomeHero() {
   return (
     <section
-      className="relative isolate min-h-[calc(100svh-84px)] overflow-hidden bg-[#040a16] text-white"
+      className="relative isolate min-h-[100svh] overflow-hidden bg-[#040a16] text-white"
       aria-labelledby="home-hero-heading"
     >
       <div className="orbit-hero-stage">
@@ -122,25 +122,25 @@ export function OrbitHomeHero() {
       </div>
       <div className="orbit-hero-scrim pointer-events-none absolute inset-0" />
 
-      <div className="orbit-hero-content relative z-[1] mx-auto flex min-h-[calc(100svh-84px)] w-full max-w-[1600px] flex-col px-5 pb-7 lg:px-10 lg:pb-[clamp(1rem,2.4vh,2.25rem)]">
-        <div className="max-w-[46rem]">
+      <div className="orbit-hero-content relative z-[1] mx-auto flex min-h-[100svh] w-full max-w-[1600px] flex-col px-5 pb-7 lg:px-10 lg:pb-[clamp(1rem,2.4vh,2.25rem)]">
+        <div className="orbit-hero-copy max-w-[46rem]">
           <p className="text-[10px] font-semibold uppercase tracking-[0.34em] text-[#f0c43a] sm:text-[12px] lg:text-[13px]">
             Built for a brighter tomorrow
           </p>
           <h1
             id="home-hero-heading"
-            className="mt-4 font-[family-name:var(--font-jakarta)] text-[clamp(2.2rem,min(4.9vw,7.4vh),5.4rem)] font-extrabold leading-[1.03] tracking-[-0.035em]"
+            className="mt-4 font-[family-name:var(--font-jakarta)] text-[clamp(2.2rem,min(4.9vw,7vh),5rem)] font-extrabold leading-[1.04] tracking-[-0.035em]"
           >
             Digital Solutions
             <span className="mt-1 block">
               for a <span className="text-[#f0c43a]">Global World</span>
             </span>
           </h1>
-          <p className="mt-[clamp(0.75rem,2.2vh,1.5rem)] max-w-[34rem] text-[14px] leading-[1.75] text-white/85 sm:text-[15px] lg:text-[17px]">
+          <p className="mt-[clamp(0.85rem,2.2vh,1.35rem)] max-w-[34rem] text-[14px] leading-[1.75] text-white/85 sm:text-[15px] lg:text-[16px]">
             We design and develop websites, web applications, ERP systems and digital solutions that help
             businesses grow, operate smarter and reach further — from local to global.
           </p>
-          <div className="mt-[clamp(1rem,2.8vh,2rem)] flex flex-wrap items-center gap-4">
+          <div className="mt-[clamp(1.1rem,2.8vh,1.85rem)] flex flex-wrap items-center gap-4">
             <Link
               href="/contact"
               className="group inline-flex h-[clamp(48px,6.4vh,56px)] items-center gap-3 rounded-full bg-[#f0c43a] py-2 pl-7 pr-2 text-[15px] font-semibold text-[#1a1408] shadow-[0_16px_38px_rgba(240,196,58,0.32)] transition-colors hover:bg-[#ffe38a] lg:text-[16px]"

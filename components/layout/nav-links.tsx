@@ -6,7 +6,7 @@ import type { FallbackNavItem } from "@/lib/site";
 
 type NavLinksProps = {
   items: FallbackNavItem[];
-  variant?: "header" | "headerDark" | "headerGlass" | "headerLuxury" | "headerMock" | "footer";
+  variant?: "header" | "headerDark" | "headerGlass" | "headerLuxury" | "headerMock" | "headerPremium" | "footer";
 };
 
 export function NavLinks({ items, variant = "header" }: NavLinksProps) {
@@ -16,13 +16,16 @@ export function NavLinks({ items, variant = "header" }: NavLinksProps) {
   const isGlass = variant === "headerGlass";
   const isLuxury = variant === "headerLuxury";
   const isMock = variant === "headerMock";
+  const isPremium = variant === "headerPremium";
 
   return (
     <ul
       className={
         isFooter
           ? "mt-4 flex flex-col gap-2.5 text-sm"
-          : "flex flex-wrap items-center gap-x-7 gap-y-2 text-[15px] font-medium"
+          : isPremium
+            ? "flex flex-wrap items-center gap-1 text-[14px] font-bold tracking-[-0.01em]"
+            : "flex flex-wrap items-center gap-x-7 gap-y-2 text-[15px] font-medium"
       }
     >
       {items.map((item) => {
@@ -34,6 +37,10 @@ export function NavLinks({ items, variant = "header" }: NavLinksProps) {
         let className = "transition-colors duration-200";
         if (isFooter) {
           className += " text-white/70 hover:text-white";
+        } else if (isPremium) {
+          className += current
+            ? " rounded-full bg-white/12 px-4 py-2 text-[#f0c43a] shadow-[inset_0_1px_0_rgba(255,255,255,0.18)]"
+            : " rounded-full px-4 py-2 text-white/90 hover:bg-white/8 hover:text-white";
         } else if (isDark) {
           className += current
             ? " text-[#d4a017] border-b-2 border-[#d4a017] pb-[3px]"
