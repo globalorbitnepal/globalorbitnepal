@@ -4,6 +4,7 @@ import { OrbitCountryFlags, OrbitFlag } from "@/components/orbit/flags";
 import { OrbitHomeHero } from "@/components/orbit/home-hero";
 import { OrbitFaqList, OrbitTestimonials } from "@/components/orbit/interactive";
 import { OrbitCtaBand } from "@/components/orbit/page-hero";
+import { OrbitSoftwareSection } from "@/components/orbit/software-section";
 import { HOME_TECHNOLOGIES } from "@/lib/home-content";
 import { ORBIT_BRAND } from "@/lib/orbit/brand";
 import {
@@ -11,7 +12,6 @@ import {
   ORBIT_INDUSTRIES,
   ORBIT_PROCESS,
   ORBIT_PROJECTS,
-  ORBIT_SOFTWARE,
   ORBIT_SOLUTIONS,
   ORBIT_TOOLS,
   ORBIT_WHY,
@@ -50,23 +50,7 @@ export function OrbitHomeView() {
         </div>
       </section>
 
-      <section className="px-4 py-20 sm:py-24" aria-labelledby="software-heading">
-        <SectionHead
-          id="software-heading"
-          title="Enterprise software, already in production"
-          lede="Billing, hotel ops, OTA, warehouse, manufacturing ERP, POS, CRM, custom apps, and the SaaS layer that runs them."
-        />
-        <div className="mx-auto grid max-w-[1280px] gap-5 sm:grid-cols-2 lg:grid-cols-5">
-          {ORBIT_SOFTWARE.map((item, index) => (
-            <Link key={item.slug} href={item.href} className="orbit-card rounded-[22px] p-6">
-              <p className="text-[11px] font-semibold tracking-[0.2em] text-[#f0c43a]">0{index + 1}</p>
-              <h3 className="mt-3 text-lg font-semibold leading-snug text-white">{item.title}</h3>
-              <p className="mt-2 text-sm leading-6 text-white/62">{item.summary}</p>
-              <span className="mt-5 inline-block text-sm font-semibold text-[#f0c43a]">Learn more</span>
-            </Link>
-          ))}
-        </div>
-      </section>
+      <OrbitSoftwareSection />
 
       <section className="bg-[#071533]/60 px-4 py-20 sm:py-24" aria-labelledby="solutions-heading">
         <SectionHead

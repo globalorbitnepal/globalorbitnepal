@@ -133,6 +133,32 @@ li.orbit-card:hover {
   -webkit-backdrop-filter: blur(28px) saturate(180%);
 }
 
+.orbit-soft-card {
+  background: linear-gradient(165deg, rgba(255, 255, 255, 0.14), rgba(8, 18, 40, 0.55));
+  border: 1px solid color-mix(in srgb, var(--soft-accent, #f0c43a) 42%, rgba(255, 255, 255, 0.18));
+  box-shadow:
+    0 18px 44px rgba(0, 0, 0, 0.32),
+    0 0 0 1px rgba(255, 255, 255, 0.04) inset,
+    0 1px 0 rgba(255, 255, 255, 0.22) inset,
+    0 0 36px var(--soft-glow, rgba(240, 196, 58, 0.18));
+  backdrop-filter: blur(22px) saturate(170%);
+  -webkit-backdrop-filter: blur(22px) saturate(170%);
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.orbit-soft-card:hover {
+  transform: translateY(-5px);
+  border-color: color-mix(in srgb, var(--soft-accent, #f0c43a) 72%, white 10%);
+  box-shadow:
+    0 26px 56px rgba(0, 0, 0, 0.42),
+    0 0 0 1px rgba(255, 255, 255, 0.06) inset,
+    0 1px 0 rgba(255, 255, 255, 0.28) inset,
+    0 0 48px var(--soft-glow, rgba(240, 196, 58, 0.28));
+}
+
 .orbit-glass-strong {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(8, 20, 48, 0.42));
   border: 1px solid rgba(255, 255, 255, 0.24);
