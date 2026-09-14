@@ -5,6 +5,7 @@ import { OrbitHomeHero } from "@/components/orbit/home-hero";
 import { OrbitFaqList, OrbitTestimonials } from "@/components/orbit/interactive";
 import { OrbitCtaBand } from "@/components/orbit/page-hero";
 import { OrbitSoftwareSection } from "@/components/orbit/software-section";
+import { OrbitSolutionsSection } from "@/components/orbit/solutions-section";
 import { HOME_TECHNOLOGIES } from "@/lib/home-content";
 import { ORBIT_BRAND } from "@/lib/orbit/brand";
 import {
@@ -12,7 +13,6 @@ import {
   ORBIT_INDUSTRIES,
   ORBIT_PROCESS,
   ORBIT_PROJECTS,
-  ORBIT_SOLUTIONS,
   ORBIT_TOOLS,
   ORBIT_WHY,
 } from "@/lib/orbit/catalog";
@@ -52,21 +52,7 @@ export function OrbitHomeView() {
 
       <OrbitSoftwareSection />
 
-      <section className="bg-[#071533]/60 px-4 py-20 sm:py-24" aria-labelledby="solutions-heading">
-        <SectionHead
-          id="solutions-heading"
-          title="Web development, done as a product"
-          lede="Not a brochure mill. Architecture, speed, SEO, and the software behind the site — one engagement."
-        />
-        <div className="mx-auto grid max-w-[1280px] gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {ORBIT_SOLUTIONS.map((item) => (
-            <Link key={item.title} href={item.href} className="orbit-card rounded-[22px] p-6">
-              <h3 className="text-lg font-semibold text-white">{item.title}</h3>
-              <p className="mt-2 text-sm leading-6 text-white/62">{item.summary}</p>
-            </Link>
-          ))}
-        </div>
-      </section>
+      <OrbitSolutionsSection />
 
       <section className="px-4 py-20 sm:py-24" aria-labelledby="offices-heading">
         <SectionHead
