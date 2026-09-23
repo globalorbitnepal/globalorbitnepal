@@ -23,6 +23,21 @@ const CAPABILITIES = [
   { number: "06", title: "Launch aftercare", body: "Named ownership after launch, so the system stays understood, measurable, and useful.", accent: "text-[#f0c43a]" },
 ] as const;
 
+const FAQS = [
+  {
+    question: "What does Global Orbit build?",
+    answer: "We build high-performance websites, custom software, ERP and billing systems, SaaS products, and measurable SEO programmes for organisations that need technology to work in the real world.",
+  },
+  {
+    question: "Where does the work happen?",
+    answer: "Our centre of gravity is Kathmandu, with delivery across Nepal, India, the United States, and the wider markets our clients serve.",
+  },
+  {
+    question: "What makes the engagement different?",
+    answer: "We keep ownership close to the work: written scopes, named people, understandable production systems, and aftercare that does not disappear after launch.",
+  },
+] as const;
+
 export async function generateMetadata(): Promise<Metadata> {
   return buildPageMetadata({
     title: "About Us",
@@ -217,6 +232,32 @@ export default function AboutPage() {
               </li>
             ))}
           </ol>
+        </div>
+      </section>
+
+      <section className="relative overflow-hidden border-t border-white/10 px-4 py-20 sm:px-6 sm:py-28 lg:px-8" aria-labelledby="faq-heading">
+        <div className="pointer-events-none absolute right-[-8rem] top-1/3 h-80 w-80 rounded-full bg-[#f0c43a]/10 blur-3xl" />
+        <div className="relative mx-auto grid max-w-[1180px] gap-12 lg:grid-cols-[0.75fr_1.25fr] lg:gap-20">
+          <div>
+            <p className="orbit-kicker">The questions / 07</p>
+            <h2 id="faq-heading" className="mt-4 font-[family-name:var(--font-jakarta)] text-4xl font-extrabold tracking-tight text-white sm:text-5xl">
+              Clear before we begin.
+            </h2>
+            <p className="mt-5 max-w-md text-[15px] leading-8 text-white/65">
+              Good partnerships start with useful answers. Here is the short version of how we work and where we work from.
+            </p>
+          </div>
+          <div className="space-y-3">
+            {FAQS.map((faq, index) => (
+              <details key={faq.question} className="group orbit-glass rounded-2xl p-5 open:bg-white/[0.09] sm:p-6">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-5 text-base font-semibold text-white">
+                  <span><span className="mr-3 text-xs font-bold tracking-[0.2em] text-[#f0c43a]">0{index + 1}</span>{faq.question}</span>
+                  <span className="text-2xl font-light text-white/45 transition-transform group-open:rotate-45">+</span>
+                </summary>
+                <p className="max-w-2xl pt-4 text-sm leading-7 text-white/65">{faq.answer}</p>
+              </details>
+            ))}
+          </div>
         </div>
       </section>
       <OrbitOfficesSection />
