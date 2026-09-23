@@ -7,42 +7,23 @@ import { OrbitOfficesSection } from "@/components/orbit/offices-section";
 import { ABOUT_CONTENT } from "@/lib/content/about";
 import { buildPageMetadata } from "@/lib/seo";
 
-const SIGNALS = [
-  { value: "Kathmandu", label: "Home base" },
-  { value: "End-to-end", label: "Design to operations" },
-  { value: "25 countries", label: "Working radius" },
-  { value: "One team", label: "Named ownership" },
-] as const;
-
 const CAPABILITIES = [
-  { number: "01", title: "Web platforms", body: "High-performance websites and digital experiences built to turn attention into action.", accent: "text-[#f0c43a]" },
-  { number: "02", title: "Custom software", body: "Operational tools, customer portals, and internal systems shaped around the way your team works.", accent: "text-[#7dd3fc]" },
-  { number: "03", title: "ERP & billing", body: "Clearer workflows for inventory, finance, hospitality, manufacturing, and growing teams.", accent: "text-[#c084fc]" },
-  { number: "04", title: "SaaS products", body: "Multi-tenant products and management backends with structure that scales beyond the first release.", accent: "text-[#4ade80]" },
-  { number: "05", title: "Search growth", body: "Technical SEO, content structure, and honest reporting that compounds instead of chasing shortcuts.", accent: "text-[#fb7185]" },
-  { number: "06", title: "Launch aftercare", body: "Named ownership after launch, so the system stays understood, measurable, and useful.", accent: "text-[#f0c43a]" },
+  { number: "01", title: "Web platforms", body: "Digital experiences with the speed, clarity, and confidence to move a business forward.", tone: "gold" },
+  { number: "02", title: "Custom software", body: "Useful internal tools and customer portals shaped around how your people actually work.", tone: "blue" },
+  { number: "03", title: "ERP & billing", body: "Connected operations for inventory, finance, hospitality, and teams that are ready to grow.", tone: "violet" },
+  { number: "04", title: "SaaS products", body: "Thoughtful foundations for products that need to scale beyond a first release.", tone: "green" },
 ] as const;
 
-const FAQS = [
-  {
-    question: "What does Global Orbit build?",
-    answer: "We build high-performance websites, custom software, ERP and billing systems, SaaS products, and measurable SEO programmes for organisations that need technology to work in the real world.",
-  },
-  {
-    question: "Where does the work happen?",
-    answer: "Our centre of gravity is Kathmandu, with delivery across Nepal, India, the United States, and the wider markets our clients serve.",
-  },
-  {
-    question: "What makes the engagement different?",
-    answer: "We keep ownership close to the work: written scopes, named people, understandable production systems, and aftercare that does not disappear after launch.",
-  },
+const PRINCIPLES = [
+  ["01", "Make it understandable", "The best technology gives people confidence. We make the complex feel considered, visible, and easy to own."],
+  ["02", "Stay close to reality", "We work with the real constraints of your people, customers, budget, and production environment."],
+  ["03", "Remain accountable", "Named ownership does not end at launch. We stay close enough to help the work perform in the real world."],
 ] as const;
 
 export async function generateMetadata(): Promise<Metadata> {
   return buildPageMetadata({
     title: "About Us",
-    description:
-      "Global Orbit Pvt Ltd — websites, apps, ERP, SaaS and SEO from offices in Nepal, India and the United States.",
+    description: "Global Orbit Pvt Ltd — digital products, software, ERP, SaaS and SEO from Nepal for ambitious organisations worldwide.",
     path: "/about",
   });
 }
@@ -50,219 +31,133 @@ export async function generateMetadata(): Promise<Metadata> {
 export default function AboutPage() {
   return (
     <>
-      <section className="orbit-net relative isolate overflow-hidden px-4 pb-16 pt-16 sm:px-6 sm:pb-24 sm:pt-20 lg:px-8 lg:pb-28 lg:pt-24">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_18%,rgba(56,189,248,0.16),transparent_28%),radial-gradient(circle_at_82%_34%,rgba(240,196,58,0.12),transparent_30%)]" />
-        <div className="orbit-neural pointer-events-none absolute inset-0" aria-hidden="true" />
-        <div className="relative z-[1] mx-auto grid max-w-[1280px] items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
-          <div>
-            <p className="orbit-kicker">The company / 01</p>
-            <h1
-              id="about-hero"
-              className="orbit-headline mt-5 max-w-4xl text-[clamp(2.8rem,7vw,6.5rem)] leading-[0.94] text-white"
-            >
-              A local centre of gravity.
-              <span className="orbit-headline-ai mt-2 block">A global working radius.</span>
-            </h1>
-            <p className="mt-7 max-w-2xl text-[15px] leading-8 text-white/70 sm:text-lg sm:leading-9">
-              {ABOUT_CONTENT.lede}
-            </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Link href="/contact" className="orbit-btn-gold inline-flex h-12 items-center rounded-full px-7 text-sm font-semibold">
-                Start a conversation <span className="ml-2">→</span>
-              </Link>
-              <Link href="/services" className="orbit-btn-dark inline-flex h-12 items-center rounded-full px-7 text-sm font-semibold">
-                Explore our work
-              </Link>
+      <main className="overflow-hidden bg-[#050505] text-white">
+        <section className="relative isolate min-h-[720px] border-b border-white/10 px-5 pb-20 pt-16 sm:px-8 sm:pt-24 lg:px-12 lg:pb-28 lg:pt-28">
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_72%_12%,rgba(240,196,58,0.15),transparent_24%),radial-gradient(circle_at_8%_70%,rgba(56,189,248,0.12),transparent_28%)]" />
+          <div className="pointer-events-none absolute inset-0 opacity-30 [background-image:linear-gradient(rgba(255,255,255,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.06)_1px,transparent_1px)] [background-size:72px_72px] [mask-image:linear-gradient(to_bottom,black,transparent_80%)]" />
+          <div className="relative mx-auto grid max-w-[1380px] items-end gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-20">
+            <div className="relative z-10">
+              <p className="orbit-kicker">Global Orbit / About the studio</p>
+              <h1 className="orbit-headline mt-7 max-w-5xl text-[clamp(3.4rem,8vw,8.8rem)] leading-[0.86] text-white">
+                Built for the
+                <span className="orbit-headline-ai block">next horizon.</span>
+              </h1>
+              <p className="mt-9 max-w-xl text-base leading-8 text-white/65 sm:text-lg">
+                {ABOUT_CONTENT.lede}
+              </p>
+              <div className="mt-9 flex flex-wrap gap-3">
+                <Link href="/contact" className="orbit-btn-gold inline-flex h-13 items-center rounded-full px-7 text-sm font-bold">
+                  Start a conversation <span className="ml-3 text-lg">↗</span>
+                </Link>
+                <Link href="#our-work" className="orbit-btn-glass inline-flex h-13 items-center rounded-full px-7 text-sm font-semibold text-white">
+                  See what we do
+                </Link>
+              </div>
             </div>
-          </div>
-
-          <div className="relative mx-auto w-full max-w-[560px]">
-            <div className="orbit-glass-strong relative overflow-hidden rounded-[32px] p-2">
-              <div className="relative aspect-[4/5] overflow-hidden rounded-[25px]">
-                <Image
-                  src="/brand/offices/world-bg.jpg"
-                  alt="Global Orbit's connected offices across the world"
-                  fill
-                  priority
-                  sizes="(max-width:1024px) 100vw, 46vw"
-                  className="object-cover object-center"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#040a16] via-[#040a16]/25 to-transparent" />
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_38%_44%,rgba(125,211,252,0.18),transparent_24%),radial-gradient(circle_at_65%_58%,rgba(240,196,58,0.18),transparent_25%)]" />
-                <div className="absolute left-[36%] top-[43%] h-3 w-3 rounded-full bg-[#f0c43a] shadow-[0_0_0_8px_rgba(240,196,58,0.16),0_0_28px_rgba(240,196,58,0.9)]" />
-                <div className="absolute left-[62%] top-[57%] h-3 w-3 rounded-full bg-[#7dd3fc] shadow-[0_0_0_8px_rgba(125,211,252,0.14),0_0_28px_rgba(125,211,252,0.85)]" />
-                <div className="absolute bottom-6 left-6 right-6">
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-[#f0c43a]">Global Orbit Pvt Ltd</p>
-                  <p className="mt-2 text-2xl font-bold text-white sm:text-3xl">Built in Nepal. Accountable anywhere.</p>
+            <div className="relative mx-auto w-full max-w-[600px] lg:pb-3">
+              <div className="absolute -inset-6 rounded-[42px] bg-[#f0c43a]/10 blur-3xl" />
+              <div className="orbit-glass-strong relative rounded-[34px] p-2">
+                <div className="relative aspect-[0.88] overflow-hidden rounded-[27px]">
+                  <Image src="/brand/offices/world-bg.jpg" alt="Global Orbit's international working footprint" fill priority sizes="(max-width:1024px) 100vw, 45vw" className="object-cover object-center" />
+                  <div className="absolute inset-0 bg-[linear-gradient(145deg,rgba(3,9,20,0.05),rgba(3,9,20,0.82))]" />
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_40%_42%,rgba(125,211,252,0.3),transparent_16%),radial-gradient(circle_at_68%_58%,rgba(240,196,58,0.26),transparent_18%)]" />
+                  <div className="absolute left-[38%] top-[43%] h-3 w-3 rounded-full bg-[#f0c43a] shadow-[0_0_0_10px_rgba(240,196,58,0.15),0_0_32px_#f0c43a]" />
+                  <div className="absolute left-[63%] top-[57%] h-3 w-3 rounded-full bg-[#7dd3fc] shadow-[0_0_0_10px_rgba(125,211,252,0.15),0_0_32px_#7dd3fc]" />
+                  <div className="absolute bottom-7 left-7 right-7">
+                    <p className="text-[10px] font-bold uppercase tracking-[0.32em] text-[#f0c43a]">Kathmandu / India / USA</p>
+                    <p className="mt-3 max-w-xs text-2xl font-bold leading-tight text-white sm:text-3xl">Local thinking.<br />Global consequence.</p>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="orbit-glass absolute -bottom-5 -left-3 rounded-2xl px-4 py-3 sm:-left-8">
-              <p className="text-[10px] uppercase tracking-[0.2em] text-white/55">Operating principle</p>
-              <p className="mt-1 text-sm font-semibold text-white">Finished systems over polished decks.</p>
-            </div>
-          </div>
-        </div>
-        <div className="relative z-[1] mx-auto mt-16 grid max-w-[1280px] grid-cols-2 overflow-hidden rounded-2xl border border-white/12 bg-white/[0.045] backdrop-blur-xl sm:grid-cols-4">
-          {SIGNALS.map((signal, index) => (
-            <div key={signal.label} className={`px-4 py-5 sm:px-6 sm:py-6 ${index > 0 ? "border-l border-white/10" : ""}`}>
-              <p className="text-lg font-bold text-[#f0c43a] sm:text-2xl">{signal.value}</p>
-              <p className="mt-1 text-[10px] uppercase tracking-[0.16em] text-white/55 sm:text-[11px]">{signal.label}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="relative overflow-hidden px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
-        <div className="pointer-events-none absolute right-0 top-12 h-72 w-72 rounded-full bg-cyan-400/10 blur-3xl" />
-        <div className="relative mx-auto grid max-w-[1180px] gap-12 lg:grid-cols-12 lg:gap-16">
-          <div className="lg:col-span-4">
-            <p className="orbit-kicker">The story / 02</p>
-            <h2 className="mt-4 font-[family-name:var(--font-jakarta)] text-4xl font-extrabold tracking-tight text-white sm:text-5xl">
-              Serious build-and-operate work from Nepal.
-            </h2>
-          </div>
-          <div className="space-y-6 text-[15px] leading-8 text-white/70 sm:text-base lg:col-span-8">
-            {ABOUT_CONTENT.story.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
-            <div className="orbit-glass mt-10 grid gap-5 rounded-3xl p-6 sm:grid-cols-2 sm:p-8">
-              <div>
-                <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-[#f0c43a]">What we ship</p>
-                <p className="mt-3 text-lg font-semibold leading-7 text-white">Websites, apps, ERP, billing, SaaS, and SEO that survive real use.</p>
-              </div>
-              <div className="border-t border-white/10 pt-5 sm:border-l sm:border-t-0 sm:pl-6 sm:pt-0">
-                <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-[#7dd3fc]">What we protect</p>
-                <p className="mt-3 text-lg font-semibold leading-7 text-white">Clarity, ownership, production data, and the team that has to run it.</p>
+              <div className="orbit-glass absolute -bottom-5 -left-4 rounded-2xl px-4 py-3 sm:-left-8">
+                <p className="text-[10px] uppercase tracking-[0.2em] text-white/50">The principle</p>
+                <p className="mt-1 text-sm font-semibold text-white">Ship useful things.</p>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section className="orbit-solutions-dots relative overflow-hidden border-y border-white/10 px-4 py-20 sm:px-6 sm:py-28 lg:px-8" aria-labelledby="mission-heading">
-        <div className="relative mx-auto max-w-[1180px]">
-          <div className="max-w-2xl">
-            <p className="orbit-kicker">The direction / 03</p>
-            <h2 id="mission-heading" className="mt-4 font-[family-name:var(--font-jakarta)] text-4xl font-extrabold tracking-tight text-white sm:text-5xl">
-              A company with a point of view.
-            </h2>
+        <section className="border-b border-white/10 px-5 py-8 sm:px-8 lg:px-12">
+          <div className="mx-auto flex max-w-[1380px] flex-wrap items-center justify-between gap-5 text-[10px] font-semibold uppercase tracking-[0.24em] text-white/45">
+            <span>Digital products</span><span className="hidden text-[#f0c43a] sm:block">✦</span>
+            <span>Operational systems</span><span className="hidden text-[#f0c43a] sm:block">✦</span>
+            <span>Search growth</span><span className="hidden text-[#f0c43a] sm:block">✦</span>
+            <span>Built in Nepal</span><span className="hidden text-[#f0c43a] sm:block">✦</span>
+            <span>Used everywhere</span>
           </div>
-          <div className="mt-12 grid gap-5 md:grid-cols-2">
-            <article className="orbit-soft-card rounded-[26px] p-7 sm:p-9">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-[#f0c43a]">Mission</p>
-              <h3 className="mt-5 text-2xl font-bold text-white">{ABOUT_CONTENT.missionTitle}</h3>
-              <p className="mt-4 text-[15px] leading-8 text-white/68">{ABOUT_CONTENT.mission}</p>
-            </article>
-            <article className="orbit-soft-card rounded-[26px] p-7 sm:p-9">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-[#7dd3fc]">Vision</p>
-              <h3 className="mt-5 text-2xl font-bold text-white">{ABOUT_CONTENT.visionTitle}</h3>
-              <p className="mt-4 text-[15px] leading-8 text-white/68">{ABOUT_CONTENT.vision}</p>
-            </article>
-          </div>
-        </div>
-      </section>
+        </section>
 
-      <section className="relative overflow-hidden px-4 py-20 sm:px-6 sm:py-28 lg:px-8" aria-labelledby="capabilities-heading">
-        <div className="pointer-events-none absolute -left-20 top-1/4 h-80 w-80 rounded-full bg-indigo-500/10 blur-3xl" />
-        <div className="relative mx-auto max-w-[1180px]">
-          <div className="grid gap-8 lg:grid-cols-[0.7fr_1.3fr] lg:gap-16">
+        <section className="relative px-5 py-24 sm:px-8 sm:py-32 lg:px-12">
+          <div className="mx-auto grid max-w-[1180px] gap-14 lg:grid-cols-[0.8fr_1.2fr] lg:gap-28">
             <div>
-              <p className="orbit-kicker">The capability / 04</p>
-              <h2 id="capabilities-heading" className="mt-4 font-[family-name:var(--font-jakarta)] text-4xl font-extrabold tracking-tight text-white sm:text-5xl">
-                One studio for the whole digital orbit.
+              <p className="orbit-kicker">01 / The story</p>
+              <h2 className="mt-6 max-w-md font-[family-name:var(--font-jakarta)] text-4xl font-extrabold leading-[1.02] tracking-tight sm:text-6xl">
+                Technology should feel like momentum.
               </h2>
-              <p className="mt-5 max-w-md text-[15px] leading-8 text-white/65">
-                Strategy is only useful when it reaches production. Our disciplines connect from the first brief to the work your customers and staff use every day.
-              </p>
             </div>
-            <div className="grid gap-4 sm:grid-cols-2">
-              {CAPABILITIES.map((capability) => (
-                <article key={capability.number} className="orbit-glass group rounded-2xl p-5 transition-transform duration-300 hover:-translate-y-1 sm:p-6">
-                  <div className="flex items-start justify-between gap-4">
-                    <span className={`text-xs font-bold tracking-[0.2em] ${capability.accent}`}>{capability.number}</span>
-                    <span className="text-white/20 transition-colors group-hover:text-white/60">↗</span>
-                  </div>
-                  <h3 className="mt-8 text-lg font-bold text-white">{capability.title}</h3>
-                  <p className="mt-2 text-sm leading-7 text-white/60">{capability.body}</p>
+            <div className="space-y-7 text-base leading-8 text-white/65 sm:text-lg">
+              {ABOUT_CONTENT.story.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+              <div className="mt-10 border-l-2 border-[#f0c43a] pl-6 text-xl font-semibold leading-8 text-white sm:text-2xl">
+                We are a build-and-operate partner for organisations that want their digital work to perform, not just appear.
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="our-work" className="relative border-y border-white/10 bg-[#080808] px-5 py-24 sm:px-8 sm:py-32 lg:px-12">
+          <div className="mx-auto max-w-[1380px]">
+            <div className="flex flex-col justify-between gap-7 lg:flex-row lg:items-end">
+              <div>
+                <p className="orbit-kicker">02 / What we do</p>
+                <h2 className="mt-6 max-w-2xl font-[family-name:var(--font-jakarta)] text-4xl font-extrabold leading-[0.98] tracking-tight sm:text-6xl">
+                  One orbit.<br /><span className="text-white/40">Many ways forward.</span>
+                </h2>
+              </div>
+              <p className="max-w-sm text-sm leading-7 text-white/55">From the first strategic question to the system your team uses every day, our disciplines are designed to connect.</p>
+            </div>
+            <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {CAPABILITIES.map((item) => (
+                <article key={item.number} className={`group relative min-h-[290px] overflow-hidden rounded-[28px] border border-white/12 bg-white/[0.045] p-6 transition duration-300 hover:-translate-y-2 hover:border-[#f0c43a]/50 ${item.tone === "gold" ? "hover:shadow-[0_24px_60px_rgba(240,196,58,0.12)]" : ""}`}>
+                  <div className="flex items-start justify-between"><span className="text-xs font-bold tracking-[0.2em] text-[#f0c43a]">{item.number}</span><span className="text-2xl text-white/25 transition group-hover:text-white">↗</span></div>
+                  <div className="absolute -right-8 top-16 h-32 w-32 rounded-full bg-[#f0c43a]/10 blur-3xl transition group-hover:bg-[#f0c43a]/25" />
+                  <div className="relative mt-24"><h3 className="text-xl font-bold text-white">{item.title}</h3><p className="mt-3 text-sm leading-7 text-white/55">{item.body}</p></div>
                 </article>
               ))}
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section className="px-4 py-20 sm:px-6 sm:py-28 lg:px-8" aria-labelledby="values-heading">
-        <div className="mx-auto max-w-[1180px]">
-          <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
+        <section className="px-5 py-24 sm:px-8 sm:py-32 lg:px-12">
+          <div className="mx-auto grid max-w-[1180px] gap-14 lg:grid-cols-[0.75fr_1.25fr] lg:gap-24">
             <div>
-              <p className="orbit-kicker">The standard / 05</p>
-              <h2 id="values-heading" className="mt-4 font-[family-name:var(--font-jakarta)] text-4xl font-extrabold tracking-tight text-white sm:text-5xl">
-                How we behave.
-              </h2>
+              <p className="orbit-kicker">03 / The standard</p>
+              <h2 className="mt-6 font-[family-name:var(--font-jakarta)] text-4xl font-extrabold leading-[1.02] tracking-tight sm:text-6xl">Good work has a point of view.</h2>
+              <p className="mt-7 max-w-md text-base leading-8 text-white/60">{ABOUT_CONTENT.mission}</p>
             </div>
-            <p className="max-w-sm text-sm leading-7 text-white/60">The details are the culture. These are the promises that shape the work before the first pixel ships.</p>
+            <div className="divide-y divide-white/10 border-y border-white/10">
+              {PRINCIPLES.map(([number, title, body]) => (
+                <article key={number} className="grid gap-5 py-7 sm:grid-cols-[64px_0.8fr_1.2fr] sm:items-start">
+                  <span className="text-sm font-bold text-[#f0c43a]">{number}</span>
+                  <h3 className="text-xl font-bold text-white">{title}</h3>
+                  <p className="text-sm leading-7 text-white/55">{body}</p>
+                </article>
+              ))}
+            </div>
           </div>
-          <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {ABOUT_CONTENT.values.map((value, index) => (
-              <article key={value.title} className="orbit-card relative overflow-hidden rounded-3xl p-6 sm:min-h-[255px]">
-                <span className="text-4xl font-bold text-white/10">0{index + 1}</span>
-                <h3 className="mt-8 text-xl font-bold text-white">{value.title}</h3>
-                <p className="mt-3 text-sm leading-7 text-white/62">{value.body}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
+        </section>
 
-      <section className="relative overflow-hidden bg-[#040a16] px-4 py-20 sm:px-6 sm:py-28 lg:px-8" aria-labelledby="approach-heading">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(240,196,58,0.13),transparent_26%),radial-gradient(circle_at_10%_90%,rgba(56,189,248,0.12),transparent_28%)]" />
-        <div className="relative mx-auto grid max-w-[1180px] gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
-          <div>
-            <p className="orbit-kicker">The approach / 06</p>
-            <h2 id="approach-heading" className="mt-4 font-[family-name:var(--font-jakarta)] text-4xl font-extrabold tracking-tight text-white sm:text-5xl">
-              Calm, clear, accountable.
-            </h2>
-            <p className="mt-5 text-[15px] leading-8 text-white/65">A good engagement should make the next decision easier, not create another layer of mystery.</p>
-            <Link href="/contact" className="orbit-btn-gold mt-8 inline-flex h-12 items-center rounded-full px-7 text-sm font-semibold">Talk to the studio →</Link>
+        <section className="relative overflow-hidden border-y border-white/10 bg-[#080808] px-5 py-24 sm:px-8 sm:py-32 lg:px-12">
+          <div className="pointer-events-none absolute right-0 top-0 h-full w-1/2 bg-[radial-gradient(circle_at_70%_40%,rgba(240,196,58,0.12),transparent_45%)]" />
+          <div className="relative mx-auto grid max-w-[1180px] gap-14 lg:grid-cols-[0.8fr_1.2fr] lg:gap-24">
+            <div><p className="orbit-kicker">04 / How we work</p><h2 className="mt-6 font-[family-name:var(--font-jakarta)] text-4xl font-extrabold leading-[1.02] tracking-tight sm:text-6xl">Calm, clear, accountable.</h2><Link href="/contact" className="orbit-btn-gold mt-9 inline-flex h-13 items-center rounded-full px-7 text-sm font-bold">Talk to the studio ↗</Link></div>
+            <ol className="space-y-3">{ABOUT_CONTENT.approach.map((step, index) => <li key={step} className="orbit-glass flex items-center gap-5 rounded-2xl p-5 sm:p-6"><span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#f0c43a] text-sm font-bold text-[#1a1408]">0{index + 1}</span><p className="text-sm leading-7 text-white/75 sm:text-base">{step}</p></li>)}</ol>
           </div>
-          <ol className="space-y-4">
-            {ABOUT_CONTENT.approach.map((step, index) => (
-              <li key={step} className="orbit-glass flex gap-5 rounded-2xl p-5 sm:gap-7 sm:p-7">
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#f0c43a] text-sm font-bold text-[#1a1408]">0{index + 1}</span>
-                <p className="pt-1 text-[15px] leading-7 text-white/78">{step}</p>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </section>
+        </section>
 
-      <section className="relative overflow-hidden border-t border-white/10 px-4 py-20 sm:px-6 sm:py-28 lg:px-8" aria-labelledby="faq-heading">
-        <div className="pointer-events-none absolute right-[-8rem] top-1/3 h-80 w-80 rounded-full bg-[#f0c43a]/10 blur-3xl" />
-        <div className="relative mx-auto grid max-w-[1180px] gap-12 lg:grid-cols-[0.75fr_1.25fr] lg:gap-20">
-          <div>
-            <p className="orbit-kicker">The questions / 07</p>
-            <h2 id="faq-heading" className="mt-4 font-[family-name:var(--font-jakarta)] text-4xl font-extrabold tracking-tight text-white sm:text-5xl">
-              Clear before we begin.
-            </h2>
-            <p className="mt-5 max-w-md text-[15px] leading-8 text-white/65">
-              Good partnerships start with useful answers. Here is the short version of how we work and where we work from.
-            </p>
-          </div>
-          <div className="space-y-3">
-            {FAQS.map((faq, index) => (
-              <details key={faq.question} className="group orbit-glass rounded-2xl p-5 open:bg-white/[0.09] sm:p-6">
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-5 text-base font-semibold text-white">
-                  <span><span className="mr-3 text-xs font-bold tracking-[0.2em] text-[#f0c43a]">0{index + 1}</span>{faq.question}</span>
-                  <span className="text-2xl font-light text-white/45 transition-transform group-open:rotate-45">+</span>
-                </summary>
-                <p className="max-w-2xl pt-4 text-sm leading-7 text-white/65">{faq.answer}</p>
-              </details>
-            ))}
-          </div>
-        </div>
-      </section>
-      <OrbitOfficesSection />
-      <OrbitCountryFlags />
-      <OrbitCtaBand />
+        <OrbitOfficesSection />
+        <OrbitCountryFlags />
+        <OrbitCtaBand />
+      </main>
     </>
   );
 }
