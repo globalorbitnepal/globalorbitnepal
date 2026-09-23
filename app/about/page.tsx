@@ -14,6 +14,15 @@ const SIGNALS = [
   { value: "One team", label: "Named ownership" },
 ] as const;
 
+const CAPABILITIES = [
+  { number: "01", title: "Web platforms", body: "High-performance websites and digital experiences built to turn attention into action.", accent: "text-[#f0c43a]" },
+  { number: "02", title: "Custom software", body: "Operational tools, customer portals, and internal systems shaped around the way your team works.", accent: "text-[#7dd3fc]" },
+  { number: "03", title: "ERP & billing", body: "Clearer workflows for inventory, finance, hospitality, manufacturing, and growing teams.", accent: "text-[#c084fc]" },
+  { number: "04", title: "SaaS products", body: "Multi-tenant products and management backends with structure that scales beyond the first release.", accent: "text-[#4ade80]" },
+  { number: "05", title: "Search growth", body: "Technical SEO, content structure, and honest reporting that compounds instead of chasing shortcuts.", accent: "text-[#fb7185]" },
+  { number: "06", title: "Launch aftercare", body: "Named ownership after launch, so the system stays understood, measurable, and useful.", accent: "text-[#f0c43a]" },
+] as const;
+
 export async function generateMetadata(): Promise<Metadata> {
   return buildPageMetadata({
     title: "About Us",
@@ -137,11 +146,40 @@ export default function AboutPage() {
         </div>
       </section>
 
+      <section className="relative overflow-hidden px-4 py-20 sm:px-6 sm:py-28 lg:px-8" aria-labelledby="capabilities-heading">
+        <div className="pointer-events-none absolute -left-20 top-1/4 h-80 w-80 rounded-full bg-indigo-500/10 blur-3xl" />
+        <div className="relative mx-auto max-w-[1180px]">
+          <div className="grid gap-8 lg:grid-cols-[0.7fr_1.3fr] lg:gap-16">
+            <div>
+              <p className="orbit-kicker">The capability / 04</p>
+              <h2 id="capabilities-heading" className="mt-4 font-[family-name:var(--font-jakarta)] text-4xl font-extrabold tracking-tight text-white sm:text-5xl">
+                One studio for the whole digital orbit.
+              </h2>
+              <p className="mt-5 max-w-md text-[15px] leading-8 text-white/65">
+                Strategy is only useful when it reaches production. Our disciplines connect from the first brief to the work your customers and staff use every day.
+              </p>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2">
+              {CAPABILITIES.map((capability) => (
+                <article key={capability.number} className="orbit-glass group rounded-2xl p-5 transition-transform duration-300 hover:-translate-y-1 sm:p-6">
+                  <div className="flex items-start justify-between gap-4">
+                    <span className={`text-xs font-bold tracking-[0.2em] ${capability.accent}`}>{capability.number}</span>
+                    <span className="text-white/20 transition-colors group-hover:text-white/60">↗</span>
+                  </div>
+                  <h3 className="mt-8 text-lg font-bold text-white">{capability.title}</h3>
+                  <p className="mt-2 text-sm leading-7 text-white/60">{capability.body}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="px-4 py-20 sm:px-6 sm:py-28 lg:px-8" aria-labelledby="values-heading">
         <div className="mx-auto max-w-[1180px]">
           <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
             <div>
-              <p className="orbit-kicker">The standard / 04</p>
+              <p className="orbit-kicker">The standard / 05</p>
               <h2 id="values-heading" className="mt-4 font-[family-name:var(--font-jakarta)] text-4xl font-extrabold tracking-tight text-white sm:text-5xl">
                 How we behave.
               </h2>
@@ -164,7 +202,7 @@ export default function AboutPage() {
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(240,196,58,0.13),transparent_26%),radial-gradient(circle_at_10%_90%,rgba(56,189,248,0.12),transparent_28%)]" />
         <div className="relative mx-auto grid max-w-[1180px] gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
           <div>
-            <p className="orbit-kicker">The approach / 05</p>
+            <p className="orbit-kicker">The approach / 06</p>
             <h2 id="approach-heading" className="mt-4 font-[family-name:var(--font-jakarta)] text-4xl font-extrabold tracking-tight text-white sm:text-5xl">
               Calm, clear, accountable.
             </h2>
