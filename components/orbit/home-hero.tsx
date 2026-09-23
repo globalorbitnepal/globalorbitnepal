@@ -105,7 +105,7 @@ function StatIcon({ name }: { name: string }) {
 export function OrbitHomeHero() {
   return (
     <section
-      className="relative isolate min-h-[100svh] overflow-hidden bg-[#040a16] text-white"
+      className="orbit-home-hero relative isolate min-h-[calc(100svh-72px)] overflow-hidden bg-[#040a16] text-white sm:min-h-[calc(100svh-78px)] lg:min-h-[calc(100svh-82px)]"
       aria-labelledby="home-hero-heading"
     >
       <div className="orbit-hero-stage">
@@ -122,8 +122,8 @@ export function OrbitHomeHero() {
       </div>
       <div className="orbit-hero-scrim pointer-events-none absolute inset-0" />
 
-      <div className="orbit-hero-content relative z-[1] mx-auto flex min-h-[100svh] w-full max-w-[1600px] flex-col px-5 pb-7 lg:px-10 lg:pb-[clamp(1rem,2.4vh,2.25rem)]">
-        <div className="orbit-hero-copy max-w-[46rem]">
+      <div className="orbit-hero-content relative z-[1] mx-auto flex min-h-[calc(100svh-72px)] w-full max-w-[1600px] flex-col px-5 pb-7 sm:min-h-[calc(100svh-78px)] lg:min-h-[calc(100svh-82px)] lg:px-10 lg:pb-[clamp(1rem,2.4vh,2.25rem)] xl:px-14">
+        <div className="orbit-hero-copy max-w-[43rem]">
           <p className="text-[10px] font-semibold uppercase tracking-[0.34em] text-[#f0c43a] sm:text-[12px] lg:text-[13px]">
             Built for a brighter tomorrow
           </p>
@@ -200,7 +200,7 @@ export function OrbitHomeHero() {
               >
                 <StatIcon name={item.icon} />
                 <div>
-                  <dt className="font-[family-name:var(--font-jakarta)] text-[22px] font-extrabold leading-none text-[#f0c43a] sm:text-[26px] lg:text-[30px]">
+                  <dt className="font-[family-name:var(--font-jakarta)] text-[22px] font-extrabold leading-none text-white sm:text-[26px] lg:text-[30px]">
                     {item.value}
                   </dt>
                   <dd className="mt-1.5 text-[9px] font-semibold uppercase tracking-[0.18em] text-white/80 sm:text-[10px] lg:text-[11px]">

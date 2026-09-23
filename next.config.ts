@@ -1,6 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  experimental: {
+    useTypeScriptCli: false,
+    webpackBuildWorker: false,
+  },
   // Prisma is already on Next.js' default server-external list.
   serverExternalPackages: ["@prisma/client"],
   images: {

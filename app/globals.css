@@ -344,14 +344,14 @@ li.orbit-card:hover {
 
 .orbit-hero-stage {
   position: absolute;
-  right: 0;
-  top: 0;
-  width: 132%;
-  aspect-ratio: 16 / 9;
+  inset: 0;
+  width: 100%;
+  top: -72px;
+  height: calc(100% + 72px);
 }
 
 .orbit-hero-content {
-  padding-top: calc(74.25vw + 1.25rem);
+  padding-top: clamp(5.5rem, 9vh, 7.5rem);
 }
 
 .orbit-nav-glass {
@@ -366,33 +366,91 @@ li.orbit-card:hover {
 
 @media (min-width: 768px) and (min-aspect-ratio: 13 / 10) {
   .orbit-hero-stage {
-    left: 50%;
-    right: auto;
-    top: 50%;
-    width: max(100%, calc(100svh * 16 / 9));
-    transform: translate(-50%, -50%);
+    left: 0;
+    right: 0;
+    width: 100%;
   }
 
   .orbit-hero-content {
-    /* Keep copy mid-left — not stuck under the header */
-    padding-top: clamp(7.5rem, 16vh, 11rem);
+    padding-top: clamp(5.5rem, 9vh, 7.5rem);
   }
 
   .orbit-hero-copy {
-    margin-top: clamp(0.5rem, 4vh, 3rem);
+    margin-top: clamp(0.5rem, 1.5vh, 1.5rem);
+  }
+}
+
+@media (min-width: 640px) {
+  .orbit-hero-stage {
+    top: -78px;
+    height: calc(100% + 78px);
+  }
+}
+
+@media (min-width: 1024px) {
+  .orbit-hero-stage {
+    top: -82px;
+    height: calc(100% + 82px);
   }
 }
 
 @media (min-width: 1100px) and (min-aspect-ratio: 14 / 10) {
   .orbit-hero-content {
-    padding-top: clamp(8.5rem, 18vh, 12.5rem);
+    padding-top: clamp(5.5rem, 9vh, 7.5rem);
   }
 }
 
 .orbit-hero-scrim {
   background:
-    linear-gradient(90deg, rgba(4, 10, 22, 0.72) 0%, rgba(4, 10, 22, 0.26) 28%, rgba(4, 10, 22, 0) 52%),
-    linear-gradient(180deg, rgba(4, 10, 22, 0.4) 0%, rgba(4, 10, 22, 0) 22%, rgba(4, 10, 22, 0.18) 62%, rgba(4, 10, 22, 0.5) 100%);
+    linear-gradient(90deg, rgba(4, 10, 22, 0.9) 0%, rgba(4, 10, 22, 0.65) 31%, rgba(4, 10, 22, 0.08) 61%, rgba(4, 10, 22, 0) 100%),
+    linear-gradient(180deg, rgba(4, 10, 22, 0.08) 0%, rgba(4, 10, 22, 0) 42%, rgba(4, 10, 22, 0.24) 68%, rgba(4, 10, 22, 0.82) 100%);
+}
+
+@media (max-width: 767px) {
+  .orbit-hero-stage {
+    inset: 0 auto auto -48%;
+    width: 165%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+  }
+
+  .orbit-hero-content {
+    min-height: auto;
+    padding-top: min(62vw, 21rem);
+  }
+
+  .orbit-hero-copy {
+    margin-top: 0;
+  }
+
+  .orbit-hero-scrim {
+    background:
+      linear-gradient(180deg, rgba(4, 10, 22, 0.06) 0%, rgba(4, 10, 22, 0.36) 30%, #040a16 72%),
+      linear-gradient(90deg, rgba(4, 10, 22, 0.35), transparent 100%);
+  }
+}
+
+@media (min-width: 768px) and (max-aspect-ratio: 13 / 10) {
+  .orbit-hero-stage {
+    inset: 0 auto auto -38%;
+    width: 165%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+  }
+
+  .orbit-hero-content {
+    padding-top: clamp(19rem, 40vh, 29rem);
+  }
+
+  .orbit-hero-copy {
+    margin-top: 0;
+  }
+
+  .orbit-hero-scrim {
+    background:
+      linear-gradient(180deg, rgba(4, 10, 22, 0.04) 0%, rgba(4, 10, 22, 0.42) 34%, #040a16 72%),
+      linear-gradient(90deg, rgba(4, 10, 22, 0.55), transparent 100%);
+  }
 }
 
 .orbit-pin-ring {

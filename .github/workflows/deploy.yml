@@ -202,7 +202,8 @@ jobs:
             -e .env \
             -e .env.local \
             -e .env.production \
-            -e node_modules
+            -e node_modules \
+            -e '.port-migration-backup-*'
 
           if [ ! -f .env ]; then
             echo "ENV_MISSING: ${APP_DIR}/.env is required on the server and must stay untracked"

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { BrandLogo } from "@/components/brand/brand-logo";
 import { NavLinks } from "@/components/layout/nav-links";
 import type { FallbackNavItem } from "@/lib/site";
@@ -16,33 +16,19 @@ type SiteHeaderProps = {
 
 export function SiteHeader({ items }: SiteHeaderProps) {
   const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
   const home = pathname === "/";
 
-  useEffect(() => {
-    setOpen(false);
-  }, [pathname]);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
   return (
-    <header className="pointer-events-none fixed inset-x-0 top-0 z-50 text-white">
+    <header className={`pointer-events-none inset-x-0 top-0 z-50 text-white ${home ? "relative" : "fixed"}`}>
       <div
         className={`pointer-events-auto mx-auto transition-all duration-300 ${
           home
-            ? scrolled || open
-              ? "mt-0 max-w-none rounded-none border-b border-white/12 bg-[#06101f]/78 px-0 backdrop-blur-2xl"
-              : "mt-3 max-w-[1480px] rounded-[22px] border border-white/18 bg-white/[0.07] px-0 shadow-[0_12px_40px_rgba(0,0,0,0.28)] backdrop-blur-2xl"
+            ? "max-w-none rounded-none border-b border-white/10 bg-[#06101f] px-0"
             : "mt-0 max-w-none rounded-none border-b border-white/12 bg-[#06101f]/82 px-0 backdrop-blur-2xl"
         }`}
       >
-        <div className="mx-auto flex h-[78px] max-w-[1600px] items-center gap-4 px-5 lg:h-[84px] lg:px-8">
+        <div className="mx-auto flex h-[72px] max-w-[1600px] items-center gap-2 px-4 sm:h-[78px] sm:gap-4 sm:px-5 lg:h-[82px] lg:px-8 xl:px-14">
           <BrandLogo priority />
           <nav
             aria-label="Main navigation"
