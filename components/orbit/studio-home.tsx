@@ -7,6 +7,7 @@ import { OrbitOfficesSection } from "@/components/orbit/offices-section";
 import { OrbitSoftwareSection } from "@/components/orbit/software-section";
 import { OrbitStudioHero } from "@/components/orbit/studio-hero";
 import { OrbitStudioWhy } from "@/components/orbit/studio-why";
+import type { HeroConfig } from "@/lib/hero-config";
 import { HOME_TECHNOLOGIES } from "@/lib/home-content";
 import {
   ORBIT_PROCESS,
@@ -79,10 +80,10 @@ function DisplayHead({
   );
 }
 
-export function OrbitStudioHome() {
+export function OrbitStudioHome({ hero }: { hero: HeroConfig }) {
   return (
     <>
-      <OrbitStudioHero />
+      <OrbitStudioHero config={hero} />
 
       <section className="border-y border-white/8 bg-[#09090f] px-4 py-8 sm:px-8" aria-label="Technologies">
         <div className="mx-auto flex max-w-[1440px] flex-wrap items-center justify-center gap-x-8 gap-y-4">

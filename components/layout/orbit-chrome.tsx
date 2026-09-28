@@ -9,6 +9,8 @@ export function OrbitChrome() {
   const [splash, setSplash] = useState(false);
   const [top, setTop] = useState(false);
 
+  if (pathname.startsWith("/orbit")) return null;
+
   useEffect(() => {
     const seen = window.sessionStorage.getItem("orbit-splash");
     let timer: number | undefined;

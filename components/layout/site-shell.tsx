@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { HideOnOrbit } from "@/components/layout/hide-on-orbit";
 import { OrbitChrome } from "@/components/layout/orbit-chrome";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
@@ -36,14 +37,16 @@ export function SiteShell({
       </a>
       <SiteHeader companyName={companyName} items={headerItems} email={email} phone={phone} />
       <SiteMain>{children}</SiteMain>
-      <SiteFooter
-        companyName={companyName}
-        tagline={tagline}
-        items={footerItems}
-        email={email}
-        phone={phone}
-        address={address}
-      />
+      <HideOnOrbit>
+        <SiteFooter
+          companyName={companyName}
+          tagline={tagline}
+          items={footerItems}
+          email={email}
+          phone={phone}
+          address={address}
+        />
+      </HideOnOrbit>
       <OrbitChrome />
     </div>
   );

@@ -8,7 +8,7 @@ export function SiteMain({ children }: { children: ReactNode }) {
   const home = pathname === "/";
 
   return (
-    <main id="main-content" className={home ? "flex-1" : "flex-1 pt-16 sm:pt-[72px] lg:pt-[84px]"}>
+    <main id="main-content" className={home ? "flex-1" : "flex-1 pt-20 sm:pt-24 lg:pt-[6.5rem]"}>
       {children}
     </main>
   );
