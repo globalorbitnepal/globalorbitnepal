@@ -24,7 +24,7 @@ export const DEFAULT_HERO: HeroConfig = {
   secondaryHref: "/projects",
   shipsOn: "Play store · App store",
   imageSrc: "/brand/studio-hero-phones.jpg",
-  videoSrc: "/brand/hero-product.webm",
+  videoSrc: "/brand/hero-product.mp4",
   useVideo: true,
 };
 

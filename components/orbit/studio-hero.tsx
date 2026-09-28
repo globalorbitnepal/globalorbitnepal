@@ -36,8 +36,7 @@ export function OrbitStudioHero({ config }: Props) {
     };
   }, []);
 
-  const videoSrc = config.videoSrc || "/brand/hero-product.webm";
-  const mp4Src = videoSrc.endsWith(".webm") ? "/brand/hero-phone-reel.mp4" : videoSrc;
+  const videoSrc = config.videoSrc || "/brand/hero-product.mp4";
 
   return (
     <section
@@ -47,21 +46,19 @@ export function OrbitStudioHero({ config }: Props) {
     >
       <div
         ref={mediaRef}
-        className="pointer-events-none absolute inset-0 z-0 origin-[78%_48%] will-change-transform"
+        className="pointer-events-none absolute inset-0 z-0 origin-[82%_48%] will-change-transform"
         aria-hidden="true"
       >
         <video
-          className="h-full w-full scale-[1.04] object-cover object-[68%_center] sm:object-[72%_center] lg:object-[78%_center]"
+          className="h-full w-full object-cover object-[62%_center] sm:object-[68%_center] lg:object-[74%_center]"
           autoPlay
           muted
           loop
           playsInline
           disablePictureInPicture
           controls={false}
-          poster={config.imageSrc}
         >
-          <source src="/brand/hero-product.webm" type="video/webm" />
-          <source src={mp4Src} type="video/mp4" />
+          <source src={videoSrc} type={videoSrc.endsWith(".webm") ? "video/webm" : "video/mp4"} />
         </video>
       </div>
 

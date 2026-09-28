@@ -14,7 +14,7 @@ export function BrandLogo({ priority = false, variant = "default" }: BrandLogoPr
       href="/"
       className={`relative z-[2] block shrink-0 ${
         hero
-          ? "h-[72px] w-[min(280px,72vw)] sm:h-[88px] sm:w-[min(360px,52vw)] lg:h-[96px] lg:w-[min(420px,26vw)] xl:h-[108px] xl:w-[min(480px,28vw)] 2xl:h-[112px] 2xl:w-[480px]"
+          ? "h-[80px] w-[min(320px,78vw)] sm:h-[96px] sm:w-[min(400px,55vw)] lg:h-[108px] lg:w-[min(460px,30vw)] xl:h-[120px] xl:w-[min(520px,32vw)] 2xl:h-[128px] 2xl:w-[560px]"
           : "h-[56px] w-[220px] sm:h-[64px] sm:w-[260px]"
       }`}
       aria-label="Global Orbit Pvt Ltd"
