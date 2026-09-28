@@ -151,7 +151,7 @@ export function StudioHeaderNav({ onNavigate, className }: { onNavigate?: () => 
   const pathname = usePathname();
 
   return (
-    <ul className={`orbit-header-nav-list flex flex-nowrap items-center gap-4 text-[18px] font-medium tracking-[-0.02em] xl:gap-6 xl:text-[19px] ${className ?? ""}`}>
+    <ul className={`orbit-header-nav-list flex flex-nowrap items-center text-[14px] font-medium tracking-[-0.02em] xl:text-[15px] ${className ?? ""}`}>
       {STUDIO_HEADER_NAV.map((item) => {
         if (isNavDropdown(item)) {
           return <ServicesDropdown key={item.label} pathname={pathname} onNavigate={onNavigate} />;

@@ -19,11 +19,11 @@ export function OrbitFlag({
   const src = `https://flagcdn.com/w${flagWidth}/${code}.png`;
 
   if (variant === "hero") {
-    const boxH = 46;
-    const boxW = 64;
+    const boxH = 28;
+    const boxW = 40;
     return (
       <span
-        className="inline-flex shrink-0 items-center justify-center bg-transparent"
+        className="inline-flex shrink-0 items-center justify-center overflow-hidden rounded-[3px] bg-transparent"
         style={{ width: boxW, height: boxH }}
         title={name}
       >
@@ -32,7 +32,7 @@ export function OrbitFlag({
           alt=""
           width={boxW}
           height={boxH}
-          className="max-h-full max-w-full object-contain object-center opacity-80"
+          className="h-full w-full object-cover object-center"
           decoding="async"
         />
         <span className="sr-only">{name}</span>

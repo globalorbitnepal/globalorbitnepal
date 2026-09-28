@@ -29,11 +29,11 @@ export function SiteHeader(_props: SiteHeaderProps) {
       <header
         className={`pointer-events-none inset-x-0 top-0 z-50 text-white ${home ? "absolute" : "fixed"}`}
       >
-        <div className="pointer-events-auto mx-auto flex max-w-[1600px] items-center gap-2 px-4 pt-2 sm:gap-3 sm:px-6 sm:pt-2.5 lg:gap-4 lg:px-10 lg:pt-3">
+        <div className="pointer-events-auto mx-auto flex max-w-[1680px] items-center gap-3 px-4 pt-3 sm:px-6 sm:pt-3.5 lg:px-8 lg:pt-4 xl:px-10">
           <BrandLogo priority variant="bar" />
 
           <nav aria-label="Main navigation" className="hidden min-w-0 flex-1 justify-center lg:flex">
-            <div className="orbit-header-glass orbit-header-glass-light inline-flex h-12 min-h-12 max-w-full items-center rounded-full px-4 py-0 sm:px-5 xl:px-7">
+            <div className="orbit-header-glass orbit-header-glass-light inline-flex h-11 max-w-full items-center rounded-full px-2 py-0">
               <StudioHeaderNav />
             </div>
           </nav>

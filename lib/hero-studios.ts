@@ -13,6 +13,8 @@ export const DEFAULT_HERO_STUDIOS: HeroStudioLocation[] = [
 export const DEFAULT_GLOBAL_TAGLINE =
   "Work originates in Kathmandu, India, and the United States — not a single-city shop pretending to be global.";
 
+export const DEFAULT_STUDIOS_KICKER = "Working across";
+
 export function parseHeroStudios(raw: unknown): HeroStudioLocation[] {
   if (!Array.isArray(raw) || raw.length === 0) {
     return DEFAULT_HERO_STUDIOS;

@@ -73,7 +73,7 @@ export function OrbitStudioHero({ config }: Props) {
   return (
     <section
       ref={stageRef}
-      className="relative isolate min-h-[100svh] min-h-[100dvh] overflow-x-clip bg-[#07070c] text-white"
+      className="orbit-studio-hero relative isolate overflow-hidden bg-[#07070c] text-white"
       aria-labelledby="home-hero-heading"
     >
       <div
@@ -99,49 +99,40 @@ export function OrbitStudioHero({ config }: Props) {
 
       <div className="orbit-studio-hero-veil pointer-events-none absolute inset-0 z-[1]" />
 
-      <div className="orbit-studio-hero-shell relative z-[2] mx-auto grid min-h-[100svh] min-h-[100dvh] w-full max-w-[1600px] grid-cols-1 grid-rows-[minmax(0,1fr)_auto_minmax(0.45rem,1.15vh)_auto_minmax(0,1fr)] px-5 pb-8 pt-[7.25rem] sm:px-6 sm:pb-9 sm:pt-[7.75rem] md:px-8 lg:px-10 lg:pb-10 lg:pt-[8.25rem] xl:pb-12">
-        <div className="orbit-studio-hero-copy col-start-1 row-start-2 w-full max-w-[44rem] pt-2 text-left sm:pt-4 lg:pt-5">
-          <p className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/[0.06] px-3.5 py-1.5 text-[13px] font-medium text-white/85 backdrop-blur-md">
+      <div className="orbit-studio-hero-shell relative z-[2] mx-auto flex h-full w-full max-w-[1680px] flex-col">
+        <div className="orbit-studio-hero-copy w-full max-w-[min(42rem,52vw)] text-left">
+          <p className="orbit-hero-eyebrow">
+            <span className="orbit-hero-eyebrow-dot" aria-hidden="true" />
             {config.eyebrow}
           </p>
-          <h1
-            id="home-hero-heading"
-            className="orbit-hero-headline mt-5 font-[family-name:var(--font-jakarta)] text-[clamp(2.3rem,1.15rem+4.35vw,5.45rem)] font-semibold leading-[1.05] tracking-[-0.05em] sm:mt-6"
-          >
-            {config.headline}
-            {config.headlineSecond ? <span className="block">{config.headlineSecond}</span> : null}
+          <h1 id="home-hero-heading" className="orbit-hero-headline">
+            <span className="block">{config.headline}</span>
+            {config.headlineSecond ? (
+              <span className="orbit-hero-headline-accent block">{config.headlineSecond}</span>
+            ) : null}
           </h1>
-          <p className="orbit-hero-lede mt-4 max-w-[34rem] text-[clamp(1.05rem,0.92rem+0.38vw,1.3rem)] leading-[1.65] text-white/68 sm:mt-5 sm:leading-[1.7]">
-            {config.lede}
-          </p>
-          <div className="orbit-hero-cta mt-6 sm:mt-8">
-            <Link
-              href={config.primaryHref}
-              className="inline-flex h-12 items-center justify-center rounded-full bg-[#1a1a22] px-8 text-[16px] font-medium text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.12)] ring-1 ring-white/10 hover:bg-[#22222c] sm:h-[3.25rem] sm:px-9"
-            >
+          <p className="orbit-hero-lede">{config.lede}</p>
+          <div className="orbit-hero-cta">
+            <Link href={config.primaryHref} className="orbit-hero-cta-btn">
               {config.primaryLabel}
             </Link>
           </div>
         </div>
 
-        <div className="orbit-studio-hero-foot col-start-1 row-start-4 w-full max-w-[min(100%,44rem)] lg:max-w-[42rem]">
-          <p className="orbit-hero-tagline max-w-[34rem] text-[14px] leading-[1.6] text-white/55 sm:text-[15px] sm:leading-[1.65]">
-            {config.globalTagline}
-          </p>
-          <ul className="mt-3.5 flex flex-wrap items-end gap-x-7 gap-y-3 sm:mt-4 sm:gap-x-9 sm:gap-y-4">
+        <div className="orbit-studio-hero-foot mt-auto w-full max-w-[min(100%,46rem)]">
+          <p className="orbit-hero-studios-kicker">{config.studiosKicker}</p>
+          <ul className="orbit-hero-studios">
             {config.studios.map((studio) => (
-              <li key={studio.code} className="flex items-center gap-2.5 sm:gap-3">
+              <li key={studio.code} className="orbit-hero-studio">
                 <OrbitFlag code={studio.code} name={studio.label} hd variant="hero" />
-                <span className="flex flex-col pb-0.5">
-                  <span className="text-[15px] font-semibold leading-tight text-white/90 sm:text-[16px]">{studio.label}</span>
-                  <span className="text-[11px] text-white/42 sm:text-[12px]">{studio.city}</span>
+                <span className="flex flex-col">
+                  <span className="orbit-hero-studio-name">{studio.label}</span>
+                  <span className="orbit-hero-studio-city">{studio.city}</span>
                 </span>
               </li>
             ))}
           </ul>
-          <div className="mt-5 sm:mt-6">
-            <OrbitHeroTrustMarquee logos={config.trustLogos} label={config.trustMarqueeLabel} />
-          </div>
+          <OrbitHeroTrustMarquee logos={config.trustLogos} label={config.trustMarqueeLabel} />
         </div>
       </div>
     </section>

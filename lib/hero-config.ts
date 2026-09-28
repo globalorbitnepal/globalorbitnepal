@@ -1,4 +1,10 @@
-import { DEFAULT_GLOBAL_TAGLINE, DEFAULT_HERO_STUDIOS, parseHeroStudios, type HeroStudioLocation } from "@/lib/hero-studios";
+import {
+  DEFAULT_GLOBAL_TAGLINE,
+  DEFAULT_HERO_STUDIOS,
+  DEFAULT_STUDIOS_KICKER,
+  parseHeroStudios,
+  type HeroStudioLocation,
+} from "@/lib/hero-studios";
 import { DEFAULT_HERO_TRUST_LOGOS, parseTrustLogos, type HeroTrustLogo } from "@/lib/hero-trust-logos";
 
 export type { HeroTrustLogo, HeroStudioLocation };
@@ -19,15 +25,16 @@ export type HeroConfig = {
   trustLogos: HeroTrustLogo[];
   trustMarqueeLabel: string;
   globalTagline: string;
+  studiosKicker: string;
   studios: HeroStudioLocation[];
 };
 
 export const DEFAULT_HERO: HeroConfig = {
-  eyebrow: "Web · Apps · SEO",
+  eyebrow: "WEB · APPS · SEO",
   headline: "Precise approach",
   headlineSecond: "to your product.",
   lede: "We specialize in guiding you from your original idea to a high-quality website, custom app, and SEO programme that fuels your growth.",
-  primaryLabel: "Start a project",
+  primaryLabel: "Start a project →",
   primaryHref: "/contact",
   secondaryLabel: "Know more",
   secondaryHref: "/projects",
@@ -38,6 +45,7 @@ export const DEFAULT_HERO: HeroConfig = {
   trustLogos: DEFAULT_HERO_TRUST_LOGOS,
   trustMarqueeLabel: "Enterprises that trust us",
   globalTagline: DEFAULT_GLOBAL_TAGLINE,
+  studiosKicker: DEFAULT_STUDIOS_KICKER,
   studios: DEFAULT_HERO_STUDIOS,
 };
 
@@ -48,11 +56,14 @@ export function parseHeroConfig(raw: unknown): HeroConfig {
     return typeof value === "string" && value.trim() ? value : fallback;
   };
   return {
-    eyebrow: str("eyebrow", DEFAULT_HERO.eyebrow),
+    eyebrow: str("eyebrow", DEFAULT_HERO.eyebrow) === "Web · Apps · SEO" ? DEFAULT_HERO.eyebrow : str("eyebrow", DEFAULT_HERO.eyebrow),
     headline: str("headline", DEFAULT_HERO.headline),
     headlineSecond: str("headlineSecond", DEFAULT_HERO.headlineSecond),
     lede: str("lede", DEFAULT_HERO.lede),
-    primaryLabel: str("primaryLabel", DEFAULT_HERO.primaryLabel),
+    primaryLabel:
+      str("primaryLabel", DEFAULT_HERO.primaryLabel) === "Start a project"
+        ? DEFAULT_HERO.primaryLabel
+        : str("primaryLabel", DEFAULT_HERO.primaryLabel),
     primaryHref: str("primaryHref", DEFAULT_HERO.primaryHref),
     secondaryLabel: str("secondaryLabel", DEFAULT_HERO.secondaryLabel),
     secondaryHref: str("secondaryHref", DEFAULT_HERO.secondaryHref),
@@ -63,6 +74,7 @@ export function parseHeroConfig(raw: unknown): HeroConfig {
     trustLogos: parseTrustLogos(data.trustLogos),
     trustMarqueeLabel: str("trustMarqueeLabel", DEFAULT_HERO.trustMarqueeLabel),
     globalTagline: str("globalTagline", DEFAULT_HERO.globalTagline),
+    studiosKicker: str("studiosKicker", DEFAULT_HERO.studiosKicker),
     studios: parseHeroStudios(data.studios),
   };
 }

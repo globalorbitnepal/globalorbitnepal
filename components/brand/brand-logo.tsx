@@ -15,7 +15,7 @@ export function BrandLogo({ priority = false, variant = "default" }: BrandLogoPr
       href="/"
       className={`relative z-[2] block shrink-0 self-center ${
         bar
-          ? "h-[68px] w-[min(220px,62vw)] sm:h-[80px] sm:w-[min(240px,56vw)] md:h-[92px] lg:h-[104px] lg:w-[240px] xl:h-[112px] xl:w-[240px]"
+          ? "h-[44px] w-[min(168px,52vw)] sm:h-[48px] sm:w-[180px] lg:h-[52px] lg:w-[196px] xl:h-[56px] xl:w-[210px]"
           : hero
             ? "h-[88px] w-[min(280px,78vw)] sm:h-[104px] sm:w-[min(340px,70vw)] lg:h-[118px] lg:w-[255px] xl:h-[128px] xl:w-[255px]"
             : "h-[56px] w-[220px] sm:h-[64px] sm:w-[260px]"

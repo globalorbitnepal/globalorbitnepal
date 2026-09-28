@@ -13,14 +13,14 @@ function TrustMark({ logo }: { logo: HeroTrustLogo }) {
       <img
         src={logo.imageSrc}
         alt=""
-        className="h-[29px] w-auto max-w-[9.9rem] object-contain opacity-90 brightness-0 invert"
+        className="h-[26px] w-auto max-w-[8.5rem] object-contain brightness-0 invert sm:h-[28px]"
         loading="lazy"
         decoding="async"
       />
     );
   }
   return (
-    <span className="whitespace-nowrap font-[family-name:var(--font-jakarta)] text-[17px] font-semibold tracking-[0.04em] text-white/72">
+    <span className="whitespace-nowrap font-[family-name:var(--font-jakarta)] text-[13px] font-semibold tracking-[0.06em] text-white/88 sm:text-[14px]">
       {logo.label}
     </span>
   );
@@ -31,12 +31,12 @@ export function OrbitHeroTrustMarquee({ logos, label = "Enterprises that trust u
   const row = [...logos, ...logos];
 
   return (
-    <div className="w-full" aria-label={label}>
-      <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.28em] text-white/38 sm:text-[12px]">{label}</p>
+    <div className="orbit-hero-trust mt-4 w-full sm:mt-5" aria-label={label}>
+      <p className="orbit-hero-trust-label">{label}</p>
       <div className="relative overflow-hidden">
-        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-8 bg-gradient-to-r from-[#07070c] to-transparent sm:w-12" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-[#07070c] via-[#07070c]/80 to-transparent sm:w-24" />
-        <div className="orbit-hero-trust-marquee-track flex w-max items-center gap-x-10 sm:gap-x-12">
+        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-6 bg-gradient-to-r from-[#07070c] to-transparent sm:w-10" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-14 bg-gradient-to-l from-[#07070c] via-[#07070c]/70 to-transparent sm:w-20" />
+        <div className="orbit-hero-trust-marquee-track flex w-max items-center gap-x-8 sm:gap-x-10">
           {row.map((logo, index) => (
             <div key={`${logo.id}-${index}`} className="flex shrink-0 items-center">
               <TrustMark logo={logo} />

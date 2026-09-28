@@ -295,9 +295,10 @@ export function OrbitHeroEditor({ initial, needsSetup, authed }: Props) {
 
         <Panel
           title="Global studios row"
-          description="White flags with country and city — shown under the tagline on the hero."
+          description="WORKING ACROSS label, flags, country and city under the Start a project button."
         >
-          <Field label="Tagline above flags" value={config.globalTagline} onChange={set("globalTagline")} multiline />
+          <Field label="Studios kicker" value={config.studiosKicker} onChange={set("studiosKicker")} hint="Shown above flags, e.g. Working across" />
+          <Field label="Optional long tagline (not shown on live hero)" value={config.globalTagline} onChange={set("globalTagline")} multiline />
           {config.studios.map((studio, index) => (
             <div key={`studio-${index}`} className="rounded-2xl border border-white/10 bg-black/25 p-4">
               <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-white/45">Location {index + 1}</p>
