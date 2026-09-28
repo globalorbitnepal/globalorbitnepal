@@ -2,7 +2,17 @@
 
 import Link from "next/link";
 import { useEffect, useRef } from "react";
+import { OrbitFlag } from "@/components/orbit/flags";
 import type { HeroConfig } from "@/lib/hero-config";
+
+const GLOBAL_STUDIOS = [
+  { code: "np", label: "Nepal", city: "Kathmandu" },
+  { code: "in", label: "India", city: "Delhi (NCR)" },
+  { code: "us", label: "USA", city: "United States" },
+] as const;
+
+const GLOBAL_TAGLINE =
+  "Work originates in Kathmandu, India, and the United States — not a single-city shop pretending to be global.";
 
 type Props = {
   config: HeroConfig;
@@ -64,8 +74,8 @@ export function OrbitStudioHero({ config }: Props) {
 
       <div className="orbit-studio-hero-veil pointer-events-none absolute inset-0 z-[1]" />
 
-      <div className="relative z-[2] mx-auto flex min-h-[100svh] w-full max-w-[1600px] items-center justify-center px-5 pb-16 pt-[7.5rem] sm:px-6 sm:pt-[8.5rem] lg:pt-[8.75rem]">
-        <div className="w-full max-w-[min(40rem,92vw)] text-center lg:max-w-[40rem] lg:text-left">
+      <div className="relative z-[2] mx-auto flex min-h-[100svh] w-full max-w-[1600px] items-center justify-start px-5 pb-16 pt-[7.5rem] sm:px-6 sm:pt-[8.5rem] lg:px-10 lg:pt-[8.75rem]">
+        <div className="w-full max-w-[40rem] text-left">
           <p className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/[0.06] px-3 py-1 text-[11px] font-medium text-white/85 backdrop-blur-md">
             {config.eyebrow}
           </p>
@@ -87,19 +97,17 @@ export function OrbitStudioHero({ config }: Props) {
               {config.primaryLabel}
             </Link>
           </div>
-          <p className="mt-10 text-[12px] font-medium text-white/45">List your app on</p>
-          <ul className="mt-3 flex flex-wrap items-center gap-7 text-[13px] font-medium text-white/80">
-            <li className="inline-flex items-center gap-2">
-              <span aria-hidden="true">▶</span> Play store
-            </li>
-            <li className="inline-flex items-center gap-2">
-              <span aria-hidden="true">
-                <svg width="14" height="16" viewBox="0 0 14 16" fill="currentColor">
-                  <path d="M11.2 8.4c0-1.9 1.6-2.8 1.6-2.9-0.9-1.3-2.3-1.5-2.8-1.5-1.2-0.1-2.3.7-2.9.7-0.6 0-1.6-.7-2.6-.7-1.3 0-2.6.8-3.3 2-1.4 2.4-0.4 6 1 8 0.7 1 1.5 2 2.6 2 1 0 1.4-.7 2.7-.7s1.6.7 2.7.7c1.1 0 1.8-1 2.5-1.9 0.8-1.1 1.1-2.2 1.1-2.2s-2.2-.9-2.2-3.5zM9.3 2.9c.6-.7 1-1.7.9-2.7-0.9.1-1.9.6-2.5 1.3-0.6.6-1.1 1.6-1 2.6 1 .1 1.9-.5 2.6-1.2z" />
-                </svg>
-              </span>
-              App store
-            </li>
+          <p className="mt-10 max-w-[32rem] text-[13px] leading-[1.65] text-white/55">{GLOBAL_TAGLINE}</p>
+          <ul className="mt-6 flex flex-wrap items-center gap-x-8 gap-y-4">
+            {GLOBAL_STUDIOS.map((studio) => (
+              <li key={studio.code} className="flex items-center gap-3">
+                <OrbitFlag code={studio.code} name={studio.label} size={54} hd rounded="rect" />
+                <span className="flex flex-col">
+                  <span className="text-[14px] font-semibold leading-tight text-white/92">{studio.label}</span>
+                  <span className="text-[11px] text-white/45">{studio.city}</span>
+                </span>
+              </li>
+            ))}
           </ul>
         </div>
       </div>

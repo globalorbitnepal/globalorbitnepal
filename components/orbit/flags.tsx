@@ -5,21 +5,24 @@ export function OrbitFlag({
   name,
   size = 36,
   rounded = "rect",
+  hd = false,
 }: {
   code: string;
   name: string;
   size?: number;
   rounded?: "rect" | "full";
+  hd?: boolean;
 }) {
   const height = rounded === "full" ? size : Math.round(size * 0.75);
+  const flagWidth = hd ? 160 : 80;
   return (
     <span className="inline-flex items-center" title={name}>
       <img
-        src={`https://flagcdn.com/w80/${code}.png`}
+        src={`https://flagcdn.com/w${flagWidth}/${code}.png`}
         alt=""
         width={size}
         height={height}
-        className={`${rounded === "full" ? "h-full w-full rounded-full" : "rounded-[3px]"} object-cover shadow-[0_4px_12px_rgba(0,0,0,0.35)] ring-1 ring-white/25`}
+        className={`${rounded === "full" ? "h-full w-full rounded-full" : "rounded-[4px]"} object-cover shadow-[0_4px_14px_rgba(0,0,0,0.4)] ring-1 ring-white/30`}
         style={rounded === "full" ? { width: size, height: size } : undefined}
       />
       <span className="sr-only">{name}</span>
