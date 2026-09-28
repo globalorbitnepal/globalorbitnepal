@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { BrandLogo } from "@/components/brand/brand-logo";
@@ -8,7 +7,7 @@ import {
   BookAppointmentButton,
   BookAppointmentModal,
 } from "@/components/layout/book-appointment-modal";
-import { NavLinks } from "@/components/layout/nav-links";
+import { StudioHeaderNav, StudioHeaderNavMobile } from "@/components/layout/studio-header-nav";
 import type { FallbackNavItem } from "@/lib/site";
 
 type SiteHeaderProps = {
@@ -18,7 +17,7 @@ type SiteHeaderProps = {
   phone?: string;
 };
 
-export function SiteHeader({ items }: SiteHeaderProps) {
+export function SiteHeader(_props: SiteHeaderProps) {
   const [open, setOpen] = useState(false);
   const [appointmentOpen, setAppointmentOpen] = useState(false);
   const pathname = usePathname();
@@ -31,8 +30,8 @@ export function SiteHeader({ items }: SiteHeaderProps) {
           <BrandLogo priority variant="bar" />
 
           <nav aria-label="Main navigation" className="hidden min-w-0 flex-1 justify-center lg:flex">
-            <div className="orbit-header-glass inline-flex h-11 items-center rounded-full px-4 py-0 xl:px-7">
-              <NavLinks items={items} variant="headerStudio" />
+            <div className="orbit-header-glass orbit-header-glass-light inline-flex h-11 max-w-full items-center rounded-full px-3 py-0 sm:px-4 xl:px-6">
+              <StudioHeaderNav />
             </div>
           </nav>
 
@@ -58,33 +57,19 @@ export function SiteHeader({ items }: SiteHeaderProps) {
             id="mobile-nav"
             className="pointer-events-auto mx-4 mt-2 rounded-[28px] border border-white/12 bg-[#0b0b12]/92 px-4 py-4 backdrop-blur-xl lg:hidden"
           >
-            <ul className="flex flex-col gap-1 text-[15px] font-semibold">
-              {items.map((item) => (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className={`block rounded-xl px-3 py-3 ${
-                      pathname === item.href ? "text-white" : "text-white/80"
-                    }`}
-                    onClick={() => setOpen(false)}
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-              <li>
-                <button
-                  type="button"
-                  className="block w-full rounded-xl px-3 py-3 text-left text-[#f0c43a]"
-                  onClick={() => {
-                    setOpen(false);
-                    setAppointmentOpen(true);
-                  }}
-                >
-                  Book Appointment
-                </button>
-              </li>
-            </ul>
+            <div className="flex flex-col gap-1">
+              <StudioHeaderNavMobile onNavigate={() => setOpen(false)} />
+              <button
+                type="button"
+                className="block w-full rounded-xl px-3 py-3 text-left text-[15px] font-semibold text-[#f0c43a]"
+                onClick={() => {
+                  setOpen(false);
+                  setAppointmentOpen(true);
+                }}
+              >
+                Book Appointment
+              </button>
+            </div>
           </div>
         ) : null}
       </header>

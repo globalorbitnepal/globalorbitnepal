@@ -99,7 +99,7 @@ export function OrbitStudioHero({ config }: Props) {
 
       <div className="orbit-studio-hero-veil pointer-events-none absolute inset-0 z-[1]" />
 
-      <div className="orbit-studio-hero-shell relative z-[2] mx-auto flex min-h-[100svh] min-h-[100dvh] w-full max-w-[1600px] flex-col px-5 pb-5 pt-[7.25rem] sm:px-6 sm:pb-6 sm:pt-[7.75rem] md:px-8 lg:px-10 lg:pb-8 lg:pt-[8.25rem]">
+      <div className="orbit-studio-hero-shell relative z-[2] mx-auto flex min-h-[100svh] min-h-[100dvh] w-full max-w-[1600px] flex-col px-5 pb-6 pt-[7.25rem] sm:px-6 sm:pb-6 sm:pt-[7.75rem] md:px-8 lg:px-10 lg:pb-8 lg:pt-[8.25rem]">
         <div className="orbit-studio-hero-copy w-full max-w-[40rem] shrink-0 text-left">
           <p className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/[0.06] px-3 py-1 text-[11px] font-medium text-white/85 backdrop-blur-md">
             {config.eyebrow}
@@ -122,13 +122,13 @@ export function OrbitStudioHero({ config }: Props) {
               {config.primaryLabel}
             </Link>
           </div>
-          <p className="orbit-hero-tagline mt-6 max-w-[32rem] text-[12px] leading-[1.6] text-white/55 sm:mt-8 sm:text-[13px] sm:leading-[1.65]">
-            {config.globalTagline}
-          </p>
         </div>
 
-        <div className="orbit-studio-hero-foot mt-auto w-full max-w-[min(100%,42rem)] shrink-0 pt-5 sm:pt-6 lg:max-w-[40rem]">
-          <ul className="flex flex-wrap items-end gap-x-6 gap-y-3 sm:gap-x-9 sm:gap-y-4">
+        <div className="orbit-studio-hero-foot w-full max-w-[min(100%,42rem)] shrink-0 lg:max-w-[40rem]">
+          <p className="orbit-hero-tagline max-w-[32rem] text-[12px] leading-[1.6] text-white/55 sm:text-[13px] sm:leading-[1.65]">
+            {config.globalTagline}
+          </p>
+          <ul className="mt-3 flex flex-wrap items-end gap-x-6 gap-y-3 sm:mt-4 sm:gap-x-9 sm:gap-y-4">
             {config.studios.map((studio) => (
               <li key={studio.code} className="flex items-center gap-2.5 sm:gap-3">
                 <OrbitFlag code={studio.code} name={studio.label} hd variant="hero" />
@@ -139,7 +139,7 @@ export function OrbitStudioHero({ config }: Props) {
               </li>
             ))}
           </ul>
-          <div className="mt-5 sm:mt-6">
+          <div className="mt-4 sm:mt-5">
             <OrbitHeroTrustMarquee logos={config.trustLogos} label={config.trustMarqueeLabel} />
           </div>
         </div>

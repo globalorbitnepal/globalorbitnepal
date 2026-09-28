@@ -121,7 +121,7 @@ export const ORBIT_SOLUTIONS: OrbitCard[] = [
     slug: "ai-automation",
     title: "AI Automation",
     summary: "Chatbots, workflow automation, AI content generation, and intelligent business systems.",
-    href: "/service/digital-marketing-nepal",
+    href: "/service/ai-automation",
   },
   {
     slug: "ui-ux",
@@ -179,6 +179,12 @@ export const ORBIT_SERVICE_PAGES: OrbitCard[] = [
     title: "Digital Marketing Nepal",
     summary: "Complete digital marketing services in Nepal including SEO, Google Ads, and social media.",
     href: "/service/digital-marketing-nepal",
+  },
+  {
+    slug: "ai-automation",
+    title: "AI Automation",
+    summary: "Chatbots, workflow automation, AI content generation, and intelligent business systems.",
+    href: "/service/ai-automation",
   },
 ];
 
