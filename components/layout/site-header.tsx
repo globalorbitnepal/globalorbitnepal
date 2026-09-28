@@ -33,7 +33,7 @@ export function SiteHeader({ items }: SiteHeaderProps) {
 
         <Link
           href="/contact"
-          className="orbit-header-glass ml-auto hidden h-11 items-center rounded-full px-6 text-[14px] font-medium text-white hover:bg-white/10 lg:inline-flex"
+          className="orbit-header-glass orbit-header-nav-link ml-auto hidden h-11 items-center rounded-full px-6 text-[17px] font-medium hover:bg-white/10 lg:inline-flex"
         >
           Contact Us
         </Link>

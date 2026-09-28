@@ -35,7 +35,7 @@ export function NavLinks({ items, variant = "header" }: NavLinksProps) {
         isFooter
           ? "mt-4 flex flex-col gap-2.5 text-sm"
           : isStudio
-            ? "flex flex-nowrap items-center gap-5 text-[13px] font-medium tracking-[-0.015em] xl:gap-7 xl:text-[14px]"
+            ? "orbit-header-nav-list flex flex-nowrap items-center gap-5 text-[16px] font-medium tracking-[-0.02em] xl:gap-7 xl:text-[17px]"
             : isReference
             ? "flex flex-nowrap items-center gap-5 text-[14px] font-semibold tracking-[0.01em] xl:gap-8 xl:text-[15px]"
             : isPremium
@@ -53,9 +53,8 @@ export function NavLinks({ items, variant = "header" }: NavLinksProps) {
         if (isFooter) {
           className += " text-white/70 hover:text-white";
         } else if (isStudio) {
-          className += current
-            ? " text-white underline decoration-[#f0c43a] decoration-2 underline-offset-[10px]"
-            : " text-white/78 hover:text-white";
+          className += " orbit-header-nav-link";
+          className += current ? " is-active" : "";
         } else if (isReference) {
           className += current
             ? " border-b-2 border-[#f0c43a] pb-2 text-[#f0c43a]"

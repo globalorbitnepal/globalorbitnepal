@@ -64,8 +64,8 @@ export function OrbitStudioHero({ config }: Props) {
 
       <div className="orbit-studio-hero-veil pointer-events-none absolute inset-0 z-[1]" />
 
-      <div className="relative z-[2] mx-auto flex min-h-[100svh] w-full max-w-[1600px] items-center px-5 pb-16 pt-[7.5rem] sm:px-8 sm:pt-[8.5rem] lg:px-12 lg:pt-[8.75rem]">
-        <div className="w-full max-w-[36rem] lg:max-w-[40rem]">
+      <div className="relative z-[2] mx-auto flex min-h-[100svh] w-full max-w-[1600px] items-center justify-center px-5 pb-16 pt-[7.5rem] sm:px-6 sm:pt-[8.5rem] lg:pt-[8.75rem]">
+        <div className="w-full max-w-[min(40rem,92vw)] text-center lg:max-w-[40rem] lg:text-left">
           <p className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/[0.06] px-3 py-1 text-[11px] font-medium text-white/85 backdrop-blur-md">
             {config.eyebrow}
           </p>
