@@ -4,7 +4,7 @@ import { getHeroConfig } from "@/lib/hero-store";
 import { hasOrbitPassword, isOrbitAuthed } from "@/lib/orbit-auth";
 
 export const metadata: Metadata = {
-  title: "Orbit editor",
+  title: "Orbit",
   robots: { index: false, follow: false },
 };
 

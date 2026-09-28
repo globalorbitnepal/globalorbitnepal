@@ -715,3 +715,74 @@ li.orbit-card:hover {
     animation: none;
   }
 }
+
+@keyframes orbit-appointment-backdrop-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes orbit-appointment-panel-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 28px, 0) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes orbit-appointment-success-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 12px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.orbit-appointment-backdrop {
+  animation: orbit-appointment-backdrop-in 0.28s ease-out both;
+}
+
+.orbit-appointment-panel {
+  animation: orbit-appointment-panel-in 0.38s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.orbit-appointment-success {
+  animation: orbit-appointment-success-in 0.45s ease-out both;
+}
+
+.orbit-book-appointment-btn {
+  transition:
+    transform 0.22s ease,
+    box-shadow 0.22s ease,
+    background 0.22s ease;
+}
+
+.orbit-book-appointment-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+}
+
+.orbit-book-appointment-btn:active {
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orbit-appointment-backdrop,
+  .orbit-appointment-panel,
+  .orbit-appointment-success {
+    animation: none;
+  }
+
+  .orbit-book-appointment-btn:hover {
+    transform: none;
+  }
+}

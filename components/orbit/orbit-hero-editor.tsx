@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState, type ReactNode } from "react";
+import { OrbitAppointmentsPanel } from "@/components/orbit/orbit-appointments-panel";
 import type { HeroConfig } from "@/lib/hero-config";
 import type { HeroStudioLocation } from "@/lib/hero-studios";
 import type { HeroTrustLogo } from "@/lib/hero-trust-logos";
@@ -201,14 +202,18 @@ export function OrbitHeroEditor({ initial, needsSetup, authed }: Props) {
     <div className="mx-auto max-w-3xl px-4 py-12 text-white">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h1 className="font-[family-name:var(--font-jakarta)] text-3xl font-semibold">Homepage hero</h1>
+          <h1 className="font-[family-name:var(--font-jakarta)] text-3xl font-semibold">Orbit</h1>
           <p className="mt-2 max-w-xl text-sm text-white/60">
-            Matches the live studio hero: copy, Nepal · India · USA row, product video, and sliding client logos.
+            Homepage hero, client marquee, and appointment requests from the live site header.
           </p>
         </div>
         <Link href="/" className="text-sm font-medium text-[#f0c43a] hover:underline">
           Open homepage →
         </Link>
+      </div>
+
+      <div className="mt-8">
+        <OrbitAppointmentsPanel />
       </div>
 
       <form onSubmit={save} className="mt-8 space-y-6">
