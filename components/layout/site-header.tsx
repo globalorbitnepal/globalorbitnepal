@@ -25,48 +25,32 @@ export function SiteHeader({ items }: SiteHeaderProps) {
     >
       <div
         className={`pointer-events-auto w-full transition-all duration-300 ${
-          home ? "bg-transparent" : "border-b border-white/12 bg-[#06101f]/82 backdrop-blur-2xl"
+          home ? "bg-transparent" : "border-b border-white/12 bg-[#07070b]/88 backdrop-blur-2xl"
         }`}
       >
         <div
-          className={`mx-auto flex w-full max-w-[1720px] items-center gap-3 px-4 sm:gap-5 sm:px-6 lg:gap-8 lg:px-10 xl:px-12 ${
-            home ? "h-[4.5rem] sm:h-[5rem] lg:h-[5.75rem]" : "h-16 sm:h-[72px] lg:h-[82px]"
+          className={`mx-auto flex w-full max-w-[1440px] items-center gap-3 px-4 sm:gap-5 sm:px-8 lg:px-12 ${
+            home ? "h-[4.75rem] sm:h-[5.25rem]" : "h-16 sm:h-[72px] lg:h-[82px]"
           }`}
         >
           <BrandLogo priority variant={home ? "hero" : "default"} />
           <nav aria-label="Main navigation" className="hidden min-w-0 flex-1 justify-center lg:flex">
-            {home ? (
-              <NavLinks items={items} variant="headerReference" />
-            ) : (
-              <div className="orbit-nav-glass inline-flex max-w-full items-center overflow-x-auto rounded-full px-1.5 py-1 xl:px-2 xl:py-1.5">
-                <NavLinks items={items} variant="headerPremium" />
-              </div>
-            )}
+            <div className="orbit-studio-nav inline-flex max-w-full items-center overflow-x-auto rounded-full px-2 py-1.5">
+              <NavLinks items={items} variant={home ? "headerReference" : "headerPremium"} />
+            </div>
           </nav>
           <Link
             href="/contact"
-            className={`ml-auto hidden items-center gap-3 rounded-full bg-[#f0c43a] font-bold text-[#1a1408] shadow-[0_12px_32px_rgba(240,196,58,0.32)] transition-colors hover:bg-[#ffe38a] lg:inline-flex ${
-              home ? "h-12 pl-7 pr-2 text-[15px]" : "h-11 gap-2 px-6 text-[14px]"
-            }`}
+            className="orbit-studio-nav ml-auto hidden h-11 items-center rounded-full px-6 text-[14px] font-semibold text-white hover:bg-white/10 lg:inline-flex"
           >
-            Get Started
-            {home ? (
-              <span
-                className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#12100a] text-[15px] text-[#f0c43a]"
-                aria-hidden="true"
-              >
-                →
-              </span>
-            ) : (
-              <span aria-hidden="true">→</span>
-            )}
+            Contact Us
           </Link>
           <div className="ml-auto flex items-center gap-2 lg:hidden">
             <Link
               href="/contact"
-              className="inline-flex h-9 items-center rounded-full bg-[#f0c43a] px-3.5 text-[12px] font-bold text-[#1a1408] sm:h-10 sm:px-4 sm:text-[13px]"
+              className="inline-flex h-9 items-center rounded-full bg-white px-3.5 text-[12px] font-bold text-[#0b0b10] sm:h-10 sm:px-4 sm:text-[13px]"
             >
-              Get Started
+              Contact
             </Link>
             <button
               type="button"
@@ -85,7 +69,7 @@ export function SiteHeader({ items }: SiteHeaderProps) {
         {open ? (
           <div
             id="mobile-nav"
-            className="border-t border-white/10 bg-[#06101f]/98 px-4 py-4 backdrop-blur-xl lg:hidden"
+            className="border-t border-white/10 bg-[#07070b]/98 px-4 py-4 backdrop-blur-xl lg:hidden"
           >
             <ul className="flex flex-col gap-1 text-[15px] font-semibold">
               {items.map((item) => (
@@ -104,11 +88,10 @@ export function SiteHeader({ items }: SiteHeaderProps) {
             </ul>
             <Link
               href="/contact"
-              className="mt-4 inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-[#f0c43a] px-6 text-sm font-bold text-[#1a1408]"
+              className="mt-4 inline-flex h-12 w-full items-center justify-center rounded-full bg-white px-6 text-sm font-bold text-[#0b0b10]"
               onClick={() => setOpen(false)}
             >
-              Get Started
-              <span aria-hidden="true">→</span>
+              Contact Us
             </Link>
           </div>
         ) : null}

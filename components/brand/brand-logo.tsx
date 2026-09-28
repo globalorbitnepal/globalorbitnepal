@@ -14,23 +14,19 @@ export function BrandLogo({ priority = false, variant = "default" }: BrandLogoPr
       href="/"
       className={`relative block shrink-0 ${
         hero
-          ? "h-10 w-[172px] sm:h-12 sm:w-[210px] lg:h-[52px] lg:w-[248px]"
-          : "h-9 w-[158px] sm:h-11 sm:w-[200px] lg:h-[48px] lg:w-[228px]"
+          ? "h-11 w-[168px] sm:h-12 sm:w-[196px] lg:h-[54px] lg:w-[220px]"
+          : "h-10 w-[156px] sm:h-11 sm:w-[180px] lg:h-[50px] lg:w-[200px]"
       }`}
       aria-label="Global Orbit Pvt Ltd"
     >
       <Image
-        src="/brand/logo-clear.png"
+        src="/brand/logo-official-gold.png"
         alt="Global Orbit Pvt Ltd"
-        width={514}
-        height={108}
+        width={600}
+        height={400}
         priority={priority}
         unoptimized
-        className={`object-contain object-left drop-shadow-[0_8px_22px_rgba(0,0,0,0.45)] ${
-          hero
-            ? "h-10 w-[172px] sm:h-12 sm:w-[210px] lg:h-[52px] lg:w-[248px]"
-            : "h-9 w-[158px] sm:h-11 sm:w-[200px] lg:h-[48px] lg:w-[228px]"
-        }`}
+        className={`h-full w-full object-contain object-left drop-shadow-[0_10px_24px_rgba(0,0,0,0.45)]`}
       />
     </Link>
   );

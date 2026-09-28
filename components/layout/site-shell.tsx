@@ -27,7 +27,7 @@ export function SiteShell({
   children,
 }: SiteShellProps) {
   return (
-    <div className="flex min-h-full flex-col bg-[#06122e] text-[#e8eef8]">
+    <div className="flex min-h-full flex-col bg-[#07070b] text-[#e8eef8]">
       <a
         href="#main-content"
         className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-full focus:bg-[#f0c43a] focus:px-4 focus:py-2 focus:text-sm focus:text-[#1a1408]"
