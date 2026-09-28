@@ -479,18 +479,45 @@ li.orbit-card:hover {
   }
 }
 
+.orbit-hero-scrim {
+  background:
+    linear-gradient(
+      90deg,
+      #030912 0%,
+      #030912 34%,
+      rgba(3, 9, 18, 0.98) 38%,
+      rgba(3, 9, 18, 0.72) 46%,
+      rgba(3, 9, 18, 0.28) 56%,
+      rgba(3, 9, 18, 0.06) 68%,
+      transparent 80%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(3, 9, 18, 0.35) 0%,
+      transparent 22%,
+      transparent 46%,
+      rgba(3, 9, 18, 0.55) 58%,
+      rgba(3, 9, 18, 0.94) 72%,
+      #030912 88%
+    );
+}
+
+.orbit-hero-stats {
+  background: linear-gradient(180deg, rgba(12, 22, 44, 0.88), rgba(6, 14, 32, 0.92));
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow:
+    0 16px 48px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+}
+
 .orbit-hero-sunrise {
   background:
     radial-gradient(ellipse 42% 38% at 78% 38%, rgba(255, 214, 120, 0.55), rgba(255, 180, 60, 0.12) 42%, transparent 68%),
     radial-gradient(ellipse 28% 22% at 82% 42%, rgba(255, 255, 255, 0.35), transparent 55%);
   mix-blend-mode: screen;
   opacity: 0.85;
-}
-
-.orbit-hero-scrim {
-  background:
-    linear-gradient(90deg, rgba(2, 6, 16, 0.94) 0%, rgba(2, 6, 16, 0.82) 24%, rgba(2, 6, 16, 0.28) 50%, rgba(2, 6, 16, 0.05) 68%, transparent 82%),
-    linear-gradient(180deg, rgba(2, 6, 16, 0.35) 0%, transparent 28%, rgba(2, 6, 16, 0.22) 62%, rgba(2, 6, 16, 0.92) 100%);
 }
 
 @media (max-width: 1023px) {
@@ -504,8 +531,8 @@ li.orbit-card:hover {
 
   .orbit-hero-scrim {
     background:
-      linear-gradient(180deg, rgba(4, 10, 22, 0.42) 0%, rgba(4, 10, 22, 0.58) 38%, rgba(4, 10, 22, 0.94) 100%),
-      linear-gradient(90deg, rgba(4, 10, 22, 0.62) 0%, rgba(4, 10, 22, 0.22) 52%, transparent 100%);
+      linear-gradient(180deg, rgba(3, 9, 18, 0.55) 0%, rgba(3, 9, 18, 0.72) 35%, rgba(3, 9, 18, 0.96) 100%),
+      linear-gradient(90deg, rgba(3, 9, 18, 0.88) 0%, rgba(3, 9, 18, 0.45) 55%, transparent 100%);
   }
 }
 

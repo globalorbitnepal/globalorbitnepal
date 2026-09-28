@@ -24,25 +24,42 @@ export function SiteHeader({ items }: SiteHeaderProps) {
       className={`pointer-events-none inset-x-0 top-0 z-50 text-white ${home ? "absolute" : "fixed"}`}
     >
       <div
-        className={`pointer-events-auto mx-auto transition-all duration-300 ${
-          home
-            ? "max-w-none rounded-none border-0 bg-transparent px-0"
-            : "mt-0 max-w-none rounded-none border-b border-white/12 bg-[#06101f]/82 px-0 backdrop-blur-2xl"
+        className={`pointer-events-auto w-full transition-all duration-300 ${
+          home ? "bg-transparent" : "border-b border-white/12 bg-[#06101f]/82 backdrop-blur-2xl"
         }`}
       >
-        <div className="mx-auto flex h-16 max-w-[1600px] items-center gap-2 px-4 sm:h-[72px] sm:gap-4 sm:px-5 lg:h-[82px] lg:px-8 xl:px-14">
-          <BrandLogo priority />
+        <div
+          className={`mx-auto flex w-full max-w-[1720px] items-center gap-3 px-4 sm:gap-5 sm:px-6 lg:gap-8 lg:px-10 xl:px-12 ${
+            home ? "h-[4.5rem] sm:h-[5rem] lg:h-[5.75rem]" : "h-16 sm:h-[72px] lg:h-[82px]"
+          }`}
+        >
+          <BrandLogo priority variant={home ? "hero" : "default"} />
           <nav aria-label="Main navigation" className="hidden min-w-0 flex-1 justify-center lg:flex">
-            <div className="orbit-nav-glass inline-flex max-w-full items-center overflow-x-auto rounded-full px-1.5 py-1 xl:px-2 xl:py-1.5">
-              <NavLinks items={items} variant="headerPremium" />
-            </div>
+            {home ? (
+              <NavLinks items={items} variant="headerReference" />
+            ) : (
+              <div className="orbit-nav-glass inline-flex max-w-full items-center overflow-x-auto rounded-full px-1.5 py-1 xl:px-2 xl:py-1.5">
+                <NavLinks items={items} variant="headerPremium" />
+              </div>
+            )}
           </nav>
           <Link
             href="/contact"
-            className="ml-auto hidden h-11 items-center gap-2 rounded-full bg-[#f0c43a] px-6 text-[14px] font-bold text-[#1a1408] shadow-[0_10px_28px_rgba(240,196,58,0.28)] transition-colors hover:bg-[#ffe38a] lg:inline-flex"
+            className={`ml-auto hidden items-center gap-3 rounded-full bg-[#f0c43a] font-bold text-[#1a1408] shadow-[0_12px_32px_rgba(240,196,58,0.32)] transition-colors hover:bg-[#ffe38a] lg:inline-flex ${
+              home ? "h-12 pl-7 pr-2 text-[15px]" : "h-11 gap-2 px-6 text-[14px]"
+            }`}
           >
             Get Started
-            <span aria-hidden="true">→</span>
+            {home ? (
+              <span
+                className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#12100a] text-[15px] text-[#f0c43a]"
+                aria-hidden="true"
+              >
+                →
+              </span>
+            ) : (
+              <span aria-hidden="true">→</span>
+            )}
           </Link>
           <div className="ml-auto flex items-center gap-2 lg:hidden">
             <Link

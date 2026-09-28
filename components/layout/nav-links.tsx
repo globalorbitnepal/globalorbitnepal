@@ -6,7 +6,15 @@ import type { FallbackNavItem } from "@/lib/site";
 
 type NavLinksProps = {
   items: FallbackNavItem[];
-  variant?: "header" | "headerDark" | "headerGlass" | "headerLuxury" | "headerMock" | "headerPremium" | "footer";
+  variant?:
+    | "header"
+    | "headerDark"
+    | "headerGlass"
+    | "headerLuxury"
+    | "headerMock"
+    | "headerPremium"
+    | "headerReference"
+    | "footer";
 };
 
 export function NavLinks({ items, variant = "header" }: NavLinksProps) {
@@ -17,15 +25,18 @@ export function NavLinks({ items, variant = "header" }: NavLinksProps) {
   const isLuxury = variant === "headerLuxury";
   const isMock = variant === "headerMock";
   const isPremium = variant === "headerPremium";
+  const isReference = variant === "headerReference";
 
   return (
     <ul
       className={
         isFooter
           ? "mt-4 flex flex-col gap-2.5 text-sm"
-          : isPremium
-            ? "flex flex-nowrap items-center gap-3 text-[13px] font-medium xl:gap-5 xl:text-[14px]"
-            : "flex flex-wrap items-center gap-x-7 gap-y-2 text-[15px] font-medium"
+          : isReference
+            ? "flex flex-nowrap items-center gap-5 text-[14px] font-semibold tracking-[0.01em] xl:gap-8 xl:text-[15px]"
+            : isPremium
+              ? "flex flex-nowrap items-center gap-3 text-[13px] font-medium xl:gap-5 xl:text-[14px]"
+              : "flex flex-wrap items-center gap-x-7 gap-y-2 text-[15px] font-medium"
       }
     >
       {items.map((item) => {
@@ -37,6 +48,10 @@ export function NavLinks({ items, variant = "header" }: NavLinksProps) {
         let className = "transition-colors duration-200";
         if (isFooter) {
           className += " text-white/70 hover:text-white";
+        } else if (isReference) {
+          className += current
+            ? " border-b-2 border-[#f0c43a] pb-2 text-[#f0c43a]"
+            : " border-b-2 border-transparent pb-2 text-white/92 hover:text-white";
         } else if (isPremium) {
           className += current
             ? " relative px-1 py-3 text-[#f0c43a] after:absolute after:inset-x-0 after:-bottom-[1px] after:h-px after:bg-[#f0c43a]"
