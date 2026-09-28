@@ -35,7 +35,7 @@ export function OrbitOfficesSection() {
               key={studio.code}
               className="orbit-studio-glass flex items-center gap-4 rounded-[20px] px-5 py-4 sm:flex-col sm:items-center sm:gap-3 sm:px-4 sm:py-6 sm:text-center"
             >
-              <OrbitFlag code={studio.code} name={studio.country} size={56} hd rounded="rect" />
+              <OrbitFlag code={studio.code} name={studio.country} hd variant="hero" />
               <div>
                 <p className="font-[family-name:var(--font-jakarta)] text-[17px] font-semibold text-white">{studio.country}</p>
                 <p className="mt-0.5 text-[12px] text-white/55">{studio.city}</p>

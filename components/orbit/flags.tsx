@@ -6,19 +6,45 @@ export function OrbitFlag({
   size = 36,
   rounded = "rect",
   hd = false,
+  variant = "default",
 }: {
   code: string;
   name: string;
   size?: number;
   rounded?: "rect" | "full";
   hd?: boolean;
+  variant?: "default" | "hero";
 }) {
-  const height = rounded === "full" ? size : Math.round(size * 0.75);
   const flagWidth = hd ? 160 : 80;
+  const src = `https://flagcdn.com/w${flagWidth}/${code}.png`;
+
+  if (variant === "hero") {
+    const boxH = 40;
+    const boxW = 56;
+    return (
+      <span
+        className="inline-flex shrink-0 items-center justify-center bg-transparent"
+        style={{ width: boxW, height: boxH }}
+        title={name}
+      >
+        <img
+          src={src}
+          alt=""
+          width={boxW}
+          height={boxH}
+          className="max-h-full max-w-full object-contain object-center"
+          decoding="async"
+        />
+        <span className="sr-only">{name}</span>
+      </span>
+    );
+  }
+
+  const height = rounded === "full" ? size : Math.round(size * 0.75);
   return (
     <span className="inline-flex items-center" title={name}>
       <img
-        src={`https://flagcdn.com/w${flagWidth}/${code}.png`}
+        src={src}
         alt=""
         width={size}
         height={height}

@@ -98,13 +98,13 @@ export function OrbitStudioHero({ config }: Props) {
             </Link>
           </div>
           <p className="mt-10 max-w-[32rem] text-[13px] leading-[1.65] text-white/55">{GLOBAL_TAGLINE}</p>
-          <ul className="mt-6 flex flex-wrap items-center gap-x-8 gap-y-4">
+          <ul className="mt-6 flex flex-wrap items-end gap-x-9 gap-y-4">
             {GLOBAL_STUDIOS.map((studio) => (
               <li key={studio.code} className="flex items-center gap-3">
-                <OrbitFlag code={studio.code} name={studio.label} size={54} hd rounded="rect" />
-                <span className="flex flex-col">
-                  <span className="text-[14px] font-semibold leading-tight text-white/92">{studio.label}</span>
-                  <span className="text-[11px] text-white/45">{studio.city}</span>
+                <OrbitFlag code={studio.code} name={studio.label} hd variant="hero" />
+                <span className="flex flex-col pb-0.5">
+                  <span className="text-[14px] font-semibold leading-tight text-white/90">{studio.label}</span>
+                  <span className="text-[11px] text-white/42">{studio.city}</span>
                 </span>
               </li>
             ))}
