@@ -1,61 +1,44 @@
-"use client";
-
 import Image from "next/image";
-import { useEffect, useState } from "react";
 
-export function OrbitHomeHeroMedia() {
-  const [videoReady, setVideoReady] = useState(false);
-  const [motionOk, setMotionOk] = useState(false);
-
-  useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setMotionOk(!mq.matches);
-    const onChange = () => setMotionOk(!mq.matches);
-    mq.addEventListener("change", onChange);
-    return () => mq.removeEventListener("change", onChange);
-  }, []);
-
+/** Layered cinematic scene — matches reference mockup without office/video overlays. */
+export function OrbitHomeHeroScene() {
   return (
-    <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
-      <div className="orbit-hero-uhd-still absolute inset-[-2%] h-[104%] w-[104%]">
+    <div className="absolute inset-0 overflow-hidden bg-[#020610]" aria-hidden="true">
+      <Image
+        src="/brand/hero-globe.jpg"
+        alt=""
+        fill
+        priority
+        unoptimized
+        sizes="100vw"
+        className="object-cover object-[68%_32%] contrast-[1.04] saturate-[1.06] sm:object-[64%_34%] lg:object-[58%_38%] xl:object-[54%_40%]"
+      />
+
+      <div className="orbit-hero-sunrise pointer-events-none absolute inset-0" />
+
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[min(46vh,420px)]">
         <Image
-          src="/brand/hero-uhd.jpg"
+          src="/brand/places/himalaya.jpg"
           alt=""
           fill
-          priority
           unoptimized
           sizes="100vw"
-          className="object-cover object-[58%_40%] contrast-[1.08] saturate-[1.14] brightness-[1.02] sm:object-[62%_38%] lg:object-[68%_32%]"
+          className="object-cover object-bottom opacity-[0.92] [mask-image:linear-gradient(to_top,rgba(0,0,0,1)_0%,rgba(0,0,0,0.85)_35%,transparent_100%)]"
         />
       </div>
 
-      {motionOk ? (
-        <video
-          className={`orbit-hero-uhd-video absolute inset-0 h-full w-full scale-[1.03] object-cover object-center transition-opacity duration-[2000ms] ease-out ${
-            videoReady ? "opacity-[0.92]" : "opacity-0"
-          }`}
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          poster="/brand/hero-uhd.jpg"
-          onCanPlay={() => setVideoReady(true)}
-        >
-          <source src="/brand/hero-developer.mp4" type="video/mp4" />
-        </video>
-      ) : null}
-
-      <div className="absolute inset-0 hidden lg:block">
+      <div className="pointer-events-none absolute bottom-[2%] left-[1%] z-[1] aspect-[4/5] w-[min(42vw,200px)] sm:bottom-[3%] sm:left-[2%] sm:w-[min(34vw,240px)] lg:left-[3.5%] lg:w-[260px]">
         <Image
-          src="/brand/hero-globe.jpg"
+          src="/brand/places/pagoda.jpg"
           alt=""
           fill
           unoptimized
-          sizes="55vw"
-          className="object-cover object-[78%_18%] opacity-[0.94] contrast-[1.04] saturate-[1.08] [mask-image:linear-gradient(90deg,transparent_0%,rgba(0,0,0,0.15)_32%,black_52%,black_100%)] xl:object-[72%_20%]"
+          sizes="260px"
+          className="object-cover object-bottom [mask-image:linear-gradient(to_top,black_65%,transparent)] drop-shadow-[0_24px_48px_rgba(0,0,0,0.65)]"
         />
       </div>
+
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-[min(28vh,220px)] bg-gradient-to-b from-[#020610] via-[#020610]/40 to-transparent" />
     </div>
   );
 }

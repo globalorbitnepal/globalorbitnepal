@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { HeroGlobePins } from "@/components/orbit/hero-flags";
-import { OrbitHomeHeroMedia } from "@/components/orbit/home-hero-media";
+import { OrbitHomeHeroScene } from "@/components/orbit/home-hero-media";
 
 const SERVICES = [
   { title: "Web Development", line: "Modern & Scalable", icon: "monitor" },
@@ -24,7 +24,7 @@ const MARKETS = [
 
 function ServiceIcon({ name }: { name: string }) {
   const props = {
-    className: "h-8 w-8 shrink-0 text-[#f0c43a] sm:h-9 sm:w-9 lg:h-11 lg:w-11",
+    className: "h-9 w-9 shrink-0 text-[#f0c43a] sm:h-10 sm:w-10 lg:h-11 lg:w-11",
     viewBox: "0 0 24 24",
     fill: "none",
     stroke: "currentColor",
@@ -66,7 +66,7 @@ function ServiceIcon({ name }: { name: string }) {
 
 function StatIcon({ name }: { name: string }) {
   const props = {
-    className: "h-7 w-7 shrink-0 text-[#f0c43a] sm:h-8 sm:w-8 lg:h-10 lg:w-10",
+    className: "h-8 w-8 shrink-0 text-[#f0c43a] sm:h-9 sm:w-9 lg:h-10 lg:w-10",
     viewBox: "0 0 24 24",
     fill: "none",
     stroke: "currentColor",
@@ -111,65 +111,56 @@ function StatIcon({ name }: { name: string }) {
 export function OrbitHomeHero() {
   return (
     <section
-      className="orbit-home-hero relative isolate overflow-hidden bg-[#040a16] text-white lg:min-h-[calc(100svh-82px)]"
+      className="orbit-home-hero relative isolate min-h-[100svh] overflow-hidden bg-[#020610] text-white"
       aria-labelledby="home-hero-heading"
     >
       <div className="orbit-hero-stage">
-        <OrbitHomeHeroMedia />
-        <div className="orbit-hero-veil pointer-events-none absolute inset-0" />
-        <div className="orbit-neural pointer-events-none absolute inset-0 opacity-[0.38]" />
-        <div className="orbit-scan pointer-events-none absolute inset-0 opacity-80" />
-        <div className="orbit-ai-orb orbit-ai-orb-cyan pointer-events-none" aria-hidden="true" />
-        <div className="orbit-ai-orb orbit-ai-orb-gold pointer-events-none" aria-hidden="true" />
-        <div className="orbit-hero-grain pointer-events-none absolute inset-0" />
-        <div className="orbit-hero-vignette pointer-events-none absolute inset-0" />
-        <div className="hidden lg:block">
+        <OrbitHomeHeroScene />
+        <div className="hidden md:block">
           <HeroGlobePins />
         </div>
       </div>
       <div className="orbit-hero-scrim pointer-events-none absolute inset-0" />
 
-      <div className="orbit-hero-content relative z-[1] mx-auto flex w-full max-w-[1600px] flex-col px-4 pb-24 sm:px-6 sm:pb-16 lg:min-h-[calc(100svh-82px)] lg:px-10 lg:pb-[clamp(1rem,2.4vh,2.25rem)] xl:px-14">
-        <div className="orbit-hero-copy max-w-[43rem]">
-          <p className="orbit-about-reveal orbit-hero-eyebrow text-[10px] font-semibold uppercase text-[#f0c43a] sm:text-[12px] lg:text-[13px]">
+      <div className="orbit-hero-content relative z-[1] mx-auto flex min-h-[100svh] w-full max-w-[1600px] flex-col px-4 pb-[max(1.25rem,env(safe-area-inset-bottom))] pt-[calc(4.25rem+env(safe-area-inset-top))] sm:px-6 sm:pt-[calc(4.75rem+env(safe-area-inset-top))] lg:px-10 lg:pt-[calc(5.5rem+env(safe-area-inset-top))] xl:px-14">
+        <div className="orbit-hero-copy max-w-[36rem] lg:max-w-[42rem]">
+          <p className="text-[10px] font-bold uppercase tracking-[0.32em] text-[#f0c43a] sm:text-[11px] sm:tracking-[0.36em] lg:text-[12px]">
             Built for a brighter tomorrow
           </p>
           <h1
             id="home-hero-heading"
-            className="orbit-about-reveal orbit-about-delay-1 orbit-hero-title-shadow mt-3 font-[family-name:var(--font-jakarta)] text-[clamp(2.05rem,8.4vw,5.15rem)] font-extrabold leading-[1.02] tracking-[-0.04em] sm:mt-4"
+            className="mt-3 font-[family-name:var(--font-jakarta)] text-[clamp(2rem,6.4vw,4.35rem)] font-extrabold leading-[1.06] tracking-[-0.035em] sm:mt-4 lg:leading-[1.04]"
           >
-            Digital Solutions
-            <span className="mt-1 block">
-              for a <span className="orbit-hero-gold">Global World</span>
-            </span>
+            <span className="block text-white">Digital Solutions for a</span>
+            <span className="mt-0.5 block text-[#f0c43a]">Global World</span>
           </h1>
-          <p className="orbit-about-reveal orbit-about-delay-2 mt-3 max-w-[34rem] text-[14px] leading-[1.7] text-white/88 sm:mt-[clamp(0.85rem,2.2vh,1.35rem)] sm:text-[15px] sm:leading-[1.75] lg:text-[16px]">
+          <p className="mt-4 max-w-[32rem] text-[14px] font-medium leading-[1.72] text-white/88 sm:mt-5 sm:text-[15px] sm:leading-[1.75] lg:max-w-[34rem] lg:text-[16px] lg:leading-[1.78]">
             We design and develop websites, web applications, ERP systems and digital solutions that help
             businesses grow, operate smarter and reach further — from local to global.
           </p>
-          <ul className="mt-4 flex flex-wrap items-center gap-2 lg:hidden">
+          <ul className="mt-4 flex flex-wrap items-center gap-2 md:hidden">
             {MARKETS.map((market) => (
               <li
                 key={market.code}
-                className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/8 px-2.5 py-1.5 backdrop-blur-md"
+                className="inline-flex items-center gap-2 rounded-full border border-white/18 bg-black/25 px-2.5 py-1.5 backdrop-blur-sm"
               >
                 <img
                   src={`https://flagcdn.com/w80/${market.code}.png`}
                   alt=""
-                  className="h-5 w-5 rounded-full object-cover ring-1 ring-white/80"
+                  className="h-5 w-5 rounded-full object-cover ring-1 ring-white/85"
                 />
                 <span className="text-[12px] font-semibold text-white">{market.name}</span>
               </li>
             ))}
           </ul>
-          <div className="orbit-about-reveal orbit-hero-delay-3 mt-5 flex flex-col gap-3 sm:mt-[clamp(1.1rem,2.8vh,1.85rem)] sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
+          <div className="mt-6 flex flex-col gap-3 sm:mt-7 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
             <Link
               href="/contact"
-              className="group inline-flex h-12 w-full items-center justify-center gap-3 rounded-full bg-[#f0c43a] py-2 pl-6 pr-2 text-[15px] font-semibold text-[#1a1408] shadow-[0_16px_38px_rgba(240,196,58,0.38),0_0_0_1px_rgba(255,255,255,0.25)_inset] transition-[transform,background,box-shadow] hover:bg-[#ffe38a] hover:shadow-[0_20px_48px_rgba(240,196,58,0.45)] sm:h-[clamp(48px,6.4vh,56px)] sm:w-auto sm:justify-start sm:pl-7 lg:text-[16px]"
+              className="group inline-flex h-[3rem] w-full items-center justify-center gap-3 rounded-full bg-[#f0c43a] py-2 pl-6 pr-2 text-[15px] font-bold text-[#1a1408] shadow-[0_14px_32px_rgba(240,196,58,0.35)] transition-colors hover:bg-[#ffe38a] sm:h-[3.25rem] sm:w-auto sm:justify-start sm:pl-7 lg:text-[16px]"
             >
               Start a project
               <span
-                className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#12100a] text-[14px] text-[#f0c43a] transition-transform group-hover:translate-x-0.5"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#12100a] text-[14px] text-[#f0c43a] transition-transform group-hover:translate-x-0.5 sm:h-10 sm:w-10"
                 aria-hidden="true"
               >
                 →
@@ -177,10 +168,10 @@ export function OrbitHomeHero() {
             </Link>
             <Link
               href="/projects"
-              className="orbit-glass inline-flex h-12 w-full items-center justify-center gap-3 rounded-full py-2 pl-2 pr-6 text-[15px] font-semibold text-white sm:h-[clamp(48px,6.4vh,56px)] sm:w-auto sm:justify-start sm:pr-7 lg:text-[16px]"
+              className="inline-flex h-[3rem] w-full items-center justify-center gap-3 rounded-full border border-white/30 bg-white/[0.06] py-2 pl-2 pr-6 text-[15px] font-semibold text-white backdrop-blur-sm transition-colors hover:border-white/45 hover:bg-white/10 sm:h-[3.25rem] sm:w-auto sm:justify-start sm:pr-7 lg:text-[16px]"
             >
               <span
-                className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white text-[11px] text-[#0b1220]"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white text-[10px] text-[#0b1220] sm:h-10 sm:w-10"
                 aria-hidden="true"
               >
                 ▶
@@ -190,21 +181,21 @@ export function OrbitHomeHero() {
           </div>
         </div>
 
-        <div className="mt-10 lg:mt-auto lg:pt-[clamp(1rem,3vh,3rem)]">
-          <ul className="mx-auto grid w-full max-w-[980px] grid-cols-2 gap-y-5 sm:flex sm:flex-nowrap sm:justify-center">
+        <div className="mt-auto pt-10 sm:pt-12 lg:pt-8">
+          <ul className="mx-auto grid w-full max-w-[980px] grid-cols-2 gap-x-2 gap-y-6 sm:flex sm:flex-nowrap sm:justify-center sm:gap-0">
             {SERVICES.map((item, index) => (
               <li
                 key={item.title}
-                className={`flex items-center gap-3 px-1.5 sm:w-auto sm:flex-1 sm:justify-center sm:gap-3.5 sm:px-3 ${
-                  index === 0 ? "" : "sm:border-l sm:border-white/20"
+                className={`flex items-center gap-2.5 px-1 sm:flex-1 sm:justify-center sm:gap-3 sm:px-4 lg:px-5 ${
+                  index === 0 ? "" : "sm:border-l sm:border-white/22"
                 }`}
               >
                 <ServiceIcon name={item.icon} />
                 <span>
-                  <span className="block text-[12px] font-semibold sm:text-[14px] lg:text-[15px]">
+                  <span className="block text-[12px] font-bold leading-tight sm:text-[14px] lg:text-[15px]">
                     {item.title}
                   </span>
-                  <span className="block text-[10px] text-white/65 sm:text-[12px] lg:text-[13px]">
+                  <span className="block text-[10px] font-medium text-white/62 sm:text-[11px] lg:text-[12px]">
                     {item.line}
                   </span>
                 </span>
@@ -212,22 +203,22 @@ export function OrbitHomeHero() {
             ))}
           </ul>
 
-          <dl className="orbit-glass-strong orbit-about-reveal orbit-hero-delay-5 mx-auto mt-5 grid w-full max-w-[980px] grid-cols-2 overflow-hidden rounded-[22px] px-1 py-3 sm:mt-[clamp(0.75rem,2.2vh,2rem)] sm:grid-cols-4 sm:rounded-[28px] sm:px-6 sm:py-[clamp(0.75rem,1.9vh,1.5rem)]">
+          <dl className="orbit-glass mx-auto mt-5 grid w-full max-w-[980px] grid-cols-2 overflow-hidden rounded-[24px] px-1 py-3 sm:mt-6 sm:grid-cols-4 sm:rounded-[28px] sm:px-5 sm:py-4 lg:px-6">
             {STATS.map((item, index) => (
               <div
                 key={item.label}
-                className={`flex items-center justify-center gap-2.5 px-2 py-3 sm:gap-3.5 sm:py-0 ${
-                  index === 0 ? "" : "sm:border-l sm:border-white/18"
-                } ${index % 2 === 1 ? "border-l border-white/12 sm:border-l-0" : ""} ${
-                  index < 2 ? "border-b border-white/12 sm:border-b-0" : ""
-                } ${index === 2 || index === 3 ? "sm:border-l sm:border-white/18" : ""}`}
+                className={`flex items-center justify-center gap-2.5 px-2 py-3 sm:gap-3 sm:py-1 ${
+                  index === 0 ? "" : "sm:border-l sm:border-white/20"
+                } ${index % 2 === 1 ? "border-l border-white/14 sm:border-l sm:border-white/20" : ""} ${
+                  index < 2 ? "border-b border-white/14 sm:border-b-0" : ""
+                }`}
               >
                 <StatIcon name={item.icon} />
-                <div>
-                  <dt className="font-[family-name:var(--font-jakarta)] text-[20px] font-extrabold leading-none text-white sm:text-[26px] lg:text-[30px]">
+                <div className="text-left sm:text-center">
+                  <dt className="font-[family-name:var(--font-jakarta)] text-[22px] font-extrabold leading-none text-white sm:text-[26px] lg:text-[28px]">
                     {item.value}
                   </dt>
-                  <dd className="mt-1 text-[8px] font-semibold uppercase tracking-[0.16em] text-white/80 sm:mt-1.5 sm:text-[10px] lg:text-[11px]">
+                  <dd className="mt-1 text-[8px] font-bold uppercase tracking-[0.18em] text-white/75 sm:text-[9px] lg:text-[10px]">
                     {item.label}
                   </dd>
                 </div>
@@ -235,17 +226,24 @@ export function OrbitHomeHero() {
             ))}
           </dl>
 
-          <div className="mt-6 flex items-end justify-between gap-4 pr-16 sm:mt-[clamp(0.75rem,2.2vh,1.75rem)] sm:gap-6 sm:pr-0">
-            <p className="flex items-center gap-3 text-[8px] font-semibold uppercase tracking-[0.24em] text-white/70 sm:gap-4 sm:text-[10px] sm:tracking-[0.32em]">
+          <div className="mt-5 flex items-end justify-between gap-3 sm:mt-6 sm:gap-6">
+            <p className="flex min-w-0 items-center gap-2 text-[7px] font-bold uppercase tracking-[0.22em] text-white/65 sm:gap-3 sm:text-[9px] sm:tracking-[0.3em] lg:text-[10px]">
               Explore a smarter tomorrow
-              <span className="hidden h-px w-20 bg-white/45 sm:block" />
+              <span className="hidden h-px min-w-[3rem] flex-1 max-w-[5rem] bg-white/40 sm:block lg:max-w-[6rem]" />
             </p>
-            <p className="max-w-[46%] text-right font-[family-name:var(--font-script)] text-[clamp(18px,5.2vw,38px)] leading-[1.12] text-white sm:max-w-none lg:mr-16">
+            <p className="max-w-[52%] shrink-0 text-right font-[family-name:var(--font-script)] text-[clamp(1.15rem,4.8vw,2.35rem)] leading-[1.1] text-white sm:max-w-none lg:mr-12 xl:mr-20">
               Building
               <span className="block">a Smarter</span>
-              <span className="relative inline-block">
+              <span className="relative inline-block pr-1">
                 Tomorrow
-                <span className="absolute -bottom-1 left-0 h-[3px] w-full rounded-full bg-[#f0c43a]" aria-hidden="true" />
+                <span
+                  className="absolute -bottom-1.5 left-0 h-[3px] w-[92%] rotate-[-2deg] rounded-full bg-[#f0c43a]"
+                  aria-hidden="true"
+                />
+                <span
+                  className="absolute -bottom-2.5 left-[8%] h-[2px] w-[78%] rotate-[1.5deg] rounded-full bg-[#f0c43a]/75"
+                  aria-hidden="true"
+                />
               </span>
             </p>
           </div>

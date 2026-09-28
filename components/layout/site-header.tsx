@@ -20,11 +20,13 @@ export function SiteHeader({ items }: SiteHeaderProps) {
   const home = pathname === "/";
 
   return (
-    <header className={`pointer-events-none inset-x-0 top-0 z-50 text-white ${home ? "relative" : "fixed"}`}>
+    <header
+      className={`pointer-events-none inset-x-0 top-0 z-50 text-white ${home ? "absolute" : "fixed"}`}
+    >
       <div
         className={`pointer-events-auto mx-auto transition-all duration-300 ${
           home
-            ? "max-w-none rounded-none border-b border-white/10 bg-[#06101f] px-0"
+            ? "max-w-none rounded-none border-0 bg-transparent px-0"
             : "mt-0 max-w-none rounded-none border-b border-white/12 bg-[#06101f]/82 px-0 backdrop-blur-2xl"
         }`}
       >
