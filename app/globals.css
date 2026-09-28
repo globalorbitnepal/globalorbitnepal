@@ -696,6 +696,54 @@ li.orbit-card:hover {
   }
 }
 
+/* Keep flags + trust marquee visible on laptop/desktop viewports (17–19" often ~900px tall). */
+@media (max-height: 920px) and (min-width: 768px) {
+  .orbit-studio-hero-shell {
+    padding-top: 6.75rem;
+    padding-bottom: 1rem;
+  }
+
+  .orbit-studio-hero-copy .orbit-hero-headline {
+    margin-top: 0.75rem;
+    font-size: clamp(1.85rem, 1rem + 2.2vw, 3.35rem);
+  }
+
+  .orbit-studio-hero-copy .orbit-hero-lede {
+    margin-top: 0.75rem;
+    font-size: 0.95rem;
+    line-height: 1.55;
+  }
+
+  .orbit-studio-hero-copy .orbit-hero-cta {
+    margin-top: 1rem;
+  }
+
+  .orbit-studio-hero-copy .orbit-hero-tagline {
+    margin-top: 1rem;
+    font-size: 12px;
+  }
+
+  .orbit-studio-hero-foot {
+    padding-top: 1rem;
+  }
+}
+
+@media (max-height: 780px) and (min-width: 1024px) {
+  .orbit-studio-hero-copy .orbit-hero-headline {
+    font-size: clamp(1.65rem, 0.9rem + 2vw, 2.85rem);
+  }
+
+  .orbit-studio-hero-foot {
+    padding-top: 0.75rem;
+  }
+}
+
+@media (min-width: 1280px) and (min-height: 920px) {
+  .orbit-studio-hero-foot {
+    padding-bottom: 0.25rem;
+  }
+}
+
 @keyframes orbit-hero-trust-marquee {
   from {
     transform: translate3d(0, 0, 0);

@@ -27,7 +27,7 @@ export function SiteHeader({ items }: SiteHeaderProps) {
   return (
     <>
       <header className="pointer-events-none fixed inset-x-0 top-0 z-50 text-white">
-        <div className="pointer-events-auto mx-auto flex max-w-[1600px] items-center gap-2 px-4 pt-1.5 sm:gap-3 sm:px-6 sm:pt-2 lg:gap-4 lg:px-10 lg:pt-2.5">
+        <div className="pointer-events-auto mx-auto flex max-w-[1600px] items-center gap-2 px-4 pt-2 sm:gap-3 sm:px-6 sm:pt-2.5 lg:gap-4 lg:px-10 lg:pt-3">
           <BrandLogo priority variant="bar" />
 
           <nav aria-label="Main navigation" className="hidden min-w-0 flex-1 justify-center lg:flex">
