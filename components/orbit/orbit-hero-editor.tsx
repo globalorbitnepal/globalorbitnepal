@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import type { HeroConfig } from "@/lib/hero-config";
+import type { HeroTrustLogo } from "@/lib/hero-trust-logos";
 
 type Props = {
   initial: HeroConfig;
@@ -98,6 +99,56 @@ export function OrbitHeroEditor({ initial, needsSetup, authed }: Props) {
     setStatus(`${kind} replaced`);
   }
 
+  async function uploadTrustLogo(logoId: string, file: File | undefined) {
+    if (!file) return;
+    setBusy(true);
+    setStatus("Uploading logo…");
+    const form = new FormData();
+    form.set("kind", "trustLogo");
+    form.set("logoId", logoId);
+    form.set("file", file);
+    const response = await fetch("/api/orbit/upload", { method: "POST", body: form });
+    const data = (await response.json()) as { config?: HeroConfig; error?: string };
+    setBusy(false);
+    if (!response.ok) {
+      setStatus(data.error || "Upload failed");
+      return;
+    }
+    if (data.config) setConfig(data.config);
+    setStatus("Logo image replaced");
+  }
+
+  function updateTrustLogo(index: number, patch: Partial<HeroTrustLogo>) {
+    setConfig((current) => ({
+      ...current,
+      trustLogos: current.trustLogos.map((logo, i) => (i === index ? { ...logo, ...patch } : logo)),
+    }));
+  }
+
+  function removeTrustLogo(index: number) {
+    setConfig((current) => ({
+      ...current,
+      trustLogos: current.trustLogos.filter((_, i) => i !== index),
+    }));
+  }
+
+  function addTrustLogo() {
+    const id = `client-${Date.now()}`;
+    setConfig((current) => ({
+      ...current,
+      trustLogos: [...current.trustLogos, { id, label: "New client" }],
+    }));
+  }
+
+  function clearTrustLogoImage(index: number) {
+    setConfig((current) => ({
+      ...current,
+      trustLogos: current.trustLogos.map((logo, i) =>
+        i === index ? { id: logo.id, label: logo.label } : logo,
+      ),
+    }));
+  }
+
   if (!authed) {
     return (
       <div className="mx-auto max-w-md px-4 py-16 text-white">
@@ -143,6 +194,7 @@ export function OrbitHeroEditor({ initial, needsSetup, authed }: Props) {
           <Field label="Secondary link" value={config.secondaryHref} onChange={set("secondaryHref")} />
         </div>
         <Field label="Ship on" value={config.shipsOn} onChange={set("shipsOn")} />
+        <Field label="Marquee label" value={config.trustMarqueeLabel} onChange={set("trustMarqueeLabel")} />
         <label className="flex items-center gap-3 text-sm text-white/80">
           <input
             type="checkbox"
@@ -178,6 +230,72 @@ export function OrbitHeroEditor({ initial, needsSetup, authed }: Props) {
           <p className="mt-2 break-all text-xs text-white/45">{config.videoSrc || "No custom video yet"}</p>
         </label>
       </div>
+
+      <div className="mt-10 orbit-studio-glass rounded-3xl p-6">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h2 className="text-lg font-semibold">Hero logo marquee</h2>
+            <p className="mt-1 text-sm text-white/55">
+              White text or uploaded PNG marks. Edit names here, then click Save copy.
+            </p>
+          </div>
+          <button
+            type="button"
+            disabled={busy}
+            onClick={addTrustLogo}
+            className="rounded-full border border-white/20 px-4 py-2 text-sm font-medium text-white hover:bg-white/10"
+          >
+            Add logo
+          </button>
+        </div>
+        <ul className="mt-6 space-y-4">
+          {config.trustLogos.map((logo, index) => (
+            <li key={`${logo.id}-${index}`} className="rounded-2xl border border-white/10 bg-black/25 p-4">
+              <div className="grid gap-3 sm:grid-cols-2">
+                <label className="block text-sm">
+                  <span className="mb-1 block text-white/60">Display name</span>
+                  <input
+                    value={logo.label}
+                    onChange={(event) => updateTrustLogo(index, { label: event.target.value })}
+                    className="w-full rounded-xl border border-white/15 bg-black/35 px-3 py-2 text-white"
+                  />
+                </label>
+                <label className="block text-sm">
+                  <span className="mb-1 block text-white/60">Replace image (optional)</span>
+                  <input
+                    type="file"
+                    accept="image/png,image/jpeg,image/webp,image/svg+xml"
+                    className="w-full text-xs text-white/65"
+                    onChange={(event) => uploadTrustLogo(logo.id, event.target.files?.[0])}
+                  />
+                </label>
+              </div>
+              <div className="mt-3 flex flex-wrap items-center gap-3">
+                {logo.imageSrc ? (
+                  <img src={logo.imageSrc} alt="" className="h-6 w-auto max-w-[8rem] brightness-0 invert" />
+                ) : (
+                  <span className="text-sm font-semibold text-white/80">{logo.label}</span>
+                )}
+                <button
+                  type="button"
+                  className="text-xs text-white/50 hover:text-white"
+                  onClick={() => clearTrustLogoImage(index)}
+                >
+                  Use text only
+                </button>
+                <button
+                  type="button"
+                  className="text-xs text-red-300/80 hover:text-red-200"
+                  onClick={() => removeTrustLogo(index)}
+                >
+                  Remove
+                </button>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+
       {status ? <p className="mt-6 text-sm text-[#f0c43a]">{status}</p> : null}
     </div>
   );

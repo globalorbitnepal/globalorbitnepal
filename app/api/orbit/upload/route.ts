@@ -22,8 +22,28 @@ export async function POST(request: Request) {
   }
 
   const isVideo = kind === "video";
-  const ext = isVideo ? "mp4" : "jpg";
-  const name = isVideo ? `hero-video.${ext}` : `hero-image.${ext}`;
+  const isTrustLogo = kind === "trustLogo";
+  const logoId = String(form.get("logoId") || "")
+    .trim()
+    .replace(/[^a-zA-Z0-9_-]/g, "");
+
+  if (isTrustLogo && !logoId) {
+    return NextResponse.json({ error: "Missing logo id" }, { status: 400 });
+  }
+
+  let ext = "jpg";
+  let name: string;
+  if (isVideo) {
+    ext = "mp4";
+    name = `hero-video.${ext}`;
+  } else if (isTrustLogo) {
+    const rawExt = file.type === "image/png" ? "png" : file.type === "image/webp" ? "webp" : "jpg";
+    ext = rawExt;
+    name = `trust-${logoId}.${ext}`;
+  } else {
+    name = `hero-image.${ext}`;
+  }
+
   if (isVideo && !file.type.startsWith("video/")) {
     return NextResponse.json({ error: "Upload an MP4 video" }, { status: 400 });
   }
@@ -41,6 +61,14 @@ export async function POST(request: Request) {
   if (isVideo) {
     config.videoSrc = `/api/media/hero/${name}?v=${stamp}`;
     config.useVideo = true;
+  } else if (isTrustLogo) {
+    const src = `/api/media/hero/${name}?v=${stamp}`;
+    const index = config.trustLogos.findIndex((logo) => logo.id === logoId);
+    if (index === -1) {
+      config.trustLogos.push({ id: logoId, label: logoId, imageSrc: src });
+    } else {
+      config.trustLogos[index] = { ...config.trustLogos[index], imageSrc: src };
+    }
   } else {
     config.imageSrc = `/api/media/hero/${name}?v=${stamp}`;
   }

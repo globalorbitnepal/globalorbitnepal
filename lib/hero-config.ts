@@ -1,3 +1,7 @@
+import { DEFAULT_HERO_TRUST_LOGOS, parseTrustLogos, type HeroTrustLogo } from "@/lib/hero-trust-logos";
+
+export type { HeroTrustLogo };
+
 export type HeroConfig = {
   eyebrow: string;
   headline: string;
@@ -11,6 +15,8 @@ export type HeroConfig = {
   imageSrc: string;
   videoSrc: string;
   useVideo: boolean;
+  trustLogos: HeroTrustLogo[];
+  trustMarqueeLabel: string;
 };
 
 export const DEFAULT_HERO: HeroConfig = {
@@ -26,6 +32,8 @@ export const DEFAULT_HERO: HeroConfig = {
   imageSrc: "/brand/studio-hero-phones.jpg",
   videoSrc: "/brand/hero-product.mp4",
   useVideo: true,
+  trustLogos: DEFAULT_HERO_TRUST_LOGOS,
+  trustMarqueeLabel: "Enterprises that trust us",
 };
 
 export function parseHeroConfig(raw: unknown): HeroConfig {
@@ -47,5 +55,7 @@ export function parseHeroConfig(raw: unknown): HeroConfig {
     imageSrc: str("imageSrc", DEFAULT_HERO.imageSrc),
     videoSrc: str("videoSrc", DEFAULT_HERO.videoSrc),
     useVideo: data.useVideo === false || data.useVideo === "false" ? false : true,
+    trustLogos: parseTrustLogos(data.trustLogos),
+    trustMarqueeLabel: str("trustMarqueeLabel", DEFAULT_HERO.trustMarqueeLabel),
   };
 }

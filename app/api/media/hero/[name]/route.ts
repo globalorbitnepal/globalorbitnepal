@@ -8,7 +8,7 @@ export const runtime = "nodejs";
 export async function GET(_request: Request, context: { params: Promise<{ name: string }> }) {
   const { name } = await context.params;
   const safe = name.replace(/[^a-zA-Z0-9._-]/g, "");
-  if (!/^hero-(video|image)\.[a-z0-9]+$/i.test(safe)) {
+  if (!/^hero-(video|image)\.[a-z0-9]+$/i.test(safe) && !/^trust-[a-zA-Z0-9_-]+\.(jpg|jpeg|png|webp)$/i.test(safe)) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 

@@ -695,3 +695,23 @@ li.orbit-card:hover {
       linear-gradient(90deg, rgba(7, 7, 11, 0.55) 0%, transparent 58%);
   }
 }
+
+@keyframes orbit-hero-trust-marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.orbit-hero-trust-marquee-track {
+  animation: orbit-hero-trust-marquee 52s linear infinite;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orbit-hero-trust-marquee-track {
+    animation: none;
+  }
+}
