@@ -479,6 +479,31 @@ li.orbit-card:hover {
   }
 }
 
+.orbit-hero-sharp {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.orbit-hero-sharpness {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 35%, transparent 65%, rgba(255, 255, 255, 0.02));
+  mix-blend-mode: overlay;
+  opacity: 0.35;
+}
+
+.orbit-hero-uhd-drift {
+  animation: orbit-hero-uhd-drift 36s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+@keyframes orbit-hero-uhd-drift {
+  0% {
+    transform: scale(1.02) translate3d(0, 0, 0);
+  }
+  100% {
+    transform: scale(1.06) translate3d(-0.8%, -0.5%, 0);
+  }
+}
+
 .orbit-hero-stars {
   opacity: 0.55;
   background-image:
@@ -598,7 +623,8 @@ li.orbit-card:hover {
   .orbit-scan,
   .orbit-ai-dot,
   .orbit-pin-ring,
-  .orbit-pin {
+  .orbit-pin,
+  .orbit-hero-uhd-drift {
     animation: none !important;
   }
 }

@@ -1,51 +1,69 @@
+"use client";
+
 import Image from "next/image";
+import { useEffect, useState } from "react";
+
+const HERO_4K = "/brand/hero-scene-uhd-4k.jpg";
+const HERO_2K = "/brand/hero-scene-uhd-2k.jpg";
+const HERO_HD = "/brand/hero-scene-uhd.jpg";
+const HERO_FALLBACK = "/brand/hero-globe.jpg";
 
 /**
- * Coded cinematic hero scene (no mockup plate).
- * Layers: space → globe → sunrise → mountains → pagoda → vignettes.
+ * Ultra HD hero environment (responsive 1x/2x/4K plates + CSS atmosphere).
+ * All marketing copy stays in OrbitHomeHero as HTML.
  */
 export function OrbitHomeHeroScene() {
+  const [motionOk, setMotionOk] = useState(true);
+  const [uhdSrc, setUhdSrc] = useState(HERO_HD);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setMotionOk(!mq.matches);
+    const onChange = () => setMotionOk(!mq.matches);
+    mq.addEventListener("change", onChange);
+
+    const pick = () => {
+      const w = window.innerWidth;
+      if (w >= 1536) setUhdSrc(HERO_4K);
+      else if (w >= 960) setUhdSrc(HERO_2K);
+      else setUhdSrc(HERO_HD);
+    };
+    pick();
+    window.addEventListener("resize", pick, { passive: true });
+
+    return () => {
+      mq.removeEventListener("change", onChange);
+      window.removeEventListener("resize", pick);
+    };
+  }, []);
+
   return (
     <div className="absolute inset-0 overflow-hidden bg-[#020610]" aria-hidden="true">
-      <div className="orbit-hero-stars absolute inset-0" />
+      <div className="orbit-hero-stars absolute inset-0 opacity-75" />
 
-      <Image
-        src="/brand/hero-globe.jpg"
-        alt=""
-        fill
-        priority
-        unoptimized
-        sizes="100vw"
-        className="object-cover object-[76%_18%] contrast-[1.05] saturate-[1.08] sm:object-[72%_20%] lg:object-[center_center] xl:object-[52%_42%]"
-      />
-
-      <div className="orbit-hero-sunrise pointer-events-none absolute inset-0" />
-      <div className="orbit-hero-horizon pointer-events-none absolute inset-0" />
-
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[min(44vh,400px)]">
+      <div
+        className={`orbit-hero-uhd-plate absolute inset-[-1.25%] h-[102.5%] w-[102.5%] ${
+          motionOk ? "orbit-hero-uhd-drift" : ""
+        }`}
+      >
         <Image
-          src="/brand/places/himalaya.jpg"
+          src={uhdSrc}
           alt=""
           fill
+          priority
           unoptimized
           sizes="100vw"
-          className="object-cover object-bottom opacity-[0.95] [mask-image:linear-gradient(to_top,rgba(0,0,0,1)_8%,rgba(0,0,0,0.75)_45%,transparent_100%)]"
+          className="orbit-hero-sharp object-cover object-[48%_38%] contrast-[1.06] saturate-[1.1] brightness-[1.02] sm:object-[50%_40%] lg:object-[48%_38%]"
+          onError={() => setUhdSrc(HERO_FALLBACK)}
         />
       </div>
 
-      <div className="pointer-events-none absolute bottom-[1.5%] left-[1.5%] z-[2] aspect-[5/6] w-[min(38vw,210px)] sm:bottom-[2%] sm:left-[2.5%] sm:w-[min(32vw,250px)] lg:bottom-[2.5%] lg:left-[3%] lg:w-[270px]">
-        <Image
-          src="/brand/places/pagoda.jpg"
-          alt=""
-          fill
-          unoptimized
-          sizes="270px"
-          className="object-cover object-bottom [mask-image:linear-gradient(to_top,black_55%,transparent)] drop-shadow-[0_28px_50px_rgba(0,0,0,0.7)]"
-        />
-      </div>
+      <div className="orbit-hero-sunrise pointer-events-none absolute inset-0 opacity-[0.88]" />
+      <div className="orbit-hero-horizon pointer-events-none absolute inset-0" />
+      <div className="orbit-hero-sharpness pointer-events-none absolute inset-0" />
 
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-36 bg-gradient-to-b from-[#020610]/90 via-[#020610]/35 to-transparent lg:h-44" />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[38%] bg-gradient-to-t from-[#020610] via-[#020610]/55 to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-[#020610]/88 via-[#020610]/20 to-transparent lg:h-48" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[34%] bg-gradient-to-t from-[#020610] via-[#020610]/40 to-transparent" />
     </div>
   );
 }
