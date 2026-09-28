@@ -6,6 +6,7 @@ import { OrbitAppointmentsPanel } from "@/components/orbit/orbit-appointments-pa
 import type { HeroConfig } from "@/lib/hero-config";
 import type { HeroStudioLocation } from "@/lib/hero-studios";
 import type { HeroTrustLogo } from "@/lib/hero-trust-logos";
+import { DEFAULT_HERO_TRUST_LOGOS } from "@/lib/hero-trust-logos";
 
 type Props = {
   initial: HeroConfig;
@@ -160,9 +161,11 @@ export function OrbitHeroEditor({ initial, needsSetup, authed }: Props) {
   function clearTrustLogoImage(index: number) {
     setConfig((current) => ({
       ...current,
-      trustLogos: current.trustLogos.map((logo, i) =>
-        i === index ? { id: logo.id, label: logo.label } : logo,
-      ),
+      trustLogos: current.trustLogos.map((logo, i) => {
+        if (i !== index) return logo;
+        const fallback = DEFAULT_HERO_TRUST_LOGOS.find((item) => item.id === logo.id);
+        return { id: logo.id, label: logo.label, imageSrc: fallback?.imageSrc };
+      }),
     }));
   }
 
@@ -316,7 +319,10 @@ export function OrbitHeroEditor({ initial, needsSetup, authed }: Props) {
           ))}
         </Panel>
 
-        <Panel title="Client logo marquee" description="Slow slide on the bottom-left of the hero.">
+        <Panel
+          title="Client logo marquee"
+          description="White logos, no background, same height, scrolling left. Replace any mark with a transparent PNG or SVG."
+        >
           <Field label="Marquee heading" value={config.trustMarqueeLabel} onChange={set("trustMarqueeLabel")} />
           <div className="flex justify-end">
             <button
@@ -325,7 +331,7 @@ export function OrbitHeroEditor({ initial, needsSetup, authed }: Props) {
               onClick={addTrustLogo}
               className="rounded-full border border-white/20 px-4 py-2 text-sm font-medium hover:bg-white/10"
             >
-              Add logo name
+              Add logo
             </button>
           </div>
           <ul className="space-y-4">
@@ -333,12 +339,12 @@ export function OrbitHeroEditor({ initial, needsSetup, authed }: Props) {
               <li key={`${logo.id}-${index}`} className="rounded-2xl border border-white/10 bg-black/25 p-4">
                 <div className="grid gap-3 sm:grid-cols-2">
                   <Field
-                    label="Display name (white text)"
+                    label="Logo name"
                     value={logo.label}
                     onChange={(value) => updateTrustLogo(index, { label: value })}
                   />
                   <label className="block text-sm">
-                    <span className="mb-1.5 block text-white/60">Upload white logo PNG (optional)</span>
+                    <span className="mb-1.5 block text-white/60">Replace logo (white PNG / SVG, transparent)</span>
                     <input
                       type="file"
                       accept="image/png,image/jpeg,image/webp,image/svg+xml"
@@ -349,12 +355,12 @@ export function OrbitHeroEditor({ initial, needsSetup, authed }: Props) {
                 </div>
                 <div className="mt-3 flex flex-wrap items-center gap-3">
                   {logo.imageSrc ? (
-                    <img src={logo.imageSrc} alt="" className="h-6 w-auto max-w-[8rem] brightness-0 invert" />
+                    <img src={logo.imageSrc} alt="" className="h-8 w-auto max-w-[10rem] object-contain" />
                   ) : (
                     <span className="text-sm font-semibold text-white/80">{logo.label}</span>
                   )}
                   <button type="button" className="text-xs text-white/50 hover:text-white" onClick={() => clearTrustLogoImage(index)}>
-                    Text only
+                    Reset default
                   </button>
                   <button type="button" className="text-xs text-red-300/80 hover:text-red-200" onClick={() => removeTrustLogo(index)}>
                     Remove

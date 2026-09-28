@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 210 64" fill="none">
+  <circle cx="26" cy="32" r="18" fill="#fff"/>
+  <path fill="#07070c" d="M22 24h7.2c4.4 0 7.2 2.4 7.2 6.4 0 3.2-1.8 5.4-4.6 6.1L36 46h-6.2l-3.6-8.4H28V46h-6V24Zm6 11.2h1.4c1.8 0 2.8-.9 2.8-2.4s-1-2.4-2.8-2.4H28v4.8Z"/>
+  <text x="54" y="38" fill="#fff" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700">Valuepersoft</text>
+</svg>

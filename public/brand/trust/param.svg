@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 64" fill="none">
+  <path fill="#fff" d="M28 8 44 18v20L28 56 12 38V18L28 8Z"/>
+  <path fill="#07070c" d="M28 16 38 22.2v15.6L28 44 18 37.8V22.2L28 16Z"/>
+  <path fill="#fff" d="M28 24 34 27.6v8.8L28 40 22 36.4v-8.8L28 24Z"/>
+  <text x="56" y="34" fill="#fff" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="800" letter-spacing="1">PARAM</text>
+  <text x="56" y="48" fill="#fff" font-family="Arial, Helvetica, sans-serif" font-size="7" letter-spacing="1.6">RENEWABLE ENERGY</text>
+</svg>

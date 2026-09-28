@@ -37,7 +37,14 @@ export async function POST(request: Request) {
     ext = "mp4";
     name = `hero-video.${ext}`;
   } else if (isTrustLogo) {
-    const rawExt = file.type === "image/png" ? "png" : file.type === "image/webp" ? "webp" : "jpg";
+    const rawExt =
+      file.type === "image/svg+xml"
+        ? "svg"
+        : file.type === "image/png"
+          ? "png"
+          : file.type === "image/webp"
+            ? "webp"
+            : "jpg";
     ext = rawExt;
     name = `trust-${logoId}.${ext}`;
   } else {

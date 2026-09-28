@@ -924,20 +924,12 @@ li.orbit-card:hover {
 }
 
 .orbit-hero-trust-frame {
-  height: clamp(3.75rem, 6.6vw, 5.6rem);
-}
-
-.orbit-hero-trust-strip {
-  display: block;
-  height: calc(clamp(3.75rem, 6.6vw, 5.6rem) * 5.15);
-  width: auto;
-  max-width: none;
-  margin-top: calc((clamp(3.75rem, 6.6vw, 5.6rem) - (clamp(3.75rem, 6.6vw, 5.6rem) * 5.15)) / 2);
-  margin-right: 0.35rem;
+  height: clamp(2.85rem, 4.8vw, 3.75rem);
 }
 
 .orbit-hero-trust-item {
-  padding-right: clamp(1.6rem, 3.2vw, 3.1rem);
+  height: clamp(2.85rem, 4.8vw, 3.75rem);
+  padding-right: clamp(1.5rem, 2.8vw, 2.6rem);
 }
 
 .orbit-hero-trust-word {
@@ -951,9 +943,10 @@ li.orbit-card:hover {
 }
 
 .orbit-hero-trust-img {
-  height: clamp(2.6rem, 4.4vw, 3.8rem);
+  display: block;
+  height: clamp(2.35rem, 4vw, 3.15rem);
   width: auto;
-  max-width: 14rem;
+  max-width: 12.5rem;
   object-fit: contain;
 }
 

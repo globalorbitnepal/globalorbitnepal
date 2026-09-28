@@ -12,21 +12,22 @@ function slugify(title: string, index: number) {
   return base || `client-${index}`;
 }
 
-/** Wordmarks matching the studio hero reference strip. */
+/** White transparent SVG wordmarks for the hero marquee. */
 export const DEFAULT_HERO_TRUST_LOGOS: HeroTrustLogo[] = [
-  { id: "holiday-inn", label: "Holiday Inn" },
-  { id: "stealthy", label: "STEALTHY" },
-  { id: "param", label: "PARAM" },
-  { id: "astro-vistaar", label: "ASTRO VISTAAR" },
-  { id: "antara", label: "ANTARA" },
-  { id: "ageasy", label: "AGEasy" },
-  { id: "matrix", label: "MATRIX" },
-  { id: "gensol", label: "GENSOL" },
-  { id: "valuepersoft", label: "Valuepersoft" },
+  { id: "holiday-inn", label: "Holiday Inn", imageSrc: "/brand/trust/holiday-inn.svg" },
+  { id: "stealthy", label: "STEALTHY", imageSrc: "/brand/trust/stealthy.svg" },
+  { id: "param", label: "PARAM", imageSrc: "/brand/trust/param.svg" },
+  { id: "astro-vistaar", label: "ASTRO VISTAAR", imageSrc: "/brand/trust/astro-vistaar.svg" },
+  { id: "antara", label: "ANTARA", imageSrc: "/brand/trust/antara.svg" },
+  { id: "ageasy", label: "AGEasy", imageSrc: "/brand/trust/ageasy.svg" },
+  { id: "matrix", label: "MATRIX", imageSrc: "/brand/trust/matrix.svg" },
+  { id: "gensol", label: "GENSOL", imageSrc: "/brand/trust/gensol.svg" },
+  { id: "valuepersoft", label: "Valuepersoft", imageSrc: "/brand/trust/valuepersoft.svg" },
 ];
 
+const DEFAULT_BY_ID = new Map(DEFAULT_HERO_TRUST_LOGOS.map((logo) => [logo.id, logo]));
+
 function isLegacyAutoLogos(parsed: HeroTrustLogo[]) {
-  if (parsed.some((logo) => logo.imageSrc)) return false;
   const labels = parsed.map((logo) => logo.label.toLowerCase());
   const hits = labels.filter(
     (label) =>
@@ -37,7 +38,8 @@ function isLegacyAutoLogos(parsed: HeroTrustLogo[]) {
       label.includes("himalaya") ||
       label.includes("lakeside"),
   ).length;
-  return hits >= 3;
+  if (hits >= 3) return true;
+  return parsed.some((logo) => (logo.imageSrc || "").includes("enterprises-strip"));
 }
 
 export function parseTrustLogos(raw: unknown): HeroTrustLogo[] {
@@ -55,8 +57,14 @@ export function parseTrustLogos(raw: unknown): HeroTrustLogo[] {
       typeof row.id === "string" && row.id.trim()
         ? row.id.trim().replace(/[^a-zA-Z0-9_-]/g, "")
         : slugify(label, i);
-    const imageSrc = typeof row.imageSrc === "string" && row.imageSrc.trim() ? row.imageSrc.trim() : undefined;
-    parsed.push({ id, label, imageSrc });
+    let imageSrc = typeof row.imageSrc === "string" && row.imageSrc.trim() ? row.imageSrc.trim() : undefined;
+    if (imageSrc?.includes("enterprises-strip")) imageSrc = undefined;
+    const fallback = DEFAULT_BY_ID.get(id);
+    parsed.push({
+      id,
+      label,
+      imageSrc: imageSrc || fallback?.imageSrc,
+    });
   }
   if (parsed.length === 0 || isLegacyAutoLogos(parsed)) {
     return DEFAULT_HERO_TRUST_LOGOS;
