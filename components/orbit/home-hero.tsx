@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { HeroGlobePins } from "@/components/orbit/hero-flags";
 import { OrbitHomeHeroScene } from "@/components/orbit/home-hero-media";
 
 const SERVICES = [
@@ -13,6 +14,12 @@ const STATS = [
   { value: "25+", label: "Live Projects", icon: "code" },
   { value: "100+", label: "Happy Clients", icon: "users" },
   { value: "6+", label: "Years of Trust", icon: "award" },
+] as const;
+
+const MARKETS = [
+  { code: "np", name: "Nepal" },
+  { code: "in", name: "India" },
+  { code: "us", name: "USA" },
 ] as const;
 
 function ServiceIcon({ name }: { name: string }) {
@@ -109,6 +116,9 @@ export function OrbitHomeHero() {
     >
       <div className="orbit-hero-stage">
         <OrbitHomeHeroScene />
+        <div className="hidden md:block">
+          <HeroGlobePins />
+        </div>
       </div>
       <div className="orbit-hero-scrim pointer-events-none absolute inset-0" />
 
@@ -128,6 +138,21 @@ export function OrbitHomeHero() {
             We design and develop websites, web applications, ERP systems and digital solutions that help
             businesses grow, operate smarter and reach further — from local to global.
           </p>
+          <ul className="mt-4 flex flex-wrap items-center gap-2 md:hidden">
+            {MARKETS.map((market) => (
+              <li
+                key={market.code}
+                className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/30 px-2.5 py-1.5 backdrop-blur-sm"
+              >
+                <img
+                  src={`https://flagcdn.com/w80/${market.code}.png`}
+                  alt=""
+                  className="h-5 w-5 rounded-full object-cover ring-1 ring-white/85"
+                />
+                <span className="text-[12px] font-semibold text-white">{market.name}</span>
+              </li>
+            ))}
+          </ul>
           <div className="mt-7 flex flex-col gap-3.5 sm:mt-8 sm:flex-row sm:flex-wrap sm:items-center sm:gap-5">
             <Link
               href="/contact"
