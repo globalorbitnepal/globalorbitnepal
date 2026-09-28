@@ -801,18 +801,18 @@ li.orbit-card:hover {
 
 .orbit-studio-hero-shell {
   padding:
-    clamp(5.4rem, 11vh, 7.35rem)
-    clamp(1.15rem, 3.4vw, 3.25rem)
-    clamp(0.9rem, 2vh, 1.5rem);
+    clamp(6.4rem, 12.5vh, 8.4rem)
+    clamp(1.25rem, 3.6vw, 3.4rem)
+    clamp(0.7rem, 1.6vh, 1.2rem);
 }
 
 .orbit-studio-hero-copy {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  flex: 0 1 auto;
+  justify-content: center;
+  flex: 1 1 auto;
   min-height: 0;
-  padding-top: clamp(0.35rem, 1.4vh, 1.1rem);
+  padding-top: 0;
 }
 
 .orbit-hero-eyebrow {
@@ -886,7 +886,7 @@ li.orbit-card:hover {
 }
 
 .orbit-hero-studios-kicker {
-  margin-top: clamp(1.15rem, 2.6vh, 1.85rem);
+  margin-top: 0;
   font-size: clamp(0.66rem, 0.55rem + 0.22vw, 0.75rem);
   font-weight: 700;
   letter-spacing: 0.22em;
@@ -898,8 +898,9 @@ li.orbit-card:hover {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.9rem 1.55rem;
-  margin-top: 0.65rem;
+  gap: 0.75rem 1.4rem;
+  margin-top: 0.45rem;
+  margin-bottom: 0.55rem;
 }
 
 .orbit-hero-studio-name {
@@ -910,16 +911,29 @@ li.orbit-card:hover {
 }
 
 .orbit-hero-trust {
-  padding-top: clamp(0.75rem, 1.6vh, 1.15rem);
+  padding-top: 0.15rem;
 }
 
 .orbit-hero-trust-label {
-  margin-bottom: 0.7rem;
+  margin-bottom: 0.4rem;
   font-size: clamp(0.66rem, 0.55rem + 0.22vw, 0.75rem);
   font-weight: 700;
   letter-spacing: 0.24em;
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.4);
+}
+
+.orbit-hero-trust-frame {
+  height: clamp(3.75rem, 6.6vw, 5.6rem);
+}
+
+.orbit-hero-trust-strip {
+  display: block;
+  height: calc(clamp(3.75rem, 6.6vw, 5.6rem) * 5.15);
+  width: auto;
+  max-width: none;
+  margin-top: calc((clamp(3.75rem, 6.6vw, 5.6rem) - (clamp(3.75rem, 6.6vw, 5.6rem) * 5.15)) / 2);
+  margin-right: 0.35rem;
 }
 
 .orbit-hero-trust-item {
@@ -937,11 +951,10 @@ li.orbit-card:hover {
 }
 
 .orbit-hero-trust-img {
-  height: clamp(1.85rem, 2.6vw, 2.75rem);
+  height: clamp(2.6rem, 4.4vw, 3.8rem);
   width: auto;
-  max-width: 11rem;
+  max-width: 14rem;
   object-fit: contain;
-  filter: brightness(0) invert(1);
 }
 
 .orbit-hero-studio {

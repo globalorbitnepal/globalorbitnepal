@@ -117,6 +117,9 @@ export function OrbitStudioHero({ config }: Props) {
               {config.primaryLabel}
             </Link>
           </div>
+        </div>
+
+        <div className="orbit-studio-hero-foot mt-auto w-full min-w-0">
           <p className="orbit-hero-studios-kicker">{config.studiosKicker}</p>
           <ul className="orbit-hero-studios">
             {config.studios.map((studio) => (
@@ -129,9 +132,6 @@ export function OrbitStudioHero({ config }: Props) {
               </li>
             ))}
           </ul>
-        </div>
-
-        <div className="orbit-studio-hero-foot mt-auto w-full min-w-0">
           <OrbitHeroTrustMarquee logos={config.trustLogos} label={config.trustMarqueeLabel} />
         </div>
       </div>

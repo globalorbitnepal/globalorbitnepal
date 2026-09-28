@@ -29,7 +29,7 @@ export function SiteHeader(_props: SiteHeaderProps) {
       <header
         className={`pointer-events-none inset-x-0 top-0 z-50 text-white ${home ? "absolute" : "fixed"}`}
       >
-        <div className="pointer-events-auto mx-auto flex max-w-[1680px] items-center gap-3 px-[clamp(1.15rem,3.4vw,3.25rem)] pt-[clamp(0.85rem,1.6vw,1.35rem)]">
+        <div className="pointer-events-auto mx-auto flex max-w-[1680px] items-center gap-3 px-[clamp(1.15rem,3.4vw,3.25rem)] pt-[clamp(0.55rem,1.1vw,0.9rem)]">
           <BrandLogo priority variant="bar" />
 
           <nav aria-label="Main navigation" className="hidden min-w-0 flex-1 justify-center lg:flex">
