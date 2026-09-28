@@ -6,15 +6,6 @@ import { OrbitFlag } from "@/components/orbit/flags";
 import { OrbitHeroTrustMarquee } from "@/components/orbit/hero-trust-marquee";
 import type { HeroConfig } from "@/lib/hero-config";
 
-const GLOBAL_STUDIOS = [
-  { code: "np", label: "Nepal", city: "Kathmandu" },
-  { code: "in", label: "India", city: "Delhi (NCR)" },
-  { code: "us", label: "USA", city: "United States" },
-] as const;
-
-const GLOBAL_TAGLINE =
-  "Work originates in Kathmandu, India, and the United States — not a single-city shop pretending to be global.";
-
 type Props = {
   config: HeroConfig;
 };
@@ -99,9 +90,9 @@ export function OrbitStudioHero({ config }: Props) {
               {config.primaryLabel}
             </Link>
           </div>
-          <p className="mt-10 max-w-[32rem] text-[13px] leading-[1.65] text-white/55">{GLOBAL_TAGLINE}</p>
+          <p className="mt-10 max-w-[32rem] text-[13px] leading-[1.65] text-white/55">{config.globalTagline}</p>
           <ul className="mt-6 flex flex-wrap items-end gap-x-9 gap-y-4">
-            {GLOBAL_STUDIOS.map((studio) => (
+            {config.studios.map((studio) => (
               <li key={studio.code} className="flex items-center gap-3">
                 <OrbitFlag code={studio.code} name={studio.label} hd variant="hero" />
                 <span className="flex flex-col pb-0.5">

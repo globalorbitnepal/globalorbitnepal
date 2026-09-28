@@ -32,7 +32,7 @@ export function OrbitFlag({
           alt=""
           width={boxW}
           height={boxH}
-          className="max-h-full max-w-full object-contain object-center"
+          className="max-h-full max-w-full object-contain object-center opacity-95 brightness-0 invert"
           decoding="async"
         />
         <span className="sr-only">{name}</span>

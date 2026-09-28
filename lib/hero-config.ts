@@ -1,6 +1,7 @@
+import { DEFAULT_GLOBAL_TAGLINE, DEFAULT_HERO_STUDIOS, parseHeroStudios, type HeroStudioLocation } from "@/lib/hero-studios";
 import { DEFAULT_HERO_TRUST_LOGOS, parseTrustLogos, type HeroTrustLogo } from "@/lib/hero-trust-logos";
 
-export type { HeroTrustLogo };
+export type { HeroTrustLogo, HeroStudioLocation };
 
 export type HeroConfig = {
   eyebrow: string;
@@ -17,6 +18,8 @@ export type HeroConfig = {
   useVideo: boolean;
   trustLogos: HeroTrustLogo[];
   trustMarqueeLabel: string;
+  globalTagline: string;
+  studios: HeroStudioLocation[];
 };
 
 export const DEFAULT_HERO: HeroConfig = {
@@ -34,6 +37,8 @@ export const DEFAULT_HERO: HeroConfig = {
   useVideo: true,
   trustLogos: DEFAULT_HERO_TRUST_LOGOS,
   trustMarqueeLabel: "Enterprises that trust us",
+  globalTagline: DEFAULT_GLOBAL_TAGLINE,
+  studios: DEFAULT_HERO_STUDIOS,
 };
 
 export function parseHeroConfig(raw: unknown): HeroConfig {
@@ -57,5 +62,7 @@ export function parseHeroConfig(raw: unknown): HeroConfig {
     useVideo: data.useVideo === false || data.useVideo === "false" ? false : true,
     trustLogos: parseTrustLogos(data.trustLogos),
     trustMarqueeLabel: str("trustMarqueeLabel", DEFAULT_HERO.trustMarqueeLabel),
+    globalTagline: str("globalTagline", DEFAULT_HERO.globalTagline),
+    studios: parseHeroStudios(data.studios),
   };
 }
