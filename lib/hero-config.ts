@@ -14,18 +14,18 @@ export type HeroConfig = {
 };
 
 export const DEFAULT_HERO: HeroConfig = {
-  eyebrow: "Web developer · App developer · SEO",
+  eyebrow: "Web · Apps · SEO",
   headline: "Precise approach",
   headlineSecond: "to your product.",
-  lede: "We take original ideas to high-quality websites, custom apps, ERP, and SEO programmes — built to convert, rank, and scale from Nepal to the world.",
+  lede: "We specialize in guiding you from your original idea to a high-quality website, custom app, and SEO programme that fuels your growth.",
   primaryLabel: "Start a project",
   primaryHref: "/contact",
   secondaryLabel: "Know more",
   secondaryHref: "/projects",
-  shipsOn: "Web · Play Store · App Store · Google Search",
+  shipsOn: "Play store · App store",
   imageSrc: "/brand/studio-hero-phones.jpg",
-  videoSrc: "",
-  useVideo: false,
+  videoSrc: "/brand/hero-product.webm",
+  useVideo: true,
 };
 
 export function parseHeroConfig(raw: unknown): HeroConfig {
@@ -46,6 +46,6 @@ export function parseHeroConfig(raw: unknown): HeroConfig {
     shipsOn: str("shipsOn", DEFAULT_HERO.shipsOn),
     imageSrc: str("imageSrc", DEFAULT_HERO.imageSrc),
     videoSrc: str("videoSrc", DEFAULT_HERO.videoSrc),
-    useVideo: data.useVideo === true || data.useVideo === "true",
+    useVideo: data.useVideo === false || data.useVideo === "false" ? false : true,
   };
 }

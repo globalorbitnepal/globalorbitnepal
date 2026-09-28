@@ -12,10 +12,10 @@ export function BrandLogo({ priority = false, variant = "default" }: BrandLogoPr
   return (
     <Link
       href="/"
-      className={`relative block shrink-0 ${
+      className={`relative z-[2] block shrink-0 ${
         hero
-          ? "h-[52px] w-[min(240px,64vw)] sm:h-[64px] sm:w-[240px]"
-          : "h-[44px] w-[180px] sm:h-[52px] sm:w-[210px]"
+          ? "h-[72px] w-[min(280px,72vw)] sm:h-[88px] sm:w-[min(360px,52vw)] lg:h-[96px] lg:w-[min(420px,26vw)] xl:h-[108px] xl:w-[min(480px,28vw)] 2xl:h-[112px] 2xl:w-[480px]"
+          : "h-[56px] w-[220px] sm:h-[64px] sm:w-[260px]"
       }`}
       aria-label="Global Orbit Pvt Ltd"
     >

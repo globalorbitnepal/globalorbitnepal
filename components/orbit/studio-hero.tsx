@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
 import type { HeroConfig } from "@/lib/hero-config";
@@ -25,8 +24,8 @@ export function OrbitStudioHero({ config }: Props) {
         const media = mediaRef.current;
         if (!stage || !media) return;
         const rect = stage.getBoundingClientRect();
-        const progress = Math.min(1, Math.max(0, -rect.top / Math.max(rect.height * 0.7, 1)));
-        media.style.transform = `scale(${1 + progress * 0.12})`;
+        const progress = Math.min(1, Math.max(0, -rect.top / Math.max(rect.height * 0.85, 1)));
+        media.style.transform = `translate3d(${progress * 4}%, ${progress * 2}%, 0) scale(${1 + progress * 0.22})`;
       });
     };
     onScroll();
@@ -37,84 +36,74 @@ export function OrbitStudioHero({ config }: Props) {
     };
   }, []);
 
-  const ships = config.shipsOn.split(/[·|,]/).map((item) => item.trim()).filter(Boolean);
-  const videoOn = config.useVideo && Boolean(config.videoSrc);
+  const videoSrc = config.videoSrc || "/brand/hero-product.webm";
+  const mp4Src = videoSrc.endsWith(".webm") ? "/brand/hero-phone-reel.mp4" : videoSrc;
 
   return (
     <section
       ref={stageRef}
-      className="relative isolate min-h-[100svh] overflow-hidden bg-[#07070b] text-white"
+      className="relative isolate min-h-[100svh] overflow-hidden bg-[#07070c] text-white"
       aria-labelledby="home-hero-heading"
     >
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_80%_40%,rgba(80,90,140,0.18),transparent_55%)]" />
+      <div
+        ref={mediaRef}
+        className="pointer-events-none absolute inset-0 z-0 origin-[78%_48%] will-change-transform"
+        aria-hidden="true"
+      >
+        <video
+          className="h-full w-full scale-[1.04] object-cover object-[68%_center] sm:object-[72%_center] lg:object-[78%_center]"
+          autoPlay
+          muted
+          loop
+          playsInline
+          disablePictureInPicture
+          controls={false}
+          poster={config.imageSrc}
+        >
+          <source src="/brand/hero-product.webm" type="video/webm" />
+          <source src={mp4Src} type="video/mp4" />
+        </video>
+      </div>
 
-      <div className="relative mx-auto grid min-h-[100svh] w-full max-w-[1440px] items-center gap-8 px-5 pb-12 pt-[6.75rem] sm:px-8 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:gap-6 lg:px-10 lg:pt-[7rem] xl:px-12">
-        <div className="relative z-[2] max-w-[38rem]">
-          <p className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/[0.07] px-3 py-1 text-[11px] font-semibold text-white/85 backdrop-blur-xl">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#f0c43a]" />
+      <div className="orbit-studio-hero-veil pointer-events-none absolute inset-0 z-[1]" />
+
+      <div className="relative z-[2] mx-auto flex min-h-[100svh] w-full max-w-[1600px] items-center px-5 pb-16 pt-[7.5rem] sm:px-8 sm:pt-[8.5rem] lg:px-12 lg:pt-[8.75rem]">
+        <div className="w-full max-w-[36rem] lg:max-w-[40rem]">
+          <p className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/[0.06] px-3 py-1 text-[11px] font-medium text-white/85 backdrop-blur-md">
             {config.eyebrow}
           </p>
           <h1
             id="home-hero-heading"
-            className="mt-6 font-[family-name:var(--font-jakarta)] text-[clamp(2.1rem,1.4rem+3.6vw,4.5rem)] font-semibold leading-[1.06] tracking-[-0.048em]"
+            className="mt-6 font-[family-name:var(--font-jakarta)] text-[clamp(2.35rem,1.2rem+4.2vw,4.75rem)] font-semibold leading-[1.05] tracking-[-0.05em]"
           >
             {config.headline}
-            {config.headlineSecond ? <span className="mt-1 block">{config.headlineSecond}</span> : null}
+            {config.headlineSecond ? <span className="block">{config.headlineSecond}</span> : null}
           </h1>
-          <p className="mt-5 max-w-[34rem] text-[clamp(0.95rem,0.85rem+0.4vw,1.05rem)] leading-[1.75] text-white/70">
+          <p className="mt-5 max-w-[32rem] text-[clamp(0.95rem,0.84rem+0.35vw,1.125rem)] leading-[1.7] text-white/68">
             {config.lede}
           </p>
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+          <div className="mt-8">
             <Link
               href={config.primaryHref}
-              className="inline-flex h-12 items-center justify-center rounded-full bg-white px-7 text-[14px] font-semibold text-[#111] hover:bg-white/92"
+              className="inline-flex h-12 items-center justify-center rounded-full bg-[#1a1a22] px-8 text-[14px] font-medium text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.12)] ring-1 ring-white/10 hover:bg-[#22222c]"
             >
               {config.primaryLabel}
             </Link>
-            <Link
-              href={config.secondaryHref}
-              className="inline-flex h-12 items-center justify-center rounded-full border border-white/16 bg-white/[0.06] px-7 text-[14px] font-semibold text-white backdrop-blur-xl hover:bg-white/10"
-            >
-              {config.secondaryLabel}
-            </Link>
           </div>
-          {ships.length ? (
-            <ul className="mt-10 flex flex-wrap gap-x-5 gap-y-2 text-[13px] font-medium text-white/60">
-              {ships.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
-          ) : null}
-        </div>
-
-        <div className="relative h-[min(52vw,420px)] w-full min-h-[240px] lg:h-[min(78svh,760px)] lg:min-h-[420px]">
-          <div ref={mediaRef} className="absolute inset-0 origin-center will-change-transform">
-            {videoOn ? (
-              <video
-                className="h-full w-full object-contain object-center lg:object-right"
-                autoPlay
-                muted
-                loop
-                playsInline
-                disablePictureInPicture
-                controls={false}
-                poster={config.imageSrc}
-                aria-hidden="true"
-              >
-                <source src={config.videoSrc} type="video/mp4" />
-              </video>
-            ) : (
-              <Image
-                src={config.imageSrc}
-                alt=""
-                fill
-                priority
-                unoptimized
-                sizes="(max-width: 1023px) 100vw, 54vw"
-                className="object-contain object-center drop-shadow-[0_30px_80px_rgba(0,0,0,0.45)] lg:object-right"
-              />
-            )}
-          </div>
+          <p className="mt-10 text-[12px] font-medium text-white/45">List your app on</p>
+          <ul className="mt-3 flex flex-wrap items-center gap-7 text-[13px] font-medium text-white/80">
+            <li className="inline-flex items-center gap-2">
+              <span aria-hidden="true">▶</span> Play store
+            </li>
+            <li className="inline-flex items-center gap-2">
+              <span aria-hidden="true">
+                <svg width="14" height="16" viewBox="0 0 14 16" fill="currentColor">
+                  <path d="M11.2 8.4c0-1.9 1.6-2.8 1.6-2.9-0.9-1.3-2.3-1.5-2.8-1.5-1.2-0.1-2.3.7-2.9.7-0.6 0-1.6-.7-2.6-.7-1.3 0-2.6.8-3.3 2-1.4 2.4-0.4 6 1 8 0.7 1 1.5 2 2.6 2 1 0 1.4-.7 2.7-.7s1.6.7 2.7.7c1.1 0 1.8-1 2.5-1.9 0.8-1.1 1.1-2.2 1.1-2.2s-2.2-.9-2.2-3.5zM9.3 2.9c.6-.7 1-1.7.9-2.7-0.9.1-1.9.6-2.5 1.3-0.6.6-1.1 1.6-1 2.6 1 .1 1.9-.5 2.6-1.2z" />
+                </svg>
+              </span>
+              App store
+            </li>
+          </ul>
         </div>
       </div>
     </section>

@@ -22,48 +22,61 @@ export function SiteHeader({ items }: SiteHeaderProps) {
 
   return (
     <header className="pointer-events-none fixed inset-x-0 top-0 z-50 text-white">
-      <div className="pointer-events-auto mx-auto max-w-[1440px] px-3 pt-3 sm:px-5 sm:pt-4 lg:px-8">
-        <div className="orbit-header-glass flex min-h-[64px] items-center gap-3 rounded-full px-3 py-2 sm:min-h-[72px] sm:px-5 lg:min-h-[80px]">
-          <BrandLogo priority variant={home ? "hero" : "default"} />
-          <nav aria-label="Main navigation" className="hidden min-w-0 flex-1 justify-center lg:flex">
+      <div className="pointer-events-auto mx-auto flex max-w-[1600px] items-center gap-3 px-4 pt-4 sm:px-6 sm:pt-5 lg:px-10">
+        <BrandLogo priority variant={home ? "hero" : "default"} />
+
+        <nav aria-label="Main navigation" className="hidden min-w-0 flex-1 justify-center lg:flex">
+          <div className="orbit-header-glass inline-flex items-center rounded-full px-5 py-2.5 xl:px-7">
             <NavLinks items={items} variant="headerStudio" />
-          </nav>
-          <div className="ml-auto flex items-center lg:hidden">
-            <button
-              type="button"
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-white/5"
-              aria-expanded={open}
-              aria-controls="mobile-nav"
-              onClick={() => setOpen((value) => !value)}
-            >
-              <span className="sr-only">{open ? "Close menu" : "Open menu"}</span>
-              <span aria-hidden="true">{open ? "×" : "☰"}</span>
-            </button>
           </div>
-        </div>
-        {open ? (
-          <div
-            id="mobile-nav"
-            className="orbit-header-glass mt-2 rounded-[28px] px-4 py-4 lg:hidden"
-          >
-            <ul className="flex flex-col gap-1 text-[15px] font-semibold">
-              {items.map((item) => (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className={`block rounded-xl px-3 py-3 ${
-                      pathname === item.href ? "text-[#f0c43a]" : "text-white/90"
-                    }`}
-                    onClick={() => setOpen(false)}
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ) : null}
+        </nav>
+
+        <Link
+          href="/contact"
+          className="orbit-header-glass ml-auto hidden h-11 items-center rounded-full px-6 text-[14px] font-medium text-white hover:bg-white/10 lg:inline-flex"
+        >
+          Contact Us
+        </Link>
+
+        <button
+          type="button"
+          className="ml-auto inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-white/5 lg:hidden"
+          aria-expanded={open}
+          aria-controls="mobile-nav"
+          onClick={() => setOpen((value) => !value)}
+        >
+          <span className="sr-only">{open ? "Close menu" : "Open menu"}</span>
+          <span aria-hidden="true">{open ? "×" : "☰"}</span>
+        </button>
       </div>
+
+      {open ? (
+        <div
+          id="mobile-nav"
+          className="pointer-events-auto mx-4 mt-2 rounded-[28px] border border-white/12 bg-[#0b0b12]/92 px-4 py-4 backdrop-blur-xl lg:hidden"
+        >
+          <ul className="flex flex-col gap-1 text-[15px] font-semibold">
+            {items.map((item) => (
+              <li key={item.href}>
+                <Link
+                  href={item.href}
+                  className={`block rounded-xl px-3 py-3 ${
+                    pathname === item.href ? "text-white" : "text-white/80"
+                  }`}
+                  onClick={() => setOpen(false)}
+                >
+                  {item.label}
+                </Link>
+              </li>
+            ))}
+            <li>
+              <Link href="/contact" className="block rounded-xl px-3 py-3 text-white" onClick={() => setOpen(false)}>
+                Contact Us
+              </Link>
+            </li>
+          </ul>
+        </div>
+      ) : null}
     </header>
   );
 }
