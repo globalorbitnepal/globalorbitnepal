@@ -99,8 +99,8 @@ export function OrbitStudioHero({ config }: Props) {
 
       <div className="orbit-studio-hero-veil pointer-events-none absolute inset-0 z-[1]" />
 
-      <div className="orbit-studio-hero-shell relative z-[2] mx-auto flex min-h-[100svh] min-h-[100dvh] w-full max-w-[1600px] flex-col justify-between px-5 pb-8 pt-[7.25rem] sm:px-6 sm:pb-9 sm:pt-[7.75rem] md:px-8 lg:px-10 lg:pb-10 lg:pt-[8.25rem] xl:pb-12">
-        <div className="orbit-studio-hero-copy w-full max-w-[44rem] shrink-0 text-left">
+      <div className="orbit-studio-hero-shell relative z-[2] mx-auto grid min-h-[100svh] min-h-[100dvh] w-full max-w-[1600px] grid-cols-1 grid-rows-[minmax(0,1fr)_auto_minmax(0.45rem,1.15vh)_auto_minmax(0,1fr)] px-5 pb-8 pt-[7.25rem] sm:px-6 sm:pb-9 sm:pt-[7.75rem] md:px-8 lg:px-10 lg:pb-10 lg:pt-[8.25rem] xl:pb-12">
+        <div className="orbit-studio-hero-copy col-start-1 row-start-2 w-full max-w-[44rem] pt-2 text-left sm:pt-4 lg:pt-5">
           <p className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/[0.06] px-3.5 py-1.5 text-[13px] font-medium text-white/85 backdrop-blur-md">
             {config.eyebrow}
           </p>
@@ -124,7 +124,7 @@ export function OrbitStudioHero({ config }: Props) {
           </div>
         </div>
 
-        <div className="orbit-studio-hero-foot mt-auto w-full max-w-[min(100%,44rem)] shrink-0 pt-4 sm:pt-5 lg:max-w-[42rem]">
+        <div className="orbit-studio-hero-foot col-start-1 row-start-4 w-full max-w-[min(100%,44rem)] lg:max-w-[42rem]">
           <p className="orbit-hero-tagline max-w-[34rem] text-[14px] leading-[1.6] text-white/55 sm:text-[15px] sm:leading-[1.65]">
             {config.globalTagline}
           </p>
