@@ -24,7 +24,7 @@ export function NavLinks({ items, variant = "header" }: NavLinksProps) {
         isFooter
           ? "mt-4 flex flex-col gap-2.5 text-sm"
           : isPremium
-            ? "flex flex-wrap items-center gap-5 text-[14px] font-medium"
+            ? "flex flex-nowrap items-center gap-3 text-[13px] font-medium xl:gap-5 xl:text-[14px]"
             : "flex flex-wrap items-center gap-x-7 gap-y-2 text-[15px] font-medium"
       }
     >

@@ -87,7 +87,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} ${jakarta.variable} ${caveat.variable} h-full antialiased`}
     >
-      <body className="min-h-full">
+      <body className="min-h-full overflow-x-clip">
         <SiteShell
           companyName={companyName}
           tagline={tagline}

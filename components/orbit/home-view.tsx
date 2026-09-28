@@ -21,7 +21,7 @@ function SectionHead({ id, title, lede }: { id: string; title: string; lede: str
   return (
     <div className="mx-auto mb-12 max-w-3xl text-center">
       <p className="orbit-kicker">Global Orbit</p>
-      <h2 id={id} className="mt-3 font-[family-name:var(--font-display)] text-3xl tracking-tight text-white sm:text-5xl">
+      <h2 id={id} className="mt-3 font-[family-name:var(--font-display)] text-[clamp(1.7rem,5.2vw,3rem)] tracking-tight text-white">
         {title}
       </h2>
       <div className="orbit-gold-rule" />
@@ -35,7 +35,7 @@ export function OrbitHomeView() {
     <>
       <OrbitHomeHero />
 
-      <section className="border-y border-white/10 bg-[#071533]/80 px-4 py-10 backdrop-blur-xl" aria-label="Technologies we use">
+      <section className="border-y border-white/10 bg-[#071533]/80 px-4 py-8 sm:px-6 sm:py-10 lg:px-8" aria-label="Technologies we use">
         <p className="orbit-kicker text-center">The stack we ship in</p>
         <div className="mt-5 flex flex-wrap items-center justify-center gap-5">
           {HOME_TECHNOLOGIES.map((name) => {
@@ -58,13 +58,13 @@ export function OrbitHomeView() {
 
       <OrbitWhySection />
 
-      <section className="px-4 py-20 sm:py-24" aria-labelledby="projects-heading">
+      <section className="px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24" aria-labelledby="projects-heading">
         <SectionHead
           id="projects-heading"
           title="Twenty-five sites on the record"
           lede="Hotels, treks, restaurants, hospitals, factories, billing SaaS, and partner portals — each with the market flag."
         />
-        <div className="mx-auto grid max-w-[1280px] gap-4 sm:grid-cols-2 lg:grid-cols-5">
+        <div className="mx-auto grid max-w-[1280px] gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
           {ORBIT_PROJECTS.map((item) => (
             <article key={item.title} className="orbit-card rounded-[22px] p-5">
               <div className="flex items-center justify-between gap-2">
@@ -83,17 +83,17 @@ export function OrbitHomeView() {
         </div>
       </section>
 
-      <section className="bg-[#071533]/60 px-4 py-20 sm:py-24" aria-labelledby="seo-heading">
+      <section className="bg-[#071533]/60 px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24" aria-labelledby="seo-heading">
         <SectionHead
           id="seo-heading"
           title="Rankings you can audit"
           lede="Before / after is shown as structure, not a screenshot of someone else’s Search Console."
         />
         <div className="mx-auto grid max-w-4xl gap-6 md:grid-cols-2">
-          <article className="orbit-card rounded-[22px] p-7">
+          <article className="orbit-card rounded-[22px] p-5 sm:p-7">
             <h3 className="font-semibold text-white">Organic traffic</h3>
             <p className="mt-1 text-sm text-white/50">Monthly sessions, typical programme</p>
-            <div className="mt-8 flex h-44 items-end gap-10 px-8">
+            <div className="mt-8 flex h-40 items-end gap-8 px-4 sm:h-44 sm:gap-10 sm:px-8">
               <div className="flex h-full flex-1 flex-col justify-end">
                 <div className="h-[34%] rounded-t-lg bg-white/20" />
                 <p className="mt-2 text-center text-xs text-white/45">Before</p>
@@ -104,10 +104,10 @@ export function OrbitHomeView() {
               </div>
             </div>
           </article>
-          <article className="orbit-card rounded-[22px] p-7">
+          <article className="orbit-card rounded-[22px] p-5 sm:p-7">
             <h3 className="font-semibold text-white">Keyword position</h3>
             <p className="mt-1 text-sm text-white/50">Average target term</p>
-            <div className="mt-8 flex h-44 items-end gap-10 px-8">
+            <div className="mt-8 flex h-40 items-end gap-8 px-4 sm:h-44 sm:gap-10 sm:px-8">
               <div className="flex h-full flex-1 flex-col justify-end">
                 <div className="h-[72%] rounded-t-lg bg-white/20" />
                 <p className="mt-2 text-center text-xs text-white/45">Pos 18</p>
@@ -121,14 +121,14 @@ export function OrbitHomeView() {
         </div>
       </section>
 
-      <section className="px-4 py-20 sm:py-24" aria-labelledby="countries-heading">
+      <section className="px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24" aria-labelledby="countries-heading">
         <div id="countries-heading" className="sr-only">
           Markets
         </div>
         <OrbitCountryFlags />
       </section>
 
-      <section className="bg-[#071533]/60 px-4 py-20 sm:py-24" aria-labelledby="auto-heading">
+      <section className="bg-[#071533]/60 px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24" aria-labelledby="auto-heading">
         <SectionHead
           id="auto-heading"
           title="Operations that run after midnight"
@@ -144,7 +144,7 @@ export function OrbitHomeView() {
         </div>
       </section>
 
-      <section className="px-4 py-20 sm:py-24" aria-labelledby="industries-heading">
+      <section className="px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24" aria-labelledby="industries-heading">
         <SectionHead
           id="industries-heading"
           title="Industries we already know"
@@ -159,7 +159,7 @@ export function OrbitHomeView() {
         </ul>
       </section>
 
-      <section className="bg-[#071533]/60 px-4 py-20 sm:py-24" aria-labelledby="tools-heading">
+      <section className="bg-[#071533]/60 px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24" aria-labelledby="tools-heading">
         <SectionHead
           id="tools-heading"
           title="Tools chosen for production"
@@ -179,7 +179,7 @@ export function OrbitHomeView() {
         </div>
       </section>
 
-      <section className="px-4 py-20 sm:py-24" aria-labelledby="process-heading">
+      <section className="px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24" aria-labelledby="process-heading">
         <SectionHead id="process-heading" title="How work moves" lede="Six stages. Named owner. No silent handoff." />
         <ol className="mx-auto grid max-w-[1280px] gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {ORBIT_PROCESS.map((item, index) => (
@@ -192,12 +192,12 @@ export function OrbitHomeView() {
         </ol>
       </section>
 
-      <section className="bg-[#071533]/60 px-4 py-20 sm:py-24" aria-labelledby="reviews-heading">
+      <section className="bg-[#071533]/60 px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24" aria-labelledby="reviews-heading">
         <SectionHead id="reviews-heading" title="What clients say" lede="Operators, not anonymous five-star widgets." />
         <OrbitTestimonials />
       </section>
 
-      <section className="px-4 py-20 sm:py-24" aria-labelledby="faq-heading">
+      <section className="px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24" aria-labelledby="faq-heading">
         <SectionHead
           id="faq-heading"
           title="Questions we answer on the first call"

@@ -17,7 +17,7 @@ export function SiteFooter({ companyName, address }: SiteFooterProps) {
 
   return (
     <footer className="mt-auto border-t border-white/10 bg-[#041028] text-white">
-      <div className="mx-auto grid max-w-[1280px] gap-10 px-4 py-14 sm:grid-cols-2 lg:grid-cols-4 lg:px-8">
+      <div className="mx-auto grid max-w-[1280px] gap-10 px-4 py-12 sm:grid-cols-2 sm:py-14 lg:grid-cols-4 lg:px-8">
         <div>
           <BrandLogo />
           <p className="mt-4 max-w-sm text-sm leading-7 text-white/65">

@@ -95,7 +95,7 @@ export function OrbitSolutionsSection() {
               <Link
                 key={item.slug}
                 href={item.href}
-                className="orbit-soft-card group relative flex min-h-[200px] overflow-hidden rounded-[22px] p-4 sm:min-h-[210px] sm:p-5"
+                className="orbit-soft-card group relative flex min-h-0 flex-col overflow-hidden rounded-[22px] p-4 sm:min-h-[210px] sm:flex-row sm:p-5"
                 style={
                   {
                     "--soft-accent": accent.color,
@@ -104,7 +104,7 @@ export function OrbitSolutionsSection() {
                   } as CSSProperties
                 }
               >
-                <div className="relative z-[1] flex w-[48%] min-w-0 flex-col sm:w-[46%]">
+                <div className="relative z-[1] flex w-full min-w-0 flex-col sm:w-[46%]">
                   <span
                     className="inline-flex h-10 w-10 items-center justify-center rounded-[12px]"
                     style={{
@@ -123,7 +123,7 @@ export function OrbitSolutionsSection() {
                   </span>
                 </div>
 
-                <div className="pointer-events-none absolute inset-y-2 right-1 w-[54%] sm:right-2 sm:w-[56%]">
+                <div className="pointer-events-none relative mt-4 h-36 w-full sm:absolute sm:inset-y-2 sm:right-2 sm:mt-0 sm:h-auto sm:w-[56%]">
                   <Image
                     src={`/brand/sol-previews/${num}.png`}
                     alt=""

@@ -1,6 +1,6 @@
-import Image from "next/image";
 import Link from "next/link";
 import { HeroGlobePins } from "@/components/orbit/hero-flags";
+import { OrbitHomeHeroMedia } from "@/components/orbit/home-hero-media";
 
 const SERVICES = [
   { title: "Web Development", line: "Modern & Scalable", icon: "monitor" },
@@ -16,9 +16,15 @@ const STATS = [
   { value: "6+", label: "Years of Trust", icon: "award" },
 ] as const;
 
+const MARKETS = [
+  { code: "np", name: "Nepal" },
+  { code: "in", name: "India" },
+  { code: "us", name: "USA" },
+] as const;
+
 function ServiceIcon({ name }: { name: string }) {
   const props = {
-    className: "h-9 w-9 shrink-0 text-[#f0c43a] lg:h-11 lg:w-11",
+    className: "h-8 w-8 shrink-0 text-[#f0c43a] sm:h-9 sm:w-9 lg:h-11 lg:w-11",
     viewBox: "0 0 24 24",
     fill: "none",
     stroke: "currentColor",
@@ -60,7 +66,7 @@ function ServiceIcon({ name }: { name: string }) {
 
 function StatIcon({ name }: { name: string }) {
   const props = {
-    className: "h-8 w-8 shrink-0 text-[#f0c43a] lg:h-10 lg:w-10",
+    className: "h-7 w-7 shrink-0 text-[#f0c43a] sm:h-8 sm:w-8 lg:h-10 lg:w-10",
     viewBox: "0 0 24 24",
     fill: "none",
     stroke: "currentColor",
@@ -105,45 +111,61 @@ function StatIcon({ name }: { name: string }) {
 export function OrbitHomeHero() {
   return (
     <section
-      className="orbit-home-hero relative isolate min-h-[calc(100svh-72px)] overflow-hidden bg-[#040a16] text-white sm:min-h-[calc(100svh-78px)] lg:min-h-[calc(100svh-82px)]"
+      className="orbit-home-hero relative isolate overflow-hidden bg-[#040a16] text-white lg:min-h-[calc(100svh-82px)]"
       aria-labelledby="home-hero-heading"
     >
       <div className="orbit-hero-stage">
-        <Image
-          src="/brand/hero-globe.jpg"
-          alt="Earth seen from space above the Himalaya"
-          fill
-          priority
-          unoptimized
-          sizes="100vw"
-          className="object-cover"
-        />
-        <HeroGlobePins />
+        <OrbitHomeHeroMedia />
+        <div className="orbit-hero-veil pointer-events-none absolute inset-0" />
+        <div className="orbit-neural pointer-events-none absolute inset-0 opacity-[0.38]" />
+        <div className="orbit-scan pointer-events-none absolute inset-0 opacity-80" />
+        <div className="orbit-ai-orb orbit-ai-orb-cyan pointer-events-none" aria-hidden="true" />
+        <div className="orbit-ai-orb orbit-ai-orb-gold pointer-events-none" aria-hidden="true" />
+        <div className="orbit-hero-grain pointer-events-none absolute inset-0" />
+        <div className="orbit-hero-vignette pointer-events-none absolute inset-0" />
+        <div className="hidden lg:block">
+          <HeroGlobePins />
+        </div>
       </div>
       <div className="orbit-hero-scrim pointer-events-none absolute inset-0" />
 
-      <div className="orbit-hero-content relative z-[1] mx-auto flex min-h-[calc(100svh-72px)] w-full max-w-[1600px] flex-col px-5 pb-7 sm:min-h-[calc(100svh-78px)] lg:min-h-[calc(100svh-82px)] lg:px-10 lg:pb-[clamp(1rem,2.4vh,2.25rem)] xl:px-14">
+      <div className="orbit-hero-content relative z-[1] mx-auto flex w-full max-w-[1600px] flex-col px-4 pb-24 sm:px-6 sm:pb-16 lg:min-h-[calc(100svh-82px)] lg:px-10 lg:pb-[clamp(1rem,2.4vh,2.25rem)] xl:px-14">
         <div className="orbit-hero-copy max-w-[43rem]">
-          <p className="text-[10px] font-semibold uppercase tracking-[0.34em] text-[#f0c43a] sm:text-[12px] lg:text-[13px]">
+          <p className="orbit-about-reveal orbit-hero-eyebrow text-[10px] font-semibold uppercase text-[#f0c43a] sm:text-[12px] lg:text-[13px]">
             Built for a brighter tomorrow
           </p>
           <h1
             id="home-hero-heading"
-            className="mt-4 font-[family-name:var(--font-jakarta)] text-[clamp(2.2rem,min(4.9vw,7vh),5rem)] font-extrabold leading-[1.04] tracking-[-0.035em]"
+            className="orbit-about-reveal orbit-about-delay-1 orbit-hero-title-shadow mt-3 font-[family-name:var(--font-jakarta)] text-[clamp(2.05rem,8.4vw,5.15rem)] font-extrabold leading-[1.02] tracking-[-0.04em] sm:mt-4"
           >
             Digital Solutions
             <span className="mt-1 block">
-              for a <span className="text-[#f0c43a]">Global World</span>
+              for a <span className="orbit-hero-gold">Global World</span>
             </span>
           </h1>
-          <p className="mt-[clamp(0.85rem,2.2vh,1.35rem)] max-w-[34rem] text-[14px] leading-[1.75] text-white/85 sm:text-[15px] lg:text-[16px]">
+          <p className="orbit-about-reveal orbit-about-delay-2 mt-3 max-w-[34rem] text-[14px] leading-[1.7] text-white/88 sm:mt-[clamp(0.85rem,2.2vh,1.35rem)] sm:text-[15px] sm:leading-[1.75] lg:text-[16px]">
             We design and develop websites, web applications, ERP systems and digital solutions that help
             businesses grow, operate smarter and reach further — from local to global.
           </p>
-          <div className="mt-[clamp(1.1rem,2.8vh,1.85rem)] flex flex-wrap items-center gap-4">
+          <ul className="mt-4 flex flex-wrap items-center gap-2 lg:hidden">
+            {MARKETS.map((market) => (
+              <li
+                key={market.code}
+                className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/8 px-2.5 py-1.5 backdrop-blur-md"
+              >
+                <img
+                  src={`https://flagcdn.com/w80/${market.code}.png`}
+                  alt=""
+                  className="h-5 w-5 rounded-full object-cover ring-1 ring-white/80"
+                />
+                <span className="text-[12px] font-semibold text-white">{market.name}</span>
+              </li>
+            ))}
+          </ul>
+          <div className="orbit-about-reveal orbit-hero-delay-3 mt-5 flex flex-col gap-3 sm:mt-[clamp(1.1rem,2.8vh,1.85rem)] sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
             <Link
               href="/contact"
-              className="group inline-flex h-[clamp(48px,6.4vh,56px)] items-center gap-3 rounded-full bg-[#f0c43a] py-2 pl-7 pr-2 text-[15px] font-semibold text-[#1a1408] shadow-[0_16px_38px_rgba(240,196,58,0.32)] transition-colors hover:bg-[#ffe38a] lg:text-[16px]"
+              className="group inline-flex h-12 w-full items-center justify-center gap-3 rounded-full bg-[#f0c43a] py-2 pl-6 pr-2 text-[15px] font-semibold text-[#1a1408] shadow-[0_16px_38px_rgba(240,196,58,0.38),0_0_0_1px_rgba(255,255,255,0.25)_inset] transition-[transform,background,box-shadow] hover:bg-[#ffe38a] hover:shadow-[0_20px_48px_rgba(240,196,58,0.45)] sm:h-[clamp(48px,6.4vh,56px)] sm:w-auto sm:justify-start sm:pl-7 lg:text-[16px]"
             >
               Start a project
               <span
@@ -155,7 +177,7 @@ export function OrbitHomeHero() {
             </Link>
             <Link
               href="/projects"
-              className="orbit-glass inline-flex h-[clamp(48px,6.4vh,56px)] items-center gap-3 rounded-full py-2 pl-2 pr-7 text-[15px] font-semibold text-white lg:text-[16px]"
+              className="orbit-glass inline-flex h-12 w-full items-center justify-center gap-3 rounded-full py-2 pl-2 pr-6 text-[15px] font-semibold text-white sm:h-[clamp(48px,6.4vh,56px)] sm:w-auto sm:justify-start sm:pr-7 lg:text-[16px]"
             >
               <span
                 className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white text-[11px] text-[#0b1220]"
@@ -168,21 +190,21 @@ export function OrbitHomeHero() {
           </div>
         </div>
 
-        <div className="mt-auto pt-[clamp(1rem,3vh,3rem)]">
-          <ul className="mx-auto flex w-full max-w-[980px] flex-wrap justify-center gap-y-6 sm:flex-nowrap">
+        <div className="mt-10 lg:mt-auto lg:pt-[clamp(1rem,3vh,3rem)]">
+          <ul className="mx-auto grid w-full max-w-[980px] grid-cols-2 gap-y-5 sm:flex sm:flex-nowrap sm:justify-center">
             {SERVICES.map((item, index) => (
               <li
                 key={item.title}
-                className={`flex w-1/2 items-center gap-3.5 px-3 sm:w-auto sm:flex-1 sm:justify-center ${
+                className={`flex items-center gap-3 px-1.5 sm:w-auto sm:flex-1 sm:justify-center sm:gap-3.5 sm:px-3 ${
                   index === 0 ? "" : "sm:border-l sm:border-white/20"
                 }`}
               >
                 <ServiceIcon name={item.icon} />
                 <span>
-                  <span className="block text-[13px] font-semibold sm:text-[14px] lg:text-[15px]">
+                  <span className="block text-[12px] font-semibold sm:text-[14px] lg:text-[15px]">
                     {item.title}
                   </span>
-                  <span className="block text-[11px] text-white/65 sm:text-[12px] lg:text-[13px]">
+                  <span className="block text-[10px] text-white/65 sm:text-[12px] lg:text-[13px]">
                     {item.line}
                   </span>
                 </span>
@@ -190,20 +212,22 @@ export function OrbitHomeHero() {
             ))}
           </ul>
 
-          <dl className="orbit-glass mx-auto mt-[clamp(0.75rem,2.2vh,2rem)] grid w-full max-w-[980px] grid-cols-2 rounded-[28px] px-3 py-5 sm:grid-cols-4 sm:px-6 sm:py-[clamp(0.75rem,1.9vh,1.5rem)]">
+          <dl className="orbit-glass-strong orbit-about-reveal orbit-hero-delay-5 mx-auto mt-5 grid w-full max-w-[980px] grid-cols-2 overflow-hidden rounded-[22px] px-1 py-3 sm:mt-[clamp(0.75rem,2.2vh,2rem)] sm:grid-cols-4 sm:rounded-[28px] sm:px-6 sm:py-[clamp(0.75rem,1.9vh,1.5rem)]">
             {STATS.map((item, index) => (
               <div
                 key={item.label}
-                className={`flex items-center justify-center gap-3.5 px-2 py-2 sm:py-0 ${
+                className={`flex items-center justify-center gap-2.5 px-2 py-3 sm:gap-3.5 sm:py-0 ${
                   index === 0 ? "" : "sm:border-l sm:border-white/18"
-                }`}
+                } ${index % 2 === 1 ? "border-l border-white/12 sm:border-l-0" : ""} ${
+                  index < 2 ? "border-b border-white/12 sm:border-b-0" : ""
+                } ${index === 2 || index === 3 ? "sm:border-l sm:border-white/18" : ""}`}
               >
                 <StatIcon name={item.icon} />
                 <div>
-                  <dt className="font-[family-name:var(--font-jakarta)] text-[22px] font-extrabold leading-none text-white sm:text-[26px] lg:text-[30px]">
+                  <dt className="font-[family-name:var(--font-jakarta)] text-[20px] font-extrabold leading-none text-white sm:text-[26px] lg:text-[30px]">
                     {item.value}
                   </dt>
-                  <dd className="mt-1.5 text-[9px] font-semibold uppercase tracking-[0.18em] text-white/80 sm:text-[10px] lg:text-[11px]">
+                  <dd className="mt-1 text-[8px] font-semibold uppercase tracking-[0.16em] text-white/80 sm:mt-1.5 sm:text-[10px] lg:text-[11px]">
                     {item.label}
                   </dd>
                 </div>
@@ -211,12 +235,12 @@ export function OrbitHomeHero() {
             ))}
           </dl>
 
-          <div className="mt-[clamp(0.75rem,2.2vh,1.75rem)] flex items-end justify-between gap-6">
-            <p className="flex items-center gap-4 text-[9px] font-semibold uppercase tracking-[0.32em] text-white/70 sm:text-[10px]">
+          <div className="mt-6 flex items-end justify-between gap-4 pr-16 sm:mt-[clamp(0.75rem,2.2vh,1.75rem)] sm:gap-6 sm:pr-0">
+            <p className="flex items-center gap-3 text-[8px] font-semibold uppercase tracking-[0.24em] text-white/70 sm:gap-4 sm:text-[10px] sm:tracking-[0.32em]">
               Explore a smarter tomorrow
               <span className="hidden h-px w-20 bg-white/45 sm:block" />
             </p>
-            <p className="text-right font-[family-name:var(--font-script)] text-[clamp(20px,3vh,38px)] leading-[1.12] text-white lg:mr-16">
+            <p className="max-w-[46%] text-right font-[family-name:var(--font-script)] text-[clamp(18px,5.2vw,38px)] leading-[1.12] text-white sm:max-w-none lg:mr-16">
               Building
               <span className="block">a Smarter</span>
               <span className="relative inline-block">

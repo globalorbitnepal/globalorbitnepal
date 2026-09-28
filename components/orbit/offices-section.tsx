@@ -178,7 +178,7 @@ export function OrbitOfficesSection() {
           {OFFICES.map((office) => (
             <article
               key={office.code}
-              className="orbit-office-card group relative flex min-h-[460px] flex-col overflow-hidden rounded-[24px]"
+              className="orbit-office-card group relative flex min-h-[400px] flex-col overflow-hidden rounded-[24px] sm:min-h-[460px]"
             >
               <div className="absolute inset-0">
                 <Image
@@ -197,7 +197,7 @@ export function OrbitOfficesSection() {
                   <span className="inline-flex rounded-full ring-2 ring-white/25 shadow-[0_8px_24px_rgba(0,0,0,0.35)]">
                     <OrbitFlag code={office.code} name={office.country} size={46} rounded="full" />
                   </span>
-                  <span className="inline-flex items-center gap-1.5 rounded-full border border-[#f0c43a]/55 bg-[#f0c43a]/10 px-2.5 py-1 text-[9px] font-semibold uppercase tracking-[0.08em] text-[#f0c43a]">
+                  <span className="inline-flex max-w-[58%] items-center gap-1.5 rounded-full border border-[#f0c43a]/55 bg-[#f0c43a]/10 px-2 py-1 text-[8px] font-semibold uppercase tracking-[0.08em] text-[#f0c43a] sm:max-w-none sm:px-2.5 sm:text-[9px]">
                     <BuildingIcon />
                     Sales & Operation Office
                   </span>

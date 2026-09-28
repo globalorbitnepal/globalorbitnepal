@@ -14,7 +14,7 @@ export function OrbitFaqList() {
           <div key={item.q}>
             <button
               type="button"
-              className="flex w-full items-center justify-between px-5 py-4 text-left text-sm font-semibold text-white"
+              className="flex w-full items-center justify-between gap-4 px-4 py-4 text-left text-sm font-semibold text-white sm:px-5"
               aria-expanded={expanded}
               onClick={() => setOpen(expanded ? null : index)}
             >
@@ -34,7 +34,7 @@ export function OrbitTestimonials() {
   const item = ORBIT_TESTIMONIALS[index];
 
   return (
-    <div className="orbit-card mx-auto max-w-3xl rounded-3xl px-8 py-10 text-center">
+    <div className="orbit-card mx-auto max-w-3xl rounded-3xl px-5 py-8 text-center sm:px-8 sm:py-10">
       <p className="text-lg leading-8 text-white">&ldquo; {item.quote} &rdquo;</p>
       <p className="mt-6 text-sm font-semibold text-[#f0c43a]">
         {item.name} · {item.place}

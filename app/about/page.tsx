@@ -46,12 +46,12 @@ export async function generateMetadata(): Promise<Metadata> {
 export default function AboutPage() {
   return (
     <main className="min-h-screen overflow-hidden bg-[#021430] text-white">
-      <section className="relative isolate overflow-hidden px-4 pb-20 pt-32 text-center sm:px-6 lg:px-8">
+      <section className="relative isolate overflow-hidden px-4 pb-16 pt-10 text-center sm:px-6 sm:pb-20 sm:pt-16 lg:px-8 lg:pt-20">
         <div className="orbit-about-orb pointer-events-none absolute left-1/2 top-10 -z-10 h-[420px] w-[720px] -translate-x-1/2 rounded-full bg-sky-500/[0.08] blur-[120px]" />
         <div className="orbit-about-grid pointer-events-none absolute inset-0 -z-10 opacity-30 [background-image:linear-gradient(rgba(125,211,252,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(125,211,252,0.08)_1px,transparent_1px)] [background-size:72px_72px] [mask-image:linear-gradient(to_bottom,black,transparent_75%)]" />
         <div className="mx-auto max-w-7xl">
           <span className="orbit-about-reveal mb-6 inline-block rounded-full border border-amber-400/30 bg-amber-400/[0.12] px-4 py-1.5 text-xs font-bold uppercase tracking-[0.2em] text-amber-400">About Us</span>
-          <h1 className="orbit-about-reveal orbit-about-delay-1 mx-auto max-w-3xl text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl">
+          <h1 className="orbit-about-reveal orbit-about-delay-1 mx-auto max-w-3xl text-[clamp(1.7rem,7vw,3.75rem)] font-bold leading-tight">
             <span className="text-white">Nepal&apos;s Trusted </span><span className="bg-gradient-to-br from-amber-200 via-amber-400 to-orange-500 bg-clip-text text-transparent [filter:drop-shadow(0_0_12px_rgba(251,191,36,0.4))]">Software Company</span><br />
             <span className="text-white">Crafting Digital Excellence </span><span className="bg-gradient-to-br from-amber-200 via-amber-400 to-orange-500 bg-clip-text text-transparent [filter:drop-shadow(0_0_12px_rgba(251,191,36,0.4))]">Since 2016</span>
           </h1>

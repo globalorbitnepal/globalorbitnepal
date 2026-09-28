@@ -28,13 +28,10 @@ export function SiteHeader({ items }: SiteHeaderProps) {
             : "mt-0 max-w-none rounded-none border-b border-white/12 bg-[#06101f]/82 px-0 backdrop-blur-2xl"
         }`}
       >
-        <div className="mx-auto flex h-[72px] max-w-[1600px] items-center gap-2 px-4 sm:h-[78px] sm:gap-4 sm:px-5 lg:h-[82px] lg:px-8 xl:px-14">
+        <div className="mx-auto flex h-16 max-w-[1600px] items-center gap-2 px-4 sm:h-[72px] sm:gap-4 sm:px-5 lg:h-[82px] lg:px-8 xl:px-14">
           <BrandLogo priority />
-          <nav
-            aria-label="Main navigation"
-            className="hidden flex-1 justify-center lg:flex"
-          >
-            <div className="orbit-nav-glass inline-flex items-center rounded-full px-2 py-1.5">
+          <nav aria-label="Main navigation" className="hidden min-w-0 flex-1 justify-center lg:flex">
+            <div className="orbit-nav-glass inline-flex max-w-full items-center overflow-x-auto rounded-full px-1.5 py-1 xl:px-2 xl:py-1.5">
               <NavLinks items={items} variant="headerPremium" />
             </div>
           </nav>
@@ -45,28 +42,38 @@ export function SiteHeader({ items }: SiteHeaderProps) {
             Get Started
             <span aria-hidden="true">→</span>
           </Link>
-          <button
-            type="button"
-            className="ml-auto inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/20 bg-white/5 backdrop-blur-md lg:hidden"
-            aria-expanded={open}
-            aria-controls="mobile-nav"
-            onClick={() => setOpen((value) => !value)}
-          >
-            <span className="sr-only">{open ? "Close menu" : "Open menu"}</span>
-            <span aria-hidden="true">{open ? "×" : "☰"}</span>
-          </button>
+          <div className="ml-auto flex items-center gap-2 lg:hidden">
+            <Link
+              href="/contact"
+              className="inline-flex h-9 items-center rounded-full bg-[#f0c43a] px-3.5 text-[12px] font-bold text-[#1a1408] sm:h-10 sm:px-4 sm:text-[13px]"
+            >
+              Get Started
+            </Link>
+            <button
+              type="button"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/20 bg-white/5 backdrop-blur-md"
+              aria-expanded={open}
+              aria-controls="mobile-nav"
+              onClick={() => setOpen((value) => !value)}
+            >
+              <span className="sr-only">{open ? "Close menu" : "Open menu"}</span>
+              <span aria-hidden="true" className="text-lg leading-none">
+                {open ? "×" : "☰"}
+              </span>
+            </button>
+          </div>
         </div>
         {open ? (
           <div
             id="mobile-nav"
-            className="border-t border-white/10 bg-[#06101f]/95 px-5 py-4 backdrop-blur-xl lg:hidden"
+            className="border-t border-white/10 bg-[#06101f]/98 px-4 py-4 backdrop-blur-xl lg:hidden"
           >
             <ul className="flex flex-col gap-1 text-[15px] font-semibold">
               {items.map((item) => (
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className={`block rounded-xl px-3 py-2.5 ${
+                    className={`block rounded-xl px-3 py-3 ${
                       pathname === item.href ? "bg-white/8 text-[#f0c43a]" : "text-white/90"
                     }`}
                     onClick={() => setOpen(false)}
@@ -78,7 +85,7 @@ export function SiteHeader({ items }: SiteHeaderProps) {
             </ul>
             <Link
               href="/contact"
-              className="mt-4 inline-flex h-11 items-center gap-2 rounded-full bg-[#f0c43a] px-6 text-sm font-bold text-[#1a1408]"
+              className="mt-4 inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-[#f0c43a] px-6 text-sm font-bold text-[#1a1408]"
               onClick={() => setOpen(false)}
             >
               Get Started

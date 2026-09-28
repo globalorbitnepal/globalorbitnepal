@@ -14,7 +14,7 @@ export function OrbitPageHero({ eyebrow, title, lede, headingId }: OrbitPageHero
         {eyebrow ? (
           <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[#f0c43a]">{eyebrow}</p>
         ) : null}
-        <h1 id={headingId} className="mt-3 font-[family-name:var(--font-display)] text-4xl tracking-tight text-white sm:text-5xl">
+        <h1 id={headingId} className="mt-3 font-[family-name:var(--font-display)] text-[clamp(1.85rem,6vw,3.15rem)] tracking-tight text-white">
           {title}
         </h1>
         <div className="orbit-gold-rule" />
@@ -27,7 +27,7 @@ export function OrbitPageHero({ eyebrow, title, lede, headingId }: OrbitPageHero
 export function OrbitCtaBand() {
   return (
     <section className="orbit-net px-4 py-16 text-center">
-      <h2 className="font-[family-name:var(--font-display)] text-3xl font-semibold text-white sm:text-5xl">Ready to brief the studio?</h2>
+      <h2 className="font-[family-name:var(--font-display)] text-[clamp(1.7rem,5.5vw,3rem)] font-semibold text-white">Ready to brief the studio?</h2>
       <p className="mx-auto mt-4 max-w-2xl text-white/70">
         Nepal, India, and the United States. Free consultation — no commitment.
       </p>
