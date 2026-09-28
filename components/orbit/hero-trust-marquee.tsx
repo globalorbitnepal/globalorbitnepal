@@ -13,14 +13,14 @@ function TrustMark({ logo }: { logo: HeroTrustLogo }) {
       <img
         src={logo.imageSrc}
         alt=""
-        className="h-[22px] w-auto max-w-[7.5rem] object-contain opacity-90 brightness-0 invert"
+        className="h-[25px] w-auto max-w-[8.625rem] object-contain opacity-90 brightness-0 invert"
         loading="lazy"
         decoding="async"
       />
     );
   }
   return (
-    <span className="whitespace-nowrap font-[family-name:var(--font-jakarta)] text-[13px] font-semibold tracking-[0.04em] text-white/72">
+    <span className="whitespace-nowrap font-[family-name:var(--font-jakarta)] text-[15px] font-semibold tracking-[0.04em] text-white/72">
       {logo.label}
     </span>
   );

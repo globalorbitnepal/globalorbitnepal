@@ -13,6 +13,7 @@ type Props = {
 export function OrbitStudioHero({ config }: Props) {
   const stageRef = useRef<HTMLDivElement>(null);
   const mediaRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -40,6 +41,35 @@ export function OrbitStudioHero({ config }: Props) {
 
   const videoSrc = config.videoSrc || "/brand/hero-product.mp4";
 
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    video.loop = true;
+
+    const play = () => {
+      if (document.hidden) return;
+      void video.play().catch(() => {});
+    };
+
+    const onEnded = () => {
+      video.currentTime = 0;
+      play();
+    };
+
+    video.addEventListener("ended", onEnded);
+    video.addEventListener("loadeddata", play);
+    document.addEventListener("visibilitychange", play);
+
+    play();
+
+    return () => {
+      video.removeEventListener("ended", onEnded);
+      video.removeEventListener("loadeddata", play);
+      document.removeEventListener("visibilitychange", play);
+    };
+  }, [videoSrc]);
+
   return (
     <section
       ref={stageRef}
@@ -52,11 +82,14 @@ export function OrbitStudioHero({ config }: Props) {
         aria-hidden="true"
       >
         <video
+          ref={videoRef}
           className="h-full w-full object-cover object-[62%_center] sm:object-[68%_center] lg:object-[74%_center]"
           autoPlay
           muted
           loop
           playsInline
+          preload="auto"
+          poster={config.imageSrc}
           disablePictureInPicture
           controls={false}
         >
