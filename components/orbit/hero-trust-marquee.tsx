@@ -13,14 +13,14 @@ function TrustMark({ logo }: { logo: HeroTrustLogo }) {
       <img
         src={logo.imageSrc}
         alt=""
-        className="h-[25px] w-auto max-w-[8.625rem] object-contain opacity-90 brightness-0 invert"
+        className="h-[29px] w-auto max-w-[9.9rem] object-contain opacity-90 brightness-0 invert"
         loading="lazy"
         decoding="async"
       />
     );
   }
   return (
-    <span className="whitespace-nowrap font-[family-name:var(--font-jakarta)] text-[15px] font-semibold tracking-[0.04em] text-white/72">
+    <span className="whitespace-nowrap font-[family-name:var(--font-jakarta)] text-[17px] font-semibold tracking-[0.04em] text-white/72">
       {logo.label}
     </span>
   );
@@ -32,7 +32,7 @@ export function OrbitHeroTrustMarquee({ logos, label = "Enterprises that trust u
 
   return (
     <div className="w-full" aria-label={label}>
-      <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.28em] text-white/38">{label}</p>
+      <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.28em] text-white/38 sm:text-[12px]">{label}</p>
       <div className="relative overflow-hidden">
         <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-8 bg-gradient-to-r from-[#07070c] to-transparent sm:w-12" />
         <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-[#07070c] via-[#07070c]/80 to-transparent sm:w-24" />

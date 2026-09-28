@@ -134,7 +134,7 @@ function DropdownRow({
     <Link
       href={child.href}
       role="menuitem"
-      className={`orbit-header-dropdown-link flex items-center justify-between gap-3 rounded-xl px-3.5 py-2.5 text-[15px] font-medium ${active ? "is-active" : ""}`}
+      className={`orbit-header-dropdown-link flex items-center justify-between gap-3 rounded-xl px-3.5 py-2.5 text-[17px] font-medium ${active ? "is-active" : ""}`}
       onClick={onNavigate}
     >
       <span>{child.label}</span>
@@ -151,7 +151,7 @@ export function StudioHeaderNav({ onNavigate, className }: { onNavigate?: () => 
   const pathname = usePathname();
 
   return (
-    <ul className={`orbit-header-nav-list flex flex-nowrap items-center gap-4 text-[15px] font-medium tracking-[-0.02em] xl:gap-6 xl:text-[16px] ${className ?? ""}`}>
+    <ul className={`orbit-header-nav-list flex flex-nowrap items-center gap-4 text-[18px] font-medium tracking-[-0.02em] xl:gap-6 xl:text-[19px] ${className ?? ""}`}>
       {STUDIO_HEADER_NAV.map((item) => {
         if (isNavDropdown(item)) {
           return <ServicesDropdown key={item.label} pathname={pathname} onNavigate={onNavigate} />;

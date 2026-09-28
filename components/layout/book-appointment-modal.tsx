@@ -329,7 +329,7 @@ export function BookAppointmentButton({
     <button
       type="button"
       onClick={onClick}
-          className={`orbit-header-glass orbit-header-glass-light orbit-header-nav-link orbit-book-appointment-btn inline-flex h-11 shrink-0 items-center rounded-full px-5 text-[15px] font-medium sm:px-6 sm:text-[16px] lg:text-[16px] ${className ?? ""}`}
+          className={`orbit-header-glass orbit-header-glass-light orbit-header-nav-link orbit-book-appointment-btn inline-flex h-12 shrink-0 items-center rounded-full px-5 text-[18px] font-medium sm:px-6 xl:text-[19px] ${className ?? ""}`}
     >
       Book Appointment
     </button>
