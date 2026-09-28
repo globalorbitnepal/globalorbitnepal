@@ -1,5 +1,3 @@
-import { ORBIT_PROJECTS } from "@/lib/orbit/catalog";
-
 export type HeroTrustLogo = {
   id: string;
   label: string;
@@ -14,10 +12,33 @@ function slugify(title: string, index: number) {
   return base || `client-${index}`;
 }
 
-export const DEFAULT_HERO_TRUST_LOGOS: HeroTrustLogo[] = ORBIT_PROJECTS.slice(0, 18).map((project, index) => ({
-  id: slugify(project.title, index),
-  label: project.title,
-}));
+/** Wordmarks matching the studio hero reference strip. */
+export const DEFAULT_HERO_TRUST_LOGOS: HeroTrustLogo[] = [
+  { id: "holiday-inn", label: "Holiday Inn" },
+  { id: "stealthy", label: "STEALTHY" },
+  { id: "param", label: "PARAM" },
+  { id: "astro-vistaar", label: "ASTRO VISTAAR" },
+  { id: "antara", label: "ANTARA" },
+  { id: "ageasy", label: "AGEasy" },
+  { id: "matrix", label: "MATRIX" },
+  { id: "gensol", label: "GENSOL" },
+  { id: "valuepersoft", label: "Valuepersoft" },
+];
+
+function isLegacyAutoLogos(parsed: HeroTrustLogo[]) {
+  if (parsed.some((logo) => logo.imageSrc)) return false;
+  const labels = parsed.map((logo) => logo.label.toLowerCase());
+  const hits = labels.filter(
+    (label) =>
+      label.includes("hotel") ||
+      label.includes("pokhara") ||
+      label.includes("annapurna") ||
+      label.includes("everest") ||
+      label.includes("himalaya") ||
+      label.includes("lakeside"),
+  ).length;
+  return hits >= 3;
+}
 
 export function parseTrustLogos(raw: unknown): HeroTrustLogo[] {
   if (!Array.isArray(raw) || raw.length === 0) {
@@ -37,5 +58,8 @@ export function parseTrustLogos(raw: unknown): HeroTrustLogo[] {
     const imageSrc = typeof row.imageSrc === "string" && row.imageSrc.trim() ? row.imageSrc.trim() : undefined;
     parsed.push({ id, label, imageSrc });
   }
-  return parsed.length > 0 ? parsed : DEFAULT_HERO_TRUST_LOGOS;
+  if (parsed.length === 0 || isLegacyAutoLogos(parsed)) {
+    return DEFAULT_HERO_TRUST_LOGOS;
+  }
+  return parsed;
 }

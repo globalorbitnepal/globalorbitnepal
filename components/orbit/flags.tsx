@@ -19,8 +19,8 @@ export function OrbitFlag({
   const src = `https://flagcdn.com/w${flagWidth}/${code}.png`;
 
   if (variant === "hero") {
-    const boxH = 28;
-    const boxW = 40;
+    const boxH = 32;
+    const boxW = 44;
     return (
       <span
         className="inline-flex shrink-0 items-center justify-center overflow-hidden rounded-[3px] bg-transparent"

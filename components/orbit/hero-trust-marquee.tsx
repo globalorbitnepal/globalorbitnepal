@@ -13,17 +13,13 @@ function TrustMark({ logo }: { logo: HeroTrustLogo }) {
       <img
         src={logo.imageSrc}
         alt=""
-        className="h-[26px] w-auto max-w-[8.5rem] object-contain brightness-0 invert sm:h-[28px]"
+        className="orbit-hero-trust-img"
         loading="lazy"
         decoding="async"
       />
     );
   }
-  return (
-    <span className="whitespace-nowrap font-[family-name:var(--font-jakarta)] text-[13px] font-semibold tracking-[0.06em] text-white/88 sm:text-[14px]">
-      {logo.label}
-    </span>
-  );
+  return <span className="orbit-hero-trust-word">{logo.label}</span>;
 }
 
 export function OrbitHeroTrustMarquee({ logos, label = "Enterprises that trust us" }: Props) {
@@ -31,14 +27,14 @@ export function OrbitHeroTrustMarquee({ logos, label = "Enterprises that trust u
   const row = [...logos, ...logos];
 
   return (
-    <div className="orbit-hero-trust mt-4 w-full sm:mt-5" aria-label={label}>
+    <div className="orbit-hero-trust w-full" aria-label={label}>
       <p className="orbit-hero-trust-label">{label}</p>
       <div className="relative overflow-hidden">
-        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-6 bg-gradient-to-r from-[#07070c] to-transparent sm:w-10" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-14 bg-gradient-to-l from-[#07070c] via-[#07070c]/70 to-transparent sm:w-20" />
-        <div className="orbit-hero-trust-marquee-track flex w-max items-center gap-x-8 sm:gap-x-10">
+        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-8 bg-gradient-to-r from-[#07070c] to-transparent sm:w-16" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-[#07070c] via-[#07070c]/75 to-transparent sm:w-28" />
+        <div className="orbit-hero-trust-marquee-track flex w-max items-center">
           {row.map((logo, index) => (
-            <div key={`${logo.id}-${index}`} className="flex shrink-0 items-center">
+            <div key={`${logo.id}-${index}`} className="orbit-hero-trust-item flex shrink-0 items-center">
               <TrustMark logo={logo} />
             </div>
           ))}

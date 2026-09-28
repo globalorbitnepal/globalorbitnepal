@@ -100,7 +100,7 @@ export function OrbitStudioHero({ config }: Props) {
       <div className="orbit-studio-hero-veil pointer-events-none absolute inset-0 z-[1]" />
 
       <div className="orbit-studio-hero-shell relative z-[2] mx-auto flex h-full w-full max-w-[1680px] flex-col">
-        <div className="orbit-studio-hero-copy w-full max-w-[min(42rem,52vw)] text-left">
+        <div className="orbit-studio-hero-copy w-full max-w-[min(44rem,48vw)] text-left max-md:max-w-full">
           <p className="orbit-hero-eyebrow">
             <span className="orbit-hero-eyebrow-dot" aria-hidden="true" />
             {config.eyebrow}
@@ -117,9 +117,6 @@ export function OrbitStudioHero({ config }: Props) {
               {config.primaryLabel}
             </Link>
           </div>
-        </div>
-
-        <div className="orbit-studio-hero-foot mt-auto w-full max-w-[min(100%,46rem)]">
           <p className="orbit-hero-studios-kicker">{config.studiosKicker}</p>
           <ul className="orbit-hero-studios">
             {config.studios.map((studio) => (
@@ -132,6 +129,9 @@ export function OrbitStudioHero({ config }: Props) {
               </li>
             ))}
           </ul>
+        </div>
+
+        <div className="orbit-studio-hero-foot mt-auto w-full min-w-0">
           <OrbitHeroTrustMarquee logos={config.trustLogos} label={config.trustMarqueeLabel} />
         </div>
       </div>
