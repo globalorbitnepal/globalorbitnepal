@@ -1,14 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
-import { TECH_MARKS } from "@/components/home/tech-marks";
 import { OrbitCountryFlags, OrbitFlag } from "@/components/orbit/flags";
 import { OrbitFaqList, OrbitTestimonials } from "@/components/orbit/interactive";
 import { OrbitOfficesSection } from "@/components/orbit/offices-section";
 import { OrbitSoftwareSection } from "@/components/orbit/software-section";
 import { OrbitStudioHero } from "@/components/orbit/studio-hero";
 import { OrbitStudioWhy } from "@/components/orbit/studio-why";
+import { OrbitTechStackStrip } from "@/components/orbit/tech-stack-strip";
 import type { HeroConfig } from "@/lib/hero-config";
-import { HOME_TECHNOLOGIES } from "@/lib/home-content";
 import {
   ORBIT_PROCESS,
   ORBIT_PROJECTS,
@@ -85,19 +84,7 @@ export function OrbitStudioHome({ hero }: { hero: HeroConfig }) {
     <>
       <OrbitStudioHero config={hero} />
 
-      <section className="border-y border-white/8 bg-[#09090f] px-4 py-8 sm:px-8" aria-label="Technologies">
-        <div className="mx-auto flex max-w-[1440px] flex-wrap items-center justify-center gap-x-8 gap-y-4">
-          {HOME_TECHNOLOGIES.map((name) => {
-            const Mark = TECH_MARKS[name];
-            return (
-              <span key={name} className="inline-flex items-center gap-2 text-[13px] font-semibold text-white/70">
-                {Mark ? <Mark className="h-5 w-5 opacity-80" /> : null}
-                {name}
-              </span>
-            );
-          })}
-        </div>
-      </section>
+      <OrbitTechStackStrip />
 
       <section className="bg-[#07070b] px-4 py-20 sm:px-8 sm:py-24" aria-labelledby="need-heading">
         <DisplayHead
