@@ -1,5 +1,5 @@
-import { TECH_MARKS } from "@/components/home/tech-marks";
 import { HOME_TECHNOLOGIES } from "@/lib/home-content";
+import { TECH_BRAND_LOGOS, techBrandLogoUrl } from "@/lib/tech-brand-logos";
 
 export function OrbitTechStackStrip() {
   return (
@@ -16,14 +16,21 @@ export function OrbitTechStackStrip() {
           <div className="orbit-tech-strip-glass-bg pointer-events-none absolute inset-0" aria-hidden="true" />
           <ul className="relative z-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-5 sm:gap-x-10 sm:gap-y-6 md:gap-x-12 lg:justify-between lg:gap-x-6 xl:gap-x-10 2xl:gap-x-14">
             {HOME_TECHNOLOGIES.map((name) => {
-              const Mark = TECH_MARKS[name];
+              const brand = TECH_BRAND_LOGOS[name];
+              if (!brand) return null;
               return (
                 <li key={name} className="flex shrink-0 items-center gap-3">
-                  {Mark ? (
-                    <Mark className="orbit-tech-strip-mark h-9 w-9 sm:h-10 sm:w-10 lg:h-11 lg:w-11 xl:h-12 xl:w-12 2xl:h-[3.25rem] 2xl:w-[3.25rem]" />
-                  ) : null}
+                  <img
+                    src={techBrandLogoUrl(brand.slug, brand.hex)}
+                    alt=""
+                    width={48}
+                    height={48}
+                    className="orbit-tech-strip-mark h-9 w-9 sm:h-10 sm:w-10 lg:h-11 lg:w-11 xl:h-12 xl:w-12 2xl:h-[3.25rem] 2xl:w-[3.25rem]"
+                    loading="lazy"
+                    decoding="async"
+                  />
                   <span className="font-[family-name:var(--font-jakarta)] text-[14px] font-semibold tracking-[-0.02em] text-white/90 sm:text-[15px] lg:text-[16px] xl:text-[17px]">
-                    {name}
+                    {brand.label}
                   </span>
                 </li>
               );

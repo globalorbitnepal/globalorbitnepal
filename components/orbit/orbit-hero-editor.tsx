@@ -63,6 +63,7 @@ export function OrbitHeroEditor({ initial, needsSetup, authed }: Props) {
   const [password, setPassword] = useState("");
   const [status, setStatus] = useState("");
   const [busy, setBusy] = useState(false);
+  const [section, setSection] = useState<"hero" | "appointments">("hero");
 
   const set = (key: keyof HeroConfig) => (value: string | boolean) => {
     setConfig((current) => ({ ...current, [key]: value }));
@@ -174,49 +175,110 @@ export function OrbitHeroEditor({ initial, needsSetup, authed }: Props) {
 
   if (!authed) {
     return (
-      <div className="mx-auto max-w-md px-4 py-16 text-white">
-        <h1 className="text-3xl font-semibold">Orbit editor</h1>
-        <form onSubmit={login} className="orbit-studio-glass mt-8 space-y-4 rounded-3xl p-6">
-          <p className="text-sm text-white/70">
-            {needsSetup ? "Create a password to edit the homepage hero." : "Sign in to edit the live homepage hero."}
+      <div className="flex min-h-[100dvh] items-center justify-center px-4 py-16">
+        <div className="orbit-orbit-login w-full max-w-[420px] rounded-[32px] border border-white/12 bg-[#0a0a12]/80 p-8 shadow-[0_40px_100px_rgba(0,0,0,0.55)] backdrop-blur-2xl sm:p-10">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.32em] text-[#f0c43a]/90">Global Orbit</p>
+          <h1 className="mt-3 font-[family-name:var(--font-jakarta)] text-3xl font-semibold tracking-tight text-white">
+            Orbit dashboard
+          </h1>
+          <p className="mt-3 text-sm leading-relaxed text-white/55">
+            Premium control for your live homepage hero, client marquee, and appointment requests.
           </p>
-          <input
-            type="password"
-            required
-            minLength={needsSetup ? 8 : 1}
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
-            className="w-full rounded-2xl border border-white/15 bg-black/30 px-4 py-3"
-            placeholder={needsSetup ? "New password (8+ characters)" : "Password"}
-          />
-          <button disabled={busy} className="rounded-full bg-white px-6 py-3 text-sm font-semibold text-[#0b0b10]">
-            {needsSetup ? "Create access" : "Enter"}
-          </button>
-          {status ? <p className="text-sm text-[#f0c43a]">{status}</p> : null}
-        </form>
+          <form onSubmit={login} className="mt-8 space-y-4">
+            <label className="block text-sm">
+              <span className="mb-2 block text-white/65">Passkey</span>
+              <input
+                type="password"
+                required
+                autoComplete="current-password"
+                minLength={needsSetup ? 8 : 1}
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+                className="w-full rounded-2xl border border-white/15 bg-black/40 px-4 py-3.5 text-white outline-none ring-[#f0c43a]/30 focus:border-[#f0c43a]/50 focus:ring-2"
+                placeholder={needsSetup ? "Create passkey (8+ characters)" : "Enter passkey"}
+              />
+            </label>
+            <button
+              disabled={busy}
+              className="w-full rounded-full bg-gradient-to-r from-[#f0c43a] to-[#e8b820] py-3.5 text-sm font-semibold text-[#14120a] shadow-[0_12px_32px_rgba(240,196,58,0.25)]"
+            >
+              {busy ? "Checking…" : needsSetup ? "Create access" : "Unlock dashboard"}
+            </button>
+            {status ? <p className="text-sm text-red-300">{status}</p> : null}
+          </form>
+          <p className="mt-6 text-center text-xs text-white/35">
+            <Link href="/" className="text-white/50 hover:text-white">
+              ← Back to website
+            </Link>
+          </p>
+        </div>
       </div>
     );
   }
 
+  const navItems: { id: "hero" | "appointments"; label: string; hint: string }[] = [
+    { id: "hero", label: "Homepage hero", hint: "Headline, video, flags, marquee" },
+    { id: "appointments", label: "Appointments", hint: "Book Appointment form inbox" },
+  ];
+
   return (
-    <div className="mx-auto max-w-3xl px-4 py-12 text-white">
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <h1 className="font-[family-name:var(--font-jakarta)] text-3xl font-semibold">Orbit</h1>
-          <p className="mt-2 max-w-xl text-sm text-white/60">
-            Homepage hero, client marquee, and appointment requests from the live site header.
-          </p>
+    <div className="mx-auto flex min-h-[100dvh] max-w-[1440px] flex-col gap-6 px-4 py-8 lg:flex-row lg:gap-8 lg:px-8 lg:py-10">
+      <aside className="lg:w-72 lg:shrink-0">
+        <div className="orbit-orbit-sidebar orbit-studio-glass sticky top-6 rounded-[28px] p-4 lg:top-8">
+          <p className="px-2 text-[10px] font-semibold uppercase tracking-[0.28em] text-white/40">Orbit</p>
+          <p className="mt-1 px-2 font-[family-name:var(--font-jakarta)] text-lg font-semibold text-white">Control panel</p>
+          <nav className="mt-4 space-y-2" aria-label="Dashboard sections">
+            {navItems.map((item) => (
+              <button
+                key={item.id}
+                type="button"
+                onClick={() => setSection(item.id)}
+                className={`orbit-orbit-sidebar-card block w-full rounded-2xl border px-4 py-3.5 text-left transition ${
+                  section === item.id
+                    ? "border-[#f0c43a]/45 bg-[#f0c43a]/10"
+                    : "border-white/10 bg-black/20 hover:border-white/20 hover:bg-white/[0.06]"
+                }`}
+              >
+                <span className="block text-[15px] font-semibold text-white">{item.label}</span>
+                <span className="mt-0.5 block text-xs text-white/45">{item.hint}</span>
+              </button>
+            ))}
+          </nav>
+          <Link
+            href="/"
+            className="mt-4 block rounded-2xl border border-white/10 px-4 py-3 text-center text-sm font-medium text-white/70 hover:bg-white/5"
+          >
+            View live site →
+          </Link>
         </div>
-        <Link href="/" className="text-sm font-medium text-[#f0c43a] hover:underline">
-          Open homepage →
-        </Link>
+      </aside>
+
+      <div className="min-w-0 flex-1 pb-12">
+        <div className="mb-6 flex flex-wrap gap-2 lg:hidden">
+          {navItems.map((item) => (
+            <button
+              key={item.id}
+              type="button"
+              onClick={() => setSection(item.id)}
+              className={`rounded-full px-4 py-2 text-sm font-medium ${
+                section === item.id ? "bg-[#f0c43a] text-[#14120a]" : "bg-white/10 text-white/80"
+              }`}
+            >
+              {item.label}
+            </button>
+          ))}
+        </div>
+
+        {section === "appointments" ? (
+          <OrbitAppointmentsPanel />
+        ) : (
+          <>
+      <div className="mb-6 hidden lg:block">
+        <h1 className="font-[family-name:var(--font-jakarta)] text-2xl font-semibold text-white">Homepage hero</h1>
+        <p className="mt-1 text-sm text-white/55">Edit the live studio hero — copy, video, flags, and trust marquee.</p>
       </div>
 
-      <div className="mt-8">
-        <OrbitAppointmentsPanel />
-      </div>
-
-      <form onSubmit={save} className="mt-8 space-y-6">
+      <form onSubmit={save} className="space-y-6">
         <Panel title="Headline & copy" description="Left column text on the homepage.">
           <Field label="Eyebrow badge" value={config.eyebrow} onChange={set("eyebrow")} />
           <Field label="Headline line 1" value={config.headline} onChange={set("headline")} />
@@ -343,6 +405,9 @@ export function OrbitHeroEditor({ initial, needsSetup, authed }: Props) {
       </div>
 
       {status ? <p className="mt-6 text-sm text-[#f0c43a]">{status}</p> : null}
+          </>
+        )}
+      </div>
     </div>
   );
 }

@@ -14,7 +14,7 @@ const nextConfig: NextConfig = {
     qualities: [75, 96, 100],
     remotePatterns: [
       { protocol: "https", hostname: "flagcdn.com" },
-      { protocol: "https", hostname: "media.base44.com" },
+      { protocol: "https", hostname: "cdn.simpleicons.org" },
     ],
   },
   async redirects() {

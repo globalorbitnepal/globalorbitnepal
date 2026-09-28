@@ -14,11 +14,25 @@ function cookieSecret() {
   return process.env.ORBIT_EDITOR_KEY || "globalorbitnepal-orbit-editor";
 }
 
+function orbitPasswordFromEnv(): string | null {
+  const value = process.env.ORBIT_EDITOR_PASSWORD?.trim();
+  if (!value || value.length < 4) return null;
+  return value;
+}
+
+function safeStringEqual(a: string, b: string): boolean {
+  const left = Buffer.from(a);
+  const right = Buffer.from(b);
+  if (left.length !== right.length) return false;
+  return timingSafeEqual(left, right);
+}
+
 function sign(value: string) {
   return createHmac("sha256", cookieSecret()).update(value).digest("hex");
 }
 
 export async function hasOrbitPassword() {
+  if (orbitPasswordFromEnv()) return true;
   try {
     const raw = await readFile(authFile(), "utf8");
     const data = JSON.parse(raw) as { hash?: string };
@@ -40,6 +54,10 @@ export async function setOrbitPassword(password: string) {
 }
 
 export async function verifyOrbitPassword(password: string) {
+  const envPass = orbitPasswordFromEnv();
+  if (envPass) {
+    return safeStringEqual(password, envPass);
+  }
   const raw = await readFile(authFile(), "utf8");
   const data = JSON.parse(raw) as { salt: string; hash: string };
   const next = scryptSync(password, data.salt, 32);

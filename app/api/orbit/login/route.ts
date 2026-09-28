@@ -13,7 +13,7 @@ export async function POST(request: Request) {
   const exists = await hasOrbitPassword();
 
   try {
-    if (!exists) {
+    if (!exists && !process.env.ORBIT_EDITOR_PASSWORD?.trim()) {
       await setOrbitPassword(password);
       await setOrbitSession();
       return NextResponse.json({ ok: true });
