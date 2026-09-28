@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { DeploymentRecovery } from "@/components/layout/deployment-recovery";
 import { HideOnOrbit } from "@/components/layout/hide-on-orbit";
 import { OrbitChrome } from "@/components/layout/orbit-chrome";
 import { SiteFooter } from "@/components/layout/site-footer";
@@ -48,6 +49,7 @@ export function SiteShell({
         />
       </HideOnOrbit>
       <OrbitChrome />
+      <DeploymentRecovery />
     </div>
   );
 }

@@ -262,8 +262,16 @@ jobs:
           npx prisma generate </dev/null
           npx prisma validate </dev/null
 
-          echo "==> Building production bundle"
-          npm run build </dev/null
+          echo "==> Building production bundle (isolated .next-build, then swap)"
+          rm -rf .next-build
+          NEXT_DIST_DIR=.next-build npm run build </dev/null
+          test -d .next-build
+          rm -rf .next-stale
+          if [ -d .next ]; then
+            mv .next .next-stale
+          fi
+          mv .next-build .next
+          rm -rf .next-stale
 
           echo "==> Restarting ONLY GlobalOrbitNepal PM2 process"
           pm2 restart "$APP_NAME"

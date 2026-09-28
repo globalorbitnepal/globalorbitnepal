@@ -1,6 +1,16 @@
 "use client";
 
+import { useEffect } from "react";
 import "./globals.css";
+
+function isRecoverable(error: Error) {
+  const text = `${error.message} ${error.name}`;
+  return (
+    /Loading chunk|ChunkLoadError|failed to fetch dynamically imported module/i.test(text) ||
+    /is not a function/i.test(text) ||
+    /Server Reference ID did not match/i.test(text)
+  );
+}
 
 export default function GlobalError({
   error,
@@ -9,6 +19,17 @@ export default function GlobalError({
   error: Error & { digest?: string };
   retry: () => void;
 }) {
+  useEffect(() => {
+    console.error(error);
+    if (isRecoverable(error)) {
+      const key = "globalorbitnepal-chunk-reload";
+      if (!sessionStorage.getItem(key)) {
+        sessionStorage.setItem(key, "1");
+        window.location.reload();
+      }
+    }
+  }, [error]);
+
   return (
     <html lang="en">
       <body className="min-h-full bg-[var(--background)] text-[var(--foreground)]">

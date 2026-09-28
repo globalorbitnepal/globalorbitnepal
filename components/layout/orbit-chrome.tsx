@@ -8,10 +8,14 @@ export function OrbitChrome() {
   const pathname = usePathname();
   const [splash, setSplash] = useState(false);
   const [top, setTop] = useState(false);
-
-  if (pathname.startsWith("/orbit")) return null;
+  const hide = pathname.startsWith("/orbit");
 
   useEffect(() => {
+    if (hide) {
+      setSplash(false);
+      return;
+    }
+
     const seen = window.sessionStorage.getItem("orbit-splash");
     let timer: number | undefined;
     if (!seen && pathname === "/") {
@@ -29,7 +33,9 @@ export function OrbitChrome() {
       if (timer) window.clearTimeout(timer);
       window.removeEventListener("scroll", onScroll);
     };
-  }, [pathname]);
+  }, [pathname, hide]);
+
+  if (hide) return null;
 
   return (
     <>
