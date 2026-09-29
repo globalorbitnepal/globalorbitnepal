@@ -50,7 +50,16 @@ jobs:
           echo "DESTRUCTIVE_COMMAND_GUARD_OK"
 
       - name: Build application
-        run: npm run build
+        run: |
+          set -euo pipefail
+          for attempt in 1 2 3; do
+            if npm run build; then
+              exit 0
+            fi
+            echo "Build attempt ${attempt} failed; retrying in 10s..."
+            sleep 10
+          done
+          exit 1
 
   deploy:
     name: Deploy to VPS
