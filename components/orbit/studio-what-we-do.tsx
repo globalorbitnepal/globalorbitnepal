@@ -19,117 +19,44 @@ function PhoneBar({ time }: { time: string }) {
     <div className="orbit-work-phonebar">
       <span>{time}</span>
       <span className="orbit-work-phonebar-notch" />
-      <span>5G · 89%</span>
+      <span>5G</span>
     </div>
   );
 }
 
-function PhoneScreen({ tile }: { tile: WorkTile }) {
-  const src = tile.imageSrc || "/brand/places/himalaya.jpg";
+function Shot({ tile }: { tile: WorkTile }) {
+  const src = tile.imageSrc || "/brand/work/summit-seek.jpg";
   return (
-    <article className="orbit-work-block is-fill">
-      <PhoneBar time={tile.phoneTime || "09:41"} />
-      <div
-        className="orbit-work-screen is-phone-hero"
-        style={{ backgroundImage: `url(${src})` }}
-      >
-        <div className="orbit-work-caption">
-          <p>{tile.title}</p>
-          <span>{tile.subtitle}</span>
-        </div>
-      </div>
-    </article>
+    <div className="orbit-work-shot-wrap">
+      <img className="orbit-work-shot" src={src} alt={tile.title || ""} />
+    </div>
   );
 }
 
-function PhoneApp({ tile }: { tile: WorkTile }) {
-  const lines = tile.appLines || [];
-  return (
-    <article className="orbit-work-block is-fill">
-      <PhoneBar time={tile.phoneTime || "12:00"} />
-      <div className={`orbit-work-app${tile.appVariant === "violet" ? " is-violet" : ""}`}>
-        <p className="orbit-work-app-kicker">{tile.appKicker}</p>
-        <p className="orbit-work-app-total">{tile.appTotal}</p>
-        <ul>
-          {lines.map((line) => (
-            <li key={`${line.left}-${line.right}`}>
-              <span>{line.left}</span>
-              <b>{line.right}</b>
-            </li>
-          ))}
-        </ul>
-        <div className="orbit-work-app-cta">{tile.appCta}</div>
-      </div>
-    </article>
-  );
-}
-
-function BrowserScreen({
+function WebsiteTile({
   tile,
   height,
-  low,
+  fill,
+  phone,
 }: {
   tile: WorkTile;
-  height: string;
-  low?: boolean;
+  height?: string;
+  fill?: boolean;
+  phone?: boolean;
 }) {
-  const src = tile.imageSrc || "/brand/places/pagoda.jpg";
   return (
-    <article className="orbit-work-block" style={{ height }}>
-      <Chrome title={tile.chromeTitle || "website.com"} />
-      <div
-        className={`orbit-work-screen${low ? " is-low" : ""}`}
-        style={{ backgroundImage: `url(${src})` }}
-      >
-        {tile.nav ? <div className="orbit-work-nav">{tile.nav}</div> : null}
-        <div className="orbit-work-caption">
-          <p>{tile.title}</p>
-          <span>{tile.subtitle}</span>
-        </div>
-      </div>
+    <article
+      className={`orbit-work-block${fill ? " is-fill" : ""}`}
+      style={height ? { height } : undefined}
+    >
+      {phone ? <PhoneBar time={tile.phoneTime || "09:41"} /> : <Chrome title={tile.chromeTitle || tile.title || "website"} />}
+      <Shot tile={tile} />
     </article>
   );
 }
 
-function DashboardTile({ tile, height }: { tile: WorkTile; height: string }) {
-  const stats = tile.dashStats || [];
-  const barHeights = ["42%", "68%", "54%", "86%", "61%", "74%"];
-  return (
-    <article className="orbit-work-block" style={{ height }}>
-      <Chrome title={tile.chromeTitle || "dashboard.app"} />
-      <div className="orbit-work-dash">
-        <div className="orbit-work-dash-row">
-          {stats.map((stat) => (
-            <div key={stat.label}>
-              <small>{stat.label}</small>
-              <strong>{stat.value}</strong>
-            </div>
-          ))}
-        </div>
-        <div className="orbit-work-bars" aria-hidden="true">
-          {barHeights.map((h) => (
-            <span key={h} style={{ height: h }} />
-          ))}
-        </div>
-      </div>
-    </article>
-  );
-}
-
-function SeoTile({ tile, height }: { tile: WorkTile; height: string }) {
-  return (
-    <article className="orbit-work-block" style={{ height }}>
-      <Chrome title={tile.chromeTitle || "seo.example.com"} />
-      <div className="orbit-work-seo">
-        <p>{tile.seoLabel}</p>
-        <div className="orbit-work-seo-rank">
-          <b>{tile.seoRank}</b>
-          <span>{tile.seoKeyword}</span>
-        </div>
-        <div className="orbit-work-seo-line" aria-hidden="true" />
-      </div>
-    </article>
-  );
+function isPhoneTile(tile: WorkTile) {
+  return tile.type === "phone-screen" || tile.type === "phone-app";
 }
 
 export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
@@ -150,15 +77,15 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
       const rect = track.getBoundingClientRect();
       const travel = Math.max(track.offsetHeight - window.innerHeight, 1);
       const raw = Math.min(1, Math.max(0, -rect.top / travel));
-      const maxScale = window.matchMedia("(max-width: 767px)").matches ? 1.72 : 2.18;
-      const scale = reduce ? 1.08 : 1 + raw * (maxScale - 1);
+      const maxScale = window.matchMedia("(max-width: 767px)").matches ? 1.28 : 1.42;
+      const scale = reduce ? 1.04 : 1 + raw * (maxScale - 1);
       grid.style.transform = `scale(${scale})`;
-      grid.style.setProperty("--orbit-work-overlay", String(reduce ? 0.12 : 0.42 * (1 - raw)));
+      grid.style.setProperty("--orbit-work-overlay", String(reduce ? 0.06 : 0.22 * (1 - raw)));
 
       if (madeRef.current) {
-        const show = reduce ? 1 : Math.min(1, Math.max(0, (raw - 0.58) / 0.28));
+        const show = reduce ? 1 : Math.min(1, Math.max(0, (raw - 0.62) / 0.26));
         madeRef.current.style.opacity = String(show);
-        madeRef.current.style.transform = `translate3d(0, ${18 - show * 18}px, 0)`;
+        madeRef.current.style.transform = `translate3d(0, ${14 - show * 14}px, 0)`;
       }
     };
 
@@ -196,24 +123,24 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
         <div className="orbit-work-grid-main">
           <div ref={gridRef} className="orbit-work-grid">
             <div className="orbit-work-col is-phone">
-              <PhoneScreen tile={t("col1-top")} />
-              <PhoneApp tile={t("col1-bottom")} />
+              <WebsiteTile tile={t("col1-top")} fill phone={isPhoneTile(t("col1-top"))} />
+              <WebsiteTile tile={t("col1-bottom")} fill phone={isPhoneTile(t("col1-bottom"))} />
             </div>
 
             <div className="orbit-work-col is-wide">
-              <BrowserScreen tile={t("col2-top")} height="38%" />
-              <DashboardTile tile={t("col2-mid")} height="32%" />
-              <BrowserScreen tile={t("col2-bottom")} height="24%" low />
+              <WebsiteTile tile={t("col2-top")} height="36%" />
+              <WebsiteTile tile={t("col2-mid")} height="32%" />
+              <WebsiteTile tile={t("col2-bottom")} height="28%" />
             </div>
 
             <div className="orbit-work-col is-wide">
-              <BrowserScreen tile={t("col3-top")} height="58%" />
-              <SeoTile tile={t("col3-bottom")} height="36%" />
+              <WebsiteTile tile={t("col3-top")} height="56%" />
+              <WebsiteTile tile={t("col3-bottom")} height="40%" />
             </div>
 
             <div className="orbit-work-col is-phone">
-              <PhoneScreen tile={t("col4-top")} />
-              <PhoneApp tile={t("col4-bottom")} />
+              <WebsiteTile tile={t("col4-top")} fill phone={isPhoneTile(t("col4-top"))} />
+              <WebsiteTile tile={t("col4-bottom")} fill phone={isPhoneTile(t("col4-bottom"))} />
             </div>
           </div>
         </div>

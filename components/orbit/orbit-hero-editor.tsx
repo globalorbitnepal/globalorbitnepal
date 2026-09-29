@@ -157,32 +157,6 @@ export function OrbitHeroEditor({ initial, initialNeed, initialWork, needsSetup,
     }));
   }
 
-  function updateWorkAppLine(slot: string, lineIndex: number, patch: Partial<{ left: string; right: string }>) {
-    setWorkConfig((current) => ({
-      ...current,
-      tiles: current.tiles.map((tile) => {
-        if (tile.slot !== slot || !tile.appLines) return tile;
-        return {
-          ...tile,
-          appLines: tile.appLines.map((line, i) => (i === lineIndex ? { ...line, ...patch } : line)),
-        };
-      }),
-    }));
-  }
-
-  function updateWorkDashStat(slot: string, statIndex: number, patch: Partial<{ label: string; value: string }>) {
-    setWorkConfig((current) => ({
-      ...current,
-      tiles: current.tiles.map((tile) => {
-        if (tile.slot !== slot || !tile.dashStats) return tile;
-        return {
-          ...tile,
-          dashStats: tile.dashStats.map((stat, i) => (i === statIndex ? { ...stat, ...patch } : stat)),
-        };
-      }),
-    }));
-  }
-
   async function uploadWorkImage(slot: string, file: File | undefined) {
     if (!file) return;
     setBusy(true);
@@ -408,7 +382,7 @@ export function OrbitHeroEditor({ initial, initialNeed, initialWork, needsSetup,
             <div className="mb-6 hidden lg:block">
               <h1 className="font-[family-name:var(--font-jakarta)] text-2xl font-semibold text-white">What we do</h1>
               <p className="mt-1 text-sm text-white/55">
-                Scroll-zoom mosaic below services — edit headline, footer line, and every tile. Upload replaces the photo on phone and website tiles.
+                Scroll-zoom mosaic of live website screenshots. Upload a full-page capture for any tile to replace it.
               </p>
             </div>
 
@@ -444,162 +418,47 @@ export function OrbitHeroEditor({ initial, initialNeed, initialWork, needsSetup,
                 const tile = workConfig.tiles.find((t) => t.slot === slot)!;
                 const initialTile = initialWork.tiles.find((t) => t.slot === slot);
                 const label = WORK_TILE_LABELS[slot];
-                const hasImage =
-                  tile.type === "phone-screen" || tile.type === "browser-screen";
 
                 return (
-                  <Panel key={slot} title={label} description={`Type: ${tile.type}`}>
-                    {tile.type === "phone-screen" || tile.type === "browser-screen" ? (
-                      <>
-                        {tile.type === "browser-screen" ? (
-                          <>
-                            <Field
-                              label="Browser tab title"
-                              value={tile.chromeTitle || ""}
-                              onChange={(value) => updateWorkTile(slot, { chromeTitle: value })}
-                            />
-                            {tile.type === "browser-screen" ? (
-                              <Field
-                                label="Nav line (optional)"
-                                value={tile.nav || ""}
-                                onChange={(value) => updateWorkTile(slot, { nav: value })}
-                              />
-                            ) : null}
-                          </>
-                        ) : null}
-                        {tile.type === "phone-screen" ? (
-                          <Field
-                            label="Phone time"
-                            value={tile.phoneTime || ""}
-                            onChange={(value) => updateWorkTile(slot, { phoneTime: value })}
-                          />
-                        ) : null}
-                        <label className="block rounded-2xl border border-white/10 bg-black/25 p-4 text-sm">
-                          <span className="font-semibold">Replace screenshot (JPG, PNG, WebP)</span>
-                          <input
-                            type="file"
-                            accept="image/png,image/jpeg,image/webp,image/*"
-                            className="mt-3 block w-full text-white/70"
-                            onChange={(event) => uploadWorkImage(slot, event.target.files?.[0])}
-                          />
-                          <p className="mt-2 break-all text-xs text-white/45">{tile.imageSrc}</p>
-                          {tile.imageSrc && initialTile?.imageSrc && tile.imageSrc !== initialTile.imageSrc ? (
-                            <button
-                              type="button"
-                              className="mt-2 text-xs text-white/50 hover:text-white"
-                              onClick={() => resetWorkImage(slot, initialTile.imageSrc || "")}
-                            >
-                              Reset to bundled default path
-                            </button>
-                          ) : null}
-                        </label>
-                        {tile.imageSrc ? (
-                          <img src={tile.imageSrc} alt="" className="mt-2 max-h-32 w-auto rounded-lg border border-white/10 object-cover" />
-                        ) : null}
-                        <Field label="Caption title" value={tile.title || ""} onChange={(value) => updateWorkTile(slot, { title: value })} />
-                        <Field
-                          label="Caption subtitle"
-                          value={tile.subtitle || ""}
-                          onChange={(value) => updateWorkTile(slot, { subtitle: value })}
-                        />
-                      </>
+                  <Panel key={slot} title={label} description="Replace the live website screenshot for this mosaic tile.">
+                    <Field
+                      label="Browser / site title"
+                      value={tile.chromeTitle || tile.title || ""}
+                      onChange={(value) => updateWorkTile(slot, { chromeTitle: value, title: value })}
+                    />
+                    <Field
+                      label="Phone time (narrow tiles)"
+                      value={tile.phoneTime || ""}
+                      onChange={(value) => updateWorkTile(slot, { phoneTime: value })}
+                    />
+                    <label className="block rounded-2xl border border-white/10 bg-black/25 p-4 text-sm">
+                      <span className="font-semibold">Replace website screenshot (JPG, PNG, WebP — full page capture)</span>
+                      <input
+                        type="file"
+                        accept="image/png,image/jpeg,image/webp,image/*"
+                        className="mt-3 block w-full text-white/70"
+                        onChange={(event) => uploadWorkImage(slot, event.target.files?.[0])}
+                      />
+                      <p className="mt-2 break-all text-xs text-white/45">{tile.imageSrc}</p>
+                      {tile.imageSrc && initialTile?.imageSrc && tile.imageSrc !== initialTile.imageSrc ? (
+                        <button
+                          type="button"
+                          className="mt-2 text-xs text-white/50 hover:text-white"
+                          onClick={() => resetWorkImage(slot, initialTile.imageSrc || "")}
+                        >
+                          Reset to default screenshot
+                        </button>
+                      ) : null}
+                    </label>
+                    {tile.imageSrc ? (
+                      <img src={tile.imageSrc} alt="" className="mt-2 max-h-40 w-auto rounded-lg border border-white/10 object-cover object-top" />
                     ) : null}
-
-                    {tile.type === "phone-app" ? (
-                      <>
-                        <Field
-                          label="Phone time"
-                          value={tile.phoneTime || ""}
-                          onChange={(value) => updateWorkTile(slot, { phoneTime: value })}
-                        />
-                        <Field
-                          label="App name / kicker"
-                          value={tile.appKicker || ""}
-                          onChange={(value) => updateWorkTile(slot, { appKicker: value })}
-                        />
-                        <Field
-                          label="Main value"
-                          value={tile.appTotal || ""}
-                          onChange={(value) => updateWorkTile(slot, { appTotal: value })}
-                        />
-                        {(tile.appLines || []).map((line, lineIndex) => (
-                          <div key={`${slot}-line-${lineIndex}`} className="grid gap-3 sm:grid-cols-2">
-                            <Field
-                              label={`Row ${lineIndex + 1} left`}
-                              value={line.left}
-                              onChange={(value) => updateWorkAppLine(slot, lineIndex, { left: value })}
-                            />
-                            <Field
-                              label={`Row ${lineIndex + 1} right`}
-                              value={line.right}
-                              onChange={(value) => updateWorkAppLine(slot, lineIndex, { right: value })}
-                            />
-                          </div>
-                        ))}
-                        <Field label="Button label" value={tile.appCta || ""} onChange={(value) => updateWorkTile(slot, { appCta: value })} />
-                        <label className="flex items-center gap-3 text-sm text-white/80">
-                          <input
-                            type="checkbox"
-                            checked={tile.appVariant === "violet"}
-                            onChange={(event) =>
-                              updateWorkTile(slot, { appVariant: event.target.checked ? "violet" : "default" })
-                            }
-                          />
-                          Violet app theme
-                        </label>
-                      </>
-                    ) : null}
-
-                    {tile.type === "dashboard" ? (
-                      <>
-                        <Field
-                          label="Browser tab title"
-                          value={tile.chromeTitle || ""}
-                          onChange={(value) => updateWorkTile(slot, { chromeTitle: value })}
-                        />
-                        {(tile.dashStats || []).map((stat, statIndex) => (
-                          <div key={`${slot}-stat-${statIndex}`} className="grid gap-3 sm:grid-cols-2">
-                            <Field
-                              label={`Stat ${statIndex + 1} label`}
-                              value={stat.label}
-                              onChange={(value) => updateWorkDashStat(slot, statIndex, { label: value })}
-                            />
-                            <Field
-                              label={`Stat ${statIndex + 1} value`}
-                              value={stat.value}
-                              onChange={(value) => updateWorkDashStat(slot, statIndex, { value: value })}
-                            />
-                          </div>
-                        ))}
-                      </>
-                    ) : null}
-
-                    {tile.type === "seo" ? (
-                      <>
-                        <Field
-                          label="Browser tab title"
-                          value={tile.chromeTitle || ""}
-                          onChange={(value) => updateWorkTile(slot, { chromeTitle: value })}
-                        />
-                        <Field
-                          label="Section label"
-                          value={tile.seoLabel || ""}
-                          onChange={(value) => updateWorkTile(slot, { seoLabel: value })}
-                        />
-                        <div className="grid gap-3 sm:grid-cols-2">
-                          <Field
-                            label="Rank"
-                            value={tile.seoRank || ""}
-                            onChange={(value) => updateWorkTile(slot, { seoRank: value })}
-                          />
-                          <Field
-                            label="Keyword phrase"
-                            value={tile.seoKeyword || ""}
-                            onChange={(value) => updateWorkTile(slot, { seoKeyword: value })}
-                          />
-                        </div>
-                      </>
-                    ) : null}
+                    <Field label="Caption title" value={tile.title || ""} onChange={(value) => updateWorkTile(slot, { title: value })} />
+                    <Field
+                      label="Caption subtitle"
+                      value={tile.subtitle || ""}
+                      onChange={(value) => updateWorkTile(slot, { subtitle: value })}
+                    />
                   </Panel>
                 );
               })}

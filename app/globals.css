@@ -1630,13 +1630,13 @@ li.orbit-card:hover {
 }
 
 .orbit-work-grid {
-  --orbit-work-overlay: 0.42;
+  --orbit-work-overlay: 0.18;
   display: flex;
-  gap: 10px;
+  gap: 8px;
   width: 100%;
   height: 100%;
-  padding: 0 10px 12px;
-  transform-origin: 50% 0;
+  padding: 0 18px 14px;
+  transform-origin: 50% 8%;
   will-change: transform;
 }
 
@@ -1645,22 +1645,23 @@ li.orbit-card:hover {
   height: 100%;
   flex-direction: column;
   justify-content: flex-start;
-  gap: 10px;
+  gap: 8px;
 }
 
 .orbit-work-col.is-phone {
-  width: 18%;
+  width: 20%;
 }
 
 .orbit-work-col.is-wide {
-  width: 32%;
+  width: 30%;
 }
 
 .orbit-work-block {
   position: relative;
   overflow: hidden;
-  border-radius: 10px;
-  background: #12121a;
+  border-radius: 8px;
+  background: #0c0c12;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
 }
 
 .orbit-work-block.is-fill {
@@ -1678,15 +1679,30 @@ li.orbit-card:hover {
   opacity: var(--orbit-work-overlay);
 }
 
+.orbit-work-shot-wrap {
+  position: relative;
+  height: calc(100% - 1.35rem);
+  overflow: hidden;
+  background: #111118;
+}
+
+.orbit-work-shot {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 0%;
+}
+
 .orbit-work-chrome {
   display: flex;
   align-items: center;
   gap: 0.35rem;
-  height: 1.55rem;
-  padding: 0 0.55rem;
-  background: #1b1b24;
-  color: rgba(255, 255, 255, 0.45);
-  font-size: 0.58rem;
+  height: 1.35rem;
+  padding: 0 0.5rem;
+  background: #16161e;
+  color: rgba(255, 255, 255, 0.48);
+  font-size: 0.55rem;
   letter-spacing: 0.02em;
 }
 
@@ -1717,11 +1733,11 @@ li.orbit-card:hover {
   align-items: center;
   justify-content: space-between;
   height: 1.35rem;
-  padding: 0 0.55rem;
-  background: rgba(0, 0, 0, 0.35);
-  font-size: 0.52rem;
+  padding: 0 0.5rem;
+  background: #16161e;
+  font-size: 0.5rem;
   font-weight: 650;
-  color: rgba(255, 255, 255, 0.78);
+  color: rgba(255, 255, 255, 0.72);
 }
 
 .orbit-work-phonebar-notch {
