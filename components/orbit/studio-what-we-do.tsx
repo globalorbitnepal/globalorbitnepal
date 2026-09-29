@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { workTileBySlot, type WorkConfig, type WorkTile } from "@/lib/work-config";
 
 function Chrome({ title }: { title: string }) {
   return (
@@ -23,11 +24,121 @@ function PhoneBar({ time }: { time: string }) {
   );
 }
 
-export function OrbitStudioWhatWeDo() {
+function PhoneScreen({ tile }: { tile: WorkTile }) {
+  const src = tile.imageSrc || "/brand/places/himalaya.jpg";
+  return (
+    <article className="orbit-work-block is-fill">
+      <PhoneBar time={tile.phoneTime || "09:41"} />
+      <div
+        className="orbit-work-screen is-phone-hero"
+        style={{ backgroundImage: `url(${src})` }}
+      >
+        <div className="orbit-work-caption">
+          <p>{tile.title}</p>
+          <span>{tile.subtitle}</span>
+        </div>
+      </div>
+    </article>
+  );
+}
+
+function PhoneApp({ tile }: { tile: WorkTile }) {
+  const lines = tile.appLines || [];
+  return (
+    <article className="orbit-work-block is-fill">
+      <PhoneBar time={tile.phoneTime || "12:00"} />
+      <div className={`orbit-work-app${tile.appVariant === "violet" ? " is-violet" : ""}`}>
+        <p className="orbit-work-app-kicker">{tile.appKicker}</p>
+        <p className="orbit-work-app-total">{tile.appTotal}</p>
+        <ul>
+          {lines.map((line) => (
+            <li key={`${line.left}-${line.right}`}>
+              <span>{line.left}</span>
+              <b>{line.right}</b>
+            </li>
+          ))}
+        </ul>
+        <div className="orbit-work-app-cta">{tile.appCta}</div>
+      </div>
+    </article>
+  );
+}
+
+function BrowserScreen({
+  tile,
+  height,
+  low,
+}: {
+  tile: WorkTile;
+  height: string;
+  low?: boolean;
+}) {
+  const src = tile.imageSrc || "/brand/places/pagoda.jpg";
+  return (
+    <article className="orbit-work-block" style={{ height }}>
+      <Chrome title={tile.chromeTitle || "website.com"} />
+      <div
+        className={`orbit-work-screen${low ? " is-low" : ""}`}
+        style={{ backgroundImage: `url(${src})` }}
+      >
+        {tile.nav ? <div className="orbit-work-nav">{tile.nav}</div> : null}
+        <div className="orbit-work-caption">
+          <p>{tile.title}</p>
+          <span>{tile.subtitle}</span>
+        </div>
+      </div>
+    </article>
+  );
+}
+
+function DashboardTile({ tile, height }: { tile: WorkTile; height: string }) {
+  const stats = tile.dashStats || [];
+  const barHeights = ["42%", "68%", "54%", "86%", "61%", "74%"];
+  return (
+    <article className="orbit-work-block" style={{ height }}>
+      <Chrome title={tile.chromeTitle || "dashboard.app"} />
+      <div className="orbit-work-dash">
+        <div className="orbit-work-dash-row">
+          {stats.map((stat) => (
+            <div key={stat.label}>
+              <small>{stat.label}</small>
+              <strong>{stat.value}</strong>
+            </div>
+          ))}
+        </div>
+        <div className="orbit-work-bars" aria-hidden="true">
+          {barHeights.map((h) => (
+            <span key={h} style={{ height: h }} />
+          ))}
+        </div>
+      </div>
+    </article>
+  );
+}
+
+function SeoTile({ tile, height }: { tile: WorkTile; height: string }) {
+  return (
+    <article className="orbit-work-block" style={{ height }}>
+      <Chrome title={tile.chromeTitle || "seo.example.com"} />
+      <div className="orbit-work-seo">
+        <p>{tile.seoLabel}</p>
+        <div className="orbit-work-seo-rank">
+          <b>{tile.seoRank}</b>
+          <span>{tile.seoKeyword}</span>
+        </div>
+        <div className="orbit-work-seo-line" aria-hidden="true" />
+      </div>
+    </article>
+  );
+}
+
+export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
   const trackRef = useRef<HTMLElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
   const madeRef = useRef<HTMLParagraphElement>(null);
   const frameRef = useRef(0);
+
+  const t = (slot: Parameters<typeof workTileBySlot>[1]) => workTileBySlot(config, slot);
 
   useEffect(() => {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -74,143 +185,41 @@ export function OrbitStudioWhatWeDo() {
       <div className="orbit-work-pin">
         <div className="orbit-work-head">
           <p className="orbit-work-badge">
-            <span className="orbit-work-badge-num">3</span>
-            What we do
+            <span className="orbit-work-badge-num">{config.badgeNum}</span>
+            {config.badgeLabel}
           </p>
           <h2 id="what-we-do-heading" className="orbit-work-headline">
-            Helped businesses transform ideas into intuitive designs.
+            {config.headline}
           </h2>
         </div>
 
         <div className="orbit-work-grid-main">
           <div ref={gridRef} className="orbit-work-grid">
             <div className="orbit-work-col is-phone">
-              <article className="orbit-work-block is-fill">
-                <PhoneBar time="09:41" />
-                <div className="orbit-work-screen is-phone-hero" style={{ backgroundImage: "url(/brand/places/himalaya.jpg)" }}>
-                  <div className="orbit-work-caption">
-                    <p>Himalaya Grand</p>
-                    <span>Book suite · NPR 18,500</span>
-                  </div>
-                </div>
-              </article>
-              <article className="orbit-work-block is-fill">
-                <PhoneBar time="12:08" />
-                <div className="orbit-work-app">
-                  <p className="orbit-work-app-kicker">TableLine POS</p>
-                  <p className="orbit-work-app-total">NPR 4,280</p>
-                  <ul>
-                    <li><span>Thakali set × 2</span><b>1,800</b></li>
-                    <li><span>Momo platter</span><b>650</b></li>
-                    <li><span>Service</span><b>180</b></li>
-                  </ul>
-                  <div className="orbit-work-app-cta">Close bill</div>
-                </div>
-              </article>
+              <PhoneScreen tile={t("col1-top")} />
+              <PhoneApp tile={t("col1-bottom")} />
             </div>
 
             <div className="orbit-work-col is-wide">
-              <article className="orbit-work-block" style={{ height: "38%" }}>
-                <Chrome title="lakeside-stay.com" />
-                <div className="orbit-work-screen" style={{ backgroundImage: "url(/brand/places/pagoda.jpg)" }}>
-                  <div className="orbit-work-nav">Stay · Rooms · Book</div>
-                  <div className="orbit-work-caption">
-                    <p>Lakeside Stay Pokhara</p>
-                    <span>Direct booking · lakeside view</span>
-                  </div>
-                </div>
-              </article>
-              <article className="orbit-work-block" style={{ height: "32%" }}>
-                <Chrome title="orbit-billing.app" />
-                <div className="orbit-work-dash">
-                  <div className="orbit-work-dash-row">
-                    <div>
-                      <small>Invoices</small>
-                      <strong>128</strong>
-                    </div>
-                    <div>
-                      <small>Collected</small>
-                      <strong>NPR 9.4L</strong>
-                    </div>
-                    <div>
-                      <small>GST</small>
-                      <strong>On time</strong>
-                    </div>
-                  </div>
-                  <div className="orbit-work-bars" aria-hidden="true">
-                    <span style={{ height: "42%" }} />
-                    <span style={{ height: "68%" }} />
-                    <span style={{ height: "54%" }} />
-                    <span style={{ height: "86%" }} />
-                    <span style={{ height: "61%" }} />
-                    <span style={{ height: "74%" }} />
-                  </div>
-                </div>
-              </article>
-              <article className="orbit-work-block" style={{ height: "24%" }}>
-                <Chrome title="annapurna-trails.com" />
-                <div className="orbit-work-screen is-low" style={{ backgroundImage: "url(/brand/places/city.jpg)" }}>
-                  <div className="orbit-work-caption">
-                    <p>Annapurna Trails</p>
-                    <span>Seasonal itineraries · 4× sessions</span>
-                  </div>
-                </div>
-              </article>
+              <BrowserScreen tile={t("col2-top")} height="38%" />
+              <DashboardTile tile={t("col2-mid")} height="32%" />
+              <BrowserScreen tile={t("col2-bottom")} height="24%" low />
             </div>
 
             <div className="orbit-work-col is-wide">
-              <article className="orbit-work-block" style={{ height: "58%" }}>
-                <Chrome title="citycare.hospital" />
-                <div className="orbit-work-screen" style={{ backgroundImage: "url(/brand/offices/nepal.jpg)" }}>
-                  <div className="orbit-work-nav">Doctors · Appointments · Labs</div>
-                  <div className="orbit-work-caption">
-                    <p>City Care Hospital</p>
-                    <span>Schedules routed to the desk</span>
-                  </div>
-                </div>
-              </article>
-              <article className="orbit-work-block" style={{ height: "36%" }}>
-                <Chrome title="seo.globalorbitnepal.com" />
-                <div className="orbit-work-seo">
-                  <p>Organic visibility</p>
-                  <div className="orbit-work-seo-rank">
-                    <b>#1</b>
-                    <span>hotel pokhara booking</span>
-                  </div>
-                  <div className="orbit-work-seo-line" aria-hidden="true" />
-                </div>
-              </article>
+              <BrowserScreen tile={t("col3-top")} height="58%" />
+              <SeoTile tile={t("col3-bottom")} height="36%" />
             </div>
 
             <div className="orbit-work-col is-phone">
-              <article className="orbit-work-block is-fill">
-                <PhoneBar time="18:22" />
-                <div className="orbit-work-screen is-phone-hero" style={{ backgroundImage: "url(/brand/studio-service-apps.jpg)" }}>
-                  <div className="orbit-work-caption">
-                    <p>Partner portal</p>
-                    <span>Dealer login · live orders</span>
-                  </div>
-                </div>
-              </article>
-              <article className="orbit-work-block is-fill">
-                <PhoneBar time="07:55" />
-                <div className="orbit-work-app is-violet">
-                  <p className="orbit-work-app-kicker">Wellness Spa</p>
-                  <p className="orbit-work-app-total">Today · 14</p>
-                  <ul>
-                    <li><span>Hot stone 10:00</span><b>Booked</b></li>
-                    <li><span>Ayurveda 13:30</span><b>Booked</b></li>
-                    <li><span>Steam 16:00</span><b>Open</b></li>
-                  </ul>
-                  <div className="orbit-work-app-cta">New booking</div>
-                </div>
-              </article>
+              <PhoneScreen tile={t("col4-top")} />
+              <PhoneApp tile={t("col4-bottom")} />
             </div>
           </div>
         </div>
 
         <p ref={madeRef} className="orbit-work-made">
-          Made at Global Orbit
+          {config.madeLabel}
         </p>
       </div>
     </section>

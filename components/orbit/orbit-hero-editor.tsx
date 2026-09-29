@@ -5,6 +5,8 @@ import { useState, type ReactNode } from "react";
 import { OrbitAppointmentsPanel } from "@/components/orbit/orbit-appointments-panel";
 import type { HeroConfig } from "@/lib/hero-config";
 import type { NeedConfig, NeedSlide, NeedStat } from "@/lib/need-config";
+import type { WorkConfig, WorkTile } from "@/lib/work-config";
+import { WORK_TILE_LABELS, WORK_TILE_SLOTS } from "@/lib/work-config";
 import type { HeroStudioLocation } from "@/lib/hero-studios";
 import type { HeroTrustLogo } from "@/lib/hero-trust-logos";
 import { DEFAULT_HERO_TRUST_LOGOS } from "@/lib/hero-trust-logos";
@@ -12,6 +14,7 @@ import { DEFAULT_HERO_TRUST_LOGOS } from "@/lib/hero-trust-logos";
 type Props = {
   initial: HeroConfig;
   initialNeed: NeedConfig;
+  initialWork: WorkConfig;
   needsSetup: boolean;
   authed: boolean;
 };
@@ -61,13 +64,14 @@ function Panel({ title, description, children }: { title: string; description?: 
   );
 }
 
-export function OrbitHeroEditor({ initial, initialNeed, needsSetup, authed }: Props) {
+export function OrbitHeroEditor({ initial, initialNeed, initialWork, needsSetup, authed }: Props) {
   const [config, setConfig] = useState(initial);
   const [needConfig, setNeedConfig] = useState(initialNeed);
+  const [workConfig, setWorkConfig] = useState(initialWork);
   const [password, setPassword] = useState("");
   const [status, setStatus] = useState("");
   const [busy, setBusy] = useState(false);
-  const [section, setSection] = useState<"hero" | "need" | "appointments">("hero");
+  const [section, setSection] = useState<"hero" | "need" | "work" | "appointments">("hero");
 
   const set = (key: keyof HeroConfig) => (value: string | boolean) => {
     setConfig((current) => ({ ...current, [key]: value }));
@@ -132,6 +136,82 @@ export function OrbitHeroEditor({ initial, initialNeed, needsSetup, authed }: Pr
       ...current,
       slides: current.slides.map((slide, i) => (i === index ? { ...slide, ...patch } : slide)),
     }));
+  }
+
+  async function saveWork(event: React.FormEvent) {
+    event.preventDefault();
+    setBusy(true);
+    const response = await fetch("/api/orbit/work", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(workConfig),
+    });
+    setBusy(false);
+    setStatus(response.ok ? "Saved. Review the What we do section on the homepage." : "Save failed");
+  }
+
+  function updateWorkTile(slot: string, patch: Partial<WorkTile>) {
+    setWorkConfig((current) => ({
+      ...current,
+      tiles: current.tiles.map((tile) => (tile.slot === slot ? { ...tile, ...patch } : tile)),
+    }));
+  }
+
+  function updateWorkAppLine(slot: string, lineIndex: number, patch: Partial<{ left: string; right: string }>) {
+    setWorkConfig((current) => ({
+      ...current,
+      tiles: current.tiles.map((tile) => {
+        if (tile.slot !== slot || !tile.appLines) return tile;
+        return {
+          ...tile,
+          appLines: tile.appLines.map((line, i) => (i === lineIndex ? { ...line, ...patch } : line)),
+        };
+      }),
+    }));
+  }
+
+  function updateWorkDashStat(slot: string, statIndex: number, patch: Partial<{ label: string; value: string }>) {
+    setWorkConfig((current) => ({
+      ...current,
+      tiles: current.tiles.map((tile) => {
+        if (tile.slot !== slot || !tile.dashStats) return tile;
+        return {
+          ...tile,
+          dashStats: tile.dashStats.map((stat, i) => (i === statIndex ? { ...stat, ...patch } : stat)),
+        };
+      }),
+    }));
+  }
+
+  async function uploadWorkImage(slot: string, file: File | undefined) {
+    if (!file) return;
+    setBusy(true);
+    setStatus("Uploading mosaic image…");
+    const form = new FormData();
+    form.set("kind", "workImage");
+    form.set("tileSlot", slot);
+    form.set("file", file);
+    const response = await fetch("/api/orbit/upload", { method: "POST", body: form });
+    const data = (await response.json()) as { workConfig?: WorkConfig; error?: string };
+    setBusy(false);
+    if (!response.ok) {
+      setStatus(data.error || "Upload failed");
+      return;
+    }
+    const uploaded = data.workConfig?.tiles.find((t) => t.slot === slot);
+    if (uploaded?.imageSrc) {
+      setWorkConfig((current) => ({
+        ...current,
+        tiles: current.tiles.map((tile) =>
+          tile.slot === slot ? { ...tile, imageSrc: uploaded.imageSrc } : tile,
+        ),
+      }));
+    }
+    setStatus("Image uploaded and saved. Save the section if you changed any text too.");
+  }
+
+  function resetWorkImage(slot: string, fallbackSrc: string) {
+    updateWorkTile(slot, { imageSrc: fallbackSrc });
   }
 
   async function save(event: React.FormEvent) {
@@ -266,9 +346,10 @@ export function OrbitHeroEditor({ initial, initialNeed, needsSetup, authed }: Pr
     );
   }
 
-  const navItems: { id: "hero" | "need" | "appointments"; label: string; hint: string }[] = [
+  const navItems: { id: "hero" | "need" | "work" | "appointments"; label: string; hint: string }[] = [
     { id: "hero", label: "Homepage hero", hint: "Headline, video, flags, marquee" },
     { id: "need", label: "Why you need us", hint: "Stats, slides, zoom video, Know More links" },
+    { id: "work", label: "What we do", hint: "Headline, zoom mosaic, all tile copy & images" },
     { id: "appointments", label: "Appointments", hint: "Book Appointment form inbox" },
   ];
 
@@ -322,6 +403,213 @@ export function OrbitHeroEditor({ initial, initialNeed, needsSetup, authed }: Pr
 
         {section === "appointments" ? (
           <OrbitAppointmentsPanel />
+        ) : section === "work" ? (
+          <>
+            <div className="mb-6 hidden lg:block">
+              <h1 className="font-[family-name:var(--font-jakarta)] text-2xl font-semibold text-white">What we do</h1>
+              <p className="mt-1 text-sm text-white/55">
+                Scroll-zoom mosaic below services — edit headline, footer line, and every tile. Upload replaces the photo on phone and website tiles.
+              </p>
+            </div>
+
+            <form onSubmit={saveWork} className="space-y-6">
+              <Panel title="Section header" description="Badge and main headline above the mosaic.">
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <Field
+                    label="Badge number"
+                    value={workConfig.badgeNum}
+                    onChange={(value) => setWorkConfig((c) => ({ ...c, badgeNum: value }))}
+                  />
+                  <Field
+                    label="Badge label"
+                    value={workConfig.badgeLabel}
+                    onChange={(value) => setWorkConfig((c) => ({ ...c, badgeLabel: value }))}
+                  />
+                </div>
+                <Field
+                  label="Headline"
+                  value={workConfig.headline}
+                  onChange={(value) => setWorkConfig((c) => ({ ...c, headline: value }))}
+                  multiline
+                />
+                <Field
+                  label="Zoom end line"
+                  value={workConfig.madeLabel}
+                  onChange={(value) => setWorkConfig((c) => ({ ...c, madeLabel: value }))}
+                  hint="Large text that fades in when the mosaic finishes zooming"
+                />
+              </Panel>
+
+              {WORK_TILE_SLOTS.map((slot) => {
+                const tile = workConfig.tiles.find((t) => t.slot === slot)!;
+                const initialTile = initialWork.tiles.find((t) => t.slot === slot);
+                const label = WORK_TILE_LABELS[slot];
+                const hasImage =
+                  tile.type === "phone-screen" || tile.type === "browser-screen";
+
+                return (
+                  <Panel key={slot} title={label} description={`Type: ${tile.type}`}>
+                    {tile.type === "phone-screen" || tile.type === "browser-screen" ? (
+                      <>
+                        {tile.type === "browser-screen" ? (
+                          <>
+                            <Field
+                              label="Browser tab title"
+                              value={tile.chromeTitle || ""}
+                              onChange={(value) => updateWorkTile(slot, { chromeTitle: value })}
+                            />
+                            {tile.type === "browser-screen" ? (
+                              <Field
+                                label="Nav line (optional)"
+                                value={tile.nav || ""}
+                                onChange={(value) => updateWorkTile(slot, { nav: value })}
+                              />
+                            ) : null}
+                          </>
+                        ) : null}
+                        {tile.type === "phone-screen" ? (
+                          <Field
+                            label="Phone time"
+                            value={tile.phoneTime || ""}
+                            onChange={(value) => updateWorkTile(slot, { phoneTime: value })}
+                          />
+                        ) : null}
+                        <label className="block rounded-2xl border border-white/10 bg-black/25 p-4 text-sm">
+                          <span className="font-semibold">Replace screenshot (JPG, PNG, WebP)</span>
+                          <input
+                            type="file"
+                            accept="image/png,image/jpeg,image/webp,image/*"
+                            className="mt-3 block w-full text-white/70"
+                            onChange={(event) => uploadWorkImage(slot, event.target.files?.[0])}
+                          />
+                          <p className="mt-2 break-all text-xs text-white/45">{tile.imageSrc}</p>
+                          {tile.imageSrc && initialTile?.imageSrc && tile.imageSrc !== initialTile.imageSrc ? (
+                            <button
+                              type="button"
+                              className="mt-2 text-xs text-white/50 hover:text-white"
+                              onClick={() => resetWorkImage(slot, initialTile.imageSrc || "")}
+                            >
+                              Reset to bundled default path
+                            </button>
+                          ) : null}
+                        </label>
+                        {tile.imageSrc ? (
+                          <img src={tile.imageSrc} alt="" className="mt-2 max-h-32 w-auto rounded-lg border border-white/10 object-cover" />
+                        ) : null}
+                        <Field label="Caption title" value={tile.title || ""} onChange={(value) => updateWorkTile(slot, { title: value })} />
+                        <Field
+                          label="Caption subtitle"
+                          value={tile.subtitle || ""}
+                          onChange={(value) => updateWorkTile(slot, { subtitle: value })}
+                        />
+                      </>
+                    ) : null}
+
+                    {tile.type === "phone-app" ? (
+                      <>
+                        <Field
+                          label="Phone time"
+                          value={tile.phoneTime || ""}
+                          onChange={(value) => updateWorkTile(slot, { phoneTime: value })}
+                        />
+                        <Field
+                          label="App name / kicker"
+                          value={tile.appKicker || ""}
+                          onChange={(value) => updateWorkTile(slot, { appKicker: value })}
+                        />
+                        <Field
+                          label="Main value"
+                          value={tile.appTotal || ""}
+                          onChange={(value) => updateWorkTile(slot, { appTotal: value })}
+                        />
+                        {(tile.appLines || []).map((line, lineIndex) => (
+                          <div key={`${slot}-line-${lineIndex}`} className="grid gap-3 sm:grid-cols-2">
+                            <Field
+                              label={`Row ${lineIndex + 1} left`}
+                              value={line.left}
+                              onChange={(value) => updateWorkAppLine(slot, lineIndex, { left: value })}
+                            />
+                            <Field
+                              label={`Row ${lineIndex + 1} right`}
+                              value={line.right}
+                              onChange={(value) => updateWorkAppLine(slot, lineIndex, { right: value })}
+                            />
+                          </div>
+                        ))}
+                        <Field label="Button label" value={tile.appCta || ""} onChange={(value) => updateWorkTile(slot, { appCta: value })} />
+                        <label className="flex items-center gap-3 text-sm text-white/80">
+                          <input
+                            type="checkbox"
+                            checked={tile.appVariant === "violet"}
+                            onChange={(event) =>
+                              updateWorkTile(slot, { appVariant: event.target.checked ? "violet" : "default" })
+                            }
+                          />
+                          Violet app theme
+                        </label>
+                      </>
+                    ) : null}
+
+                    {tile.type === "dashboard" ? (
+                      <>
+                        <Field
+                          label="Browser tab title"
+                          value={tile.chromeTitle || ""}
+                          onChange={(value) => updateWorkTile(slot, { chromeTitle: value })}
+                        />
+                        {(tile.dashStats || []).map((stat, statIndex) => (
+                          <div key={`${slot}-stat-${statIndex}`} className="grid gap-3 sm:grid-cols-2">
+                            <Field
+                              label={`Stat ${statIndex + 1} label`}
+                              value={stat.label}
+                              onChange={(value) => updateWorkDashStat(slot, statIndex, { label: value })}
+                            />
+                            <Field
+                              label={`Stat ${statIndex + 1} value`}
+                              value={stat.value}
+                              onChange={(value) => updateWorkDashStat(slot, statIndex, { value: value })}
+                            />
+                          </div>
+                        ))}
+                      </>
+                    ) : null}
+
+                    {tile.type === "seo" ? (
+                      <>
+                        <Field
+                          label="Browser tab title"
+                          value={tile.chromeTitle || ""}
+                          onChange={(value) => updateWorkTile(slot, { chromeTitle: value })}
+                        />
+                        <Field
+                          label="Section label"
+                          value={tile.seoLabel || ""}
+                          onChange={(value) => updateWorkTile(slot, { seoLabel: value })}
+                        />
+                        <div className="grid gap-3 sm:grid-cols-2">
+                          <Field
+                            label="Rank"
+                            value={tile.seoRank || ""}
+                            onChange={(value) => updateWorkTile(slot, { seoRank: value })}
+                          />
+                          <Field
+                            label="Keyword phrase"
+                            value={tile.seoKeyword || ""}
+                            onChange={(value) => updateWorkTile(slot, { seoKeyword: value })}
+                          />
+                        </div>
+                      </>
+                    ) : null}
+                  </Panel>
+                );
+              })}
+
+              <button disabled={busy} className="w-full rounded-full bg-white py-3.5 text-sm font-semibold text-[#0b0b10] sm:w-auto sm:px-10">
+                Save What we do section
+              </button>
+            </form>
+            {status ? <p className="mt-6 text-sm text-[#f0c43a]">{status}</p> : null}
+          </>
         ) : section === "need" ? (
           <>
             <div className="mb-6 hidden lg:block">

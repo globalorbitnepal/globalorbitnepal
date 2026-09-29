@@ -11,6 +11,7 @@ import { OrbitStudioWhy } from "@/components/orbit/studio-why";
 import { OrbitTechStackStrip } from "@/components/orbit/tech-stack-strip";
 import type { HeroConfig } from "@/lib/hero-config";
 import type { NeedConfig } from "@/lib/need-config";
+import type { WorkConfig } from "@/lib/work-config";
 import {
   ORBIT_PROCESS,
   ORBIT_PROJECTS,
@@ -45,7 +46,15 @@ function DisplayHead({
   );
 }
 
-export function OrbitStudioHome({ hero, need }: { hero: HeroConfig; need: NeedConfig }) {
+export function OrbitStudioHome({
+  hero,
+  need,
+  work,
+}: {
+  hero: HeroConfig;
+  need: NeedConfig;
+  work: WorkConfig;
+}) {
   return (
     <>
       <OrbitStudioHero config={hero} />
@@ -56,7 +65,7 @@ export function OrbitStudioHome({ hero, need }: { hero: HeroConfig; need: NeedCo
 
       <OrbitTechStackStrip />
 
-      <OrbitStudioWhatWeDo />
+      <OrbitStudioWhatWeDo config={work} />
 
       <OrbitSoftwareSection />
 

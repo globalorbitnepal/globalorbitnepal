@@ -3,6 +3,7 @@ import path from "node:path";
 import { NextResponse } from "next/server";
 import { getHeroConfig, heroUploadDir, saveHeroConfig } from "@/lib/hero-store";
 import { getNeedConfig, saveNeedConfig } from "@/lib/need-store";
+import { getWorkConfig, saveWorkConfig } from "@/lib/work-store";
 import { isOrbitAuthed } from "@/lib/orbit-auth";
 
 export const runtime = "nodejs";
@@ -25,12 +26,19 @@ export async function POST(request: Request) {
   const isVideo = kind === "video";
   const isNeedVideo = kind === "needVideo";
   const isTrustLogo = kind === "trustLogo";
+  const isWorkImage = kind === "workImage";
   const logoId = String(form.get("logoId") || "")
+    .trim()
+    .replace(/[^a-zA-Z0-9_-]/g, "");
+  const tileSlot = String(form.get("tileSlot") || "")
     .trim()
     .replace(/[^a-zA-Z0-9_-]/g, "");
 
   if (isTrustLogo && !logoId) {
     return NextResponse.json({ error: "Missing logo id" }, { status: 400 });
+  }
+  if (isWorkImage && !tileSlot) {
+    return NextResponse.json({ error: "Missing tile slot" }, { status: 400 });
   }
 
   let ext = "jpg";
@@ -52,6 +60,17 @@ export async function POST(request: Request) {
             : "jpg";
     ext = rawExt;
     name = `trust-${logoId}.${ext}`;
+  } else if (isWorkImage) {
+    const rawExt =
+      file.type === "image/svg+xml"
+        ? "svg"
+        : file.type === "image/png"
+          ? "png"
+          : file.type === "image/webp"
+            ? "webp"
+            : "jpg";
+    ext = rawExt;
+    name = `work-${tileSlot}.${ext}`;
   } else {
     name = `hero-image.${ext}`;
   }
@@ -81,6 +100,15 @@ export async function POST(request: Request) {
     need.videoSrc = `/api/media/hero/${name}?v=${stamp}`;
     await saveNeedConfig(need);
     return NextResponse.json({ ok: true, needConfig: need });
+  }
+  if (isWorkImage) {
+    const work = await getWorkConfig();
+    const src = `/api/media/hero/${name}?v=${stamp}`;
+    work.tiles = work.tiles.map((tile) =>
+      tile.slot === tileSlot ? { ...tile, imageSrc: src } : tile,
+    );
+    await saveWorkConfig(work);
+    return NextResponse.json({ ok: true, workConfig: work });
   }
   if (isTrustLogo) {
     const src = `/api/media/hero/${name}?v=${stamp}`;
