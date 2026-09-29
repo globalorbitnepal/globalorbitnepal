@@ -2,6 +2,7 @@ import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { NextResponse } from "next/server";
 import { getHeroConfig, heroUploadDir, saveHeroConfig } from "@/lib/hero-store";
+import { getNeedConfig, saveNeedConfig } from "@/lib/need-store";
 import { isOrbitAuthed } from "@/lib/orbit-auth";
 
 export const runtime = "nodejs";
@@ -22,6 +23,7 @@ export async function POST(request: Request) {
   }
 
   const isVideo = kind === "video";
+  const isNeedVideo = kind === "needVideo";
   const isTrustLogo = kind === "trustLogo";
   const logoId = String(form.get("logoId") || "")
     .trim()
@@ -36,6 +38,9 @@ export async function POST(request: Request) {
   if (isVideo) {
     ext = "mp4";
     name = `hero-video.${ext}`;
+  } else if (isNeedVideo) {
+    ext = "mp4";
+    name = `need-video.${ext}`;
   } else if (isTrustLogo) {
     const rawExt =
       file.type === "image/svg+xml"
@@ -51,10 +56,10 @@ export async function POST(request: Request) {
     name = `hero-image.${ext}`;
   }
 
-  if (isVideo && !file.type.startsWith("video/")) {
+  if ((isVideo || isNeedVideo) && !file.type.startsWith("video/")) {
     return NextResponse.json({ error: "Upload an MP4 video" }, { status: 400 });
   }
-  if (!isVideo && !file.type.startsWith("image/")) {
+  if (!isVideo && !isNeedVideo && !file.type.startsWith("image/")) {
     return NextResponse.json({ error: "Upload an image" }, { status: 400 });
   }
 
@@ -68,7 +73,16 @@ export async function POST(request: Request) {
   if (isVideo) {
     config.videoSrc = `/api/media/hero/${name}?v=${stamp}`;
     config.useVideo = true;
-  } else if (isTrustLogo) {
+    await saveHeroConfig(config);
+    return NextResponse.json({ ok: true, config });
+  }
+  if (isNeedVideo) {
+    const need = await getNeedConfig();
+    need.videoSrc = `/api/media/hero/${name}?v=${stamp}`;
+    await saveNeedConfig(need);
+    return NextResponse.json({ ok: true, needConfig: need });
+  }
+  if (isTrustLogo) {
     const src = `/api/media/hero/${name}?v=${stamp}`;
     const index = config.trustLogos.findIndex((logo) => logo.id === logoId);
     if (index === -1) {

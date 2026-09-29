@@ -9,6 +9,7 @@ import { OrbitStudioNeed } from "@/components/orbit/studio-need";
 import { OrbitStudioWhy } from "@/components/orbit/studio-why";
 import { OrbitTechStackStrip } from "@/components/orbit/tech-stack-strip";
 import type { HeroConfig } from "@/lib/hero-config";
+import type { NeedConfig } from "@/lib/need-config";
 import {
   ORBIT_PROCESS,
   ORBIT_PROJECTS,
@@ -73,12 +74,12 @@ function DisplayHead({
   );
 }
 
-export function OrbitStudioHome({ hero }: { hero: HeroConfig }) {
+export function OrbitStudioHome({ hero, need }: { hero: HeroConfig; need: NeedConfig }) {
   return (
     <>
       <OrbitStudioHero config={hero} />
 
-      <OrbitStudioNeed />
+      <OrbitStudioNeed config={need} />
 
       <OrbitTechStackStrip />
 

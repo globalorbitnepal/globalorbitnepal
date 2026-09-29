@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { OrbitCodeBackdrop } from "@/components/orbit/code-backdrop";
-import { NEED_SLIDES, NEED_STATS, NEED_VIDEO_SRC } from "@/lib/need-section";
+import type { NeedConfig } from "@/lib/need-config";
+import { DEFAULT_NEED } from "@/lib/need-config";
 
 function clamp(value: number, min = 0, max = 1) {
   return Math.min(max, Math.max(min, value));
@@ -13,7 +14,7 @@ function lerp(a: number, b: number, t: number) {
   return a + (b - a) * t;
 }
 
-export function OrbitStudioNeed() {
+export function OrbitStudioNeed({ config }: { config: NeedConfig }) {
   const trackRef = useRef<HTMLElement>(null);
   const pinRef = useRef<HTMLDivElement>(null);
   const slotRef = useRef<HTMLDivElement>(null);
@@ -25,9 +26,11 @@ export function OrbitStudioNeed() {
   const [slideIndex, setSlideIndex] = useState(0);
 
   const go = useCallback((delta: number) => {
-    setStatIndex((current) => (current + delta + NEED_STATS.length) % NEED_STATS.length);
-    setSlideIndex((current) => (current + delta + NEED_SLIDES.length) % NEED_SLIDES.length);
-  }, []);
+    setStatIndex((current) => (current + delta + config.stats.length) % config.stats.length);
+    setSlideIndex((current) => (current + delta + config.slides.length) % config.slides.length);
+  }, [config.stats.length, config.slides.length]);
+
+  const videoSrc = config.videoSrc || DEFAULT_NEED.videoSrc;
 
   useEffect(() => {
     const video = videoRef.current;
@@ -44,7 +47,7 @@ export function OrbitStudioNeed() {
       video.removeEventListener("loadeddata", play);
       document.removeEventListener("visibilitychange", play);
     };
-  }, []);
+  }, [videoSrc]);
 
   useEffect(() => {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -73,7 +76,8 @@ export function OrbitStudioNeed() {
       const slotRect = slot.getBoundingClientRect();
       const travel = Math.max(trackRect.height - pinRect.height, 1);
       const raw = clamp(-trackRect.top / travel);
-      const eased = 1 - (1 - raw) ** 1.55;
+      const zoomProgress = clamp(raw / 0.68);
+      const eased = 1 - (1 - zoomProgress) ** 1.45;
 
       const start = {
         left: slotRect.left - pinRect.left,
@@ -122,8 +126,8 @@ export function OrbitStudioNeed() {
     };
   }, []);
 
-  const stat = NEED_STATS[statIndex];
-  const slide = NEED_SLIDES[slideIndex];
+  const stat = config.stats[statIndex] ?? config.stats[0];
+  const slide = config.slides[slideIndex] ?? config.slides[0];
 
   return (
     <section
@@ -137,7 +141,7 @@ export function OrbitStudioNeed() {
           <div className="orbit-need-grid w-full">
             <div className="orbit-need-left">
               <h2 id="need-heading" className="orbit-need-kicker">
-                Why you need us!
+                {config.kicker}
               </h2>
               <p className="orbit-need-stat" aria-live="polite">
                 {stat.value}
@@ -164,7 +168,7 @@ export function OrbitStudioNeed() {
               <div className="orbit-need-cta">
                 <div ref={slotRef} className="orbit-need-slot" aria-hidden="true" />
                 <Link href={slide.href} className="orbit-need-know">
-                  Know More
+                  {config.knowMoreLabel}
                 </Link>
               </div>
             </div>
@@ -184,7 +188,7 @@ export function OrbitStudioNeed() {
             controls={false}
             aria-label="Product reel"
           >
-            <source src={NEED_VIDEO_SRC} type="video/mp4" />
+            <source src={videoSrc} type={videoSrc.endsWith(".webm") ? "video/webm" : "video/mp4"} />
           </video>
         </div>
       </div>

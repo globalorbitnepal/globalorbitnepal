@@ -4,12 +4,14 @@ import Link from "next/link";
 import { useState, type ReactNode } from "react";
 import { OrbitAppointmentsPanel } from "@/components/orbit/orbit-appointments-panel";
 import type { HeroConfig } from "@/lib/hero-config";
+import type { NeedConfig, NeedSlide, NeedStat } from "@/lib/need-config";
 import type { HeroStudioLocation } from "@/lib/hero-studios";
 import type { HeroTrustLogo } from "@/lib/hero-trust-logos";
 import { DEFAULT_HERO_TRUST_LOGOS } from "@/lib/hero-trust-logos";
 
 type Props = {
   initial: HeroConfig;
+  initialNeed: NeedConfig;
   needsSetup: boolean;
   authed: boolean;
 };
@@ -59,12 +61,13 @@ function Panel({ title, description, children }: { title: string; description?: 
   );
 }
 
-export function OrbitHeroEditor({ initial, needsSetup, authed }: Props) {
+export function OrbitHeroEditor({ initial, initialNeed, needsSetup, authed }: Props) {
   const [config, setConfig] = useState(initial);
+  const [needConfig, setNeedConfig] = useState(initialNeed);
   const [password, setPassword] = useState("");
   const [status, setStatus] = useState("");
   const [busy, setBusy] = useState(false);
-  const [section, setSection] = useState<"hero" | "appointments">("hero");
+  const [section, setSection] = useState<"hero" | "need" | "appointments">("hero");
 
   const set = (key: keyof HeroConfig) => (value: string | boolean) => {
     setConfig((current) => ({ ...current, [key]: value }));
@@ -85,6 +88,50 @@ export function OrbitHeroEditor({ initial, needsSetup, authed }: Props) {
       return;
     }
     window.location.reload();
+  }
+
+  async function saveNeed(event: React.FormEvent) {
+    event.preventDefault();
+    setBusy(true);
+    const response = await fetch("/api/orbit/need", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(needConfig),
+    });
+    setBusy(false);
+    setStatus(response.ok ? "Saved. Review the Why section on the homepage." : "Save failed");
+  }
+
+  async function uploadNeedVideo(file: File | undefined) {
+    if (!file) return;
+    setBusy(true);
+    setStatus("Uploading section video…");
+    const form = new FormData();
+    form.set("kind", "needVideo");
+    form.set("file", file);
+    const response = await fetch("/api/orbit/upload", { method: "POST", body: form });
+    const data = (await response.json()) as { needConfig?: NeedConfig; error?: string };
+    setBusy(false);
+    if (!response.ok) {
+      setStatus(data.error || "Upload failed");
+      return;
+    }
+    if (data.needConfig) setNeedConfig(data.needConfig);
+    setStatus("Why section video updated");
+  }
+
+  function updateNeedStat(index: number, patch: Partial<NeedStat>) {
+    setNeedConfig((current) => ({
+      ...current,
+      stats: current.stats.map((stat, i) => (i === index ? { ...stat, ...patch } : stat)),
+    }));
+  }
+
+  function updateNeedSlide(index: number, patch: Partial<NeedSlide>) {
+    setNeedConfig((current) => ({
+      ...current,
+      slides: current.slides.map((slide, i) => (i === index ? { ...slide, ...patch } : slide)),
+    }));
   }
 
   async function save(event: React.FormEvent) {
@@ -219,8 +266,9 @@ export function OrbitHeroEditor({ initial, needsSetup, authed }: Props) {
     );
   }
 
-  const navItems: { id: "hero" | "appointments"; label: string; hint: string }[] = [
+  const navItems: { id: "hero" | "need" | "appointments"; label: string; hint: string }[] = [
     { id: "hero", label: "Homepage hero", hint: "Headline, video, flags, marquee" },
+    { id: "need", label: "Why you need us", hint: "Stats, slides, zoom video, Know More links" },
     { id: "appointments", label: "Appointments", hint: "Book Appointment form inbox" },
   ];
 
@@ -274,6 +322,80 @@ export function OrbitHeroEditor({ initial, needsSetup, authed }: Props) {
 
         {section === "appointments" ? (
           <OrbitAppointmentsPanel />
+        ) : section === "need" ? (
+          <>
+            <div className="mb-6 hidden lg:block">
+              <h1 className="font-[family-name:var(--font-jakarta)] text-2xl font-semibold text-white">
+                Why you need us
+              </h1>
+              <p className="mt-1 text-sm text-white/55">
+                Section below the hero — stats carousel, headline slides, zoom reel, and Know More destinations.
+              </p>
+            </div>
+
+            <form onSubmit={saveNeed} className="space-y-6">
+              <Panel title="Section labels" description="Left column title and button text.">
+                <Field label="Left kicker" value={needConfig.kicker} onChange={(value) => setNeedConfig((c) => ({ ...c, kicker: value }))} />
+                <Field
+                  label="Know More button label"
+                  value={needConfig.knowMoreLabel}
+                  onChange={(value) => setNeedConfig((c) => ({ ...c, knowMoreLabel: value }))}
+                />
+              </Panel>
+
+              <Panel title="Zoom reel video" description="Plays in the pill, then zooms full width on scroll.">
+                <label className="block rounded-2xl border border-white/10 bg-black/25 p-4 text-sm">
+                  <span className="font-semibold">Replace video (MP4)</span>
+                  <input
+                    type="file"
+                    accept="video/mp4,video/*"
+                    className="mt-3 block w-full text-white/70"
+                    onChange={(event) => uploadNeedVideo(event.target.files?.[0])}
+                  />
+                  <p className="mt-2 break-all text-xs text-white/45">{needConfig.videoSrc}</p>
+                </label>
+              </Panel>
+
+              <Panel title="Statistics (left carousel)" description="Four stats — arrows on the site cycle these with the right slides.">
+                {needConfig.stats.map((stat, index) => (
+                  <div key={`stat-${index}`} className="rounded-2xl border border-white/10 bg-black/25 p-4">
+                    <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-white/45">Stat {index + 1}</p>
+                    <div className="grid gap-3 sm:grid-cols-2">
+                      <Field label="Big number" value={stat.value} onChange={(value) => updateNeedStat(index, { value })} />
+                      <Field label="Caption" value={stat.caption} onChange={(value) => updateNeedStat(index, { caption: value })} multiline />
+                    </div>
+                  </div>
+                ))}
+              </Panel>
+
+              <Panel title="Right slides" description="Badge, headline, accent word, and where Know More goes for each slide.">
+                {needConfig.slides.map((slide, index) => (
+                  <div key={`slide-${index}`} className="rounded-2xl border border-white/10 bg-black/25 p-4">
+                    <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-white/45">Slide {index + 1}</p>
+                    <div className="grid gap-3 sm:grid-cols-2">
+                      <Field label="Badge number" value={slide.index} onChange={(value) => updateNeedSlide(index, { index: value })} />
+                      <Field label="Badge label" value={slide.tag} onChange={(value) => updateNeedSlide(index, { tag: value })} />
+                    </div>
+                    <div className="mt-3 space-y-3">
+                      <Field label="Headline (before accent)" value={slide.title} onChange={(value) => updateNeedSlide(index, { title: value })} multiline />
+                      <Field label="Accent (e.g. HOOKED!)" value={slide.accent} onChange={(value) => updateNeedSlide(index, { accent: value })} />
+                      <Field
+                        label="Know More link"
+                        value={slide.href}
+                        onChange={(value) => updateNeedSlide(index, { href: value })}
+                        hint="e.g. /about, /services, /contact"
+                      />
+                    </div>
+                  </div>
+                ))}
+              </Panel>
+
+              <button disabled={busy} className="w-full rounded-full bg-white py-3.5 text-sm font-semibold text-[#0b0b10] sm:w-auto sm:px-10">
+                Save Why section
+              </button>
+            </form>
+            {status ? <p className="mt-6 text-sm text-[#f0c43a]">{status}</p> : null}
+          </>
         ) : (
           <>
       <div className="mb-6 hidden lg:block">

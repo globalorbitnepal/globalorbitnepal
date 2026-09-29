@@ -29,23 +29,26 @@ export function SiteHeader(_props: SiteHeaderProps) {
       <header
         className={`pointer-events-none inset-x-0 top-0 z-50 text-white ${home ? "absolute" : "fixed"}`}
       >
-        <div className="pointer-events-auto mx-auto flex max-w-[1680px] items-center gap-3 px-[clamp(1.15rem,3.4vw,3.25rem)] pt-[clamp(0.12rem,0.28vw,0.22rem)]">
-          <BrandLogo priority variant="bar" />
+        <div className="pointer-events-auto mx-auto grid w-full max-w-[1680px] grid-cols-[1fr_auto_1fr] items-center gap-2 px-[clamp(1.15rem,3.4vw,3.25rem)] pt-[clamp(0.12rem,0.28vw,0.22rem)] sm:gap-3">
+          <div className="min-w-0 justify-self-start">
+            <BrandLogo priority variant="bar" />
+          </div>
 
-          <nav aria-label="Main navigation" className="hidden min-w-0 flex-1 justify-center lg:flex">
+          <nav aria-label="Main navigation" className="hidden min-w-0 justify-self-center lg:flex">
             <div className="orbit-header-glass orbit-header-glass-light inline-flex h-[clamp(2.65rem,3.6vw,3.15rem)] max-w-full items-center rounded-full px-2 py-0 xl:px-3">
               <StudioHeaderNav />
             </div>
           </nav>
 
-          <BookAppointmentButton
-            className="ml-auto hidden lg:inline-flex"
-            onClick={() => setAppointmentOpen(true)}
-          />
+          <div className="flex min-w-0 items-center justify-self-end gap-2">
+            <BookAppointmentButton
+              className="hidden lg:inline-flex"
+              onClick={() => setAppointmentOpen(true)}
+            />
 
-          <button
-            type="button"
-            className="ml-auto inline-flex h-11 w-11 shrink-0 items-center justify-center self-center rounded-full border border-white/15 bg-white/5 lg:hidden"
+            <button
+              type="button"
+              className="inline-flex h-11 w-11 shrink-0 items-center justify-center self-center rounded-full border border-white/15 bg-white/5 lg:hidden"
             aria-expanded={open}
             aria-controls="mobile-nav"
             onClick={() => setOpen((value) => !value)}
@@ -53,6 +56,7 @@ export function SiteHeader(_props: SiteHeaderProps) {
             <span className="sr-only">{open ? "Close menu" : "Open menu"}</span>
             <span aria-hidden="true">{open ? "×" : "☰"}</span>
           </button>
+          </div>
         </div>
 
         {open ? (

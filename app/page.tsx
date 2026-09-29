@@ -1,6 +1,7 @@
 import { OrbitHomeView } from "@/components/orbit/home-view";
 import { getSiteSettings } from "@/lib/db/site-settings";
 import { getHeroConfig } from "@/lib/hero-store";
+import { getNeedConfig } from "@/lib/need-store";
 import { organizationJsonLd } from "@/lib/seo";
 import { FALLBACK_SITE } from "@/lib/site";
 import type { Metadata } from "next";
@@ -27,6 +28,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function HomePage() {
   const settings = await getSiteSettings();
   const hero = await getHeroConfig();
+  const need = await getNeedConfig();
   const companyName = settings?.companyName || FALLBACK_SITE.companyName;
   const jsonLd = organizationJsonLd({
     name: companyName,
@@ -42,7 +44,7 @@ export default async function HomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <OrbitHomeView hero={hero} />
+      <OrbitHomeView hero={hero} need={need} />
     </>
   );
 }
