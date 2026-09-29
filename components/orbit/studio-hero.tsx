@@ -119,7 +119,7 @@ export function OrbitStudioHero({ config }: Props) {
           </div>
         </div>
 
-        <div className="orbit-studio-hero-foot mt-auto w-full min-w-0">
+        <div className="orbit-studio-hero-foot w-full min-w-0">
           <p className="orbit-hero-studios-kicker">{config.studiosKicker}</p>
           <ul className="orbit-hero-studios">
             {config.studios.map((studio) => (
@@ -133,6 +133,7 @@ export function OrbitStudioHero({ config }: Props) {
             ))}
           </ul>
         </div>
+        <div className="min-h-0 flex-1" aria-hidden="true" />
       </div>
 
       <div className="orbit-hero-trust-bleed relative z-[3] w-full">
