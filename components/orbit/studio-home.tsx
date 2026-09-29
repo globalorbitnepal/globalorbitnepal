@@ -5,6 +5,7 @@ import { OrbitFaqList, OrbitTestimonials } from "@/components/orbit/interactive"
 import { OrbitOfficesSection } from "@/components/orbit/offices-section";
 import { OrbitSoftwareSection } from "@/components/orbit/software-section";
 import { OrbitStudioHero } from "@/components/orbit/studio-hero";
+import { OrbitStudioNeed } from "@/components/orbit/studio-need";
 import { OrbitStudioWhy } from "@/components/orbit/studio-why";
 import { OrbitTechStackStrip } from "@/components/orbit/tech-stack-strip";
 import type { HeroConfig } from "@/lib/hero-config";
@@ -12,13 +13,6 @@ import {
   ORBIT_PROCESS,
   ORBIT_PROJECTS,
 } from "@/lib/orbit/catalog";
-
-const STATS = [
-  { value: "75%", label: "Of first impressions about a business come from its website, app, and search listing." },
-  { value: "3×", label: "Revenue lift is typical when a brochure site becomes a product people can actually use." },
-  { value: "99%", label: "Of users will not reopen an app after a bad first experience." },
-  { value: "5s", label: "If a page or app takes longer than five seconds, most people leave." },
-] as const;
 
 const SERVICES = [
   {
@@ -84,38 +78,9 @@ export function OrbitStudioHome({ hero }: { hero: HeroConfig }) {
     <>
       <OrbitStudioHero config={hero} />
 
+      <OrbitStudioNeed />
+
       <OrbitTechStackStrip />
-
-      <section className="bg-[#07070b] px-4 py-20 sm:px-8 sm:py-24" aria-labelledby="need-heading">
-        <DisplayHead
-          id="need-heading"
-          kicker="Why you need us"
-          title="Design, product, and search decide whether people stay."
-        />
-        <div className="mx-auto grid max-w-[1200px] gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {STATS.map((item) => (
-            <article key={item.value} className="orbit-studio-glass rounded-[24px] p-6">
-              <p className="font-[family-name:var(--font-jakarta)] text-[2.6rem] font-semibold tracking-tight text-white">
-                {item.value}
-              </p>
-              <p className="mt-3 text-[14px] leading-6 text-white/62">{item.label}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="overflow-hidden bg-[#07070b] px-4 py-8 sm:px-8">
-        <div className="mx-auto max-w-[1100px] space-y-16 text-center">
-          <h2 className="font-[family-name:var(--font-jakarta)] text-[clamp(1.7rem,4.6vw,3.1rem)] font-semibold leading-[1.15] tracking-tight text-white">
-            We blend strategy, design, and code to transform your vision into a product that keeps users{" "}
-            <span className="text-[#f0c43a]">hooked</span>.
-          </h2>
-          <h2 className="font-[family-name:var(--font-jakarta)] text-[clamp(1.7rem,4.6vw,3.1rem)] font-semibold leading-[1.15] tracking-tight text-white">
-            In-house designers, developers, and SEO specialists — applications and websites that{" "}
-            <span className="text-[#f0c43a]">stand out</span>.
-          </h2>
-        </div>
-      </section>
 
       <section className="bg-[#07070b] px-4 py-20 sm:px-8 sm:py-24" aria-labelledby="services-heading">
         <DisplayHead
