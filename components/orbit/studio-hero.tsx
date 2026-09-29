@@ -119,21 +119,22 @@ export function OrbitStudioHero({ config }: Props) {
           </div>
         </div>
 
-        <div className="orbit-studio-hero-foot w-full min-w-0">
-          <p className="orbit-hero-studios-kicker">{config.studiosKicker}</p>
-          <ul className="orbit-hero-studios">
-            {config.studios.map((studio) => (
-              <li key={studio.code} className="orbit-hero-studio">
-                <OrbitFlag code={studio.code} name={studio.label} hd variant="hero" />
-                <span className="flex flex-col">
-                  <span className="orbit-hero-studio-name">{studio.label}</span>
-                  <span className="orbit-hero-studio-city">{studio.city}</span>
-                </span>
-              </li>
-            ))}
-          </ul>
+        <div className="orbit-studio-hero-foot-wrap w-full min-w-0">
+          <div className="orbit-studio-hero-foot w-full min-w-0">
+            <p className="orbit-hero-studios-kicker">{config.studiosKicker}</p>
+            <ul className="orbit-hero-studios">
+              {config.studios.map((studio) => (
+                <li key={studio.code} className="orbit-hero-studio">
+                  <OrbitFlag code={studio.code} name={studio.label} hd variant="hero" />
+                  <span className="flex flex-col">
+                    <span className="orbit-hero-studio-name">{studio.label}</span>
+                    <span className="orbit-hero-studio-city">{studio.city}</span>
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
-        <div className="min-h-0 flex-1" aria-hidden="true" />
       </div>
 
       <div className="orbit-hero-trust-bleed relative z-[3] w-full">

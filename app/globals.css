@@ -804,10 +804,25 @@ li.orbit-card:hover {
     clamp(6.4rem, 12.5vh, 8.4rem)
     clamp(1.25rem, 3.6vw, 3.4rem)
     clamp(4.75rem, 10.5vh, 5.75rem);
-  justify-content: flex-start;
+  min-height: 100%;
 }
 
-.orbit-hero-trust-bleed {
+.orbit-studio-hero-foot-wrap {
+  position: relative;
+  flex: 1 1 auto;
+  width: 100%;
+  min-height: clamp(6rem, 20vh, 12rem);
+}
+
+.orbit-studio-hero-foot {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  left: 0;
+  width: 100%;
+  margin-top: 0;
+  transform: translateY(-50%);
+}
   position: absolute;
   right: 0;
   bottom: 0;
@@ -840,12 +855,7 @@ li.orbit-card:hover {
   padding-top: 0;
 }
 
-.orbit-studio-hero-foot {
-  flex: 0 0 auto;
-  margin-top: clamp(0.45rem, 1vh, 0.7rem);
-}
-
-.orbit-hero-eyebrow {
+.orbit-hero-trust-bleed {
   display: inline-flex;
   width: fit-content;
   align-items: center;
@@ -994,7 +1004,11 @@ li.orbit-card:hover {
 @media (max-width: 767px) {
   .orbit-studio-hero-copy {
     max-width: 100% !important;
-    justify-content: flex-end;
+    justify-content: flex-start;
+  }
+
+  .orbit-studio-hero-foot-wrap {
+    min-height: clamp(5rem, 24vh, 10rem);
   }
 
   .orbit-hero-headline {
@@ -1003,6 +1017,10 @@ li.orbit-card:hover {
 }
 
 @media (min-width: 768px) and (max-height: 820px) {
+  .orbit-studio-hero-foot-wrap {
+    min-height: clamp(4.5rem, 14vh, 8rem);
+  }
+
   .orbit-hero-headline {
     font-size: clamp(1.7rem, 2.4vw + 0.6rem, 2.85rem);
   }
