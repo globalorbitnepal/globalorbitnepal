@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { OrbitCodeBackdrop } from "@/components/orbit/code-backdrop";
 import { NEED_SLIDES, NEED_STATS, NEED_VIDEO_SRC } from "@/lib/need-section";
 
 function clamp(value: number, min = 0, max = 1) {
@@ -127,11 +128,12 @@ export function OrbitStudioNeed() {
   return (
     <section
       ref={trackRef}
-      className="orbit-need-track relative bg-[#050508] text-white"
+      className="orbit-need-track relative z-[1] bg-[#050508] text-white"
       aria-labelledby="need-heading"
     >
       <div ref={pinRef} className="orbit-need-pin sticky top-0 isolate overflow-hidden">
-        <div ref={copyRef} className="orbit-need-copy relative z-[2] mx-auto flex h-full w-full max-w-[1320px] items-start">
+        <OrbitCodeBackdrop />
+        <div ref={copyRef} className="orbit-need-copy relative z-[2] mx-auto flex h-full w-full max-w-[1680px] items-start">
           <div className="orbit-need-grid w-full">
             <div className="orbit-need-left">
               <h2 id="need-heading" className="orbit-need-kicker">

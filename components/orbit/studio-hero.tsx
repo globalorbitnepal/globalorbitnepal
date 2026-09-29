@@ -73,7 +73,7 @@ export function OrbitStudioHero({ config }: Props) {
   return (
     <section
       ref={stageRef}
-      className="orbit-studio-hero relative isolate overflow-hidden bg-[#07070c] text-white"
+      className="orbit-studio-hero relative z-[2] isolate overflow-hidden bg-[#07070c] text-white"
       aria-labelledby="home-hero-heading"
     >
       <div
@@ -132,8 +132,11 @@ export function OrbitStudioHero({ config }: Props) {
               </li>
             ))}
           </ul>
-          <OrbitHeroTrustMarquee logos={config.trustLogos} label={config.trustMarqueeLabel} />
         </div>
+      </div>
+
+      <div className="orbit-hero-trust-bleed relative z-[3] w-full">
+        <OrbitHeroTrustMarquee logos={config.trustLogos} label={config.trustMarqueeLabel} />
       </div>
     </section>
   );
