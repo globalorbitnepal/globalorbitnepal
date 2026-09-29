@@ -83,9 +83,9 @@ export function OrbitStudioNeed() {
       };
       const end = {
         left: pinRect.width * 0.035,
-        top: pinRect.height * 0.07,
+        top: pinRect.height * 0.05,
         width: pinRect.width * 0.93,
-        height: pinRect.height * 0.84,
+        height: pinRect.height * 0.86,
         radius: Math.min(pinRect.width, pinRect.height) * 0.045,
       };
 
@@ -131,7 +131,7 @@ export function OrbitStudioNeed() {
       aria-labelledby="need-heading"
     >
       <div ref={pinRef} className="orbit-need-pin sticky top-0 isolate overflow-hidden">
-        <div ref={copyRef} className="orbit-need-copy relative z-[2] mx-auto flex h-full w-full max-w-[1280px] items-center">
+        <div ref={copyRef} className="orbit-need-copy relative z-[2] mx-auto flex h-full w-full max-w-[1320px] items-start">
           <div className="orbit-need-grid w-full">
             <div className="orbit-need-left">
               <h2 id="need-heading" className="orbit-need-kicker">
