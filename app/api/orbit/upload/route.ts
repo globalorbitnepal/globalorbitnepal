@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 import { getHeroConfig, heroUploadDir, saveHeroConfig } from "@/lib/hero-store";
 import { getNeedConfig, saveNeedConfig } from "@/lib/need-store";
 import { getWorkConfig, saveWorkConfig } from "@/lib/work-store";
+import { getSoftwareConfig, saveSoftwareConfig } from "@/lib/software-store";
 import { isOrbitAuthed } from "@/lib/orbit-auth";
 
 export const runtime = "nodejs";
@@ -27,10 +28,16 @@ export async function POST(request: Request) {
   const isNeedVideo = kind === "needVideo";
   const isTrustLogo = kind === "trustLogo";
   const isWorkImage = kind === "workImage";
+  const isSoftwareVideo = kind === "softwareVideo";
+  const isSoftwarePreview = kind === "softwarePreview";
   const logoId = String(form.get("logoId") || "")
     .trim()
     .replace(/[^a-zA-Z0-9_-]/g, "");
   const tileSlot = String(form.get("tileSlot") || "")
+    .trim()
+    .replace(/[^a-zA-Z0-9_-]/g, "");
+
+  const productSlug = String(form.get("productSlug") || "")
     .trim()
     .replace(/[^a-zA-Z0-9_-]/g, "");
 
@@ -39,6 +46,9 @@ export async function POST(request: Request) {
   }
   if (isWorkImage && !tileSlot) {
     return NextResponse.json({ error: "Missing tile slot" }, { status: 400 });
+  }
+  if (isSoftwarePreview && !productSlug) {
+    return NextResponse.json({ error: "Missing product slug" }, { status: 400 });
   }
 
   let ext = "jpg";
@@ -71,14 +81,21 @@ export async function POST(request: Request) {
             : "jpg";
     ext = rawExt;
     name = `work-${tileSlot}.${ext}`;
+  } else if (isSoftwareVideo) {
+    ext = "mp4";
+    name = `software-video.${ext}`;
+  } else if (isSoftwarePreview) {
+    const rawExt = file.type === "image/png" ? "png" : file.type === "image/webp" ? "webp" : "jpg";
+    ext = rawExt;
+    name = `software-${productSlug}.${ext}`;
   } else {
     name = `hero-image.${ext}`;
   }
 
-  if ((isVideo || isNeedVideo) && !file.type.startsWith("video/")) {
+  if ((isVideo || isNeedVideo || isSoftwareVideo) && !file.type.startsWith("video/")) {
     return NextResponse.json({ error: "Upload an MP4 video" }, { status: 400 });
   }
-  if (!isVideo && !isNeedVideo && !file.type.startsWith("image/")) {
+  if (!isVideo && !isNeedVideo && !isSoftwareVideo && !file.type.startsWith("image/")) {
     return NextResponse.json({ error: "Upload an image" }, { status: 400 });
   }
 
@@ -109,6 +126,21 @@ export async function POST(request: Request) {
     );
     await saveWorkConfig(work);
     return NextResponse.json({ ok: true, workConfig: work });
+  }
+  if (isSoftwareVideo) {
+    const software = await getSoftwareConfig();
+    software.videoSrc = `/api/media/hero/${name}?v=${stamp}`;
+    await saveSoftwareConfig(software);
+    return NextResponse.json({ ok: true, softwareConfig: software });
+  }
+  if (isSoftwarePreview) {
+    const software = await getSoftwareConfig();
+    const src = `/api/media/hero/${name}?v=${stamp}`;
+    software.products = software.products.map((product) =>
+      product.slug === productSlug ? { ...product, previewSrc: src } : product,
+    );
+    await saveSoftwareConfig(software);
+    return NextResponse.json({ ok: true, softwareConfig: software });
   }
   if (isTrustLogo) {
     const src = `/api/media/hero/${name}?v=${stamp}`;

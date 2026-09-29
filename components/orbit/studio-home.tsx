@@ -12,6 +12,7 @@ import { OrbitTechStackStrip } from "@/components/orbit/tech-stack-strip";
 import type { HeroConfig } from "@/lib/hero-config";
 import type { NeedConfig } from "@/lib/need-config";
 import type { WorkConfig } from "@/lib/work-config";
+import type { SoftwareConfig } from "@/lib/software-config";
 import {
   ORBIT_PROCESS,
   ORBIT_PROJECTS,
@@ -50,10 +51,12 @@ export function OrbitStudioHome({
   hero,
   need,
   work,
+  software,
 }: {
   hero: HeroConfig;
   need: NeedConfig;
   work: WorkConfig;
+  software: SoftwareConfig;
 }) {
   return (
     <>
@@ -67,7 +70,7 @@ export function OrbitStudioHome({
 
       <OrbitStudioWhatWeDo config={work} />
 
-      <OrbitSoftwareSection />
+      <OrbitSoftwareSection config={software} />
 
       <section className="bg-[#07070b] px-4 py-20 sm:px-8 sm:py-24" aria-labelledby="process-heading">
         <DisplayHead

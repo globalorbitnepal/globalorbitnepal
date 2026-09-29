@@ -1649,11 +1649,11 @@ li.orbit-card:hover {
 }
 
 .orbit-work-col.is-phone {
-  width: 20%;
+  width: 28%;
 }
 
 .orbit-work-col.is-wide {
-  width: 30%;
+  width: 36%;
 }
 
 .orbit-work-block {
@@ -1692,6 +1692,7 @@ li.orbit-card:hover {
   height: 100%;
   object-fit: cover;
   object-position: 50% 0%;
+  background-repeat: no-repeat;
 }
 
 .orbit-work-chrome {
@@ -1957,11 +1958,11 @@ li.orbit-card:hover {
   }
 
   .orbit-work-col.is-phone {
-    width: 22%;
+    width: 30%;
   }
 
   .orbit-work-col.is-wide {
-    width: 28%;
+    width: 35%;
   }
 }
 
@@ -2015,4 +2016,150 @@ li.orbit-card:hover {
   .orbit-book-appointment-btn:hover {
     transform: none;
   }
+}
+
+.orbit-soft-veil {
+  background:
+    linear-gradient(180deg, rgba(5, 5, 10, 0.78) 0%, rgba(5, 5, 10, 0.55) 38%, rgba(5, 5, 10, 0.88) 100%),
+    linear-gradient(90deg, rgba(5, 5, 10, 0.45) 0%, transparent 40%, transparent 70%, rgba(5, 5, 10, 0.4) 100%);
+}
+
+.orbit-soft-headline {
+  margin-top: 1.15rem;
+  font-family: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  font-size: clamp(1.85rem, 1.05rem + 2.4vw, 3.15rem);
+  font-weight: 550;
+  line-height: 1.12;
+  letter-spacing: -0.035em;
+  color: #fff;
+}
+
+.orbit-soft-headline span {
+  background-image: linear-gradient(90deg, #60a5fa 0%, #818cf8 50%, #c4b5fd 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.orbit-login-stage {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  min-height: 100dvh;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 2rem 1.25rem;
+}
+
+.orbit-login-stage video {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  opacity: 0.28;
+}
+
+.orbit-login-veil {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    radial-gradient(ellipse 70% 50% at 50% -10%, rgba(99, 102, 241, 0.22), transparent 55%),
+    linear-gradient(180deg, rgba(4, 4, 10, 0.72), rgba(4, 4, 10, 0.88));
+}
+
+.orbit-login-grid {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  width: min(1080px, 100%);
+  gap: 2.5rem;
+  align-items: center;
+}
+
+@media (min-width: 900px) {
+  .orbit-login-grid {
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 4rem;
+  }
+}
+
+.orbit-login-copy h1 {
+  font-family: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  font-size: clamp(2.1rem, 1.2rem + 2vw, 3.4rem);
+  font-weight: 650;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+}
+
+.orbit-login-card {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 1.75rem;
+  background: linear-gradient(180deg, rgba(16, 16, 24, 0.78), rgba(8, 8, 14, 0.9));
+  box-shadow: 0 40px 90px rgba(0, 0, 0, 0.45);
+  padding: 2rem 1.75rem;
+  backdrop-filter: blur(28px);
+}
+
+.orbit-dash-shell {
+  display: flex;
+  min-height: 100dvh;
+  max-width: 1520px;
+  margin: 0 auto;
+  gap: 1.75rem;
+  padding: 1.75rem 1.25rem 3rem;
+}
+
+@media (min-width: 1024px) {
+  .orbit-dash-shell {
+    padding: 2rem 2rem 3.5rem;
+  }
+}
+
+.orbit-dash-nav-card {
+  display: flex;
+  width: 100%;
+  align-items: flex-start;
+  gap: 0.85rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1.1rem;
+  background: rgba(8, 8, 14, 0.45);
+  padding: 0.95rem 1rem;
+  text-align: left;
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.orbit-dash-nav-card:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.orbit-dash-nav-card.is-active {
+  border-color: rgba(129, 140, 248, 0.45);
+  background: linear-gradient(180deg, rgba(79, 70, 229, 0.18), rgba(15, 15, 24, 0.7));
+}
+
+.orbit-dash-nav-num {
+  display: inline-flex;
+  height: 1.7rem;
+  width: 1.7rem;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.orbit-dash-nav-card.is-active .orbit-dash-nav-num {
+  background: #4f46e5;
+  color: #fff;
 }

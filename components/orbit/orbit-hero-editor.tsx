@@ -7,6 +7,7 @@ import type { HeroConfig } from "@/lib/hero-config";
 import type { NeedConfig, NeedSlide, NeedStat } from "@/lib/need-config";
 import type { WorkConfig, WorkTile } from "@/lib/work-config";
 import { WORK_TILE_LABELS, WORK_TILE_SLOTS } from "@/lib/work-config";
+import type { SoftwareConfig, SoftwareProduct } from "@/lib/software-config";
 import type { HeroStudioLocation } from "@/lib/hero-studios";
 import type { HeroTrustLogo } from "@/lib/hero-trust-logos";
 import { DEFAULT_HERO_TRUST_LOGOS } from "@/lib/hero-trust-logos";
@@ -15,6 +16,7 @@ type Props = {
   initial: HeroConfig;
   initialNeed: NeedConfig;
   initialWork: WorkConfig;
+  initialSoftware: SoftwareConfig;
   needsSetup: boolean;
   authed: boolean;
 };
@@ -64,14 +66,22 @@ function Panel({ title, description, children }: { title: string; description?: 
   );
 }
 
-export function OrbitHeroEditor({ initial, initialNeed, initialWork, needsSetup, authed }: Props) {
+export function OrbitHeroEditor({
+  initial,
+  initialNeed,
+  initialWork,
+  initialSoftware,
+  needsSetup,
+  authed,
+}: Props) {
   const [config, setConfig] = useState(initial);
   const [needConfig, setNeedConfig] = useState(initialNeed);
   const [workConfig, setWorkConfig] = useState(initialWork);
+  const [softwareConfig, setSoftwareConfig] = useState(initialSoftware);
   const [password, setPassword] = useState("");
   const [status, setStatus] = useState("");
   const [busy, setBusy] = useState(false);
-  const [section, setSection] = useState<"hero" | "need" | "work" | "appointments">("hero");
+  const [section, setSection] = useState<"hero" | "need" | "work" | "software" | "appointments">("hero");
 
   const set = (key: keyof HeroConfig) => (value: string | boolean) => {
     setConfig((current) => ({ ...current, [key]: value }));
@@ -188,6 +198,67 @@ export function OrbitHeroEditor({ initial, initialNeed, initialWork, needsSetup,
     updateWorkTile(slot, { imageSrc: fallbackSrc });
   }
 
+  async function saveSoftware(event: React.FormEvent) {
+    event.preventDefault();
+    setBusy(true);
+    const response = await fetch("/api/orbit/software", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(softwareConfig),
+    });
+    setBusy(false);
+    setStatus(response.ok ? "Saved. Review the Enterprise software section on the homepage." : "Save failed");
+  }
+
+  function updateSoftwareProduct(slug: string, patch: Partial<SoftwareProduct>) {
+    setSoftwareConfig((current) => ({
+      ...current,
+      products: current.products.map((product) => (product.slug === slug ? { ...product, ...patch } : product)),
+    }));
+  }
+
+  async function uploadSoftwareVideo(file: File | undefined) {
+    if (!file) return;
+    setBusy(true);
+    setStatus("Uploading software section video…");
+    const form = new FormData();
+    form.set("kind", "softwareVideo");
+    form.set("file", file);
+    const response = await fetch("/api/orbit/upload", { method: "POST", body: form });
+    const data = (await response.json()) as { softwareConfig?: SoftwareConfig; error?: string };
+    setBusy(false);
+    if (!response.ok) {
+      setStatus(data.error || "Upload failed");
+      return;
+    }
+    if (data.softwareConfig?.videoSrc) {
+      setSoftwareConfig((current) => ({ ...current, videoSrc: data.softwareConfig!.videoSrc }));
+    }
+    setStatus("Software section video updated.");
+  }
+
+  async function uploadSoftwarePreview(slug: string, file: File | undefined) {
+    if (!file) return;
+    setBusy(true);
+    setStatus("Uploading product preview…");
+    const form = new FormData();
+    form.set("kind", "softwarePreview");
+    form.set("productSlug", slug);
+    form.set("file", file);
+    const response = await fetch("/api/orbit/upload", { method: "POST", body: form });
+    const data = (await response.json()) as { softwareConfig?: SoftwareConfig; error?: string };
+    setBusy(false);
+    if (!response.ok) {
+      setStatus(data.error || "Upload failed");
+      return;
+    }
+    const uploaded = data.softwareConfig?.products.find((p) => p.slug === slug);
+    if (uploaded?.previewSrc) {
+      updateSoftwareProduct(slug, { previewSrc: uploaded.previewSrc });
+    }
+    setStatus("Product preview updated.");
+  }
+
   async function save(event: React.FormEvent) {
     event.preventDefault();
     setBusy(true);
@@ -279,74 +350,90 @@ export function OrbitHeroEditor({ initial, initialNeed, initialWork, needsSetup,
 
   if (!authed) {
     return (
-      <div className="flex min-h-[100dvh] items-center justify-center px-4 py-16">
-        <div className="orbit-orbit-login w-full max-w-[420px] rounded-[32px] border border-white/12 bg-[#0a0a12]/80 p-8 shadow-[0_40px_100px_rgba(0,0,0,0.55)] backdrop-blur-2xl sm:p-10">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.32em] text-[#f0c43a]/90">Global Orbit</p>
-          <h1 className="mt-3 font-[family-name:var(--font-jakarta)] text-3xl font-semibold tracking-tight text-white">
-            Orbit dashboard
-          </h1>
-          <p className="mt-3 text-sm leading-relaxed text-white/55">
-            Premium control for your live homepage hero, client marquee, and appointment requests.
-          </p>
-          <form onSubmit={login} className="mt-8 space-y-4">
-            <label className="block text-sm">
-              <span className="mb-2 block text-white/65">Passkey</span>
-              <input
-                type="password"
-                required
-                autoComplete="current-password"
-                minLength={needsSetup ? 8 : 1}
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
-                className="w-full rounded-2xl border border-white/15 bg-black/40 px-4 py-3.5 text-white outline-none ring-[#f0c43a]/30 focus:border-[#f0c43a]/50 focus:ring-2"
-                placeholder={needsSetup ? "Create passkey (8+ characters)" : "Enter passkey"}
-              />
-            </label>
-            <button
-              disabled={busy}
-              className="w-full rounded-full bg-gradient-to-r from-[#f0c43a] to-[#e8b820] py-3.5 text-sm font-semibold text-[#14120a] shadow-[0_12px_32px_rgba(240,196,58,0.25)]"
-            >
-              {busy ? "Checking…" : needsSetup ? "Create access" : "Unlock dashboard"}
-            </button>
-            {status ? <p className="text-sm text-red-300">{status}</p> : null}
-          </form>
-          <p className="mt-6 text-center text-xs text-white/35">
-            <Link href="/" className="text-white/50 hover:text-white">
-              ← Back to website
-            </Link>
-          </p>
+      <div className="orbit-login-stage">
+        <video autoPlay muted loop playsInline>
+          <source src="/brand/hero-product.mp4" type="video/mp4" />
+        </video>
+        <div className="orbit-login-veil" />
+        <div className="orbit-login-grid">
+          <div className="orbit-login-copy">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.32em] text-[#818cf8]">Orbit · Node.js control plane</p>
+            <h1 className="mt-4 text-white">
+              Backend for the live Global Orbit site.
+            </h1>
+            <p className="mt-4 max-w-md text-[15px] leading-7 text-white/58">
+              Edit hero, Why you need us, What we do, enterprise software, and appointments from one premium Node.js dashboard.
+            </p>
+            <ul className="mt-8 space-y-3 text-sm text-white/55">
+              <li className="flex gap-3"><span className="text-[#818cf8]">01</span> Homepage copy, video, and marquee</li>
+              <li className="flex gap-3"><span className="text-[#818cf8]">02</span> Real website mosaic screenshots</li>
+              <li className="flex gap-3"><span className="text-[#818cf8]">03</span> Production software catalogue</li>
+            </ul>
+          </div>
+          <div className="orbit-login-card">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-white/40">Secure access</p>
+            <h2 className="mt-2 font-[family-name:var(--font-jakarta)] text-2xl font-semibold text-white">Unlock dashboard</h2>
+            <form onSubmit={login} className="mt-7 space-y-4">
+              <label className="block text-sm">
+                <span className="mb-2 block text-white/65">Passkey</span>
+                <input
+                  type="password"
+                  required
+                  autoComplete="current-password"
+                  minLength={needsSetup ? 8 : 1}
+                  value={password}
+                  onChange={(event) => setPassword(event.target.value)}
+                  className="w-full rounded-2xl border border-white/15 bg-black/40 px-4 py-3.5 text-white outline-none ring-[#818cf8]/30 focus:border-[#818cf8]/50 focus:ring-2"
+                  placeholder={needsSetup ? "Create passkey (8+ characters)" : "Enter passkey"}
+                />
+              </label>
+              <button
+                disabled={busy}
+                className="w-full rounded-full bg-white py-3.5 text-sm font-semibold text-[#0b0b10]"
+              >
+                {busy ? "Checking…" : needsSetup ? "Create access" : "Enter Orbit"}
+              </button>
+              {status ? <p className="text-sm text-red-300">{status}</p> : null}
+            </form>
+            <p className="mt-6 text-center text-xs text-white/35">
+              <Link href="/" className="text-white/50 hover:text-white">
+                ← Back to website
+              </Link>
+            </p>
+          </div>
         </div>
       </div>
     );
   }
 
-  const navItems: { id: "hero" | "need" | "work" | "appointments"; label: string; hint: string }[] = [
+  const navItems: { id: "hero" | "need" | "work" | "software" | "appointments"; label: string; hint: string }[] = [
     { id: "hero", label: "Homepage hero", hint: "Headline, video, flags, marquee" },
-    { id: "need", label: "Why you need us", hint: "Stats, slides, zoom video, Know More links" },
-    { id: "work", label: "What we do", hint: "Headline, zoom mosaic, all tile copy & images" },
-    { id: "appointments", label: "Appointments", hint: "Book Appointment form inbox" },
+    { id: "need", label: "Why you need us", hint: "Stats, slides, zoom video" },
+    { id: "work", label: "What we do", hint: "Unique website mosaic" },
+    { id: "software", label: "Enterprise software", hint: "Video backdrop, products, previews" },
+    { id: "appointments", label: "Appointments", hint: "Book Appointment inbox" },
   ];
 
   return (
-    <div className="mx-auto flex min-h-[100dvh] max-w-[1440px] flex-col gap-6 px-4 py-8 lg:flex-row lg:gap-8 lg:px-8 lg:py-10">
-      <aside className="lg:w-72 lg:shrink-0">
-        <div className="orbit-orbit-sidebar orbit-studio-glass sticky top-6 rounded-[28px] p-4 lg:top-8">
-          <p className="px-2 text-[10px] font-semibold uppercase tracking-[0.28em] text-white/40">Orbit</p>
-          <p className="mt-1 px-2 font-[family-name:var(--font-jakarta)] text-lg font-semibold text-white">Control panel</p>
+    <div className="orbit-dash-shell flex-col lg:flex-row">
+      <aside className="lg:w-[19.5rem] lg:shrink-0">
+        <div className="orbit-studio-glass sticky top-6 rounded-[28px] p-4 lg:top-8">
+          <p className="px-2 text-[10px] font-semibold uppercase tracking-[0.28em] text-[#818cf8]/80">Orbit · Node.js</p>
+          <p className="mt-1 px-2 font-[family-name:var(--font-jakarta)] text-lg font-semibold text-white">Control plane</p>
+          <p className="mt-1 px-2 text-xs leading-5 text-white/40">Premium backend for homepage sections.</p>
           <nav className="mt-4 space-y-2" aria-label="Dashboard sections">
-            {navItems.map((item) => (
+            {navItems.map((item, index) => (
               <button
                 key={item.id}
                 type="button"
                 onClick={() => setSection(item.id)}
-                className={`orbit-orbit-sidebar-card block w-full rounded-2xl border px-4 py-3.5 text-left transition ${
-                  section === item.id
-                    ? "border-[#f0c43a]/45 bg-[#f0c43a]/10"
-                    : "border-white/10 bg-black/20 hover:border-white/20 hover:bg-white/[0.06]"
-                }`}
+                className={`orbit-dash-nav-card ${section === item.id ? "is-active" : ""}`}
               >
-                <span className="block text-[15px] font-semibold text-white">{item.label}</span>
-                <span className="mt-0.5 block text-xs text-white/45">{item.hint}</span>
+                <span className="orbit-dash-nav-num">{String(index + 1).padStart(2, "0")}</span>
+                <span>
+                  <span className="block text-[14px] font-semibold text-white">{item.label}</span>
+                  <span className="mt-0.5 block text-xs text-white/45">{item.hint}</span>
+                </span>
               </button>
             ))}
           </nav>
@@ -377,6 +464,61 @@ export function OrbitHeroEditor({ initial, initialNeed, initialWork, needsSetup,
 
         {section === "appointments" ? (
           <OrbitAppointmentsPanel />
+        ) : section === "software" ? (
+          <>
+            <div className="mb-6 hidden lg:block">
+              <h1 className="font-[family-name:var(--font-jakarta)] text-2xl font-semibold text-white">Enterprise software</h1>
+              <p className="mt-1 text-sm text-white/55">
+                Video backdrop, kicker, headline, and every product card — matching the What we do premium look.
+              </p>
+            </div>
+            <form onSubmit={saveSoftware} className="space-y-6">
+              <Panel title="Section copy">
+                <Field label="Kicker" value={softwareConfig.kicker} onChange={(value) => setSoftwareConfig((c) => ({ ...c, kicker: value }))} />
+                <Field label="Headline" value={softwareConfig.headline} onChange={(value) => setSoftwareConfig((c) => ({ ...c, headline: value }))} multiline />
+                <Field label="Headline accent" value={softwareConfig.headlineAccent} onChange={(value) => setSoftwareConfig((c) => ({ ...c, headlineAccent: value }))} />
+                <Field label="Supporting paragraph" value={softwareConfig.lede} onChange={(value) => setSoftwareConfig((c) => ({ ...c, lede: value }))} multiline />
+                <Field label="Footer kicker" value={softwareConfig.footerKicker} onChange={(value) => setSoftwareConfig((c) => ({ ...c, footerKicker: value }))} />
+                <Field label="Footer title" value={softwareConfig.footerTitle} onChange={(value) => setSoftwareConfig((c) => ({ ...c, footerTitle: value }))} />
+              </Panel>
+              <Panel title="Background video" description="Cinematic loop behind the product grid.">
+                <label className="block rounded-2xl border border-white/10 bg-black/25 p-4 text-sm">
+                  <span className="font-semibold">Replace video (MP4)</span>
+                  <input
+                    type="file"
+                    accept="video/mp4,video/*"
+                    className="mt-3 block w-full text-white/70"
+                    onChange={(event) => uploadSoftwareVideo(event.target.files?.[0])}
+                  />
+                  <p className="mt-2 break-all text-xs text-white/45">{softwareConfig.videoSrc}</p>
+                </label>
+              </Panel>
+              {softwareConfig.products.map((product, index) => (
+                <Panel key={product.slug} title={`${String(index + 1).padStart(2, "0")} · ${product.title}`}>
+                  <Field label="Title" value={product.title} onChange={(value) => updateSoftwareProduct(product.slug, { title: value })} />
+                  <Field label="Summary" value={product.summary} onChange={(value) => updateSoftwareProduct(product.slug, { summary: value })} multiline />
+                  <Field label="Link" value={product.href} onChange={(value) => updateSoftwareProduct(product.slug, { href: value })} />
+                  <label className="block rounded-2xl border border-white/10 bg-black/25 p-4 text-sm">
+                    <span className="font-semibold">Replace preview image</span>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="mt-3 block w-full text-white/70"
+                      onChange={(event) => uploadSoftwarePreview(product.slug, event.target.files?.[0])}
+                    />
+                    <p className="mt-2 break-all text-xs text-white/45">{product.previewSrc}</p>
+                  </label>
+                  {product.previewSrc ? (
+                    <img src={product.previewSrc} alt="" className="max-h-24 w-auto object-contain" />
+                  ) : null}
+                </Panel>
+              ))}
+              <button disabled={busy} className="w-full rounded-full bg-white py-3.5 text-sm font-semibold text-[#0b0b10] sm:w-auto sm:px-10">
+                Save Enterprise software
+              </button>
+            </form>
+            {status ? <p className="mt-6 text-sm text-[#818cf8]">{status}</p> : null}
+          </>
         ) : section === "work" ? (
           <>
             <div className="mb-6 hidden lg:block">

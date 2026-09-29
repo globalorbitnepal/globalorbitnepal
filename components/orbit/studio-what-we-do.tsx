@@ -24,15 +24,6 @@ function PhoneBar({ time }: { time: string }) {
   );
 }
 
-function Shot({ tile }: { tile: WorkTile }) {
-  const src = tile.imageSrc || "/brand/work/summit-seek.jpg";
-  return (
-    <div className="orbit-work-shot-wrap">
-      <img className="orbit-work-shot" src={src} alt={tile.title || ""} />
-    </div>
-  );
-}
-
 function WebsiteTile({
   tile,
   height,
@@ -44,19 +35,18 @@ function WebsiteTile({
   fill?: boolean;
   phone?: boolean;
 }) {
+  const src = tile.imageSrc || "/brand/work/summit-seek.jpg";
   return (
     <article
       className={`orbit-work-block${fill ? " is-fill" : ""}`}
       style={height ? { height } : undefined}
     >
       {phone ? <PhoneBar time={tile.phoneTime || "09:41"} /> : <Chrome title={tile.chromeTitle || tile.title || "website"} />}
-      <Shot tile={tile} />
+      <div className="orbit-work-shot-wrap">
+        <img className="orbit-work-shot" src={src} alt={tile.title || ""} />
+      </div>
     </article>
   );
-}
-
-function isPhoneTile(tile: WorkTile) {
-  return tile.type === "phone-screen" || tile.type === "phone-app";
 }
 
 export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
@@ -64,7 +54,6 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
   const gridRef = useRef<HTMLDivElement>(null);
   const madeRef = useRef<HTMLParagraphElement>(null);
   const frameRef = useRef(0);
-
   const t = (slot: Parameters<typeof workTileBySlot>[1]) => workTileBySlot(config, slot);
 
   useEffect(() => {
@@ -77,15 +66,15 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
       const rect = track.getBoundingClientRect();
       const travel = Math.max(track.offsetHeight - window.innerHeight, 1);
       const raw = Math.min(1, Math.max(0, -rect.top / travel));
-      const maxScale = window.matchMedia("(max-width: 767px)").matches ? 1.28 : 1.42;
-      const scale = reduce ? 1.04 : 1 + raw * (maxScale - 1);
+      const maxScale = window.matchMedia("(max-width: 767px)").matches ? 1.18 : 1.26;
+      const scale = reduce ? 1.02 : 1 + raw * (maxScale - 1);
       grid.style.transform = `scale(${scale})`;
-      grid.style.setProperty("--orbit-work-overlay", String(reduce ? 0.06 : 0.22 * (1 - raw)));
+      grid.style.setProperty("--orbit-work-overlay", String(reduce ? 0.04 : 0.16 * (1 - raw)));
 
       if (madeRef.current) {
-        const show = reduce ? 1 : Math.min(1, Math.max(0, (raw - 0.62) / 0.26));
+        const show = reduce ? 1 : Math.min(1, Math.max(0, (raw - 0.64) / 0.24));
         madeRef.current.style.opacity = String(show);
-        madeRef.current.style.transform = `translate3d(0, ${14 - show * 14}px, 0)`;
+        madeRef.current.style.transform = `translate3d(0, ${12 - show * 12}px, 0)`;
       }
     };
 
@@ -123,24 +112,17 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
         <div className="orbit-work-grid-main">
           <div ref={gridRef} className="orbit-work-grid">
             <div className="orbit-work-col is-phone">
-              <WebsiteTile tile={t("col1-top")} fill phone={isPhoneTile(t("col1-top"))} />
-              <WebsiteTile tile={t("col1-bottom")} fill phone={isPhoneTile(t("col1-bottom"))} />
+              <WebsiteTile tile={t("col1-top")} fill phone />
+              <WebsiteTile tile={t("col1-bottom")} fill phone />
             </div>
-
             <div className="orbit-work-col is-wide">
-              <WebsiteTile tile={t("col2-top")} height="36%" />
+              <WebsiteTile tile={t("col2-top")} height="38%" />
               <WebsiteTile tile={t("col2-mid")} height="32%" />
-              <WebsiteTile tile={t("col2-bottom")} height="28%" />
+              <WebsiteTile tile={t("col2-bottom")} height="26%" />
             </div>
-
             <div className="orbit-work-col is-wide">
-              <WebsiteTile tile={t("col3-top")} height="56%" />
-              <WebsiteTile tile={t("col3-bottom")} height="40%" />
-            </div>
-
-            <div className="orbit-work-col is-phone">
-              <WebsiteTile tile={t("col4-top")} fill phone={isPhoneTile(t("col4-top"))} />
-              <WebsiteTile tile={t("col4-bottom")} fill phone={isPhoneTile(t("col4-bottom"))} />
+              <WebsiteTile tile={t("col3-top")} height="58%" />
+              <WebsiteTile tile={t("col3-bottom")} height="38%" />
             </div>
           </div>
         </div>

@@ -44,8 +44,6 @@ export const WORK_TILE_SLOTS = [
   "col2-bottom",
   "col3-top",
   "col3-bottom",
-  "col4-top",
-  "col4-bottom",
 ] as const;
 
 export type WorkTileSlot = (typeof WORK_TILE_SLOTS)[number];
@@ -106,22 +104,6 @@ const DEFAULT_TILES: WorkTile[] = [
     imageSrc: "/brand/work/thamel-spa.jpg",
     title: "Thamel Park & Spa",
     subtitle: "Luxury wellness · Kathmandu",
-  },
-  {
-    slot: "col4-top",
-    type: "phone-screen",
-    phoneTime: "11:08",
-    imageSrc: "/brand/work/ambition-holidays.jpg",
-    title: "Ambition Holidays",
-    subtitle: "Luxury tour & trek",
-  },
-  {
-    slot: "col4-bottom",
-    type: "phone-screen",
-    phoneTime: "07:55",
-    imageSrc: "/brand/work/thamel-spa.jpg",
-    title: "Thamel Park & Spa",
-    subtitle: "Reserve your experience",
   },
 ];
 
@@ -224,13 +206,11 @@ export function workTileBySlot(config: WorkConfig, slot: WorkTileSlot): WorkTile
 }
 
 export const WORK_TILE_LABELS: Record<WorkTileSlot, string> = {
-  "col1-top": "Column 1 · top website",
-  "col1-bottom": "Column 1 · bottom website",
-  "col2-top": "Column 2 · top website",
-  "col2-mid": "Column 2 · middle website",
-  "col2-bottom": "Column 2 · bottom website",
-  "col3-top": "Column 3 · top website",
-  "col3-bottom": "Column 3 · bottom website",
-  "col4-top": "Column 4 · top website",
-  "col4-bottom": "Column 4 · bottom website",
+  "col1-top": "Zen Spa",
+  "col1-bottom": "Kaya Healing Spa",
+  "col2-top": "Summit Seek",
+  "col2-mid": "Ambition Holidays",
+  "col2-bottom": "Marlo Hotels",
+  "col3-top": "Hotel Thamel Park",
+  "col3-bottom": "Thamel Park & Spa",
 };
