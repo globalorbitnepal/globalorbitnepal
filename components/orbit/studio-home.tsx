@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { OrbitCountryFlags, OrbitFlag } from "@/components/orbit/flags";
 import { OrbitFaqList, OrbitTestimonials } from "@/components/orbit/interactive";
@@ -7,6 +6,7 @@ import { OrbitSoftwareSection } from "@/components/orbit/software-section";
 import { OrbitStudioHero } from "@/components/orbit/studio-hero";
 import { OrbitStudioNeed } from "@/components/orbit/studio-need";
 import { OrbitStudioServicesShowcase } from "@/components/orbit/studio-services-showcase";
+import { OrbitStudioWhatWeDo } from "@/components/orbit/studio-what-we-do";
 import { OrbitStudioWhy } from "@/components/orbit/studio-why";
 import { OrbitTechStackStrip } from "@/components/orbit/tech-stack-strip";
 import type { HeroConfig } from "@/lib/hero-config";
@@ -15,36 +15,6 @@ import {
   ORBIT_PROCESS,
   ORBIT_PROJECTS,
 } from "@/lib/orbit/catalog";
-
-const SERVICES = [
-  {
-    title: "Website Development",
-    body: "Fast, SEO-ready marketing sites and platforms on Next.js, Laravel, and WordPress.",
-    href: "/service/website-development-nepal",
-    image: "/brand/studio-service-web.jpg",
-  },
-  {
-    title: "App Development",
-    body: "Custom web and mobile apps — bookings, field teams, portals, React Native and Next.js.",
-    href: "/orbit-software/custom-apps",
-    image: "/brand/studio-service-apps.jpg",
-  },
-  {
-    title: "SEO Services",
-    body: "Technical, on-page, and content SEO so you get found on Google — not skipped.",
-    href: "/packages/seo-growth",
-    image: "/brand/studio-service-seo.jpg",
-  },
-] as const;
-
-const MORE_SERVICES = [
-  { title: "UI/UX Design", body: "Interfaces and journeys that convert, not just decorate.", href: "/services" },
-  { title: "ERP & SaaS", body: "Billing, hotels, warehouses, CRM — software operators actually run.", href: "/orbit-software" },
-  { title: "Ecommerce", body: "Stores that check out, rank, and stay fast under load.", href: "/service/ecommerce-development-nepal" },
-  { title: "Cloud & Hosting", body: "Secure, reliable infrastructure with business email.", href: "/services" },
-  { title: "Next.js Engineering", body: "SEO-friendly web apps and platforms on the stack we ship daily.", href: "/services" },
-  { title: "Ongoing Support", body: "Care plans after launch — updates, rankings, and new features.", href: "/contact" },
-] as const;
 
 const FEATURED = ORBIT_PROJECTS.slice(0, 4);
 
@@ -86,51 +56,7 @@ export function OrbitStudioHome({ hero, need }: { hero: HeroConfig; need: NeedCo
 
       <OrbitTechStackStrip />
 
-      <section className="bg-[#07070b] px-4 py-20 sm:px-8 sm:py-24" aria-labelledby="services-heading">
-        <DisplayHead
-          id="services-heading"
-          kicker="What we do"
-          title="Websites, apps, and SEO — the full stack of growth."
-          lede="You should leave this page knowing we build the site, the product, and the ranking — not a slide deck."
-        />
-        <div className="mx-auto grid max-w-[1200px] gap-5 lg:grid-cols-3">
-          {SERVICES.map((item) => (
-            <Link
-              key={item.title}
-              href={item.href}
-              className="orbit-studio-glass group overflow-hidden rounded-[28px] transition-transform hover:-translate-y-1"
-            >
-              <div className="relative h-52 overflow-hidden sm:h-60">
-                <Image
-                  src={item.image}
-                  alt=""
-                  fill
-                  unoptimized
-                  sizes="400px"
-                  className="object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-              </div>
-              <div className="p-6">
-                <h3 className="text-[1.15rem] font-semibold text-white">{item.title}</h3>
-                <p className="mt-2 text-[14px] leading-6 text-white/62">{item.body}</p>
-                <p className="mt-4 text-[13px] font-semibold text-[#f0c43a]">Visit us →</p>
-              </div>
-            </Link>
-          ))}
-        </div>
-        <div className="mx-auto mt-5 grid max-w-[1200px] gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {MORE_SERVICES.map((item) => (
-            <Link
-              key={item.title}
-              href={item.href}
-              className="orbit-studio-glass rounded-[22px] p-6 transition-colors hover:border-white/25"
-            >
-              <h3 className="font-semibold text-white">{item.title}</h3>
-              <p className="mt-2 text-[14px] leading-6 text-white/62">{item.body}</p>
-            </Link>
-          ))}
-        </div>
-      </section>
+      <OrbitStudioWhatWeDo />
 
       <OrbitSoftwareSection />
 
