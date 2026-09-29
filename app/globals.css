@@ -823,6 +823,8 @@ li.orbit-card:hover {
   margin-top: 0;
   transform: translateY(-50%);
 }
+
+.orbit-hero-trust-bleed {
   position: absolute;
   right: 0;
   bottom: 0;
