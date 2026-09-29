@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useEffect, useRef } from "react";
-import { OrbitFlag } from "@/components/orbit/flags";
 import { OrbitHeroTrustMarquee } from "@/components/orbit/hero-trust-marquee";
 import type { HeroConfig } from "@/lib/hero-config";
 
@@ -99,7 +98,7 @@ export function OrbitStudioHero({ config }: Props) {
 
       <div className="orbit-studio-hero-veil pointer-events-none absolute inset-0 z-[1]" />
 
-      <div className="orbit-studio-hero-shell relative z-[2] mx-auto flex h-full w-full max-w-[1680px] flex-col">
+      <div className="orbit-studio-hero-shell relative z-[2] mx-auto flex w-full max-w-[1680px]">
         <div className="orbit-studio-hero-copy w-full max-w-[min(44rem,48vw)] text-left max-md:max-w-full">
           <p className="orbit-hero-eyebrow">
             <span className="orbit-hero-eyebrow-dot" aria-hidden="true" />
@@ -118,26 +117,9 @@ export function OrbitStudioHero({ config }: Props) {
             </Link>
           </div>
         </div>
-
-        <div className="orbit-studio-hero-foot-wrap w-full min-w-0">
-          <div className="orbit-studio-hero-foot w-full min-w-0">
-            <p className="orbit-hero-studios-kicker">{config.studiosKicker}</p>
-            <ul className="orbit-hero-studios">
-              {config.studios.map((studio) => (
-                <li key={studio.code} className="orbit-hero-studio">
-                  <OrbitFlag code={studio.code} name={studio.label} hd variant="hero" />
-                  <span className="flex flex-col">
-                    <span className="orbit-hero-studio-name">{studio.label}</span>
-                    <span className="orbit-hero-studio-city">{studio.city}</span>
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
       </div>
 
-      <div className="orbit-hero-trust-bleed relative z-[3] w-full">
+      <div className="orbit-hero-trust-bleed z-[3] w-full">
         <OrbitHeroTrustMarquee logos={config.trustLogos} label={config.trustMarqueeLabel} />
       </div>
     </section>
