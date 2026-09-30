@@ -49,6 +49,7 @@ function easeInCubic(t: number) {
 export function OrbitSoftwareSection({ config }: { config: SoftwareConfig }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const trackRef = useRef<HTMLElement>(null);
+  const pinRef = useRef<HTMLDivElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
   const headRef = useRef<HTMLDivElement>(null);
   const footRef = useRef<HTMLDivElement>(null);
@@ -74,12 +75,13 @@ export function OrbitSoftwareSection({ config }: { config: SoftwareConfig }) {
 
   useEffect(() => {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const enterEnd = 0.34;
-    const holdEnd = 0.56;
-    const exitEnd = 0.9;
+    const enterEnd = 0.36;
+    const holdEnd = 0.52;
+    const exitEnd = 0.78;
 
     const apply = () => {
       const track = trackRef.current;
+      const pin = pinRef.current;
       const grid = gridRef.current;
       if (!track || !grid) return;
 
@@ -107,6 +109,7 @@ export function OrbitSoftwareSection({ config }: { config: SoftwareConfig }) {
           el.style.setProperty("--soft-shell-s", "1");
           el.style.opacity = "1";
         });
+        if (pin) pin.style.opacity = "1";
         return;
       }
 
@@ -193,6 +196,20 @@ export function OrbitSoftwareSection({ config }: { config: SoftwareConfig }) {
           el.style.opacity = "1";
         }
       });
+
+      if (pin) {
+        if (raw >= exitEnd) {
+          pin.style.opacity = "0";
+          pin.style.pointerEvents = "none";
+        } else if (raw > holdEnd) {
+          const fade = easeInCubic((raw - holdEnd) / (exitEnd - holdEnd));
+          pin.style.opacity = String(1 - fade * 0.94);
+          pin.style.pointerEvents = fade > 0.65 ? "none" : "";
+        } else {
+          pin.style.opacity = "1";
+          pin.style.pointerEvents = "";
+        }
+      }
     };
 
     const onScroll = () => {
@@ -216,10 +233,10 @@ export function OrbitSoftwareSection({ config }: { config: SoftwareConfig }) {
   return (
     <section
       ref={trackRef}
-      className="orbit-soft-track relative isolate overflow-hidden text-white"
+      className="orbit-soft-track relative isolate text-white"
       aria-labelledby="software-heading"
     >
-      <div className="orbit-soft-pin">
+      <div ref={pinRef} className="orbit-soft-pin">
         <div className="pointer-events-none absolute inset-0" aria-hidden="true">
           <video
             ref={videoRef}

@@ -2025,13 +2025,20 @@ li.orbit-card:hover {
 }
 
 .orbit-soft-track {
-  height: 192vh;
-  margin-bottom: calc(-1 * clamp(3.5rem, 11vh, 7.5rem));
-  background: #050508;
+  height: 118vh;
+  margin-bottom: calc(-1 * clamp(5rem, 18vh, 11rem));
+  background: transparent;
+  overflow: visible;
 }
 
 .orbit-soft-track + .orbit-process-section {
-  padding-top: clamp(1.25rem, 2.8vh, 2rem) !important;
+  margin-top: calc(-1 * clamp(4rem, 14vh, 9.5rem));
+  padding-top: 0 !important;
+}
+
+.orbit-process-section {
+  position: relative;
+  z-index: 5;
 }
 
 .orbit-process-section + .orbit-studio-block {
@@ -2045,6 +2052,9 @@ li.orbit-card:hover {
   height: 100svh;
   height: 100dvh;
   overflow: hidden;
+  background: #050508;
+  transition: opacity 0.35s ease;
+  will-change: opacity;
 }
 
 .orbit-soft-inner {
@@ -2129,15 +2139,23 @@ li.orbit-card:hover {
 
 @media (max-width: 900px) {
   .orbit-soft-track {
-    height: 175vh;
-    margin-bottom: calc(-1 * clamp(2.75rem, 8vh, 5rem));
+    height: 112vh;
+    margin-bottom: calc(-1 * clamp(4rem, 14vh, 8rem));
+  }
+
+  .orbit-soft-track + .orbit-process-section {
+    margin-top: calc(-1 * clamp(3.25rem, 11vh, 7.5rem));
   }
 }
 
 @media (max-width: 640px) {
   .orbit-soft-track {
-    height: 162vh;
-    margin-bottom: calc(-1 * clamp(2rem, 6vh, 3.5rem));
+    height: 108vh;
+    margin-bottom: calc(-1 * clamp(3rem, 12vh, 6.5rem));
+  }
+
+  .orbit-soft-track + .orbit-process-section {
+    margin-top: calc(-1 * clamp(2.75rem, 10vh, 6rem));
   }
 
   .orbit-soft-grid-stage {
