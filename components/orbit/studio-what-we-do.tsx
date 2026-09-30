@@ -27,23 +27,17 @@ function PhoneBar({ time }: { time: string }) {
 
 function WebsiteTile({
   tile,
-  height,
-  fill,
-  phone,
+  layout,
   priority,
 }: {
   tile: WorkTile;
-  height?: string;
-  fill?: boolean;
-  phone?: boolean;
+  layout: "phone" | "web-40" | "web-30" | "web-59";
   priority?: boolean;
 }) {
   const src = tile.imageSrc || "/brand/work/summit-seek.jpg";
+  const phone = layout === "phone";
   return (
-    <article
-      className={`orbit-work-block${fill ? " is-fill" : ""}`}
-      style={height ? { height } : undefined}
-    >
+    <article className={`orbit-work-block is-${layout}`}>
       {phone ? <PhoneBar time={tile.phoneTime || "09:41"} /> : <Chrome title={tile.chromeTitle || tile.title || "website"} />}
       <div className="orbit-work-shot-wrap">
         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -60,31 +54,55 @@ function WebsiteTile({
   );
 }
 
+function SpacedHeadline({ id, text }: { id: string; text: string }) {
+  return (
+    <h2 id={id} className="orbit-work-headline" aria-label={text}>
+      {text.split("").map((char, index) => (
+        <span key={`${char}-${index}`} className="orbit-work-head-char" aria-hidden={char === " " ? undefined : true}>
+          {char === " " ? "\u00a0" : char}
+        </span>
+      ))}
+    </h2>
+  );
+}
+
 function clamp(n: number, min: number, max: number) {
   return Math.min(max, Math.max(min, n));
 }
 
-/** Metaminds-style smooth ease (no harsh cubic snap). */
-function smoothStep(t: number) {
-  const x = clamp(t, 0, 1);
-  return x * x * (3 - 2 * x);
+/** Metaminds work_grid-wrap: hold 1.6 until ~30% scroll, then linear to 1.0 */
+function metamindsWorkScale(raw: number, touch: boolean) {
+  const holdEnd = touch ? 0.22 : 0.3;
+  const start = touch ? 1.45 : 1.6;
+  const end = 1;
+  if (raw <= holdEnd) return start;
+  const t = clamp((raw - holdEnd) / (1 - holdEnd), 0, 1);
+  return start - (start - end) * t;
 }
 
 export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
   const trackRef = useRef<HTMLElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
-  const madeRef = useRef<HTMLParagraphElement>(null);
   const frameRef = useRef(0);
   const t = (slot: Parameters<typeof workTileBySlot>[1]) => workTileBySlot(config, slot);
+
+  const phoneRightTop: WorkTile = {
+    ...t("col3-top"),
+    slot: "col4-top",
+    phoneTime: "11:08",
+    type: "phone-screen",
+  };
+  const phoneRightBottom: WorkTile = {
+    ...t("col3-bottom"),
+    slot: "col4-bottom",
+    phoneTime: "16:44",
+    type: "phone-screen",
+  };
 
   useEffect(() => {
     const track = trackRef.current;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (!track) return;
-
-    const enterEnd = 0.42;
-    const holdEnd = 0.68;
-    const exitEnd = 0.94;
 
     const apply = () => {
       const grid = gridRef.current;
@@ -94,53 +112,14 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
       const travel = Math.max(track.offsetHeight - window.innerHeight, 1);
       const raw = clamp(-rect.top / travel, 0, 1);
       const touch = isOrbitTouch();
-      const maxScale = touch ? 1.02 : 1.08;
 
       track.classList.toggle("is-work-scrolling", raw > 0.02 && raw < 0.98);
 
       if (reduce) {
-        grid.style.transform = "translate3d(0, 0, 0) scale(1)";
-        grid.style.opacity = "1";
-        grid.style.setProperty("--orbit-work-overlay", "0.04");
+        grid.style.transform = "translate3d(0, 0, 0) scale3d(1, 1, 1)";
       } else {
-        let scale = 1;
-        let ty = 0;
-        let opacity = 1;
-        let overlay = 0.12;
-
-        if (raw < enterEnd) {
-          const p = smoothStep(raw / enterEnd);
-          scale = 0.62 + p * (maxScale - 0.62);
-          ty = (1 - p) * (touch ? 28 : 48);
-          opacity = 0.5 + p * 0.5;
-          overlay = 0.26 * (1 - p);
-        } else if (raw < holdEnd) {
-          const p = smoothStep((raw - enterEnd) / (holdEnd - enterEnd));
-          scale = maxScale * (0.985 + p * 0.015);
-          ty = 0;
-          opacity = 1;
-          overlay = 0.05;
-        } else {
-          const p = smoothStep(clamp((raw - holdEnd) / (exitEnd - holdEnd), 0, 1));
-          scale = maxScale * (1 - p * 0.14);
-          ty = -p * (touch ? 16 : 32);
-          opacity = 1 - p * 0.35;
-          overlay = 0.05 + p * 0.18;
-        }
-
-        grid.style.transform = `translate3d(0, ${ty.toFixed(2)}px, 0) scale(${scale.toFixed(4)})`;
-        grid.style.opacity = opacity.toFixed(3);
-        grid.style.setProperty("--orbit-work-overlay", overlay.toFixed(3));
-      }
-
-      if (madeRef.current) {
-        const show =
-          reduce
-            ? 1
-            : clamp((raw - 0.5) / 0.22, 0, 1) *
-              (raw > holdEnd ? 1 - smoothStep(clamp((raw - holdEnd) / (exitEnd - holdEnd), 0, 1)) : 1);
-        madeRef.current.style.opacity = String(show);
-        madeRef.current.style.transform = `translate3d(0, ${(12 - show * 12).toFixed(1)}px, 0)`;
+        const scale = metamindsWorkScale(raw, touch);
+        grid.style.transform = `translate3d(0, 0, 0) scale3d(${scale.toFixed(5)}, ${scale.toFixed(5)}, 1)`;
       }
     };
 
@@ -155,32 +134,26 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
             <span className="orbit-work-badge-num">{config.badgeNum}</span>
             {config.badgeLabel}
           </p>
-          <h2 id="what-we-do-heading" className="orbit-work-headline">
-            {config.headline}
-          </h2>
+          <SpacedHeadline id="what-we-do-heading" text={config.headline} />
         </div>
 
         <div className="orbit-work-grid-main">
-          <div ref={gridRef} className="orbit-work-grid">
-            <div className="orbit-work-col is-phone">
-              <WebsiteTile tile={t("col1-top")} fill phone priority />
-              <WebsiteTile tile={t("col1-bottom")} fill phone />
-            </div>
-            <div className="orbit-work-col is-wide">
-              <WebsiteTile tile={t("col2-top")} height="38%" />
-              <WebsiteTile tile={t("col2-mid")} height="32%" />
-              <WebsiteTile tile={t("col2-bottom")} height="26%" />
-            </div>
-            <div className="orbit-work-col is-wide">
-              <WebsiteTile tile={t("col3-top")} height="58%" />
-              <WebsiteTile tile={t("col3-bottom")} height="38%" />
+          <div ref={gridRef} className="orbit-work-grid-wrap">
+            <div className="orbit-work-bento">
+              <WebsiteTile tile={t("col1-top")} layout="phone" priority />
+              <WebsiteTile tile={t("col2-top")} layout="web-40" />
+              <WebsiteTile tile={t("col3-top")} layout="web-59" />
+              <WebsiteTile tile={phoneRightTop} layout="phone" />
+              <WebsiteTile tile={t("col1-bottom")} layout="phone" />
+              <WebsiteTile tile={t("col2-mid")} layout="web-40" />
+              <WebsiteTile tile={t("col3-bottom")} layout="web-40" />
+              <WebsiteTile tile={phoneRightBottom} layout="phone" />
+              <WebsiteTile tile={t("col2-bottom")} layout="web-30" />
             </div>
           </div>
         </div>
 
-        <p ref={madeRef} className="orbit-work-made">
-          {config.madeLabel}
-        </p>
+        <p className="orbit-work-made">{config.madeLabel}</p>
       </div>
     </section>
   );
