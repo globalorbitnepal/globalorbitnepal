@@ -74,7 +74,7 @@ export function OrbitSoftwareSection({ config }: { config: SoftwareConfig }) {
                   <Link
                     key={item.slug}
                     href={item.href}
-                    className="orbit-soft-card group relative flex min-h-0 flex-col overflow-hidden"
+                    className="orbit-soft-card group relative flex h-full min-h-0 flex-col overflow-hidden"
                     style={{ "--soft-accent": item.accent, "--i": index } as CSSProperties}
                   >
                     <SoftwareProductUi
