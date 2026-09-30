@@ -3203,11 +3203,13 @@ li.orbit-card:hover {
 }
 
 .orbit-soft-track {
+  position: relative;
   height: 240vh;
   min-height: 240vh;
   margin-bottom: 0;
   background: #07070c;
-  overflow: hidden;
+  overflow: visible;
+  contain: layout style;
 }
 
 .orbit-soft-track.is-soft-scrolling .orbit-soft-zoom {
@@ -4315,12 +4317,16 @@ li.orbit-card:hover {
     display: none;
   }
 
-  .orbit-studio-home section,
-  .orbit-studio-home .orbit-soft-track,
-  .orbit-studio-home .orbit-work-track,
   .orbit-studio-home .orbit-made-track,
   .orbit-studio-home .orbit-process-section,
-  .orbit-studio-home .orbit-offices-section {
+  .orbit-studio-home .orbit-offices-section,
+  .orbit-studio-home .orbit-need-track,
+  .orbit-studio-home .orbit-footer-shell {
+    overflow-x: clip;
+  }
+
+  .orbit-soft-pin,
+  .orbit-work-pin {
     overflow-x: clip;
   }
 
