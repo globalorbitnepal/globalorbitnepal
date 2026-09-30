@@ -294,6 +294,143 @@ li.orbit-card:hover {
     0 0 64px color-mix(in srgb, var(--soft-accent, #f0c43a) 45%, transparent);
 }
 
+.orbit-soft-track .orbit-soft-card {
+  isolation: isolate;
+  padding: 0.95rem 1rem 0.9rem;
+  border-radius: 1.15rem;
+  transform-origin: 50% 50%;
+}
+
+.orbit-soft-track.is-soft-scrolling .orbit-soft-card {
+  will-change: transform;
+}
+
+.orbit-soft-track.is-soft-scrolling .orbit-soft-card:hover {
+  transform: none;
+}
+
+.orbit-soft-num {
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+}
+
+.orbit-soft-card-title {
+  margin-top: 0.12rem;
+  font-size: clamp(0.82rem, 0.72rem + 0.4vw, 0.95rem);
+  font-weight: 650;
+  line-height: 1.25;
+  color: #fff;
+}
+
+.orbit-soft-card-copy {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+  margin-top: 0.55rem;
+  font-size: 0.72rem;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.64);
+}
+
+.orbit-soft-card-foot {
+  padding-top: 0.7rem;
+}
+
+.orbit-soft-more {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.7rem;
+  font-weight: 650;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.orbit-soft-more-dot {
+  display: inline-flex;
+  height: 1.5rem;
+  width: 1.5rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: #fff;
+  font-size: 0.62rem;
+  color: #0b0b10;
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.orbit-soft-card:hover .orbit-soft-more-dot {
+  transform: translateX(3px);
+}
+
+.orbit-soft-preview {
+  pointer-events: none;
+  height: 3.15rem;
+  width: 3.15rem;
+  flex-shrink: 0;
+}
+
+.orbit-soft-preview img {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+  object-position: bottom;
+  filter: drop-shadow(0 10px 16px rgba(0, 0, 0, 0.4));
+}
+
+.orbit-soft-card-glow {
+  pointer-events: none;
+  position: absolute;
+  inset: -1px;
+  z-index: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    120% 80% at 15% 0%,
+    color-mix(in srgb, var(--soft-accent, #60a5fa) 28%, transparent),
+    transparent 58%
+  );
+  opacity: 0.9;
+}
+
+@keyframes orbit-soft-sheen {
+  0% {
+    transform: translate3d(-130%, 0, 0) rotate(12deg);
+  }
+  100% {
+    transform: translate3d(160%, 0, 0) rotate(12deg);
+  }
+}
+
+.orbit-soft-card-shine {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  border-radius: inherit;
+}
+
+.orbit-soft-card-shine::after {
+  content: "";
+  position: absolute;
+  top: -20%;
+  left: 0;
+  height: 140%;
+  width: 42%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.16),
+    transparent
+  );
+  animation: orbit-soft-sheen 5.4s ease-in-out infinite;
+  animation-delay: calc(var(--i, 0) * 0.28s);
+}
+
 @media (max-width: 519px) {
   .orbit-soft-card,
   .orbit-solutions-section .orbit-soft-card,
@@ -1788,6 +1925,18 @@ li.orbit-card:hover {
   pointer-events: auto;
 }
 
+.orbit-brand-logo-bar {
+  max-width: min(35rem, 32vw);
+}
+
+@media (max-width: 1100px) {
+  .orbit-brand-logo-bar {
+    height: clamp(5.4rem, 8.5vw, 7.4rem) !important;
+    width: clamp(17.5rem, 40vw, 24rem) !important;
+    max-width: min(24rem, 46vw);
+  }
+}
+
 .orbit-header-glass {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(12, 12, 18, 0.42));
   border: 1px solid rgba(255, 255, 255, 0.16);
@@ -1947,7 +2096,7 @@ li.orbit-card:hover {
   justify-content: flex-start;
   min-height: 0;
   padding:
-    clamp(5.25rem, 10vh, 7rem)
+    clamp(6.6rem, 12.5vh, 8.6rem)
     clamp(1.25rem, 3.6vw, 3.4rem)
     clamp(1.25rem, 3vh, 2rem);
 }
@@ -3712,34 +3861,13 @@ li.orbit-card:hover {
 
 .orbit-soft-track .orbit-soft-card {
   min-height: 0;
-  transform: none;
-}
-
-.orbit-soft-track .orbit-soft-card:hover {
-  transform: none;
 }
 
 .orbit-soft-card-shell {
   min-height: 0;
 }
 
-.orbit-soft-card-shine {
-  pointer-events: none;
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  border-radius: inherit;
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.14) 0%,
-    transparent 42%,
-    transparent 58%,
-    rgba(255, 255, 255, 0.06) 100%
-  );
-  opacity: 0.85;
-}
-
-.orbit-soft-card > *:not(.orbit-soft-card-shine) {
+.orbit-soft-card > *:not(.orbit-soft-card-shine):not(.orbit-soft-card-glow) {
   position: relative;
   z-index: 1;
 }
@@ -3796,6 +3924,11 @@ li.orbit-card:hover {
 
   .orbit-soft-zoom {
     transform: none !important;
+  }
+
+  .orbit-soft-card-shine::after,
+  .orbit-soft-card {
+    animation: none !important;
   }
 }
 

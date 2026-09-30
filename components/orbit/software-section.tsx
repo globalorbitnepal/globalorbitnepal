@@ -38,17 +38,17 @@ function clamp(n: number, min: number, max: number) {
   return Math.min(max, Math.max(min, n));
 }
 
-/** Same curve as What we do mosaic: hold zoomed-in, then linear settle to 1. */
-function softwareScale(raw: number, touch: boolean) {
-  const holdEnd = touch ? 0.22 : 0.32;
-  const start = touch ? 1.22 : 1.38;
+/** Per-box zoom: hold slightly large, then settle to 1 with a light stagger. */
+function boxScale(raw: number, index: number, touch: boolean) {
+  const holdEnd = (touch ? 0.16 : 0.24) + index * 0.016;
+  const start = touch ? 1.06 : 1.1;
   if (raw <= holdEnd) return start;
   return start - (start - 1) * ((raw - holdEnd) / (1 - holdEnd));
 }
 
 export function OrbitSoftwareSection({ config }: { config: SoftwareConfig }) {
   const trackRef = useRef<HTMLElement>(null);
-  const wrapRef = useRef<HTMLDivElement>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
   const frameRef = useRef(0);
 
   useEffect(() => {
@@ -56,20 +56,23 @@ export function OrbitSoftwareSection({ config }: { config: SoftwareConfig }) {
 
     const apply = () => {
       const track = trackRef.current;
-      const wrap = wrapRef.current;
-      if (!track || !wrap) return;
+      const grid = gridRef.current;
+      if (!track || !grid) return;
 
+      const cards = grid.querySelectorAll<HTMLElement>(".orbit-soft-card");
       const travel = Math.max(track.offsetHeight - window.innerHeight, 1);
       const raw = clamp(-track.getBoundingClientRect().top / travel, 0, 1);
       track.classList.toggle("is-soft-scrolling", raw > 0.02 && raw < 0.98);
 
-      if (reduce) {
-        wrap.style.transform = "translate3d(0,0,0) scale3d(1,1,1)";
-        return;
-      }
-
-      const scale = softwareScale(raw, isOrbitTouch());
-      wrap.style.transform = `translate3d(0,0,0) scale3d(${scale.toFixed(5)}, ${scale.toFixed(5)}, 1)`;
+      const touch = isOrbitTouch();
+      cards.forEach((card, index) => {
+        if (reduce || raw <= 0.02 || raw >= 0.98) {
+          card.style.transform = "";
+          return;
+        }
+        const scale = boxScale(raw, index, touch);
+        card.style.transform = `translate3d(0,0,0) scale3d(${scale.toFixed(5)}, ${scale.toFixed(5)}, 1)`;
+      });
     };
 
     return bindOrbitScroll(trackRef.current, apply, frameRef);
@@ -84,7 +87,7 @@ export function OrbitSoftwareSection({ config }: { config: SoftwareConfig }) {
       <div className="orbit-soft-pin">
         <div className="orbit-soft-veil" aria-hidden="true" />
 
-        <div className="orbit-soft-inner relative z-[1] mx-auto flex h-full w-full max-w-[1680px] flex-col px-[clamp(1rem,3vw,3.2rem)] pb-[clamp(1rem,2vh,1.5rem)] pt-[clamp(4.6rem,8vh,5.75rem)]">
+        <div className="orbit-soft-inner relative z-[1] mx-auto flex h-full w-full max-w-[1680px] flex-col px-[clamp(1rem,3vw,3.2rem)] pb-[clamp(1rem,2vh,1.5rem)] pt-[clamp(4.8rem,8.4vh,6.1rem)]">
           <header className="orbit-soft-head mx-auto mb-4 max-w-3xl shrink-0 text-center sm:mb-5">
             <p className="orbit-work-badge mx-auto">
               <span className="orbit-work-badge-num">4</span>
@@ -101,18 +104,24 @@ export function OrbitSoftwareSection({ config }: { config: SoftwareConfig }) {
           </header>
 
           <div className="orbit-soft-grid-stage min-h-0 flex-1">
-            <div ref={wrapRef} className="orbit-soft-zoom">
-              <div className="orbit-soft-grid-3d">
+            <div className="orbit-soft-zoom">
+              <div ref={gridRef} className="orbit-soft-grid-3d">
                 {config.products.map((item, index) => {
                   const num = String(index + 1).padStart(2, "0");
                   return (
                     <Link
                       key={item.slug}
                       href={item.href}
-                      className="orbit-soft-card group relative flex min-h-0 flex-col overflow-hidden rounded-[16px] p-3 sm:rounded-[18px] sm:p-4"
-                      style={{ "--soft-accent": item.accent } as CSSProperties}
+                      className="orbit-soft-card group relative flex min-h-0 flex-col overflow-hidden"
+                      style={
+                        {
+                          "--soft-accent": item.accent,
+                          "--i": index,
+                        } as CSSProperties
+                      }
                     >
-                      <div className="orbit-soft-card-shine" aria-hidden="true" />
+                      <span className="orbit-soft-card-glow" aria-hidden="true" />
+                      <span className="orbit-soft-card-shine" aria-hidden="true" />
                       <div className="flex min-w-0 items-start gap-2.5">
                         <span
                           className="orbit-soft-icon inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-[11px]"
@@ -124,32 +133,24 @@ export function OrbitSoftwareSection({ config }: { config: SoftwareConfig }) {
                           <SoftIcon index={index} color={item.accent} />
                         </span>
                         <div className="min-w-0 pt-0.5">
-                          <p className="orbit-soft-num text-[10px] font-bold tracking-[0.14em]" style={{ color: item.accent }}>
+                          <p className="orbit-soft-num" style={{ color: item.accent }}>
                             {num}
                           </p>
-                          <h3 className="orbit-soft-card-title mt-0.5 text-[13px] font-semibold leading-snug text-white sm:text-[14px]">
-                            {item.title}
-                          </h3>
+                          <h3 className="orbit-soft-card-title">{item.title}</h3>
                         </div>
                       </div>
-                      <p className="orbit-soft-card-copy mt-2 line-clamp-2 text-[11px] leading-4 text-white/65 sm:mt-2.5 sm:text-[12px] sm:leading-5">
-                        {item.summary}
-                      </p>
-                      <div className="orbit-soft-card-foot relative mt-auto flex min-h-0 items-end justify-between gap-2 pt-2">
-                        <span className="orbit-soft-more relative z-[1] inline-flex items-center gap-1.5 text-[11px] font-semibold text-white/92">
-                          <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-white text-[10px] text-[#0b0b10]">
+                      <p className="orbit-soft-card-copy">{item.summary}</p>
+                      <div className="orbit-soft-card-foot relative mt-auto flex min-h-0 items-end justify-between gap-2">
+                        <span className="orbit-soft-more">
+                          <span className="orbit-soft-more-dot" aria-hidden="true">
                             →
                           </span>
                           Learn more
                         </span>
                         {item.previewSrc ? (
-                          <div className="orbit-soft-preview pointer-events-none h-11 w-11 shrink-0 sm:h-14 sm:w-14">
+                          <div className="orbit-soft-preview">
                             {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img
-                              src={item.previewSrc}
-                              alt=""
-                              className="h-full w-full object-contain object-bottom"
-                            />
+                            <img src={item.previewSrc} alt="" />
                           </div>
                         ) : null}
                       </div>

@@ -29,7 +29,7 @@ export function SiteHeader(_props: SiteHeaderProps) {
         className="orbit-header-bar pointer-events-none inset-x-0 top-0 z-50 text-white fixed"
       >
         <div className="pointer-events-auto mx-auto flex w-full max-w-[1680px] items-center justify-between gap-3 px-[clamp(1rem,3vw,2.75rem)] pt-[clamp(0.35rem,0.8vw,0.55rem)]">
-          <div className="min-w-0 shrink">
+          <div className="min-w-0 shrink-0">
             <BrandLogo priority variant="bar" />
           </div>
 

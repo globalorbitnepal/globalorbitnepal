@@ -10,7 +10,6 @@ import { OrbitFlag } from "@/components/orbit/flags";
 import {
   ORBIT_BRAND,
   ORBIT_FOOTER_LEGAL,
-  ORBIT_FOOTER_MARKETS,
   ORBIT_FOOTER_QUICK,
   ORBIT_FOOTER_SERVICES,
   ORBIT_FOOTER_STATS,
@@ -45,13 +44,6 @@ export function SiteFooter({ companyName }: SiteFooterProps) {
             <p className="orbit-footer-tagline">
               World-class websites, apps, ERP, billing, and SEO — engineered in Nepal, India, and the United States.
             </p>
-            <ul className="orbit-footer-markets">
-              {ORBIT_FOOTER_MARKETS.map((market) => (
-                <li key={market.code}>
-                  <span>{market.label}</span>
-                </li>
-              ))}
-            </ul>
             <div className="orbit-footer-stats">
               {ORBIT_FOOTER_STATS.map((stat) => (
                 <div key={stat.label} className="orbit-footer-stat">

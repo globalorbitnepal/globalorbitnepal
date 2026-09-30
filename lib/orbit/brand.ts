@@ -64,12 +64,6 @@ export const ORBIT_HEADER_NAV = [
   { label: "Contact", href: "/contact", location: "HEADER" as const },
 ];
 
-export const ORBIT_FOOTER_MARKETS = [
-  { label: "Kathmandu", code: "np" as const },
-  { label: "India", code: "in" as const },
-  { label: "United States", code: "us" as const },
-];
-
 export const ORBIT_FOOTER_STATS = [
   { label: "500+ Projects", icon: "rocket" as const },
   { label: "300+ Clients", icon: "clients" as const },
