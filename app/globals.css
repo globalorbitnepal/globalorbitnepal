@@ -682,8 +682,157 @@ li.orbit-card:hover {
 }
 
 .orbit-studio-home {
+  --orbit-home-wide: min(1680px, 100%);
+  --orbit-content-pad: clamp(1rem, 3.5vw, 4rem);
   background: #07070b;
   color: #e8eef8;
+}
+
+@media (min-width: 1600px) {
+  .orbit-studio-home {
+    --orbit-home-wide: min(1880px, 94vw);
+  }
+}
+
+@media (min-width: 2000px) {
+  .orbit-studio-home {
+    --orbit-home-wide: min(2100px, 92vw);
+  }
+}
+
+.orbit-home-wide-stack {
+  width: 100%;
+}
+
+.orbit-home-wide-stack > section,
+.orbit-home-wide-stack > .orbit-offices-section {
+  width: var(--orbit-home-wide);
+  max-width: 100%;
+  margin-inline: auto;
+  padding-inline: var(--orbit-content-pad);
+  box-sizing: border-box;
+}
+
+.orbit-home-section-head {
+  max-width: min(920px, 100%);
+}
+
+@media (min-width: 1600px) {
+  .orbit-home-section-head {
+    max-width: min(1100px, 90%);
+  }
+}
+
+.orbit-why {
+  width: 100%;
+  max-width: var(--orbit-home-wide);
+  margin-inline: auto;
+}
+
+.orbit-reviews {
+  width: 100%;
+  max-width: min(1100px, 100%);
+  margin-inline: auto;
+}
+
+@media (min-width: 1600px) {
+  .orbit-reviews {
+    max-width: min(1280px, 88%);
+  }
+}
+
+.orbit-faq {
+  display: grid;
+  gap: 0.75rem;
+  width: 100%;
+  max-width: min(920px, 100%);
+  margin-inline: auto;
+}
+
+@media (min-width: 1200px) {
+  .orbit-faq {
+    max-width: min(1100px, 86%);
+  }
+}
+
+@media (min-width: 1800px) {
+  .orbit-faq {
+    max-width: min(1320px, 84%);
+  }
+}
+
+.orbit-faq-item {
+  overflow: hidden;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: linear-gradient(155deg, rgba(255, 255, 255, 0.07), rgba(8, 10, 18, 0.88));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+
+.orbit-faq-item.is-open {
+  border-color: rgba(240, 196, 58, 0.35);
+  background: linear-gradient(155deg, rgba(255, 255, 255, 0.1), rgba(8, 10, 18, 0.92));
+}
+
+.orbit-faq-trigger {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.15rem;
+  text-align: left;
+  color: #fff;
+  cursor: pointer;
+}
+
+@media (min-width: 640px) {
+  .orbit-faq-trigger {
+    padding: 1.1rem 1.35rem;
+  }
+}
+
+.orbit-faq-q {
+  font-family: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  font-size: clamp(0.92rem, 0.86rem + 0.2vw, 1.02rem);
+  font-weight: 650;
+  line-height: 1.45;
+}
+
+.orbit-faq-toggle {
+  flex-shrink: 0;
+  display: inline-flex;
+  height: 1.75rem;
+  width: 1.75rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(0, 0, 0, 0.35);
+  font-size: 1.1rem;
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.orbit-faq-answer {
+  padding: 0 1.15rem 1.1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.orbit-faq-answer p {
+  margin: 0.85rem 0 0;
+  font-size: clamp(0.88rem, 0.82rem + 0.15vw, 0.98rem);
+  line-height: 1.75;
+  color: rgba(255, 255, 255, 0.68);
+}
+
+@media (min-width: 640px) {
+  .orbit-faq-answer {
+    padding: 0 1.35rem 1.25rem;
+  }
 }
 
 .orbit-studio-surface {
@@ -1009,28 +1158,18 @@ li.orbit-card:hover {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(180deg, rgba(4, 4, 6, 0.35) 0%, rgba(4, 4, 6, 0.92) 42%, #040406 100%),
-    url("/brand/hero-scene-uhd-2k.jpg") center top / cover no-repeat;
-  opacity: 0.55;
-}
-
-.orbit-footer-scene-globe {
-  position: absolute;
-  top: 4%;
-  right: max(-6%, calc(50% - 52rem));
-  width: min(46vw, 560px);
-  aspect-ratio: 1;
-  background: url("/brand/hero-globe.png") center / contain no-repeat;
-  opacity: 0.92;
-  filter: drop-shadow(0 0 80px rgba(240, 196, 58, 0.22));
+    linear-gradient(180deg, rgba(4, 4, 6, 0.92) 0%, rgba(4, 4, 6, 0.78) 38%, rgba(4, 4, 6, 0.96) 100%),
+    radial-gradient(ellipse 120% 80% at 50% 100%, rgba(18, 16, 12, 0.85), transparent 55%),
+    radial-gradient(ellipse 90% 50% at 12% 20%, rgba(99, 102, 241, 0.08), transparent 50%),
+    #040406;
 }
 
 .orbit-footer-scene-glow {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse 80% 50% at 88% 28%, rgba(240, 196, 58, 0.14), transparent 55%),
-    radial-gradient(ellipse 60% 40% at 12% 80%, rgba(99, 102, 241, 0.1), transparent 50%);
+    radial-gradient(ellipse 70% 45% at 50% 0%, rgba(240, 196, 58, 0.06), transparent 58%),
+    radial-gradient(ellipse 50% 35% at 8% 85%, rgba(99, 102, 241, 0.08), transparent 50%);
 }
 
 .orbit-footer-accent {
@@ -1044,10 +1183,22 @@ li.orbit-card:hover {
 .orbit-footer-shell {
   position: relative;
   z-index: 2;
-  width: min(1680px, 100%);
-  max-width: min(1680px, calc(100vw - clamp(1.5rem, 4vw, 3rem) * 2));
+  width: min(100%, var(--orbit-footer-max, 1680px));
+  max-width: min(var(--orbit-footer-max, 1680px), calc(100vw - clamp(1.25rem, 3.5vw, 4rem) * 2));
   margin: 0 auto;
   padding: clamp(2.75rem, 5vw, 4.25rem) clamp(1.25rem, 4vw, 2.5rem) clamp(2rem, 3.5vw, 2.5rem);
+}
+
+@media (min-width: 1600px) {
+  .orbit-footer {
+    --orbit-footer-max: 1880px;
+  }
+}
+
+@media (min-width: 2000px) {
+  .orbit-footer {
+    --orbit-footer-max: 2100px;
+  }
 }
 
 .orbit-footer-grid {
@@ -1107,7 +1258,6 @@ li.orbit-card:hover {
 .orbit-footer-markets li {
   display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
   font-size: 0.68rem;
   font-weight: 800;
   letter-spacing: 0.2em;
@@ -1115,40 +1265,51 @@ li.orbit-card:hover {
   color: rgba(240, 196, 58, 0.95);
 }
 
-.orbit-footer-pin-icon svg {
-  display: block;
-  height: 14px;
-  width: 14px;
+.orbit-footer-markets li + li::before {
+  content: "·";
+  margin-right: 0.65rem;
+  color: rgba(240, 196, 58, 0.45);
+  font-weight: 700;
 }
 
 .orbit-footer-stats {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: stretch;
-  gap: 0.65rem;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: center;
+  gap: 0.5rem 0.65rem;
+  width: 100%;
+  max-width: 100%;
   margin-top: 1.25rem;
-  padding: 0.65rem 0.85rem;
+  padding: 0.75rem 0.9rem;
   border-radius: 16px;
   border: 1px solid rgba(240, 196, 58, 0.22);
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.07), rgba(8, 8, 14, 0.55));
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(8, 8, 14, 0.72));
   box-shadow:
     0 20px 50px rgba(0, 0, 0, 0.35),
     inset 0 1px 0 rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(14px);
 }
 
+@media (max-width: 520px) {
+  .orbit-footer-stats {
+    grid-template-columns: 1fr;
+  }
+}
+
 .orbit-footer-stat {
-  display: inline-flex;
+  display: flex;
   flex: 1 1 auto;
   align-items: center;
+  justify-content: flex-start;
   gap: 0.45rem;
   min-width: 0;
-  padding: 0.35rem 0.5rem;
+  padding: 0.25rem 0.35rem;
   font-family: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
-  font-size: clamp(0.72rem, 0.68rem + 0.15vw, 0.82rem);
+  font-size: clamp(0.72rem, 0.68rem + 0.12vw, 0.82rem);
   font-weight: 700;
   line-height: 1.25;
-  color: rgba(255, 255, 255, 0.88);
+  color: rgba(255, 255, 255, 0.92);
+  white-space: nowrap;
 }
 
 .orbit-footer-stat-icon svg {
@@ -1166,6 +1327,16 @@ li.orbit-card:hover {
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.95);
+}
+
+.orbit-footer-heading::after {
+  content: "";
+  display: block;
+  width: 2.35rem;
+  height: 2px;
+  margin-top: 0.55rem;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(240, 196, 58, 0.9), transparent);
 }
 
 .orbit-footer-links {
@@ -1230,7 +1401,7 @@ li.orbit-card:hover {
 
 .orbit-footer-office-card {
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: auto 1fr;
   align-items: center;
   gap: 0.75rem;
   border-radius: 16px;
@@ -1286,23 +1457,17 @@ li.orbit-card:hover {
   color: rgba(255, 255, 255, 0.55);
 }
 
-.orbit-footer-office-chevron {
-  font-size: 1.35rem;
-  line-height: 1;
-  color: rgba(240, 196, 58, 0.85);
-}
-
 .orbit-footer-connect-bar {
   display: grid;
   gap: 1.25rem;
   margin-top: clamp(2rem, 4vw, 2.75rem);
   padding: clamp(1rem, 2vw, 1.35rem) clamp(1rem, 2.5vw, 1.75rem);
-  border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: linear-gradient(120deg, rgba(255, 255, 255, 0.07), rgba(8, 8, 14, 0.82));
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(120deg, rgba(12, 12, 18, 0.92), rgba(6, 6, 10, 0.96));
   box-shadow:
     0 24px 60px rgba(0, 0, 0, 0.45),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
   backdrop-filter: blur(16px);
 }
 
@@ -1490,8 +1655,8 @@ li.orbit-card:hover {
 .orbit-footer-bottom-inner {
   display: grid;
   gap: 1rem;
-  width: min(1680px, 100%);
-  max-width: min(1680px, calc(100vw - clamp(1.5rem, 4vw, 3rem) * 2));
+  width: min(100%, var(--orbit-footer-max, 1680px));
+  max-width: min(var(--orbit-footer-max, 1680px), calc(100vw - clamp(1.25rem, 3.5vw, 4rem) * 2));
   margin: 0 auto;
   padding: 1.1rem clamp(1.25rem, 4vw, 2.5rem);
   align-items: center;
@@ -1583,11 +1748,11 @@ li.orbit-card:hover {
   height: 16px;
   width: 16px;
   border-radius: 4px;
-  background: rgba(240, 196, 58, 0.85);
+  background: rgba(255, 255, 255, 0.35);
 }
 
 .orbit-footer-bottom-link-icon.is-building {
-  background: linear-gradient(180deg, #fcd34d, #d4a017);
+  background: rgba(255, 255, 255, 0.28);
   clip-path: polygon(15% 100%, 15% 35%, 50% 15%, 85% 35%, 85% 100%);
 }
 
@@ -1596,40 +1761,7 @@ li.orbit-card:hover {
   background: #25d366;
 }
 
-.orbit-footer-back-top {
-  display: inline-flex;
-  height: 2.5rem;
-  width: 2.5rem;
-  flex-shrink: 0;
-  align-items: center;
-  justify-content: center;
-  border-radius: 999px;
-  border: 1px solid rgba(240, 196, 58, 0.45);
-  background: linear-gradient(180deg, rgba(240, 196, 58, 0.22), rgba(12, 12, 18, 0.9));
-  color: #f0c43a;
-  cursor: pointer;
-  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.35);
-  transition: transform 0.2s ease, border-color 0.2s ease;
-}
-
-.orbit-footer-back-top svg {
-  height: 18px;
-  width: 18px;
-}
-
-.orbit-footer-back-top:hover {
-  transform: translateY(-2px);
-  border-color: rgba(240, 196, 58, 0.75);
-}
-
 @media (max-width: 899px) {
-  .orbit-footer-scene-globe {
-    right: -18%;
-    top: 8%;
-    width: min(70vw, 380px);
-    opacity: 0.35;
-  }
-
   .orbit-footer-connect-bar {
     border-radius: 22px;
   }
@@ -1644,20 +1776,6 @@ li.orbit-card:hover {
 
   .orbit-footer-stats {
     width: 100%;
-  }
-}
-
-@media (min-width: 1800px) {
-  .orbit-footer-scene-globe {
-    right: max(-2%, calc(50% - 58rem));
-    width: min(38vw, 620px);
-  }
-}
-
-@media (min-width: 2200px) {
-  .orbit-footer-shell,
-  .orbit-footer-bottom-inner {
-    max-width: min(1760px, calc(100vw - 4rem));
   }
 }
 

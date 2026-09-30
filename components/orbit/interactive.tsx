@@ -7,22 +7,28 @@ export function OrbitFaqList() {
   const [open, setOpen] = useState<number | null>(0);
 
   return (
-    <div className="mx-auto max-w-3xl divide-y divide-white/10 rounded-2xl border border-white/10">
+    <div className="orbit-faq">
       {ORBIT_FAQS.map((item, index) => {
         const expanded = open === index;
         return (
-          <div key={item.q}>
+          <article key={item.q} className={`orbit-faq-item${expanded ? " is-open" : ""}`}>
             <button
               type="button"
-              className="flex w-full items-center justify-between gap-4 px-4 py-4 text-left text-sm font-semibold text-white sm:px-5"
+              className="orbit-faq-trigger"
               aria-expanded={expanded}
               onClick={() => setOpen(expanded ? null : index)}
             >
-              {item.q}
-              <span aria-hidden="true">{expanded ? "−" : "+"}</span>
+              <span className="orbit-faq-q">{item.q}</span>
+              <span className="orbit-faq-toggle" aria-hidden="true">
+                {expanded ? "−" : "+"}
+              </span>
             </button>
-            {expanded ? <p className="px-5 pb-4 text-sm leading-7 text-white/70">{item.a}</p> : null}
-          </div>
+            {expanded ? (
+              <div className="orbit-faq-answer">
+                <p>{item.a}</p>
+              </div>
+            ) : null}
+          </article>
         );
       })}
     </div>
@@ -38,7 +44,7 @@ export function OrbitTestimonials() {
   };
 
   return (
-    <div className="orbit-reviews mx-auto max-w-[920px]">
+    <div className="orbit-reviews">
       <div className="orbit-reviews-shell">
         <span className="orbit-reviews-quote-mark" aria-hidden="true">
           &ldquo;

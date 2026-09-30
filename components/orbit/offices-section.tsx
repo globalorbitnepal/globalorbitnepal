@@ -55,7 +55,7 @@ export function OrbitOfficesSection() {
     >
       <div className="pointer-events-none absolute inset-0 orbit-studio-surface-glow" aria-hidden="true" />
 
-      <div className="relative z-[1] mx-auto w-full max-w-[1180px]">
+      <div className="relative z-[1] mx-auto w-full max-w-[min(1180px,100%)] lg:max-w-[min(1480px,94vw)] xl:max-w-[min(1680px,92vw)]">
         <header className="orbit-offices-head mx-auto mb-10 max-w-2xl text-center sm:mb-12">
           <p className="orbit-work-badge mx-auto">
             <span className="orbit-work-badge-num">7</span>

@@ -43,7 +43,7 @@ export function OrbitStudioWhy() {
   }, []);
 
   return (
-    <div className="orbit-why mx-auto max-w-[1240px]">
+    <div className="orbit-why">
       <div className="orbit-why-layout">
         <nav className="orbit-why-nav" aria-label="Why choose Global Orbit">
           <ol className="orbit-why-tabs">

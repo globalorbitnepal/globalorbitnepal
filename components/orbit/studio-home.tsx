@@ -21,14 +21,16 @@ function DisplayHead({
   kicker,
   title,
   lede,
+  wide = false,
 }: {
   id: string;
   kicker?: string;
   title: string;
   lede?: string;
+  wide?: boolean;
 }) {
   return (
-    <div className="mx-auto mb-12 max-w-4xl text-center">
+    <div className={`mx-auto mb-12 text-center${wide ? " orbit-home-section-head" : " max-w-4xl"}`}>
       {kicker ? (
         <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[#f0c43a]">{kicker}</p>
       ) : null}
@@ -74,6 +76,7 @@ export function OrbitStudioHome({
 
       <OrbitOfficesSection />
 
+      <div className="orbit-home-wide-stack">
       <section className="orbit-studio-surface px-4 py-16 sm:px-8" aria-labelledby="countries-heading">
         <h2 id="countries-heading" className="sr-only">
           Markets we serve
@@ -84,19 +87,21 @@ export function OrbitStudioHome({
       <section className="orbit-studio-surface px-4 py-20 sm:px-8 sm:py-24" aria-labelledby="why-heading">
         <DisplayHead
           id="why-heading"
+          wide
           title="There are thousands of agencies. Why choose us?"
         />
         <OrbitStudioWhy />
       </section>
 
       <section className="orbit-studio-surface px-4 py-20 sm:px-8 sm:py-24" aria-labelledby="reviews-heading">
-        <DisplayHead id="reviews-heading" title="Our clients speak for us" />
+        <DisplayHead id="reviews-heading" wide title="Our clients speak for us" />
         <OrbitTestimonials />
       </section>
 
       <section className="orbit-studio-surface px-4 py-20 sm:px-8 sm:py-24" aria-labelledby="faq-heading">
         <DisplayHead
           id="faq-heading"
+          wide
           title="Frequently asked questions"
           lede="Cost, timelines, stack, SEO, and whether we are the right firm."
         />
@@ -118,6 +123,7 @@ export function OrbitStudioHome({
           Start a project
         </Link>
       </section>
+      </div>
     </div>
   );
 }

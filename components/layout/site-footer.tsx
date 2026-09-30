@@ -1,10 +1,8 @@
 import Link from "next/link";
 import { BrandLogo } from "@/components/brand/brand-logo";
-import { FooterBackToTop } from "@/components/layout/footer-back-top";
 import { FooterConnectBar } from "@/components/layout/footer-connect-bar";
 import {
   FooterExploreIcon,
-  FooterPinIcon,
   FooterServiceIcon,
   FooterStatIcon,
 } from "@/components/layout/footer-icons";
@@ -35,7 +33,6 @@ export function SiteFooter({ companyName }: SiteFooterProps) {
     <footer className="orbit-footer mt-auto text-white">
       <div className="orbit-footer-scene" aria-hidden="true">
         <div className="orbit-footer-scene-mountains" />
-        <div className="orbit-footer-scene-globe" />
         <div className="orbit-footer-scene-glow" />
       </div>
 
@@ -51,7 +48,6 @@ export function SiteFooter({ companyName }: SiteFooterProps) {
             <ul className="orbit-footer-markets">
               {ORBIT_FOOTER_MARKETS.map((market) => (
                 <li key={market.code}>
-                  <FooterPinIcon />
                   <span>{market.label}</span>
                 </li>
               ))}
@@ -108,9 +104,6 @@ export function SiteFooter({ companyName }: SiteFooterProps) {
                       <span className="orbit-footer-office-line">{office.phone}</span>
                       <span className="orbit-footer-office-line is-muted">{office.email}</span>
                     </span>
-                    <span className="orbit-footer-office-chevron" aria-hidden="true">
-                      ›
-                    </span>
                   </a>
                 </li>
               ))}
@@ -151,7 +144,6 @@ export function SiteFooter({ companyName }: SiteFooterProps) {
                 WhatsApp
               </a>
             </div>
-            <FooterBackToTop />
           </div>
         </div>
       </div>
