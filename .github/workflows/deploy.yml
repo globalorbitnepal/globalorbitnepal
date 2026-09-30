@@ -276,7 +276,20 @@ jobs:
 
           echo "==> Building production bundle (isolated .next-build, then swap)"
           rm -rf .next-build
-          NEXT_DIST_DIR=.next-build npm run build </dev/null
+          BUILD_OK=0
+          for attempt in 1 2 3; do
+            if NEXT_DIST_DIR=.next-build npm run build </dev/null; then
+              BUILD_OK=1
+              break
+            fi
+            echo "Build attempt ${attempt} failed; retrying in 12s..."
+            rm -rf .next-build
+            sleep 12
+          done
+          if [ "$BUILD_OK" != "1" ]; then
+            echo "BUILD_FAIL: production build failed after 3 attempts"
+            exit 1
+          fi
           test -d .next-build
           NEXT_DIST_DIR=.next-build node scripts/verify-next-artifacts.mjs
           rm -rf .next-stale

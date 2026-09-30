@@ -1,6 +1,11 @@
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Caveat:wght@500;600;700&display=swap");
 @import "tailwindcss";
 
 :root {
+  --font-geist-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-geist-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  --font-jakarta: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-script: "Caveat", "Segoe Script", cursive;
   --background: #06122e;
   --foreground: #e8eef8;
   --color-paper: #0a1a3c;
