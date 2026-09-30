@@ -43,7 +43,7 @@ export function OrbitStudioProcessSection() {
   return (
     <section
       ref={sectionRef}
-      className="orbit-process-section relative overflow-hidden bg-[#07070b] px-4 pb-[clamp(3rem,6vh,4.5rem)] sm:px-8"
+      className="orbit-process-section orbit-studio-surface relative overflow-hidden px-4 pb-[clamp(3rem,6vh,4.5rem)] sm:px-8"
       aria-labelledby="process-heading"
     >
       <div className="orbit-process-glow pointer-events-none absolute inset-0" aria-hidden="true" />

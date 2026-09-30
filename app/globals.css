@@ -652,6 +652,142 @@ li.orbit-card:hover {
   -webkit-backdrop-filter: blur(22px) saturate(160%);
 }
 
+.orbit-studio-home {
+  background: #07070b;
+  color: #e8eef8;
+}
+
+.orbit-studio-surface {
+  position: relative;
+  background: transparent;
+}
+
+.orbit-studio-surface-glow {
+  background:
+    radial-gradient(ellipse 70% 45% at 50% 0%, rgba(99, 102, 241, 0.07), transparent 58%),
+    radial-gradient(ellipse 50% 35% at 100% 50%, rgba(240, 196, 58, 0.04), transparent 55%);
+}
+
+.orbit-studio-cta .pointer-events-none {
+  background: radial-gradient(ellipse at center, rgba(240, 196, 58, 0.1), transparent 55%);
+}
+
+.orbit-site-footer {
+  background: #050508;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.orbit-site-footer-glow {
+  background:
+    radial-gradient(ellipse 90% 70% at 50% -30%, rgba(99, 102, 241, 0.2), transparent 55%),
+    linear-gradient(180deg, rgba(7, 7, 11, 0.4), rgba(5, 5, 8, 0.95));
+}
+
+.orbit-site-footer-grid-wrap {
+  perspective: 1400px;
+}
+
+.orbit-site-footer-grid {
+  transform-style: preserve-3d;
+}
+
+.orbit-site-footer-brand-panel {
+  transform: translateZ(24px);
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: linear-gradient(165deg, rgba(255, 255, 255, 0.1), rgba(8, 12, 24, 0.75));
+  padding: 1.5rem 1.35rem;
+  box-shadow:
+    0 28px 64px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(20px) saturate(165%);
+  -webkit-backdrop-filter: blur(20px) saturate(165%);
+}
+
+.orbit-site-footer-heading {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.orbit-site-footer-links {
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.58);
+}
+
+.orbit-site-footer-links a {
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.orbit-site-footer-links a:hover {
+  color: #f0c43a;
+  transform: translateX(3px);
+}
+
+.orbit-site-footer-offices {
+  font-size: 0.82rem;
+}
+
+.orbit-site-footer-office {
+  border-left: 2px solid rgba(240, 196, 58, 0.45);
+  padding-left: 0.75rem;
+}
+
+.orbit-site-footer-office-country {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(240, 196, 58, 0.9);
+}
+
+.orbit-site-footer-office-line {
+  display: block;
+  margin-top: 0.2rem;
+  color: rgba(255, 255, 255, 0.62);
+  transition: color 0.2s ease;
+}
+
+.orbit-site-footer-office-line:hover {
+  color: #fff;
+}
+
+.orbit-site-footer-social a {
+  display: inline-flex;
+  height: 2rem;
+  align-items: center;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.05);
+  padding: 0 0.75rem;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.62);
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.orbit-site-footer-social a:hover {
+  border-color: rgba(240, 196, 58, 0.45);
+  background: rgba(240, 196, 58, 0.1);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.orbit-site-footer-base {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.22), rgba(0, 0, 0, 0.45));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
 .orbit-header-glass {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(12, 12, 18, 0.42));
   border: 1px solid rgba(255, 255, 255, 0.16);
@@ -2052,7 +2188,7 @@ li.orbit-card:hover {
 .orbit-made-track {
   --made-slide-unit: 36vh;
   height: calc(100vh + (var(--made-slides, 9) * var(--made-slide-unit)));
-  background: #09090f;
+  background: #07070b;
 }
 
 .orbit-made-pin {
@@ -2064,7 +2200,7 @@ li.orbit-card:hover {
   height: 100dvh;
   flex-direction: column;
   overflow: hidden;
-  background: #09090f;
+  background: #07070b;
 }
 
 .orbit-made-head {
@@ -2282,7 +2418,37 @@ li.orbit-card:hover {
 }
 
 .orbit-offices-section {
-  background: #050810;
+  background: transparent;
+}
+
+.orbit-offices-contact {
+  margin-top: 0.95rem;
+  display: grid;
+  gap: 0.55rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 0.85rem;
+}
+
+.orbit-offices-link {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  font-size: 0.82rem;
+  font-weight: 550;
+  color: rgba(255, 255, 255, 0.88);
+  transition: color 0.2s ease;
+}
+
+.orbit-offices-link:hover {
+  color: #f0c43a;
+}
+
+.orbit-offices-link-label {
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.42);
 }
 
 .orbit-offices-head .orbit-offices-title {

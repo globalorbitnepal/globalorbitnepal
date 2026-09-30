@@ -3,30 +3,7 @@
 import Image from "next/image";
 import { useEffect, useRef, type CSSProperties, type MouseEvent } from "react";
 import { OrbitFlag } from "@/components/orbit/flags";
-
-const SALES_OFFICES = [
-  {
-    code: "np",
-    country: "Nepal",
-    city: "Kathmandu",
-    landmark: "Famous heritage · Kathmandu",
-    image: "/brand/offices/nepal.jpg",
-  },
-  {
-    code: "in",
-    country: "India",
-    city: "Delhi (NCR)",
-    landmark: "India Gate",
-    image: "/brand/offices/india.jpg",
-  },
-  {
-    code: "us",
-    country: "USA",
-    city: "United States",
-    landmark: "Statue of Liberty · New York",
-    image: "/brand/offices/usa.jpg",
-  },
-] as const;
+import { ORBIT_BRAND } from "@/lib/orbit/brand";
 
 function tiltFromEvent(node: HTMLElement, event: MouseEvent<HTMLElement>) {
   const rect = node.getBoundingClientRect();
@@ -73,20 +50,10 @@ export function OrbitOfficesSection() {
   return (
     <section
       ref={sectionRef}
-      className="orbit-offices-section relative isolate overflow-hidden px-4 py-[clamp(3rem,7vh,4.5rem)] sm:px-6 lg:px-8"
+      className="orbit-offices-section orbit-studio-surface relative isolate overflow-hidden px-4 py-[clamp(3rem,7vh,4.5rem)] sm:px-6 lg:px-8"
       aria-labelledby="offices-heading"
     >
-      <div className="pointer-events-none absolute inset-0" aria-hidden="true">
-        <Image
-          src="/brand/offices/world-bg.jpg"
-          alt=""
-          fill
-          unoptimized
-          sizes="100vw"
-          className="object-cover object-center scale-105"
-        />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_0%,rgba(99,102,241,0.16),transparent_55%),linear-gradient(180deg,rgba(4,8,18,0.72),rgba(4,8,18,0.9))]" />
-      </div>
+      <div className="pointer-events-none absolute inset-0 orbit-studio-surface-glow" aria-hidden="true" />
 
       <div className="relative z-[1] mx-auto w-full max-w-[1180px]">
         <header className="orbit-offices-head mx-auto mb-10 max-w-2xl text-center sm:mb-12">
@@ -103,7 +70,7 @@ export function OrbitOfficesSection() {
         </header>
 
         <ul className="orbit-offices-grid">
-          {SALES_OFFICES.map((office, index) => (
+          {ORBIT_BRAND.salesOffices.map((office, index) => (
             <li
               key={office.code}
               className="orbit-offices-item"
@@ -132,6 +99,16 @@ export function OrbitOfficesSection() {
                   <p className="orbit-offices-landmark">{office.landmark}</p>
                   <h3 className="orbit-offices-country">{office.country}</h3>
                   <p className="orbit-offices-city">{office.city}</p>
+                  <div className="orbit-offices-contact">
+                    <a href={office.phoneHref} className="orbit-offices-link">
+                      <span className="orbit-offices-link-label">Phone</span>
+                      {office.phone}
+                    </a>
+                    <a href={`mailto:${office.email}`} className="orbit-offices-link">
+                      <span className="orbit-offices-link-label">Email</span>
+                      {office.email}
+                    </a>
+                  </div>
                 </div>
               </article>
             </li>

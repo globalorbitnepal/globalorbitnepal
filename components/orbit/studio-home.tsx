@@ -55,7 +55,7 @@ export function OrbitStudioHome({
   software: SoftwareConfig;
 }) {
   return (
-    <>
+    <div className="orbit-studio-home">
       <OrbitStudioHero config={hero} />
 
       <OrbitStudioNeed config={need} />
@@ -74,14 +74,14 @@ export function OrbitStudioHome({
 
       <OrbitOfficesSection />
 
-      <section className="px-4 py-16 sm:px-8" aria-labelledby="countries-heading">
+      <section className="orbit-studio-surface px-4 py-16 sm:px-8" aria-labelledby="countries-heading">
         <h2 id="countries-heading" className="sr-only">
           Markets we serve
         </h2>
         <OrbitCountryFlags />
       </section>
 
-      <section className="bg-[#07070b] px-4 py-20 sm:px-8 sm:py-24" aria-labelledby="why-heading">
+      <section className="orbit-studio-surface px-4 py-20 sm:px-8 sm:py-24" aria-labelledby="why-heading">
         <DisplayHead
           id="why-heading"
           title="There are thousands of agencies. Why choose us?"
@@ -89,12 +89,12 @@ export function OrbitStudioHome({
         <OrbitStudioWhy />
       </section>
 
-      <section className="bg-[#09090f] px-4 py-20 sm:px-8 sm:py-24" aria-labelledby="reviews-heading">
+      <section className="orbit-studio-surface px-4 py-20 sm:px-8 sm:py-24" aria-labelledby="reviews-heading">
         <DisplayHead id="reviews-heading" title="Our clients speak for us" />
         <OrbitTestimonials />
       </section>
 
-      <section className="bg-[#07070b] px-4 py-20 sm:px-8 sm:py-24" aria-labelledby="faq-heading">
+      <section className="orbit-studio-surface px-4 py-20 sm:px-8 sm:py-24" aria-labelledby="faq-heading">
         <DisplayHead
           id="faq-heading"
           title="Frequently asked questions"
@@ -103,7 +103,7 @@ export function OrbitStudioHome({
         <OrbitFaqList />
       </section>
 
-      <section className="relative overflow-hidden px-4 py-24 text-center sm:px-8 sm:py-28">
+      <section className="orbit-studio-surface orbit-studio-cta relative overflow-hidden px-4 py-24 text-center sm:px-8 sm:py-28">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(240,196,58,0.12),transparent_55%)]" />
         <h2 className="relative font-[family-name:var(--font-jakarta)] text-[clamp(1.9rem,5vw,3.4rem)] font-semibold tracking-tight text-white">
           Let’s bring your project to life.
@@ -118,6 +118,6 @@ export function OrbitStudioHome({
           Start a project
         </Link>
       </section>
-    </>
+    </div>
   );
 }
