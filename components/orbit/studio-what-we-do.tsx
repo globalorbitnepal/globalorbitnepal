@@ -58,8 +58,9 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
 
   useEffect(() => {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const enterEnd = 0.34;
-    const holdEnd = 0.58;
+    const enterEnd = 0.32;
+    const holdEnd = 0.54;
+    const exitEnd = 0.88;
 
     const clamp = (n: number, min: number, max: number) => Math.min(max, Math.max(min, n));
     const easeOut = (t: number) => 1 - (1 - t) ** 3;
@@ -100,7 +101,7 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
           opacity = 1;
           overlay = 0.06;
         } else {
-          const t = easeIn((raw - holdEnd) / (1 - holdEnd));
+          const t = easeIn(clamp((raw - holdEnd) / (exitEnd - holdEnd), 0, 1));
           scale = maxScale * (1 - t * 0.4);
           rotX = -24 * t;
           tz = -300 * t;
@@ -108,8 +109,9 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
           overlay = 0.06 + t * 0.22;
         }
 
+        const exitT = easeIn(clamp((raw - holdEnd) / (exitEnd - holdEnd), 0, 1));
         const ty =
-          raw < enterEnd ? (1 - easeOut(raw / enterEnd)) * 32 : raw > holdEnd ? easeIn((raw - holdEnd) / (1 - holdEnd)) * -36 : 0;
+          raw < enterEnd ? (1 - easeOut(raw / enterEnd)) * 32 : raw > holdEnd ? exitT * -36 : 0;
 
         grid.style.transform = `translate3d(0, ${ty}px, ${tz}px) rotateX(${rotX}deg) scale3d(${scale}, ${scale}, 1)`;
         grid.style.opacity = String(opacity);
@@ -117,7 +119,11 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
       }
 
       if (madeRef.current) {
-        const show = reduce ? 1 : clamp((raw - 0.52) / 0.22, 0, 1) * (raw > holdEnd ? 1 - easeIn((raw - holdEnd) / (1 - holdEnd)) : 1);
+        const show =
+          reduce
+            ? 1
+            : clamp((raw - 0.48) / 0.2, 0, 1) *
+              (raw > holdEnd ? 1 - easeIn(clamp((raw - holdEnd) / (exitEnd - holdEnd), 0, 1)) : 1);
         madeRef.current.style.opacity = String(show);
         madeRef.current.style.transform = `translate3d(0, ${12 - show * 12}px, 0)`;
       }

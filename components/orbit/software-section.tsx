@@ -74,8 +74,9 @@ export function OrbitSoftwareSection({ config }: { config: SoftwareConfig }) {
 
   useEffect(() => {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const enterEnd = 0.36;
-    const holdEnd = 0.62;
+    const enterEnd = 0.34;
+    const holdEnd = 0.56;
+    const exitEnd = 0.9;
 
     const apply = () => {
       const track = trackRef.current;
@@ -127,17 +128,21 @@ export function OrbitSoftwareSection({ config }: { config: SoftwareConfig }) {
         tz = 0;
         gridOpacity = 1;
       } else {
-        const t = easeInCubic((raw - holdEnd) / (1 - holdEnd));
+        const t = easeInCubic(clamp((raw - holdEnd) / (exitEnd - holdEnd), 0, 1));
         scale = 1 - t * 0.38;
         rotX = -22 * t;
         tz = -260 * t;
         gridOpacity = 1 - t * 0.55;
       }
 
-      grid.style.transform = `translate3d(0, ${raw < enterEnd ? (1 - easeOutCubic(raw / enterEnd)) * 28 : raw > holdEnd ? easeInCubic((raw - holdEnd) / (1 - holdEnd)) * -32 : 0}px, ${tz}px) rotateX(${rotX}deg) scale3d(${scale}, ${scale}, 1)`;
+      const exitLift =
+        raw > holdEnd ? easeInCubic(clamp((raw - holdEnd) / (exitEnd - holdEnd), 0, 1)) * -32 : 0;
+
+      grid.style.transform = `translate3d(0, ${raw < enterEnd ? (1 - easeOutCubic(raw / enterEnd)) * 28 : exitLift}px, ${tz}px) rotateX(${rotX}deg) scale3d(${scale}, ${scale}, 1)`;
       grid.style.opacity = String(gridOpacity);
 
-      const headIn = raw < enterEnd ? easeOutCubic(raw / enterEnd) : raw > holdEnd ? 1 - easeInCubic((raw - holdEnd) / (1 - holdEnd)) * 0.85 : 1;
+      const exitT = () => easeInCubic(clamp((raw - holdEnd) / (exitEnd - holdEnd), 0, 1));
+      const headIn = raw < enterEnd ? easeOutCubic(raw / enterEnd) : raw > holdEnd ? 1 - exitT() * 0.85 : 1;
       if (headRef.current) {
         headRef.current.style.opacity = String(0.25 + headIn * 0.75);
         headRef.current.style.transform = `translate3d(0, ${(1 - headIn) * 22}px, 0)`;
@@ -147,7 +152,7 @@ export function OrbitSoftwareSection({ config }: { config: SoftwareConfig }) {
         raw < enterEnd
           ? easeOutCubic(Math.max(0, (raw - 0.12) / (enterEnd - 0.12)))
           : raw > holdEnd
-            ? 1 - easeInCubic((raw - holdEnd) / (1 - holdEnd))
+            ? 1 - exitT()
             : 1;
       if (footRef.current) {
         footRef.current.style.opacity = String(footShow * 0.95);
@@ -170,7 +175,7 @@ export function OrbitSoftwareSection({ config }: { config: SoftwareConfig }) {
           el.style.setProperty("--soft-shell-s", String(0.86 + local * 0.14));
           el.style.opacity = String(0.2 + local * 0.8);
         } else if (raw > holdEnd) {
-          const t = easeInCubic((raw - holdEnd) / (1 - holdEnd));
+          const t = exitT();
           const local = clamp(t - stagger * 0.35, 0, 1);
           const ry = (col - 2) * 5 * local;
           el.style.setProperty("--soft-shell-y", `${local * -28}px`);
@@ -230,7 +235,7 @@ export function OrbitSoftwareSection({ config }: { config: SoftwareConfig }) {
           <div className="orbit-soft-veil absolute inset-0" />
         </div>
 
-        <div className="orbit-soft-inner relative z-[1] mx-auto flex h-full w-full max-w-[1680px] flex-col px-[clamp(1.25rem,3.6vw,3.4rem)] py-[clamp(2.5rem,5vh,3.75rem)]">
+        <div className="orbit-soft-inner relative z-[1] mx-auto flex h-full w-full max-w-[1680px] flex-col px-[clamp(1.25rem,3.6vw,3.4rem)] pb-[clamp(1.25rem,2.5vh,2rem)] pt-[clamp(2.25rem,4.5vh,3.25rem)]">
           <div ref={headRef} className="orbit-soft-head mx-auto mb-6 max-w-3xl shrink-0 text-center sm:mb-8">
             <p className="orbit-work-badge mx-auto">
               <span className="orbit-work-badge-num">4</span>

@@ -1560,7 +1560,7 @@ li.orbit-card:hover {
 }
 
 .orbit-work-track {
-  height: 300vh;
+  height: 210vh;
   background: #050508;
 }
 
@@ -1955,7 +1955,7 @@ li.orbit-card:hover {
 
 @media (max-width: 900px) {
   .orbit-work-track {
-    height: 240vh;
+    height: 185vh;
   }
 
   .orbit-work-headline {
@@ -1974,7 +1974,7 @@ li.orbit-card:hover {
 
 @media (max-width: 640px) {
   .orbit-work-track {
-    height: 220vh;
+    height: 170vh;
   }
 
   .orbit-work-head {
@@ -2025,8 +2025,13 @@ li.orbit-card:hover {
 }
 
 .orbit-soft-track {
-  height: 280vh;
+  height: 192vh;
+  margin-bottom: calc(-1 * clamp(2.5rem, 7vh, 5rem));
   background: #050508;
+}
+
+.orbit-soft-track + section {
+  padding-top: clamp(2.75rem, 5.5vh, 4rem) !important;
 }
 
 .orbit-soft-pin {
@@ -2120,13 +2125,15 @@ li.orbit-card:hover {
 
 @media (max-width: 900px) {
   .orbit-soft-track {
-    height: 250vh;
+    height: 175vh;
+    margin-bottom: calc(-1 * clamp(2rem, 5vh, 3.5rem));
   }
 }
 
 @media (max-width: 640px) {
   .orbit-soft-track {
-    height: 230vh;
+    height: 162vh;
+    margin-bottom: calc(-1 * clamp(1.5rem, 4vh, 2.75rem));
   }
 
   .orbit-soft-grid-stage {
