@@ -33,27 +33,44 @@ export function OrbitTestimonials() {
   const [index, setIndex] = useState(0);
   const item = ORBIT_TESTIMONIALS[index];
 
+  const go = (delta: number) => {
+    setIndex((value) => (value + delta + ORBIT_TESTIMONIALS.length) % ORBIT_TESTIMONIALS.length);
+  };
+
   return (
-    <div className="orbit-card mx-auto max-w-3xl rounded-3xl px-5 py-8 text-center sm:px-8 sm:py-10">
-      <p className="text-lg leading-8 text-white">&ldquo; {item.quote} &rdquo;</p>
-      <p className="mt-6 text-sm font-semibold text-[#f0c43a]">
-        {item.name} · {item.place}
-      </p>
-      <div className="mt-6 flex items-center justify-center gap-2">
-        <button type="button" className="rounded-full border border-white/20 px-3 py-1 text-xs" aria-label="Previous" onClick={() => setIndex((value) => (value === 0 ? ORBIT_TESTIMONIALS.length - 1 : value - 1))}>
-          Prev
+    <div className="orbit-reviews mx-auto max-w-[920px]">
+      <div className="orbit-reviews-shell">
+        <span className="orbit-reviews-quote-mark" aria-hidden="true">
+          &ldquo;
+        </span>
+        <blockquote key={index} className="orbit-reviews-quote">
+          <p>{item.quote}</p>
+        </blockquote>
+        <footer className="orbit-reviews-meta">
+          <cite className="orbit-reviews-name">{item.name}</cite>
+          <span className="orbit-reviews-place">{item.place}</span>
+        </footer>
+      </div>
+
+      <div className="orbit-reviews-controls">
+        <button type="button" className="orbit-reviews-arrow" aria-label="Previous review" onClick={() => go(-1)}>
+          ←
         </button>
-        {ORBIT_TESTIMONIALS.map((entry, i) => (
-          <button
-            key={`${entry.name}-${entry.place}`}
-            type="button"
-            aria-label={`Testimonial ${i + 1}`}
-            className={`h-2 w-2 rounded-full ${i === index ? "bg-[#f0c43a]" : "bg-white/30"}`}
-            onClick={() => setIndex(i)}
-          />
-        ))}
-        <button type="button" className="rounded-full border border-white/20 px-3 py-1 text-xs" aria-label="Next" onClick={() => setIndex((value) => (value + 1) % ORBIT_TESTIMONIALS.length)}>
-          Next
+        <div className="orbit-reviews-dots" role="tablist" aria-label="Reviews">
+          {ORBIT_TESTIMONIALS.map((entry, i) => (
+            <button
+              key={`${entry.name}-${entry.place}`}
+              type="button"
+              role="tab"
+              aria-selected={i === index}
+              aria-label={`Review ${i + 1} of ${ORBIT_TESTIMONIALS.length}`}
+              className={`orbit-reviews-dot${i === index ? " is-active" : ""}`}
+              onClick={() => setIndex(i)}
+            />
+          ))}
+        </div>
+        <button type="button" className="orbit-reviews-arrow" aria-label="Next review" onClick={() => go(1)}>
+          →
         </button>
       </div>
     </div>

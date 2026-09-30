@@ -416,32 +416,37 @@ export const ORBIT_FAQS = [
 export const ORBIT_TESTIMONIALS = [
   {
     quote:
-      "Global Orbit built our hotel website and within 3 months we were ranking on page 1 of Google. Bookings increased by 150%. Incredible team!",
+      "Global Orbit built our hotel website and within three months we were ranking on page one of Google for our brand and core stay keywords. Direct bookings increased by roughly one hundred fifty percent compared to the old template site. The team explained SEO in plain language, shipped fast on mobile, and still answers on WhatsApp when we need a change before a holiday weekend.",
     name: "Hotel operator",
     place: "Pokhara",
   },
   {
-    quote: "The trekking site finally loads on mountain data and enquiry forms reach us the same day.",
+    quote:
+      "Our trekking site finally loads on mountain data and enquiry forms reach us the same day — no more lost leads sitting in spam. They rebuilt the itinerary pages, connected WhatsApp and email alerts, and trained our desk staff in Nepali and English. Season after season we update packages without breaking the design.",
     name: "Expedition lead",
     place: "Kathmandu",
   },
   {
-    quote: "ERP went live without stopping the shop floor. Training was in Nepali and English.",
+    quote:
+      "ERP went live without stopping the shop floor. Training was in Nepali and English, and managers still get weekly reports they actually read. Inventory, billing, and production status finally live in one dashboard instead of three spreadsheets and a legacy desktop app.",
     name: "Plant manager",
     place: "Biratnagar",
   },
   {
-    quote: "SEO reporting is honest. We see keywords, not vanity screenshots.",
+    quote:
+      "SEO reporting is honest. We see keywords, traffic, and technical fixes — not vanity screenshots. When a ranking moves, they tell us why and what they will do next. Our retail site feels premium, loads quickly on phones, and local search visibility improved within the first quarter.",
     name: "Retail founder",
     place: "Mumbai",
   },
   {
-    quote: "US hours, Nepal engineering, one Slack. The site and the billing product shipped as one brief.",
+    quote:
+      "US hours, Nepal engineering, one Slack channel. The marketing site and billing product shipped from a single brief without two vendors blaming each other. Invoices, client logins, and the public website share one brand system — exactly what we needed to look enterprise-ready in front of partners.",
     name: "Operator",
     place: "United States",
   },
   {
-    quote: "Restaurant POS and website talk to each other. Table wait dropped in the first month.",
+    quote:
+      "Restaurant POS and website talk to each other. Table wait dropped in the first month because online reservations sync with the floor plan. Menus, photos, and offers update in one place, and guests still get a polished booking experience on phones.",
     name: "F&B owner",
     place: "Thamel",
   },
