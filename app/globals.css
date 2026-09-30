@@ -3669,15 +3669,64 @@ li.orbit-card:hover {
   }
 
   .orbit-made-track {
-    --made-slide-unit: 24vh;
+    --made-slide-unit: 20vh;
+    height: calc(var(--app-vh, 1vh) * 100 + (var(--made-slides, 9) * var(--made-slide-unit)));
   }
 
   .orbit-soft-track {
-    height: calc(var(--app-vh, 1vh) * 100 + 95vh);
+    height: calc(var(--app-vh, 1vh) * 100 + 72vh);
+  }
+
+  html.orbit-mobile-lite .orbit-made-stage,
+  html.orbit-mobile-lite .orbit-soft-grid-stage,
+  html.orbit-mobile-lite .orbit-work-grid-main {
+    perspective: none !important;
+  }
+
+  html.orbit-mobile-lite .orbit-made-slide,
+  html.orbit-mobile-lite .orbit-soft-grid-3d,
+  html.orbit-mobile-lite .orbit-work-grid {
+    transform-style: flat !important;
+  }
+
+  html.orbit-mobile-lite .orbit-made-slide,
+  html.orbit-mobile-lite .orbit-soft-card-shell,
+  html.orbit-mobile-lite .orbit-work-grid {
+    will-change: auto !important;
+  }
+
+  html.orbit-mobile-lite .orbit-studio-hero .will-change-transform {
+    will-change: auto;
+    transform: none !important;
+  }
+
+  .orbit-soft-card p.line-clamp-3 {
+    display: block;
+    overflow: visible;
+    -webkit-line-clamp: unset;
+    line-clamp: unset;
+  }
+
+  .orbit-studio-hero video {
+    object-fit: contain !important;
+    object-position: center center !important;
+  }
+
+  .orbit-need-video video {
+    object-fit: contain !important;
+    object-position: center !important;
+  }
+
+  .orbit-made-frame {
+    max-height: min(58vh, 480px);
   }
 
   .orbit-work-track {
-    height: calc(var(--app-vh, 1vh) * 100 + 72vh);
+    height: calc(var(--app-vh, 1vh) * 100 + 58vh);
+  }
+
+  .orbit-need-track {
+    height: calc(var(--app-vh, 1vh) * 100 + 55vh);
   }
 
   .orbit-why-tabs {

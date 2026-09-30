@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef } from "react";
 import type { CSSProperties } from "react";
+import { bindOrbitScroll, isOrbitTouch } from "@/lib/orbit/scroll-performance";
 import type { SoftwareConfig } from "@/lib/software-config";
 import { DEFAULT_SOFTWARE } from "@/lib/software-config";
 
@@ -113,6 +114,7 @@ export function OrbitSoftwareSection({ config }: { config: SoftwareConfig }) {
         return;
       }
 
+      const touch = isOrbitTouch();
       let scale = 1;
       let rotX = 0;
       let tz = 0;
@@ -141,7 +143,10 @@ export function OrbitSoftwareSection({ config }: { config: SoftwareConfig }) {
       const exitLift =
         raw > holdEnd ? easeInCubic(clamp((raw - holdEnd) / (exitEnd - holdEnd), 0, 1)) * -32 : 0;
 
-      grid.style.transform = `translate3d(0, ${raw < enterEnd ? (1 - easeOutCubic(raw / enterEnd)) * 28 : exitLift}px, ${tz}px) rotateX(${rotX}deg) scale3d(${scale}, ${scale}, 1)`;
+      const rx = touch ? 0 : rotX;
+      const z = touch ? 0 : tz;
+      const lift = raw < enterEnd ? (1 - easeOutCubic(raw / enterEnd)) * (touch ? 14 : 28) : exitLift * (touch ? 0.5 : 1);
+      grid.style.transform = `translate3d(0, ${lift}px, ${z}px) rotateX(${rx}deg) scale3d(${scale}, ${scale}, 1)`;
       grid.style.opacity = String(gridOpacity);
 
       const exitT = () => easeInCubic(clamp((raw - holdEnd) / (exitEnd - holdEnd), 0, 1));
@@ -170,21 +175,21 @@ export function OrbitSoftwareSection({ config }: { config: SoftwareConfig }) {
 
         if (raw < enterEnd) {
           const local = easeOutCubic(clamp((raw - stagger) / (enterEnd - stagger), 0, 1));
-          const ry = (col - 2) * 5 * (1 - local);
-          el.style.setProperty("--soft-shell-y", `${(1 - local) * 36}px`);
-          el.style.setProperty("--soft-shell-z", `${(1 - local) * -90}px`);
-          el.style.setProperty("--soft-shell-rx", `${(1 - local) * 14}deg`);
-          el.style.setProperty("--soft-shell-ry", `${ry}deg`);
+          const ry = touch ? 0 : (col - 2) * 5 * (1 - local);
+          el.style.setProperty("--soft-shell-y", `${(1 - local) * (touch ? 18 : 36)}px`);
+          el.style.setProperty("--soft-shell-z", touch ? "0px" : `${(1 - local) * -90}px`);
+          el.style.setProperty("--soft-shell-rx", touch ? "0deg" : `${(1 - local) * 14}deg`);
+          el.style.setProperty("--soft-shell-ry", touch ? "0deg" : `${ry}deg`);
           el.style.setProperty("--soft-shell-s", String(0.86 + local * 0.14));
           el.style.opacity = String(0.2 + local * 0.8);
         } else if (raw > holdEnd) {
           const t = exitT();
           const local = clamp(t - stagger * 0.35, 0, 1);
-          const ry = (col - 2) * 5 * local;
-          el.style.setProperty("--soft-shell-y", `${local * -28}px`);
-          el.style.setProperty("--soft-shell-z", `${local * -110}px`);
-          el.style.setProperty("--soft-shell-rx", `${local * -16}deg`);
-          el.style.setProperty("--soft-shell-ry", `${ry}deg`);
+          const ry = touch ? 0 : (col - 2) * 5 * local;
+          el.style.setProperty("--soft-shell-y", `${local * (touch ? -14 : -28)}px`);
+          el.style.setProperty("--soft-shell-z", touch ? "0px" : `${local * -110}px`);
+          el.style.setProperty("--soft-shell-rx", touch ? "0deg" : `${local * -16}deg`);
+          el.style.setProperty("--soft-shell-ry", touch ? "0deg" : `${ry}deg`);
           el.style.setProperty("--soft-shell-s", String(1 - local * 0.12));
           el.style.opacity = String(1 - local * 0.7);
         } else {
@@ -212,22 +217,7 @@ export function OrbitSoftwareSection({ config }: { config: SoftwareConfig }) {
       }
     };
 
-    const onScroll = () => {
-      if (frameRef.current) return;
-      frameRef.current = window.requestAnimationFrame(() => {
-        frameRef.current = 0;
-        apply();
-      });
-    };
-
-    apply();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-      if (frameRef.current) window.cancelAnimationFrame(frameRef.current);
-    };
+    return bindOrbitScroll(trackRef.current, apply, frameRef);
   }, [config.products.length]);
 
   return (

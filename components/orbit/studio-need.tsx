@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { OrbitCodeBackdrop } from "@/components/orbit/code-backdrop";
+import { bindOrbitScroll, isOrbitTouch } from "@/lib/orbit/scroll-performance";
 import type { NeedConfig } from "@/lib/need-config";
 import { DEFAULT_NEED } from "@/lib/need-config";
 
@@ -73,32 +74,46 @@ export function OrbitStudioNeed({ config }: { config: NeedConfig }) {
 
       const trackRect = track.getBoundingClientRect();
       const pinRect = pin.getBoundingClientRect();
-      const slotRect = slot.getBoundingClientRect();
       const travel = Math.max(trackRect.height - pinRect.height, 1);
       const raw = clamp(-trackRect.top / travel);
       const zoomProgress = clamp(raw / 0.68);
       const eased = 1 - (1 - zoomProgress) ** 1.45;
+      const touch = isOrbitTouch();
 
-      const start = {
-        left: slotRect.left - pinRect.left,
-        top: slotRect.top - pinRect.top,
-        width: slotRect.width,
-        height: slotRect.height,
-        radius: slotRect.height / 2,
-      };
-      const end = {
-        left: pinRect.width * 0.035,
-        top: pinRect.height * 0.05,
-        width: pinRect.width * 0.93,
-        height: pinRect.height * 0.86,
-        radius: Math.min(pinRect.width, pinRect.height) * 0.045,
-      };
+      if (touch) {
+        const left = lerp(14, 3.5, eased);
+        const top = lerp(22, 5, eased);
+        const width = lerp(72, 93, eased);
+        const height = lerp(38, 86, eased);
+        const radius = lerp(48, 20, eased);
+        box.style.left = `${left}%`;
+        box.style.top = `${top}%`;
+        box.style.width = `${width}%`;
+        box.style.height = `${height}%`;
+        box.style.borderRadius = `${radius}px`;
+      } else {
+        const slotRect = slot.getBoundingClientRect();
+        const start = {
+          left: slotRect.left - pinRect.left,
+          top: slotRect.top - pinRect.top,
+          width: slotRect.width,
+          height: slotRect.height,
+          radius: slotRect.height / 2,
+        };
+        const end = {
+          left: pinRect.width * 0.035,
+          top: pinRect.height * 0.05,
+          width: pinRect.width * 0.93,
+          height: pinRect.height * 0.86,
+          radius: Math.min(pinRect.width, pinRect.height) * 0.045,
+        };
 
-      box.style.left = `${lerp(start.left, end.left, eased)}px`;
-      box.style.top = `${lerp(start.top, end.top, eased)}px`;
-      box.style.width = `${lerp(start.width, end.width, eased)}px`;
-      box.style.height = `${lerp(start.height, end.height, eased)}px`;
-      box.style.borderRadius = `${lerp(start.radius, end.radius, eased)}px`;
+        box.style.left = `${lerp(start.left, end.left, eased)}px`;
+        box.style.top = `${lerp(start.top, end.top, eased)}px`;
+        box.style.width = `${lerp(start.width, end.width, eased)}px`;
+        box.style.height = `${lerp(start.height, end.height, eased)}px`;
+        box.style.borderRadius = `${lerp(start.radius, end.radius, eased)}px`;
+      }
 
       if (copy) {
         const fade = clamp((raw - 0.06) / 0.32);
@@ -108,22 +123,7 @@ export function OrbitStudioNeed({ config }: { config: NeedConfig }) {
       box.classList.add("is-ready");
     };
 
-    const onScroll = () => {
-      if (frameRef.current) return;
-      frameRef.current = window.requestAnimationFrame(() => {
-        frameRef.current = 0;
-        apply();
-      });
-    };
-
-    apply();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-      if (frameRef.current) window.cancelAnimationFrame(frameRef.current);
-    };
+    return bindOrbitScroll(trackRef.current, apply, frameRef);
   }, []);
 
   const stat = config.stats[statIndex] ?? config.stats[0];

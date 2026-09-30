@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { bindOrbitScroll, isOrbitTouch } from "@/lib/orbit/scroll-performance";
 import { workTileBySlot, type WorkConfig, type WorkTile } from "@/lib/work-config";
 
 function Chrome({ title }: { title: string }) {
@@ -73,7 +74,8 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
       const rect = track.getBoundingClientRect();
       const travel = Math.max(track.offsetHeight - window.innerHeight, 1);
       const raw = clamp(-rect.top / travel, 0, 1);
-      const maxScale = window.matchMedia("(max-width: 767px)").matches ? 1.16 : 1.24;
+      const touch = isOrbitTouch();
+      const maxScale = touch ? 1.08 : 1.24;
 
       if (reduce) {
         grid.style.transform = "translate3d(0, 0, 0) rotateX(0deg) scale3d(1.02, 1.02, 1)";
@@ -113,7 +115,10 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
         const ty =
           raw < enterEnd ? (1 - easeOut(raw / enterEnd)) * 32 : raw > holdEnd ? exitT * -36 : 0;
 
-        grid.style.transform = `translate3d(0, ${ty}px, ${tz}px) rotateX(${rotX}deg) scale3d(${scale}, ${scale}, 1)`;
+        const rx = touch ? 0 : rotX;
+        const z = touch ? 0 : tz;
+        const tyUse = touch ? ty * 0.45 : ty;
+        grid.style.transform = `translate3d(0, ${tyUse}px, ${z}px) rotateX(${rx}deg) scale3d(${scale}, ${scale}, 1)`;
         grid.style.opacity = String(opacity);
         grid.style.setProperty("--orbit-work-overlay", String(overlay));
       }
@@ -129,22 +134,7 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
       }
     };
 
-    const onScroll = () => {
-      if (frameRef.current) return;
-      frameRef.current = window.requestAnimationFrame(() => {
-        frameRef.current = 0;
-        apply();
-      });
-    };
-
-    apply();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-      if (frameRef.current) window.cancelAnimationFrame(frameRef.current);
-    };
+    return bindOrbitScroll(trackRef.current, apply, frameRef);
   }, []);
 
   return (

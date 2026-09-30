@@ -15,7 +15,7 @@ export function MobileAppExperience() {
       window.matchMedia("(max-width: 767px)").matches;
 
     if (touch) {
-      root.classList.add("orbit-touch");
+      root.classList.add("orbit-touch", "orbit-mobile-lite");
     }
 
     setAppViewportUnit();
@@ -71,7 +71,7 @@ export function MobileAppExperience() {
       window.removeEventListener("orientationchange", setAppViewportUnit);
       document.removeEventListener("visibilitychange", onVisibility);
       visibilityObserver?.disconnect();
-      root.classList.remove("orbit-touch");
+      root.classList.remove("orbit-touch", "orbit-mobile-lite");
     };
   }, []);
 
