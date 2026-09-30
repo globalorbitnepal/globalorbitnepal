@@ -83,7 +83,7 @@ export function OrbitFooterSocial({ className = "" }: { className?: string }) {
             title={item.label}
             role="listitem"
           >
-            <svg viewBox="0 0 24 24" aria-hidden="true" className="h-[18px] w-[18px] text-white">
+            <svg viewBox="0 0 24 24" aria-hidden="true" className="text-white">
               {icon.path}
             </svg>
           </a>
