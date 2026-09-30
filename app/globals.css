@@ -2698,6 +2698,14 @@ li.orbit-card:hover {
   will-change: transform;
 }
 
+.orbit-work-block.is-tile-animating {
+  will-change: transform, opacity;
+}
+
+.orbit-work-block.is-tile-animating .orbit-work-shot {
+  will-change: transform;
+}
+
 .orbit-work-pin {
   position: sticky;
   top: 0;
@@ -2793,9 +2801,10 @@ li.orbit-card:hover {
   height: min(60vh, calc(100dvh - 13.5rem));
   max-height: 100%;
   padding: 0 10px 8px;
-  gap: 10px;
+  gap: clamp(6px, 1.2vw, 10px);
   grid-template-columns: 120fr 210fr 210fr 120fr;
   grid-template-rows: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 0.72fr);
+  contain: layout style;
 }
 
 .orbit-work-bento > .orbit-work-block:nth-child(1) {
@@ -2842,7 +2851,11 @@ li.orbit-card:hover {
   border: 1px solid rgba(255, 255, 255, 0.07);
   background: #0c0c12;
   box-shadow: 0 8px 22px rgba(0, 0, 0, 0.28);
-  transform: translateZ(0);
+  transform: translate3d(0, 0, 0) scale(0.42);
+  transform-origin: 50% 50%;
+  opacity: 0;
+  backface-visibility: hidden;
+  contain: layout paint;
 }
 
 .orbit-work-block.is-phone .orbit-work-shot-wrap {
@@ -2873,7 +2886,9 @@ li.orbit-card:hover {
   object-fit: cover;
   object-position: 50% 0%;
   background-repeat: no-repeat;
-  transform: translateZ(0);
+  transform: scale(1.32);
+  transform-origin: 50% 18%;
+  backface-visibility: hidden;
 }
 
 .orbit-work-chrome {
@@ -4159,10 +4174,9 @@ li.orbit-card:hover {
   }
 
   .orbit-made-shot,
-  .orbit-work-shot {
-    object-fit: contain !important;
-    object-position: top center !important;
-    background: #0a0a10;
+  .orbit-work-bento .orbit-work-shot {
+    object-fit: cover !important;
+    object-position: 50% 0% !important;
   }
 
   .orbit-made-frame,
@@ -4269,8 +4283,8 @@ li.orbit-card:hover {
   }
 
   .orbit-work-track {
-    height: calc(var(--app-vh, 1vh) * 100 + 52vh);
-    min-height: 0;
+    height: 200vh;
+    min-height: 200vh;
   }
 
   .orbit-need-track {

@@ -1,8 +1,10 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { bindOrbitScroll, isOrbitTouch } from "@/lib/orbit/scroll-performance";
 import { workTileBySlot, type WorkConfig, type WorkTile } from "@/lib/work-config";
+
+const TILE_COUNT = 9;
 
 function Chrome({ title }: { title: string }) {
   return (
@@ -72,19 +74,37 @@ function clamp(n: number, min: number, max: number) {
   return Math.min(max, Math.max(min, n));
 }
 
-/** Metaminds work_grid-wrap: hold 1.6 until ~30% scroll, then linear to 1.0 */
-function metamindsWorkScale(raw: number, touch: boolean) {
-  const holdEnd = touch ? 0.22 : 0.3;
-  const start = touch ? 1.45 : 1.6;
-  const end = 1;
+function smoothStep(t: number) {
+  const x = clamp(t, 0, 1);
+  return x * x * (3 - 2 * x);
+}
+
+/** Whole bento: hold at 1.6, then ease to 1.0 (Metaminds work_grid-wrap). */
+function gridScale(raw: number, touch: boolean) {
+  const holdEnd = touch ? 0.24 : 0.3;
+  const start = touch ? 1.48 : 1.6;
   if (raw <= holdEnd) return start;
-  const t = clamp((raw - holdEnd) / (1 - holdEnd), 0, 1);
-  return start - (start - end) * t;
+  const t = (raw - holdEnd) / (1 - holdEnd);
+  return start - (start - 1) * t;
+}
+
+/** Per-tile reveal window — staggered so tiles pop in one-by-one while scrolling. */
+function tileReveal(raw: number, index: number, touch: boolean) {
+  const step = touch ? 0.048 : 0.052;
+  const duration = touch ? 0.11 : 0.13;
+  const start = 0.03 + index * step;
+  const t = smoothStep(clamp((raw - start) / duration, 0, 1));
+  const scale = 0.42 + t * 0.58;
+  const opacity = t;
+  const y = (1 - t) * (touch ? 14 : 22);
+  const imgScale = 1.32 - t * 0.32;
+  return { scale, opacity, y, imgScale, active: t > 0 && t < 1 };
 }
 
 export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
   const trackRef = useRef<HTMLElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
+  const bentoRef = useRef<HTMLDivElement>(null);
   const frameRef = useRef(0);
   const t = (slot: Parameters<typeof workTileBySlot>[1]) => workTileBySlot(config, slot);
 
@@ -101,6 +121,29 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
     type: "phone-screen",
   };
 
+  const preloadUrls = useMemo(() => {
+    const slots = [
+      t("col1-top"),
+      t("col2-top"),
+      t("col3-top"),
+      phoneRightTop,
+      t("col1-bottom"),
+      t("col2-mid"),
+      t("col3-bottom"),
+      phoneRightBottom,
+      t("col2-bottom"),
+    ] as WorkTile[];
+    return [...new Set(slots.map((tile) => tile.imageSrc || "/brand/work/summit-seek.jpg"))];
+  }, [config]);
+
+  useEffect(() => {
+    preloadUrls.forEach((src) => {
+      const img = new Image();
+      img.decoding = "async";
+      img.src = src;
+    });
+  }, [preloadUrls]);
+
   useEffect(() => {
     const track = trackRef.current;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -108,7 +151,8 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
 
     const apply = () => {
       const grid = gridRef.current;
-      if (!grid) return;
+      const bento = bentoRef.current;
+      if (!grid || !bento) return;
 
       const rect = track.getBoundingClientRect();
       const travel = Math.max(track.offsetHeight - window.innerHeight, 1);
@@ -117,12 +161,33 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
 
       track.classList.toggle("is-work-scrolling", raw > 0.02 && raw < 0.98);
 
+      const blocks = bento.querySelectorAll<HTMLElement>(".orbit-work-block");
+      const shots = bento.querySelectorAll<HTMLElement>(".orbit-work-shot");
+
       if (reduce) {
         grid.style.transform = "translate3d(0, 0, 0) scale3d(1, 1, 1)";
-      } else {
-        const scale = metamindsWorkScale(raw, touch);
-        grid.style.transform = `translate3d(0, 0, 0) scale3d(${scale.toFixed(5)}, ${scale.toFixed(5)}, 1)`;
+        blocks.forEach((el) => {
+          el.style.opacity = "1";
+          el.style.transform = "translate3d(0, 0, 0) scale(1)";
+        });
+        shots.forEach((el) => {
+          el.style.transform = "scale(1)";
+        });
+        return;
       }
+
+      const gScale = gridScale(raw, touch);
+      grid.style.transform = `translate3d(0, 0, 0) scale3d(${gScale.toFixed(5)}, ${gScale.toFixed(5)}, 1)`;
+
+      blocks.forEach((el, index) => {
+        if (index >= TILE_COUNT) return;
+        const { scale, opacity, y, imgScale, active } = tileReveal(raw, index, touch);
+        el.style.opacity = opacity.toFixed(3);
+        el.style.transform = `translate3d(0, ${y.toFixed(2)}px, 0) scale(${scale.toFixed(4)})`;
+        el.classList.toggle("is-tile-animating", active);
+        const shot = shots[index];
+        if (shot) shot.style.transform = `scale(${imgScale.toFixed(4)})`;
+      });
     };
 
     return bindOrbitScroll(track, apply, frameRef);
@@ -141,7 +206,7 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
 
         <div className="orbit-work-grid-main">
           <div ref={gridRef} className="orbit-work-grid-wrap">
-            <div className="orbit-work-bento">
+            <div ref={bentoRef} className="orbit-work-bento">
               <WebsiteTile tile={t("col1-top")} layout="phone" priority />
               <WebsiteTile tile={t("col2-top")} layout="web-40" />
               <WebsiteTile tile={t("col3-top")} layout="web-59" />
