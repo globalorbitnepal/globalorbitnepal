@@ -638,8 +638,12 @@ li.orbit-card:hover {
 }
 
 .orbit-sw-list {
+  display: flex;
+  height: 100%;
   margin: 0;
   padding: 0;
+  flex-direction: column;
+  justify-content: space-between;
   overflow: hidden;
   list-style: none;
   font-size: 6.5px;
