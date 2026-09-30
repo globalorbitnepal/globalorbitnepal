@@ -5079,7 +5079,7 @@ li.orbit-card:hover {
   height: 100%;
   display: flex;
   align-items: stretch;
-  transform-origin: 50% 42%;
+  transform-origin: 50% 58%;
   backface-visibility: hidden;
   transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
 }

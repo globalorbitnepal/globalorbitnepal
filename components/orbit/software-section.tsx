@@ -12,8 +12,8 @@ function clamp(n: number, min: number, max: number) {
 }
 
 function softwareScale(raw: number, touch: boolean) {
-  const holdEnd = touch ? 0.16 : 0.22;
-  const start = touch ? 1.1 : 1.16;
+  const holdEnd = touch ? 0.12 : 0.18;
+  const start = touch ? 1.04 : 1.05;
   if (raw <= holdEnd) return start;
   return start - (start - 1) * ((raw - holdEnd) / (1 - holdEnd));
 }
@@ -56,8 +56,8 @@ export function OrbitSoftwareSection({ config }: { config: SoftwareConfig }) {
       <div className="orbit-soft-pin">
         <div className="orbit-soft-veil" aria-hidden="true" />
 
-        <div className="orbit-soft-inner relative z-[1] mx-auto flex h-full w-full max-w-[1680px] flex-col px-[clamp(1rem,3vw,3.2rem)] pb-[clamp(0.8rem,1.6vh,1.2rem)] pt-[clamp(4.6rem,8vh,5.8rem)]">
-          <header className="orbit-soft-head mx-auto mb-3 max-w-3xl shrink-0 text-center">
+        <div className="orbit-soft-inner relative z-[1] mx-auto flex h-full w-full max-w-[1680px] flex-col px-[clamp(1rem,3vw,3.2rem)] pb-[clamp(0.8rem,1.6vh,1.2rem)] pt-[clamp(4.8rem,8.4vh,6rem)]">
+          <header className="orbit-soft-head mx-auto mb-4 max-w-3xl shrink-0 text-center">
             <p className="orbit-work-badge mx-auto">
               <span className="orbit-work-badge-num">4</span>
               {config.kicker}
