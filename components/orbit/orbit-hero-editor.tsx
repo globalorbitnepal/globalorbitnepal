@@ -409,7 +409,7 @@ export function OrbitHeroEditor({
   const navItems: { id: "hero" | "need" | "work" | "software" | "appointments"; label: string; hint: string }[] = [
     { id: "hero", label: "Homepage hero", hint: "Headline, video, flags, marquee" },
     { id: "need", label: "Why you need us", hint: "Stats, slides, zoom video" },
-    { id: "work", label: "What we do", hint: "Unique website mosaic" },
+    { id: "work", label: "What we do", hint: "3D scroll project showcase" },
     { id: "software", label: "Enterprise software", hint: "Video backdrop, products, previews" },
     { id: "appointments", label: "Appointments", hint: "Book Appointment inbox" },
   ];
@@ -524,12 +524,13 @@ export function OrbitHeroEditor({
             <div className="mb-6 hidden lg:block">
               <h1 className="font-[family-name:var(--font-jakarta)] text-2xl font-semibold text-white">What we do</h1>
               <p className="mt-1 text-sm text-white/55">
-                Scroll-zoom mosaic of live website screenshots. Upload a full-page capture for any tile to replace it.
+                Premium 3D scroll showcase — one project at a time zooms in full screen, then zooms out as the next
+                appears. Replace images, frame type, and copy for each slide below.
               </p>
             </div>
 
             <form onSubmit={saveWork} className="space-y-6">
-              <Panel title="Section header" description="Badge and main headline above the mosaic.">
+              <Panel title="Section header" description="Badge and headline shown above the scroll showcase.">
                 <div className="grid gap-4 sm:grid-cols-2">
                   <Field
                     label="Badge number"
@@ -548,33 +549,46 @@ export function OrbitHeroEditor({
                   onChange={(value) => setWorkConfig((c) => ({ ...c, headline: value }))}
                   multiline
                 />
-                <Field
-                  label="Zoom end line"
-                  value={workConfig.madeLabel}
-                  onChange={(value) => setWorkConfig((c) => ({ ...c, madeLabel: value }))}
-                  hint="Large text that fades in when the mosaic finishes zooming"
-                />
               </Panel>
 
-              {WORK_TILE_SLOTS.map((slot) => {
+              {WORK_TILE_SLOTS.map((slot, slideIndex) => {
                 const tile = workConfig.tiles.find((t) => t.slot === slot)!;
                 const initialTile = initialWork.tiles.find((t) => t.slot === slot);
                 const label = WORK_TILE_LABELS[slot];
 
                 return (
-                  <Panel key={slot} title={label} description="Replace the live website screenshot for this mosaic tile.">
+                  <Panel
+                    key={slot}
+                    title={`Slide ${slideIndex + 1} · ${label}`}
+                    description="Choose mobile or desktop frame, upload a screenshot, and edit captions."
+                  >
+                    <label className="block text-sm">
+                      <span className="font-semibold text-white/85">Frame style</span>
+                      <select
+                        className="mt-2 w-full rounded-xl border border-white/10 bg-black/30 px-3 py-2.5 text-white"
+                        value={tile.type === "phone-screen" || tile.type === "phone-app" ? "phone" : "desktop"}
+                        onChange={(event) =>
+                          updateWorkTile(slot, {
+                            type: event.target.value === "phone" ? "phone-screen" : "browser-screen",
+                          })
+                        }
+                      >
+                        <option value="desktop">Desktop browser (wide)</option>
+                        <option value="phone">Mobile app (phone)</option>
+                      </select>
+                    </label>
                     <Field
-                      label="Browser / site title"
+                      label="Browser bar / site title"
                       value={tile.chromeTitle || tile.title || ""}
                       onChange={(value) => updateWorkTile(slot, { chromeTitle: value, title: value })}
                     />
                     <Field
-                      label="Phone time (narrow tiles)"
+                      label="Phone status time (mobile frame only)"
                       value={tile.phoneTime || ""}
                       onChange={(value) => updateWorkTile(slot, { phoneTime: value })}
                     />
                     <label className="block rounded-2xl border border-white/10 bg-black/25 p-4 text-sm">
-                      <span className="font-semibold">Replace website screenshot (JPG, PNG, WebP — full page capture)</span>
+                      <span className="font-semibold">Replace project screenshot (JPG, PNG, WebP)</span>
                       <input
                         type="file"
                         accept="image/png,image/jpeg,image/webp,image/*"

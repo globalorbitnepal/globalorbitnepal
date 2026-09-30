@@ -205,6 +205,10 @@ export function workTileBySlot(config: WorkConfig, slot: WorkTileSlot): WorkTile
   return config.tiles.find((t) => t.slot === slot) ?? DEFAULT_WORK.tiles.find((t) => t.slot === slot)!;
 }
 
+export function workSlidesOrdered(config: WorkConfig): WorkTile[] {
+  return WORK_TILE_SLOTS.map((slot) => workTileBySlot(config, slot));
+}
+
 export const WORK_TILE_LABELS: Record<WorkTileSlot, string> = {
   "col1-top": "Zen Spa",
   "col1-bottom": "Kaya Healing Spa",
