@@ -12,11 +12,34 @@ function clamp(n: number, min: number, max: number) {
 }
 
 function softwareScale(raw: number, touch: boolean) {
-  const holdEnd = touch ? 0.12 : 0.18;
-  const start = touch ? 1.02 : 1.02;
+  const holdEnd = touch ? 0.1 : 0.14;
+  const start = 1.015;
   if (raw <= holdEnd) return start;
   return start - (start - 1) * ((raw - holdEnd) / (1 - holdEnd));
 }
+
+const FEATURED = [
+  "billing-software",
+  "hotel-management-system",
+  "ota-management-system",
+  "warehouse-management",
+  "manufacturing-erp",
+  "restaurant-pos",
+  "crm-software",
+  "saas-management-system",
+];
+
+const PILLS = [
+  { label: "Billing & Finance", color: "#60a5fa" },
+  { label: "Hospitality", color: "#a78bfa" },
+  { label: "Travel & OTA", color: "#38bdf8" },
+  { label: "Inventory", color: "#34d399" },
+  { label: "Manufacturing", color: "#f0c43a" },
+  { label: "Restaurant", color: "#fb923c" },
+  { label: "CRM & Sales", color: "#818cf8" },
+  { label: "Warehouse", color: "#4ade80" },
+  { label: "SaaS Platform", color: "#c4b5fd" },
+];
 
 export function OrbitSoftwareSection({ config }: { config: SoftwareConfig }) {
   const trackRef = useRef<HTMLElement>(null);
@@ -47,6 +70,10 @@ export function OrbitSoftwareSection({ config }: { config: SoftwareConfig }) {
     return bindOrbitScroll(trackRef.current, apply, frameRef);
   }, []);
 
+  const products = FEATURED.map((slug) => config.products.find((item) => item.slug === slug)).filter(
+    (item): item is NonNullable<typeof item> => Boolean(item),
+  );
+
   return (
     <section
       ref={trackRef}
@@ -57,7 +84,7 @@ export function OrbitSoftwareSection({ config }: { config: SoftwareConfig }) {
         <div className="orbit-soft-veil" aria-hidden="true" />
 
         <div className="orbit-soft-inner relative z-[1] mx-auto flex h-full w-full max-w-[1680px] flex-col px-[clamp(1rem,3vw,3.2rem)] pb-[clamp(0.8rem,1.6vh,1.2rem)] pt-[clamp(4.8rem,8.4vh,6rem)]">
-          <header className="orbit-soft-head mx-auto mb-4 max-w-3xl shrink-0 text-center">
+          <header className="orbit-soft-head mx-auto mb-3 max-w-4xl shrink-0 text-center">
             <p className="orbit-work-badge mx-auto">
               <span className="orbit-work-badge-num">4</span>
               {config.kicker}
@@ -67,22 +94,26 @@ export function OrbitSoftwareSection({ config }: { config: SoftwareConfig }) {
             </h2>
           </header>
 
+          <div className="orbit-sw-pills" aria-hidden="true">
+            {PILLS.map((pill) => (
+              <span key={pill.label} style={{ "--pill": pill.color } as CSSProperties}>
+                <i />
+                {pill.label}
+              </span>
+            ))}
+          </div>
+
           <div className="orbit-soft-grid-stage min-h-0 flex-1">
             <div ref={wrapRef} className="orbit-soft-zoom">
               <div className="orbit-soft-grid-3d">
-                {config.products.map((item, index) => (
+                {products.map((item, index) => (
                   <Link
                     key={item.slug}
                     href={item.href}
                     className="orbit-soft-card group relative flex h-full min-h-0 flex-col overflow-hidden"
                     style={{ "--soft-accent": item.accent, "--i": index } as CSSProperties}
                   >
-                    <SoftwareProductUi
-                      slug={item.slug}
-                      title={item.title}
-                      accent={item.accent}
-                      previewSrc={item.previewSrc}
-                    />
+                    <SoftwareProductUi slug={item.slug} title={item.title} accent={item.accent} />
                   </Link>
                 ))}
               </div>
