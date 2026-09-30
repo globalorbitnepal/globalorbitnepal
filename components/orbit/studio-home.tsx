@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { OrbitCountryFlags, OrbitFlag } from "@/components/orbit/flags";
+import { OrbitCountryFlags } from "@/components/orbit/flags";
 import { OrbitFaqList, OrbitTestimonials } from "@/components/orbit/interactive";
 import { OrbitOfficesSection } from "@/components/orbit/offices-section";
+import { OrbitStudioMadeShowcase } from "@/components/orbit/studio-made-showcase";
 import { OrbitStudioProcessSection } from "@/components/orbit/studio-process-section";
 import { OrbitSoftwareSection } from "@/components/orbit/software-section";
 import { OrbitStudioHero } from "@/components/orbit/studio-hero";
@@ -14,11 +15,6 @@ import type { HeroConfig } from "@/lib/hero-config";
 import type { NeedConfig } from "@/lib/need-config";
 import type { WorkConfig } from "@/lib/work-config";
 import type { SoftwareConfig } from "@/lib/software-config";
-import {
-  ORBIT_PROJECTS,
-} from "@/lib/orbit/catalog";
-
-const FEATURED = ORBIT_PROJECTS.slice(0, 4);
 
 function DisplayHead({
   id,
@@ -74,32 +70,7 @@ export function OrbitStudioHome({
 
       <OrbitStudioProcessSection />
 
-      <section className="orbit-studio-block bg-[#09090f] px-4 py-20 sm:px-8 sm:py-24" aria-labelledby="work-heading">
-        <DisplayHead
-          id="work-heading"
-          kicker="Made at Global Orbit"
-          title="Crafted with purpose, driven by results."
-        />
-        <div className="mx-auto grid max-w-[1200px] gap-4 sm:grid-cols-2">
-          {FEATURED.map((item) => (
-            <article key={item.title} className="orbit-studio-glass rounded-[24px] p-6 sm:p-8">
-              <div className="flex items-center justify-between gap-3">
-                <p className="text-[11px] uppercase tracking-[0.18em] text-[#f0c43a]">{item.sector}</p>
-                <OrbitFlag code={item.country} name={item.country} size={22} />
-              </div>
-              <h3 className="mt-4 font-[family-name:var(--font-jakarta)] text-[1.45rem] font-semibold text-white">
-                {item.title}
-              </h3>
-              <p className="mt-3 text-[15px] leading-7 text-white/62">{item.result}</p>
-            </article>
-          ))}
-        </div>
-        <div className="mt-10 text-center">
-          <Link href="/projects" className="orbit-studio-glass inline-flex h-12 items-center rounded-full px-7 text-sm font-semibold">
-            Visit the full portfolio
-          </Link>
-        </div>
-      </section>
+      <OrbitStudioMadeShowcase />
 
       <OrbitOfficesSection />
 
