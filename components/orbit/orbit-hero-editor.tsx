@@ -409,7 +409,7 @@ export function OrbitHeroEditor({
   const navItems: { id: "hero" | "need" | "work" | "software" | "appointments"; label: string; hint: string }[] = [
     { id: "hero", label: "Homepage hero", hint: "Headline, video, flags, marquee" },
     { id: "need", label: "Why you need us", hint: "Stats, slides, zoom video" },
-    { id: "work", label: "What we do", hint: "3D scroll project showcase" },
+    { id: "work", label: "What we do", hint: "Metaminds-style mosaic zoom" },
     { id: "software", label: "Enterprise software", hint: "Video backdrop, products, previews" },
     { id: "appointments", label: "Appointments", hint: "Book Appointment inbox" },
   ];
@@ -524,13 +524,13 @@ export function OrbitHeroEditor({
             <div className="mb-6 hidden lg:block">
               <h1 className="font-[family-name:var(--font-jakarta)] text-2xl font-semibold text-white">What we do</h1>
               <p className="mt-1 text-sm text-white/55">
-                Premium 3D scroll showcase — one project at a time zooms in full screen, then zooms out as the next
-                appears. Replace images, frame type, and copy for each slide below.
+                Metaminds-style mosaic: 9 website previews in a bento grid that zooms on scroll. Upload full-page
+                screenshots; centre overlay text appears while zooming (like “Made at …”).
               </p>
             </div>
 
             <form onSubmit={saveWork} className="space-y-6">
-              <Panel title="Section header" description="Badge and headline shown above the scroll showcase.">
+              <Panel title="Section header" description="Badge, headline, and centre overlay while the mosaic zooms.">
                 <div className="grid gap-4 sm:grid-cols-2">
                   <Field
                     label="Badge number"
@@ -549,9 +549,15 @@ export function OrbitHeroEditor({
                   onChange={(value) => setWorkConfig((c) => ({ ...c, headline: value }))}
                   multiline
                 />
+                <Field
+                  label="Centre overlay (zoom scroll)"
+                  value={workConfig.madeLabel}
+                  onChange={(value) => setWorkConfig((c) => ({ ...c, madeLabel: value }))}
+                  hint="Large text over the mosaic, e.g. Made at Global Orbit"
+                />
               </Panel>
 
-              {WORK_TILE_SLOTS.map((slot, slideIndex) => {
+              {WORK_TILE_SLOTS.map((slot) => {
                 const tile = workConfig.tiles.find((t) => t.slot === slot)!;
                 const initialTile = initialWork.tiles.find((t) => t.slot === slot);
                 const label = WORK_TILE_LABELS[slot];
@@ -559,8 +565,8 @@ export function OrbitHeroEditor({
                 return (
                   <Panel
                     key={slot}
-                    title={`Slide ${slideIndex + 1} · ${label}`}
-                    description="Choose mobile or desktop frame, upload a screenshot, and edit captions."
+                    title={label}
+                    description="Tile in the scroll mosaic — desktop browser or phone frame."
                   >
                     <label className="block text-sm">
                       <span className="font-semibold text-white/85">Frame style</span>

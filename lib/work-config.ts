@@ -44,9 +44,24 @@ export const WORK_TILE_SLOTS = [
   "col2-bottom",
   "col3-top",
   "col3-bottom",
+  "col4-top",
+  "col4-bottom",
 ] as const;
 
 export type WorkTileSlot = (typeof WORK_TILE_SLOTS)[number];
+
+/** Metaminds work_grid-wrap tile order (4-column bento). */
+export const WORK_BENTO_ORDER: WorkTileSlot[] = [
+  "col1-top",
+  "col2-top",
+  "col3-top",
+  "col4-top",
+  "col1-bottom",
+  "col2-mid",
+  "col3-bottom",
+  "col4-bottom",
+  "col2-bottom",
+];
 
 const DEFAULT_TILES: WorkTile[] = [
   {
@@ -104,6 +119,22 @@ const DEFAULT_TILES: WorkTile[] = [
     imageSrc: "/brand/work/thamel-spa.jpg",
     title: "Thamel Park & Spa",
     subtitle: "Luxury wellness · Kathmandu",
+  },
+  {
+    slot: "col4-top",
+    type: "phone-screen",
+    phoneTime: "11:08",
+    imageSrc: "/brand/work/thamel-hotel.jpg",
+    title: "Thamel Park App",
+    subtitle: "Mobile booking · events",
+  },
+  {
+    slot: "col4-bottom",
+    type: "phone-screen",
+    phoneTime: "16:44",
+    imageSrc: "/brand/work/summit-seek.jpg",
+    title: "Summit Seek App",
+    subtitle: "Trek planner · Nepal",
   },
 ];
 
@@ -210,11 +241,13 @@ export function workSlidesOrdered(config: WorkConfig): WorkTile[] {
 }
 
 export const WORK_TILE_LABELS: Record<WorkTileSlot, string> = {
-  "col1-top": "Zen Spa",
-  "col1-bottom": "Kaya Healing Spa",
-  "col2-top": "Summit Seek",
-  "col2-mid": "Ambition Holidays",
-  "col2-bottom": "Marlo Hotels",
-  "col3-top": "Hotel Thamel Park",
-  "col3-bottom": "Thamel Park & Spa",
+  "col1-top": "Left phone · top",
+  "col1-bottom": "Left phone · bottom",
+  "col2-top": "Centre web · top",
+  "col2-mid": "Centre web · middle",
+  "col2-bottom": "Centre web · bottom",
+  "col3-top": "Right web · top",
+  "col3-bottom": "Right web · bottom",
+  "col4-top": "Right phone · top",
+  "col4-bottom": "Right phone · bottom",
 };
