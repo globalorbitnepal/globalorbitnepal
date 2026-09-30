@@ -524,8 +524,8 @@ export function OrbitHeroEditor({
             <div className="mb-6 hidden lg:block">
               <h1 className="font-[family-name:var(--font-jakarta)] text-2xl font-semibold text-white">What we do</h1>
               <p className="mt-1 text-sm text-white/55">
-                Metaminds-style mosaic: 9 website previews in a bento grid that zooms on scroll. Upload full-page
-                screenshots; centre overlay text appears while zooming (like “Made at …”).
+                Full-bleed website wall (Metaminds-style). Scroll zooms the mosaic; overlay text sits in the centre.
+                Replace any tile with a full website screenshot — no phone chrome.
               </p>
             </div>
 
