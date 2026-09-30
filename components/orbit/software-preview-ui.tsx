@@ -173,6 +173,8 @@ function OtaUi() {
               ["Lake Suite", "₹ 21,900", "1", "Off"],
               ["Twin Garden", "₹ 8,200", "7", "Off"],
               ["Family Quad", "₹ 16,500", "2", "On"],
+              ["Studio Loft", "₹ 9,800", "5", "Off"],
+              ["Penthouse", "₹ 34,000", "0", "On"],
             ].map(([name, rate, left, stop]) => (
               <tr key={name}>
                 <td>{name}</td>
@@ -204,6 +206,8 @@ function WarehouseUi() {
             ["D19", "Mug navy", "×86", "Queue"],
             ["B07", "Pillow", "×24", "Pick"],
             ["A04", "Towel XL", "×60", "Done"],
+            ["E11", "Minibar", "×18", "Queue"],
+            ["C18", "Slippers", "×90", "Pick"],
           ].map(([bin, sku, qty, st]) => (
             <li key={bin}>
               <b>{bin}</b>
@@ -262,6 +266,8 @@ function ErpUi() {
               ["AX-12", "Tube 40mm", "1,240", "240"],
               ["WG-03", "Weld wire", "86kg", "18kg"],
               ["PN-9", "Primer", "42L", "12L"],
+              ["FX-2", "Fastener", "8,400", "960"],
+              ["QC-1", "Gauge set", "14", "2"],
             ].map((row) => (
               <tr key={row[0]}>
                 {row.map((cell) => (
@@ -319,10 +325,10 @@ function PosUi() {
 
 function CrmUi() {
   const cols: [string, [string, string][]][] = [
-    ["Lead", [["Peak Lodge", "Web"], ["Nona", "Ads"]]],
-    ["Qualified", [["Kalon Spa", "SEO"], ["Trek Co", "Call"]]],
-    ["Proposal", [["Marlo", "PMS"], ["Haven", "ERP"]]],
-    ["Won", [["Orbit Inn", "App"], ["Bluefox", "POS"]]],
+    ["Lead", [["Peak Lodge", "Web"], ["Nona", "Ads"], ["Himal Cafe", "Walk"]]],
+    ["Qualified", [["Kalon Spa", "SEO"], ["Trek Co", "Call"], ["Astre", "Ref"]]],
+    ["Proposal", [["Marlo", "PMS"], ["Haven", "ERP"], ["Param", "Suite"]]],
+    ["Won", [["Orbit Inn", "App"], ["Bluefox", "POS"], ["Stealthy", "CRM"]]],
   ];
   return (
     <Shell nav={["Pipe", "Inbox", "Tasks", "Deals", "Team"]}>
@@ -415,6 +421,8 @@ function SaasAdminUi() {
           ["kalon", "Starter · 6 seats", "42%"],
           ["haven", "Growth · 22 seats", "61%"],
           ["peak", "Trial · 4 seats", "18%"],
+          ["nona", "Pro · 12 seats", "55%"],
+          ["astre", "Enterprise · 90", "88%"],
         ].map(([org, plan, use]) => (
           <li key={org}>
             <div>
