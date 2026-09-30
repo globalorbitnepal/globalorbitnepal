@@ -2,6 +2,7 @@ import Link from "next/link";
 import { OrbitCountryFlags, OrbitFlag } from "@/components/orbit/flags";
 import { OrbitFaqList, OrbitTestimonials } from "@/components/orbit/interactive";
 import { OrbitOfficesSection } from "@/components/orbit/offices-section";
+import { OrbitStudioProcessSection } from "@/components/orbit/studio-process-section";
 import { OrbitSoftwareSection } from "@/components/orbit/software-section";
 import { OrbitStudioHero } from "@/components/orbit/studio-hero";
 import { OrbitStudioNeed } from "@/components/orbit/studio-need";
@@ -14,7 +15,6 @@ import type { NeedConfig } from "@/lib/need-config";
 import type { WorkConfig } from "@/lib/work-config";
 import type { SoftwareConfig } from "@/lib/software-config";
 import {
-  ORBIT_PROCESS,
   ORBIT_PROJECTS,
 } from "@/lib/orbit/catalog";
 
@@ -72,24 +72,9 @@ export function OrbitStudioHome({
 
       <OrbitSoftwareSection config={software} />
 
-      <section className="bg-[#07070b] px-4 py-20 sm:px-8 sm:py-24" aria-labelledby="process-heading">
-        <DisplayHead
-          id="process-heading"
-          kicker="Smooth journey"
-          title="From idea to launch — then we stay."
-        />
-        <ol className="mx-auto grid max-w-[1200px] gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {ORBIT_PROCESS.map((item, index) => (
-            <li key={item.title} className="orbit-studio-glass rounded-[24px] p-6">
-              <p className="text-[12px] font-semibold tracking-[0.2em] text-[#f0c43a]">0{index + 1}</p>
-              <h3 className="mt-3 text-lg font-semibold text-white">{item.title}</h3>
-              <p className="mt-2 text-[14px] leading-6 text-white/62">{item.body}</p>
-            </li>
-          ))}
-        </ol>
-      </section>
+      <OrbitStudioProcessSection />
 
-      <section className="bg-[#09090f] px-4 py-20 sm:px-8 sm:py-24" aria-labelledby="work-heading">
+      <section className="orbit-studio-block bg-[#09090f] px-4 py-20 sm:px-8 sm:py-24" aria-labelledby="work-heading">
         <DisplayHead
           id="work-heading"
           kicker="Made at Global Orbit"
