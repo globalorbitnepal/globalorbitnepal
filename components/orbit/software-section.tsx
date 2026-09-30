@@ -78,7 +78,6 @@ export function OrbitSoftwareSection({ config }: { config: SoftwareConfig }) {
                     style={{ "--soft-accent": item.accent, "--i": index } as CSSProperties}
                   >
                     <SoftwareProductUi title={item.title} accent={item.accent} index={index} />
-                    <span className="orbit-soft-card-name">{item.title}</span>
                   </Link>
                 ))}
               </div>
