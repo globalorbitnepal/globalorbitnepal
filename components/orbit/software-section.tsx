@@ -5,7 +5,6 @@ import { useEffect, useRef } from "react";
 import type { CSSProperties } from "react";
 import { bindOrbitScroll, isOrbitTouch } from "@/lib/orbit/scroll-performance";
 import type { SoftwareConfig } from "@/lib/software-config";
-import { DEFAULT_SOFTWARE } from "@/lib/software-config";
 
 function SoftIcon({ index, color }: { index: number; color: string }) {
   const props = {
@@ -48,7 +47,6 @@ function easeInCubic(t: number) {
 }
 
 export function OrbitSoftwareSection({ config }: { config: SoftwareConfig }) {
-  const videoRef = useRef<HTMLVideoElement>(null);
   const trackRef = useRef<HTMLElement>(null);
   const pinRef = useRef<HTMLDivElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
@@ -56,23 +54,6 @@ export function OrbitSoftwareSection({ config }: { config: SoftwareConfig }) {
   const footRef = useRef<HTMLDivElement>(null);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
   const frameRef = useRef(0);
-  const videoSrc = config.videoSrc || DEFAULT_SOFTWARE.videoSrc;
-
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-    video.loop = true;
-    const play = () => {
-      if (!document.hidden) void video.play().catch(() => {});
-    };
-    video.addEventListener("loadeddata", play);
-    document.addEventListener("visibilitychange", play);
-    play();
-    return () => {
-      video.removeEventListener("loadeddata", play);
-      document.removeEventListener("visibilitychange", play);
-    };
-  }, [videoSrc]);
 
   useEffect(() => {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -228,17 +209,6 @@ export function OrbitSoftwareSection({ config }: { config: SoftwareConfig }) {
     >
       <div ref={pinRef} className="orbit-soft-pin">
         <div className="pointer-events-none absolute inset-0" aria-hidden="true">
-          <video
-            ref={videoRef}
-            className="h-full w-full object-cover object-[center_30%] opacity-45"
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="auto"
-          >
-            <source src={videoSrc} type={videoSrc.endsWith(".webm") ? "video/webm" : "video/mp4"} />
-          </video>
           <div className="orbit-soft-veil absolute inset-0" />
         </div>
 

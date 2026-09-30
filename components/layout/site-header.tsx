@@ -29,18 +29,18 @@ export function SiteHeader(_props: SiteHeaderProps) {
       <header
         className={`pointer-events-none inset-x-0 top-0 z-50 text-white ${home ? "absolute" : "fixed"}`}
       >
-        <div className="pointer-events-auto mx-auto grid w-full max-w-[1680px] grid-cols-[1fr_auto_1fr] items-center gap-2 px-[clamp(1.15rem,3.4vw,3.25rem)] pt-[clamp(0.12rem,0.28vw,0.22rem)] sm:gap-3">
-          <div className="min-w-0 justify-self-start">
+        <div className="pointer-events-auto mx-auto flex w-full max-w-[1680px] items-center justify-between gap-3 px-[clamp(1rem,3vw,2.75rem)] pt-[clamp(0.35rem,0.8vw,0.55rem)]">
+          <div className="min-w-0 shrink">
             <BrandLogo priority variant="bar" />
           </div>
 
-          <nav aria-label="Main navigation" className="hidden min-w-0 justify-self-center lg:flex">
+          <nav aria-label="Main navigation" className="hidden min-w-0 flex-1 justify-center lg:flex">
             <div className="orbit-header-glass orbit-header-glass-light inline-flex h-[clamp(2.65rem,3.6vw,3.15rem)] max-w-full items-center rounded-full px-2 py-0 xl:px-3">
               <StudioHeaderNav />
             </div>
           </nav>
 
-          <div className="flex min-w-0 items-center justify-self-end gap-2">
+          <div className="flex shrink-0 items-center justify-end gap-2">
             <BookAppointmentButton
               className="hidden lg:inline-flex"
               onClick={() => setAppointmentOpen(true)}

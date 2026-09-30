@@ -1779,6 +1779,10 @@ li.orbit-card:hover {
   }
 }
 
+.orbit-brand-logo-bar {
+  max-width: min(42vw, 17.5rem);
+}
+
 .orbit-header-glass {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(12, 12, 18, 0.42));
   border: 1px solid rgba(255, 255, 255, 0.16);
@@ -3195,14 +3199,14 @@ li.orbit-card:hover {
 
 .orbit-soft-track {
   height: 118vh;
-  margin-bottom: calc(-1 * clamp(5rem, 18vh, 11rem));
-  background: transparent;
+  margin-bottom: 0;
+  background: #07070c;
   overflow: visible;
 }
 
 .orbit-soft-track + .orbit-process-section {
-  margin-top: calc(-1 * clamp(4rem, 14vh, 9.5rem));
-  padding-top: 0 !important;
+  margin-top: 0;
+  padding-top: clamp(3rem, 6vh, 4.5rem) !important;
 }
 
 .orbit-process-section {
@@ -3779,8 +3783,8 @@ li.orbit-card:hover {
 
 .orbit-soft-veil {
   background:
-    linear-gradient(180deg, rgba(5, 5, 10, 0.78) 0%, rgba(5, 5, 10, 0.55) 38%, rgba(5, 5, 10, 0.88) 100%),
-    linear-gradient(90deg, rgba(5, 5, 10, 0.45) 0%, transparent 40%, transparent 70%, rgba(5, 5, 10, 0.4) 100%);
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(79, 70, 229, 0.18), transparent 52%),
+    linear-gradient(180deg, #07070c 0%, #0a0a12 45%, #07070c 100%);
 }
 
 .orbit-process-glow {
@@ -4019,16 +4023,14 @@ li.orbit-card:hover {
   justify-content: center;
   overflow: hidden;
   padding: 2rem 1.25rem;
+  background:
+    radial-gradient(ellipse 80% 50% at 20% -10%, rgba(79, 70, 229, 0.28), transparent 50%),
+    radial-gradient(ellipse 60% 40% at 90% 10%, rgba(240, 196, 58, 0.12), transparent 45%),
+    #05050b;
 }
 
 .orbit-login-stage video {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  height: 100%;
-  width: 100%;
-  object-fit: cover;
-  opacity: 0.28;
+  display: none;
 }
 
 .orbit-login-veil {

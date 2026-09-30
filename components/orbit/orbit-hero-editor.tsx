@@ -217,26 +217,6 @@ export function OrbitHeroEditor({
     }));
   }
 
-  async function uploadSoftwareVideo(file: File | undefined) {
-    if (!file) return;
-    setBusy(true);
-    setStatus("Uploading software section video…");
-    const form = new FormData();
-    form.set("kind", "softwareVideo");
-    form.set("file", file);
-    const response = await fetch("/api/orbit/upload", { method: "POST", body: form });
-    const data = (await response.json()) as { softwareConfig?: SoftwareConfig; error?: string };
-    setBusy(false);
-    if (!response.ok) {
-      setStatus(data.error || "Upload failed");
-      return;
-    }
-    if (data.softwareConfig?.videoSrc) {
-      setSoftwareConfig((current) => ({ ...current, videoSrc: data.softwareConfig!.videoSrc }));
-    }
-    setStatus("Software section video updated.");
-  }
-
   async function uploadSoftwarePreview(slug: string, file: File | undefined) {
     if (!file) return;
     setBusy(true);
@@ -351,23 +331,19 @@ export function OrbitHeroEditor({
   if (!authed) {
     return (
       <div className="orbit-login-stage">
-        <video autoPlay muted loop playsInline>
-          <source src="/brand/hero-product.mp4" type="video/mp4" />
-        </video>
         <div className="orbit-login-veil" />
         <div className="orbit-login-grid">
           <div className="orbit-login-copy">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.32em] text-[#818cf8]">Orbit · Node.js control plane</p>
-            <h1 className="mt-4 text-white">
-              Backend for the live Global Orbit site.
-            </h1>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.32em] text-[#818cf8]">Super admin · Orbit</p>
+            <h1 className="mt-4 text-white">Control the live homepage.</h1>
             <p className="mt-4 max-w-md text-[15px] leading-7 text-white/58">
-              Edit hero, Why you need us, What we do, enterprise software, and appointments from one premium Node.js dashboard.
+              Passkey unlocks a Node.js dashboard. Every homepage section — copy, images, mosaic, software — edits here and
+              goes live after save.
             </p>
             <ul className="mt-8 space-y-3 text-sm text-white/55">
-              <li className="flex gap-3"><span className="text-[#818cf8]">01</span> Homepage copy, video, and marquee</li>
-              <li className="flex gap-3"><span className="text-[#818cf8]">02</span> Real website mosaic screenshots</li>
-              <li className="flex gap-3"><span className="text-[#818cf8]">03</span> Production software catalogue</li>
+              <li className="flex gap-3"><span className="text-[#818cf8]">01</span> Hero, Need, What we do, Software</li>
+              <li className="flex gap-3"><span className="text-[#818cf8]">02</span> Image &amp; video replace per section</li>
+              <li className="flex gap-3"><span className="text-[#818cf8]">03</span> Appointment inbox</li>
             </ul>
           </div>
           <div className="orbit-login-card">
@@ -410,7 +386,7 @@ export function OrbitHeroEditor({
     { id: "hero", label: "Homepage hero", hint: "Headline, video, flags, marquee" },
     { id: "need", label: "Why you need us", hint: "Stats, slides, zoom video" },
     { id: "work", label: "What we do", hint: "Metaminds-style mosaic zoom" },
-    { id: "software", label: "Enterprise software", hint: "Video backdrop, products, previews" },
+    { id: "software", label: "Enterprise software", hint: "Product cards, copy, previews" },
     { id: "appointments", label: "Appointments", hint: "Book Appointment inbox" },
   ];
 
@@ -469,7 +445,7 @@ export function OrbitHeroEditor({
             <div className="mb-6 hidden lg:block">
               <h1 className="font-[family-name:var(--font-jakarta)] text-2xl font-semibold text-white">Enterprise software</h1>
               <p className="mt-1 text-sm text-white/55">
-                Video backdrop, kicker, headline, and every product card — matching the What we do premium look.
+                Product cards, copy, and preview images on a dark premium grid.
               </p>
             </div>
             <form onSubmit={saveSoftware} className="space-y-6">
@@ -480,18 +456,6 @@ export function OrbitHeroEditor({
                 <Field label="Supporting paragraph" value={softwareConfig.lede} onChange={(value) => setSoftwareConfig((c) => ({ ...c, lede: value }))} multiline />
                 <Field label="Footer kicker" value={softwareConfig.footerKicker} onChange={(value) => setSoftwareConfig((c) => ({ ...c, footerKicker: value }))} />
                 <Field label="Footer title" value={softwareConfig.footerTitle} onChange={(value) => setSoftwareConfig((c) => ({ ...c, footerTitle: value }))} />
-              </Panel>
-              <Panel title="Background video" description="Cinematic loop behind the product grid.">
-                <label className="block rounded-2xl border border-white/10 bg-black/25 p-4 text-sm">
-                  <span className="font-semibold">Replace video (MP4)</span>
-                  <input
-                    type="file"
-                    accept="video/mp4,video/*"
-                    className="mt-3 block w-full text-white/70"
-                    onChange={(event) => uploadSoftwareVideo(event.target.files?.[0])}
-                  />
-                  <p className="mt-2 break-all text-xs text-white/45">{softwareConfig.videoSrc}</p>
-                </label>
               </Panel>
               {softwareConfig.products.map((product, index) => (
                 <Panel key={product.slug} title={`${String(index + 1).padStart(2, "0")} · ${product.title}`}>
