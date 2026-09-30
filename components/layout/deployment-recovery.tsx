@@ -8,7 +8,8 @@ function shouldRecoverFrom(message: string) {
   return (
     /Loading chunk|ChunkLoadError|failed to fetch dynamically imported module/i.test(message) ||
     /is not a function/i.test(message) ||
-    /Server Reference ID did not match/i.test(message)
+    /Server Reference ID did not match/i.test(message) ||
+    /React Client Manifest|client reference manifest|IconMark|ViewportBoundary|MetadataBoundary/i.test(message)
   );
 }
 

@@ -8,7 +8,8 @@ function isRecoverable(error: Error) {
   return (
     /Loading chunk|ChunkLoadError|failed to fetch dynamically imported module/i.test(text) ||
     /is not a function/i.test(text) ||
-    /Server Reference ID did not match/i.test(text)
+    /Server Reference ID did not match/i.test(text) ||
+    /React Client Manifest|client reference manifest|IconMark|ViewportBoundary|MetadataBoundary/i.test(text)
   );
 }
 

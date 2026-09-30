@@ -61,6 +61,9 @@ jobs:
           done
           exit 1
 
+      - name: Verify Next.js build artifacts
+        run: npm run verify:build
+
   deploy:
     name: Deploy to VPS
     needs: quality
@@ -275,6 +278,7 @@ jobs:
           rm -rf .next-build
           NEXT_DIST_DIR=.next-build npm run build </dev/null
           test -d .next-build
+          NEXT_DIST_DIR=.next-build node scripts/verify-next-artifacts.mjs
           rm -rf .next-stale
           if [ -d .next ]; then
             mv .next .next-stale
