@@ -237,29 +237,32 @@ li.orbit-card:hover {
 }
 
 .orbit-soft-card {
-  background: linear-gradient(165deg, rgba(255, 255, 255, 0.16), rgba(8, 18, 40, 0.58));
-  border: 1px solid color-mix(in srgb, var(--soft-accent, #f0c43a) 48%, rgba(255, 255, 255, 0.2));
+  --soft-glow: color-mix(in srgb, var(--soft-accent, #f0c43a) 35%, transparent);
+  background:
+    linear-gradient(165deg, rgba(255, 255, 255, 0.18) 0%, rgba(8, 18, 40, 0.62) 48%, rgba(4, 8, 18, 0.78) 100%);
+  border: 1px solid color-mix(in srgb, var(--soft-accent, #f0c43a) 52%, rgba(255, 255, 255, 0.22));
   box-shadow:
-    0 18px 44px rgba(0, 0, 0, 0.34),
-    0 0 0 1px rgba(255, 255, 255, 0.04) inset,
-    0 1px 0 rgba(255, 255, 255, 0.24) inset,
-    0 0 40px var(--soft-glow, rgba(240, 196, 58, 0.2));
-  backdrop-filter: blur(24px) saturate(175%);
-  -webkit-backdrop-filter: blur(24px) saturate(175%);
+    0 22px 50px rgba(0, 0, 0, 0.42),
+    0 0 0 1px rgba(255, 255, 255, 0.05) inset,
+    0 1px 0 rgba(255, 255, 255, 0.28) inset,
+    0 0 48px var(--soft-glow),
+    0 12px 32px color-mix(in srgb, var(--soft-accent, #6366f1) 18%, transparent);
+  backdrop-filter: blur(26px) saturate(185%);
+  -webkit-backdrop-filter: blur(26px) saturate(185%);
   transition:
-    transform 0.25s ease,
-    border-color 0.25s ease,
-    box-shadow 0.25s ease;
+    transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.28s ease,
+    box-shadow 0.28s ease;
 }
 
 .orbit-soft-card:hover {
-  transform: translateY(-5px);
-  border-color: color-mix(in srgb, var(--soft-accent, #f0c43a) 78%, white 12%);
+  transform: translateY(-6px) scale(1.015);
+  border-color: color-mix(in srgb, var(--soft-accent, #f0c43a) 82%, white 10%);
   box-shadow:
-    0 28px 58px rgba(0, 0, 0, 0.45),
-    0 0 0 1px rgba(255, 255, 255, 0.07) inset,
-    0 1px 0 rgba(255, 255, 255, 0.3) inset,
-    0 0 52px var(--soft-glow, rgba(240, 196, 58, 0.3));
+    0 32px 64px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(255, 255, 255, 0.08) inset,
+    0 1px 0 rgba(255, 255, 255, 0.32) inset,
+    0 0 64px color-mix(in srgb, var(--soft-accent, #f0c43a) 45%, transparent);
 }
 
 @media (max-width: 519px) {
@@ -1627,6 +1630,8 @@ li.orbit-card:hover {
   flex: 1 1 auto;
   min-height: 0;
   overflow: hidden;
+  perspective: 1400px;
+  perspective-origin: 50% 18%;
 }
 
 .orbit-work-grid {
@@ -1636,8 +1641,9 @@ li.orbit-card:hover {
   width: 100%;
   height: 100%;
   padding: 0 18px 14px;
-  transform-origin: 50% 8%;
-  will-change: transform;
+  transform-origin: 50% 12%;
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
 }
 
 .orbit-work-col {
@@ -2015,6 +2021,134 @@ li.orbit-card:hover {
 
   .orbit-book-appointment-btn:hover {
     transform: none;
+  }
+}
+
+.orbit-soft-track {
+  height: 280vh;
+  background: #050508;
+}
+
+.orbit-soft-pin {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  height: 100svh;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.orbit-soft-inner {
+  will-change: transform;
+}
+
+.orbit-soft-head,
+.orbit-soft-foot {
+  will-change: transform, opacity;
+}
+
+.orbit-soft-grid-stage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1500px;
+  perspective-origin: 50% 42%;
+}
+
+.orbit-soft-grid-3d {
+  display: grid;
+  width: 100%;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  transform-style: preserve-3d;
+  transform-origin: 50% 48%;
+  will-change: transform, opacity;
+}
+
+@media (min-width: 520px) {
+  .orbit-soft-grid-3d {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 768px) {
+  .orbit-soft-grid-3d {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1280px) {
+  .orbit-soft-grid-3d {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+}
+
+.orbit-soft-card-shell {
+  --soft-shell-y: 0px;
+  --soft-shell-z: 0px;
+  --soft-shell-rx: 0deg;
+  --soft-shell-ry: 0deg;
+  --soft-shell-s: 1;
+  transform-style: preserve-3d;
+  transform: translate3d(0, var(--soft-shell-y), var(--soft-shell-z)) rotateX(var(--soft-shell-rx))
+    rotateY(var(--soft-shell-ry)) scale(var(--soft-shell-s));
+  will-change: transform, opacity;
+}
+
+.orbit-soft-card-shine {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.14) 0%,
+    transparent 42%,
+    transparent 58%,
+    rgba(255, 255, 255, 0.06) 100%
+  );
+  opacity: 0.85;
+}
+
+.orbit-soft-card > *:not(.orbit-soft-card-shine) {
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 900px) {
+  .orbit-soft-track {
+    height: 250vh;
+  }
+}
+
+@media (max-width: 640px) {
+  .orbit-soft-track {
+    height: 230vh;
+  }
+
+  .orbit-soft-grid-stage {
+    perspective-origin: 50% 38%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orbit-soft-track {
+    height: auto;
+  }
+
+  .orbit-soft-pin {
+    position: relative;
+    height: auto;
+    min-height: 0;
+  }
+
+  .orbit-soft-grid-3d,
+  .orbit-soft-card-shell {
+    transform: none !important;
+    opacity: 1 !important;
   }
 }
 

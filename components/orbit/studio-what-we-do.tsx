@@ -58,6 +58,12 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
 
   useEffect(() => {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const enterEnd = 0.34;
+    const holdEnd = 0.58;
+
+    const clamp = (n: number, min: number, max: number) => Math.min(max, Math.max(min, n));
+    const easeOut = (t: number) => 1 - (1 - t) ** 3;
+    const easeIn = (t: number) => t ** 3;
 
     const apply = () => {
       const track = trackRef.current;
@@ -65,14 +71,53 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
       if (!track || !grid) return;
       const rect = track.getBoundingClientRect();
       const travel = Math.max(track.offsetHeight - window.innerHeight, 1);
-      const raw = Math.min(1, Math.max(0, -rect.top / travel));
-      const maxScale = window.matchMedia("(max-width: 767px)").matches ? 1.18 : 1.26;
-      const scale = reduce ? 1.02 : 1 + raw * (maxScale - 1);
-      grid.style.transform = `scale(${scale})`;
-      grid.style.setProperty("--orbit-work-overlay", String(reduce ? 0.04 : 0.16 * (1 - raw)));
+      const raw = clamp(-rect.top / travel, 0, 1);
+      const maxScale = window.matchMedia("(max-width: 767px)").matches ? 1.16 : 1.24;
+
+      if (reduce) {
+        grid.style.transform = "translate3d(0, 0, 0) rotateX(0deg) scale3d(1.02, 1.02, 1)";
+        grid.style.opacity = "1";
+        grid.style.setProperty("--orbit-work-overlay", "0.04");
+      } else {
+        let scale = 1;
+        let rotX = 0;
+        let tz = 0;
+        let opacity = 1;
+        let overlay = 0.16;
+
+        if (raw < enterEnd) {
+          const t = easeOut(raw / enterEnd);
+          scale = 0.56 + t * (maxScale - 0.56);
+          rotX = 28 * (1 - t);
+          tz = -340 * (1 - t);
+          opacity = 0.45 + t * 0.55;
+          overlay = 0.28 * (1 - t);
+        } else if (raw < holdEnd) {
+          const t = (raw - enterEnd) / (holdEnd - enterEnd);
+          scale = maxScale * (0.98 + t * 0.02);
+          rotX = 0;
+          tz = 0;
+          opacity = 1;
+          overlay = 0.06;
+        } else {
+          const t = easeIn((raw - holdEnd) / (1 - holdEnd));
+          scale = maxScale * (1 - t * 0.4);
+          rotX = -24 * t;
+          tz = -300 * t;
+          opacity = 1 - t * 0.5;
+          overlay = 0.06 + t * 0.22;
+        }
+
+        const ty =
+          raw < enterEnd ? (1 - easeOut(raw / enterEnd)) * 32 : raw > holdEnd ? easeIn((raw - holdEnd) / (1 - holdEnd)) * -36 : 0;
+
+        grid.style.transform = `translate3d(0, ${ty}px, ${tz}px) rotateX(${rotX}deg) scale3d(${scale}, ${scale}, 1)`;
+        grid.style.opacity = String(opacity);
+        grid.style.setProperty("--orbit-work-overlay", String(overlay));
+      }
 
       if (madeRef.current) {
-        const show = reduce ? 1 : Math.min(1, Math.max(0, (raw - 0.64) / 0.24));
+        const show = reduce ? 1 : clamp((raw - 0.52) / 0.22, 0, 1) * (raw > holdEnd ? 1 - easeIn((raw - holdEnd) / (1 - holdEnd)) : 1);
         madeRef.current.style.opacity = String(show);
         madeRef.current.style.transform = `translate3d(0, ${12 - show * 12}px, 0)`;
       }

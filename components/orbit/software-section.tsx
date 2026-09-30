@@ -34,8 +34,26 @@ function SoftIcon({ index, color }: { index: number; color: string }) {
   return icons[index] ?? icons[0];
 }
 
+function clamp(n: number, min: number, max: number) {
+  return Math.min(max, Math.max(min, n));
+}
+
+function easeOutCubic(t: number) {
+  return 1 - (1 - t) ** 3;
+}
+
+function easeInCubic(t: number) {
+  return t ** 3;
+}
+
 export function OrbitSoftwareSection({ config }: { config: SoftwareConfig }) {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const trackRef = useRef<HTMLElement>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
+  const headRef = useRef<HTMLDivElement>(null);
+  const footRef = useRef<HTMLDivElement>(null);
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const frameRef = useRef(0);
   const videoSrc = config.videoSrc || DEFAULT_SOFTWARE.videoSrc;
 
   useEffect(() => {
@@ -54,95 +72,250 @@ export function OrbitSoftwareSection({ config }: { config: SoftwareConfig }) {
     };
   }, [videoSrc]);
 
+  useEffect(() => {
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const enterEnd = 0.36;
+    const holdEnd = 0.62;
+
+    const apply = () => {
+      const track = trackRef.current;
+      const grid = gridRef.current;
+      if (!track || !grid) return;
+
+      const travel = Math.max(track.offsetHeight - window.innerHeight, 1);
+      const rect = track.getBoundingClientRect();
+      const raw = clamp(-rect.top / travel, 0, 1);
+
+      if (reduce) {
+        grid.style.transform = "translate3d(0, 0, 0) rotateX(0deg) scale3d(1, 1, 1)";
+        grid.style.opacity = "1";
+        if (headRef.current) {
+          headRef.current.style.opacity = "1";
+          headRef.current.style.transform = "translate3d(0, 0, 0)";
+        }
+        if (footRef.current) {
+          footRef.current.style.opacity = "1";
+          footRef.current.style.transform = "translate3d(0, 0, 0)";
+        }
+        cardRefs.current.forEach((el) => {
+          if (!el) return;
+          el.style.setProperty("--soft-shell-y", "0px");
+          el.style.setProperty("--soft-shell-z", "0px");
+          el.style.setProperty("--soft-shell-rx", "0deg");
+          el.style.setProperty("--soft-shell-ry", "0deg");
+          el.style.setProperty("--soft-shell-s", "1");
+          el.style.opacity = "1";
+        });
+        return;
+      }
+
+      let scale = 1;
+      let rotX = 0;
+      let tz = 0;
+      let gridOpacity = 1;
+
+      if (raw < enterEnd) {
+        const t = easeOutCubic(raw / enterEnd);
+        scale = 0.62 + t * 0.38;
+        rotX = 26 * (1 - t);
+        tz = -240 * (1 - t);
+        gridOpacity = 0.35 + t * 0.65;
+      } else if (raw < holdEnd) {
+        const t = (raw - enterEnd) / (holdEnd - enterEnd);
+        scale = 1 + Math.sin(t * Math.PI) * 0.045;
+        rotX = 0;
+        tz = 0;
+        gridOpacity = 1;
+      } else {
+        const t = easeInCubic((raw - holdEnd) / (1 - holdEnd));
+        scale = 1 - t * 0.38;
+        rotX = -22 * t;
+        tz = -260 * t;
+        gridOpacity = 1 - t * 0.55;
+      }
+
+      grid.style.transform = `translate3d(0, ${raw < enterEnd ? (1 - easeOutCubic(raw / enterEnd)) * 28 : raw > holdEnd ? easeInCubic((raw - holdEnd) / (1 - holdEnd)) * -32 : 0}px, ${tz}px) rotateX(${rotX}deg) scale3d(${scale}, ${scale}, 1)`;
+      grid.style.opacity = String(gridOpacity);
+
+      const headIn = raw < enterEnd ? easeOutCubic(raw / enterEnd) : raw > holdEnd ? 1 - easeInCubic((raw - holdEnd) / (1 - holdEnd)) * 0.85 : 1;
+      if (headRef.current) {
+        headRef.current.style.opacity = String(0.25 + headIn * 0.75);
+        headRef.current.style.transform = `translate3d(0, ${(1 - headIn) * 22}px, 0)`;
+      }
+
+      const footShow =
+        raw < enterEnd
+          ? easeOutCubic(Math.max(0, (raw - 0.12) / (enterEnd - 0.12)))
+          : raw > holdEnd
+            ? 1 - easeInCubic((raw - holdEnd) / (1 - holdEnd))
+            : 1;
+      if (footRef.current) {
+        footRef.current.style.opacity = String(footShow * 0.95);
+        footRef.current.style.transform = `translate3d(0, ${(1 - footShow) * 18}px, 0)`;
+      }
+
+      cardRefs.current.forEach((el, index) => {
+        if (!el) return;
+        const col = index % 5;
+        const row = Math.floor(index / 5);
+        const stagger = (col * 0.028 + row * 0.04) * 0.55;
+
+        if (raw < enterEnd) {
+          const local = easeOutCubic(clamp((raw - stagger) / (enterEnd - stagger), 0, 1));
+          const ry = (col - 2) * 5 * (1 - local);
+          el.style.setProperty("--soft-shell-y", `${(1 - local) * 36}px`);
+          el.style.setProperty("--soft-shell-z", `${(1 - local) * -90}px`);
+          el.style.setProperty("--soft-shell-rx", `${(1 - local) * 14}deg`);
+          el.style.setProperty("--soft-shell-ry", `${ry}deg`);
+          el.style.setProperty("--soft-shell-s", String(0.86 + local * 0.14));
+          el.style.opacity = String(0.2 + local * 0.8);
+        } else if (raw > holdEnd) {
+          const t = easeInCubic((raw - holdEnd) / (1 - holdEnd));
+          const local = clamp(t - stagger * 0.35, 0, 1);
+          const ry = (col - 2) * 5 * local;
+          el.style.setProperty("--soft-shell-y", `${local * -28}px`);
+          el.style.setProperty("--soft-shell-z", `${local * -110}px`);
+          el.style.setProperty("--soft-shell-rx", `${local * -16}deg`);
+          el.style.setProperty("--soft-shell-ry", `${ry}deg`);
+          el.style.setProperty("--soft-shell-s", String(1 - local * 0.12));
+          el.style.opacity = String(1 - local * 0.7);
+        } else {
+          el.style.setProperty("--soft-shell-y", "0px");
+          el.style.setProperty("--soft-shell-z", "0px");
+          el.style.setProperty("--soft-shell-rx", "0deg");
+          el.style.setProperty("--soft-shell-ry", "0deg");
+          el.style.setProperty("--soft-shell-s", "1");
+          el.style.opacity = "1";
+        }
+      });
+    };
+
+    const onScroll = () => {
+      if (frameRef.current) return;
+      frameRef.current = window.requestAnimationFrame(() => {
+        frameRef.current = 0;
+        apply();
+      });
+    };
+
+    apply();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      if (frameRef.current) window.cancelAnimationFrame(frameRef.current);
+    };
+  }, [config.products.length]);
+
   return (
-    <section className="orbit-soft-stage relative isolate overflow-hidden text-white" aria-labelledby="software-heading">
-      <div className="pointer-events-none absolute inset-0" aria-hidden="true">
-        <video
-          ref={videoRef}
-          className="h-full w-full object-cover object-[center_30%] opacity-45"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
-        >
-          <source src={videoSrc} type={videoSrc.endsWith(".webm") ? "video/webm" : "video/mp4"} />
-        </video>
-        <div className="orbit-soft-veil absolute inset-0" />
-      </div>
-
-      <div className="relative z-[1] mx-auto w-full max-w-[1680px] px-[clamp(1.25rem,3.6vw,3.4rem)] py-[clamp(3.75rem,8vh,6rem)]">
-        <div className="mx-auto mb-12 max-w-3xl text-center">
-          <p className="orbit-work-badge mx-auto">
-            <span className="orbit-work-badge-num">4</span>
-            {config.kicker}
-          </p>
-          <h2 id="software-heading" className="orbit-soft-headline">
-            {config.headline} <span>{config.headlineAccent}</span>
-          </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-[15px] leading-8 text-white/62">{config.lede}</p>
+    <section
+      ref={trackRef}
+      className="orbit-soft-track relative isolate overflow-hidden text-white"
+      aria-labelledby="software-heading"
+    >
+      <div className="orbit-soft-pin">
+        <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+          <video
+            ref={videoRef}
+            className="h-full w-full object-cover object-[center_30%] opacity-45"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+          >
+            <source src={videoSrc} type={videoSrc.endsWith(".webm") ? "video/webm" : "video/mp4"} />
+          </video>
+          <div className="orbit-soft-veil absolute inset-0" />
         </div>
 
-        <div className="grid grid-cols-1 gap-4 min-[520px]:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 xl:gap-5">
-          {config.products.map((item, index) => {
-            const num = String(index + 1).padStart(2, "0");
-            return (
-              <Link
-                key={item.slug}
-                href={item.href}
-                className="orbit-soft-card group relative flex min-h-[250px] flex-col overflow-hidden rounded-[22px] p-4 sm:min-h-[270px] sm:p-5"
-                style={{ "--soft-accent": item.accent } as CSSProperties}
-              >
-                <div className="flex items-start gap-3">
-                  <span
-                    className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-[12px]"
-                    style={{
-                      background: `linear-gradient(145deg, ${item.accent}33, rgba(255,255,255,0.05))`,
-                      boxShadow: `0 0 0 1px ${item.accent}66, 0 8px 18px ${item.accent}40`,
+        <div className="orbit-soft-inner relative z-[1] mx-auto flex h-full w-full max-w-[1680px] flex-col px-[clamp(1.25rem,3.6vw,3.4rem)] py-[clamp(2.5rem,5vh,3.75rem)]">
+          <div ref={headRef} className="orbit-soft-head mx-auto mb-6 max-w-3xl shrink-0 text-center sm:mb-8">
+            <p className="orbit-work-badge mx-auto">
+              <span className="orbit-work-badge-num">4</span>
+              {config.kicker}
+            </p>
+            <h2 id="software-heading" className="orbit-soft-headline">
+              {config.headline} <span>{config.headlineAccent}</span>
+            </h2>
+            <p className="mx-auto mt-4 max-w-2xl text-[15px] leading-8 text-white/62">{config.lede}</p>
+          </div>
+
+          <div className="orbit-soft-grid-stage min-h-0 flex-1">
+            <div ref={gridRef} className="orbit-soft-grid-3d">
+              {config.products.map((item, index) => {
+                const num = String(index + 1).padStart(2, "0");
+                return (
+                  <div
+                    key={item.slug}
+                    ref={(node) => {
+                      cardRefs.current[index] = node;
                     }}
+                    className="orbit-soft-card-shell"
                   >
-                    <SoftIcon index={index} color={item.accent} />
-                  </span>
-                  <div className="min-w-0 pt-0.5">
-                    <p className="text-[11px] font-bold tracking-[0.14em]" style={{ color: item.accent }}>
-                      {num}
-                    </p>
-                    <h3 className="mt-0.5 text-[14px] font-semibold leading-snug text-white sm:text-[15px]">
-                      {item.title}
-                    </h3>
+                    <Link
+                      href={item.href}
+                      className="orbit-soft-card group relative flex min-h-[250px] flex-col overflow-hidden rounded-[22px] p-4 sm:min-h-[270px] sm:p-5"
+                      style={{ "--soft-accent": item.accent } as CSSProperties}
+                    >
+                      <div className="orbit-soft-card-shine" aria-hidden="true" />
+                      <div className="flex items-start gap-3">
+                        <span
+                          className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-[12px]"
+                          style={{
+                            background: `linear-gradient(145deg, ${item.accent}33, rgba(255,255,255,0.05))`,
+                            boxShadow: `0 0 0 1px ${item.accent}66, 0 8px 18px ${item.accent}40`,
+                          }}
+                        >
+                          <SoftIcon index={index} color={item.accent} />
+                        </span>
+                        <div className="min-w-0 pt-0.5">
+                          <p className="text-[11px] font-bold tracking-[0.14em]" style={{ color: item.accent }}>
+                            {num}
+                          </p>
+                          <h3 className="mt-0.5 text-[14px] font-semibold leading-snug text-white sm:text-[15px]">
+                            {item.title}
+                          </h3>
+                        </div>
+                      </div>
+                      <p className="mt-3 line-clamp-3 text-[12px] leading-5 text-white/65 sm:text-[13px] sm:leading-[1.55]">
+                        {item.summary}
+                      </p>
+                      <div className="relative mt-auto flex min-h-[108px] items-end justify-between gap-2 pt-4">
+                        <span className="relative z-[1] inline-flex items-center gap-2 text-[12px] font-semibold text-white/92">
+                          <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-white text-[11px] text-[#0b0b10] shadow-[0_8px_18px_rgba(255,255,255,0.18)] transition-transform group-hover:translate-x-0.5">
+                            →
+                          </span>
+                          Learn more
+                        </span>
+                        {item.previewSrc ? (
+                          <div className="pointer-events-none absolute -bottom-1 -right-2 h-[108px] w-[108px] sm:-right-1 sm:h-[116px] sm:w-[116px]">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
+                              src={item.previewSrc}
+                              alt=""
+                              className="h-full w-full object-contain object-bottom drop-shadow-[0_12px_24px_rgba(0,0,0,0.55)] transition-transform duration-300 group-hover:-translate-y-1"
+                            />
+                          </div>
+                        ) : null}
+                      </div>
+                    </Link>
                   </div>
-                </div>
-                <p className="mt-3 line-clamp-3 text-[12px] leading-5 text-white/65 sm:text-[13px] sm:leading-[1.55]">
-                  {item.summary}
-                </p>
-                <div className="relative mt-auto flex min-h-[108px] items-end justify-between gap-2 pt-4">
-                  <span className="relative z-[1] inline-flex items-center gap-2 text-[12px] font-semibold text-white/92">
-                    <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-white text-[11px] text-[#0b0b10] shadow-[0_8px_18px_rgba(255,255,255,0.18)] transition-transform group-hover:translate-x-0.5">
-                      →
-                    </span>
-                    Learn more
-                  </span>
-                  {item.previewSrc ? (
-                    <div className="pointer-events-none absolute -bottom-1 -right-2 h-[108px] w-[108px] sm:-right-1 sm:h-[116px] sm:w-[116px]">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={item.previewSrc}
-                        alt=""
-                        className="h-full w-full object-contain object-bottom drop-shadow-[0_12px_24px_rgba(0,0,0,0.55)] transition-transform duration-300 group-hover:-translate-y-1"
-                      />
-                    </div>
-                  ) : null}
-                </div>
-              </Link>
-            );
-          })}
-        </div>
+                );
+              })}
+            </div>
+          </div>
 
-        <div className="mt-12 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-end">
-          <p className="text-[10px] font-semibold uppercase tracking-[0.32em] text-white/55">{config.footerKicker}</p>
-          <p className="font-[family-name:var(--font-jakarta)] text-[clamp(1.35rem,3vw,2.1rem)] font-semibold leading-[1.15] text-white sm:text-right">
-            {config.footerTitle}
-          </p>
+          <div
+            ref={footRef}
+            className="orbit-soft-foot mt-6 flex shrink-0 flex-col items-start justify-between gap-4 sm:mt-8 sm:flex-row sm:items-end"
+          >
+            <p className="text-[10px] font-semibold uppercase tracking-[0.32em] text-white/55">{config.footerKicker}</p>
+            <p className="font-[family-name:var(--font-jakarta)] text-[clamp(1.35rem,3vw,2.1rem)] font-semibold leading-[1.15] text-white sm:text-right">
+              {config.footerTitle}
+            </p>
+          </div>
         </div>
       </div>
     </section>
