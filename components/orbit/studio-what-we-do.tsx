@@ -56,20 +56,6 @@ function WebsiteTile({
   );
 }
 
-function SpacedHeadline({ id, text }: { id: string; text: string }) {
-  const chars = [...text];
-  return (
-    <h2 id={id} className="orbit-work-headline" aria-label={text}>
-      {chars.map((char, index) => (
-        <span key={`${index}-${char}`} className="orbit-work-head-char">
-          {char === " " ? "\u00a0" : char}
-          {index < chars.length - 1 ? " " : null}
-        </span>
-      ))}
-    </h2>
-  );
-}
-
 function clamp(n: number, min: number, max: number) {
   return Math.min(max, Math.max(min, n));
 }
@@ -79,7 +65,7 @@ function smoothStep(t: number) {
   return x * x * (3 - 2 * x);
 }
 
-/** Whole bento: hold at 1.6, then ease to 1.0 (Metaminds work_grid-wrap). */
+/** Metaminds work_grid-wrap — hold zoomed in, then settle to 1.0 while scrolling. */
 function gridScale(raw: number, touch: boolean) {
   const holdEnd = touch ? 0.24 : 0.3;
   const start = touch ? 1.48 : 1.6;
@@ -88,17 +74,13 @@ function gridScale(raw: number, touch: boolean) {
   return start - (start - 1) * t;
 }
 
-/** Per-tile reveal window — staggered so tiles pop in one-by-one while scrolling. */
-function tileReveal(raw: number, index: number, touch: boolean) {
-  const step = touch ? 0.048 : 0.052;
-  const duration = touch ? 0.11 : 0.13;
-  const start = 0.03 + index * step;
-  const t = smoothStep(clamp((raw - start) / duration, 0, 1));
-  const scale = 0.42 + t * 0.58;
-  const opacity = t;
-  const y = (1 - t) * (touch ? 14 : 22);
-  const imgScale = 1.32 - t * 0.32;
-  return { scale, opacity, y, imgScale, active: t > 0 && t < 1 };
+/** Gentle inner zoom ripple (one-after-another feel) without breaking the bento layout. */
+function shotScale(raw: number, index: number, touch: boolean) {
+  const zoomStart = touch ? 0.22 : 0.28;
+  const stagger = index * (touch ? 0.022 : 0.026);
+  const span = touch ? 0.5 : 0.58;
+  const t = smoothStep(clamp((raw - zoomStart - stagger) / span, 0, 1));
+  return 1.14 - t * 0.14;
 }
 
 export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
@@ -122,18 +104,18 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
   };
 
   const preloadUrls = useMemo(() => {
-    const slots = [
-      t("col1-top"),
-      t("col2-top"),
-      t("col3-top"),
-      phoneRightTop,
-      t("col1-bottom"),
-      t("col2-mid"),
-      t("col3-bottom"),
-      phoneRightBottom,
-      t("col2-bottom"),
-    ] as WorkTile[];
-    return [...new Set(slots.map((tile) => tile.imageSrc || "/brand/work/summit-seek.jpg"))];
+    const tiles = [
+      workTileBySlot(config, "col1-top"),
+      workTileBySlot(config, "col2-top"),
+      workTileBySlot(config, "col3-top"),
+      workTileBySlot(config, "col3-top"),
+      workTileBySlot(config, "col1-bottom"),
+      workTileBySlot(config, "col2-mid"),
+      workTileBySlot(config, "col3-bottom"),
+      workTileBySlot(config, "col3-bottom"),
+      workTileBySlot(config, "col2-bottom"),
+    ];
+    return [...new Set(tiles.map((tile) => tile.imageSrc || "/brand/work/summit-seek.jpg"))];
   }, [config]);
 
   useEffect(() => {
@@ -161,15 +143,10 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
 
       track.classList.toggle("is-work-scrolling", raw > 0.02 && raw < 0.98);
 
-      const blocks = bento.querySelectorAll<HTMLElement>(".orbit-work-block");
       const shots = bento.querySelectorAll<HTMLElement>(".orbit-work-shot");
 
       if (reduce) {
         grid.style.transform = "translate3d(0, 0, 0) scale3d(1, 1, 1)";
-        blocks.forEach((el) => {
-          el.style.opacity = "1";
-          el.style.transform = "translate3d(0, 0, 0) scale(1)";
-        });
         shots.forEach((el) => {
           el.style.transform = "scale(1)";
         });
@@ -179,14 +156,10 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
       const gScale = gridScale(raw, touch);
       grid.style.transform = `translate3d(0, 0, 0) scale3d(${gScale.toFixed(5)}, ${gScale.toFixed(5)}, 1)`;
 
-      blocks.forEach((el, index) => {
+      shots.forEach((el, index) => {
         if (index >= TILE_COUNT) return;
-        const { scale, opacity, y, imgScale, active } = tileReveal(raw, index, touch);
-        el.style.opacity = opacity.toFixed(3);
-        el.style.transform = `translate3d(0, ${y.toFixed(2)}px, 0) scale(${scale.toFixed(4)})`;
-        el.classList.toggle("is-tile-animating", active);
-        const shot = shots[index];
-        if (shot) shot.style.transform = `scale(${imgScale.toFixed(4)})`;
+        const s = shotScale(raw, index, touch);
+        el.style.transform = `scale3d(${s.toFixed(4)}, ${s.toFixed(4)}, 1)`;
       });
     };
 
@@ -201,7 +174,9 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
             <span className="orbit-work-badge-num">{config.badgeNum}</span>
             {config.badgeLabel}
           </p>
-          <SpacedHeadline id="what-we-do-heading" text={config.headline} />
+          <h2 id="what-we-do-heading" className="orbit-work-headline">
+            {config.headline}
+          </h2>
         </div>
 
         <div className="orbit-work-grid-main">
@@ -219,8 +194,6 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
             </div>
           </div>
         </div>
-
-        <p className="orbit-work-made">{config.madeLabel}</p>
       </div>
     </section>
   );
