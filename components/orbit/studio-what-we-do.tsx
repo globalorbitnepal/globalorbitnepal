@@ -55,11 +55,13 @@ function WebsiteTile({
 }
 
 function SpacedHeadline({ id, text }: { id: string; text: string }) {
+  const chars = [...text];
   return (
     <h2 id={id} className="orbit-work-headline" aria-label={text}>
-      {text.split("").map((char, index) => (
-        <span key={`${char}-${index}`} className="orbit-work-head-char" aria-hidden={char === " " ? undefined : true}>
+      {chars.map((char, index) => (
+        <span key={`${index}-${char}`} className="orbit-work-head-char">
           {char === " " ? "\u00a0" : char}
+          {index < chars.length - 1 ? " " : null}
         </span>
       ))}
     </h2>
