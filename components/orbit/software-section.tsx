@@ -38,168 +38,42 @@ function clamp(n: number, min: number, max: number) {
   return Math.min(max, Math.max(min, n));
 }
 
-function easeOutCubic(t: number) {
-  return 1 - (1 - t) ** 3;
-}
-
-function easeInCubic(t: number) {
-  return t ** 3;
+/** Same curve as What we do mosaic: hold zoomed-in, then linear settle to 1. */
+function softwareScale(raw: number, touch: boolean) {
+  const holdEnd = touch ? 0.22 : 0.32;
+  const start = touch ? 1.22 : 1.38;
+  if (raw <= holdEnd) return start;
+  return start - (start - 1) * ((raw - holdEnd) / (1 - holdEnd));
 }
 
 export function OrbitSoftwareSection({ config }: { config: SoftwareConfig }) {
   const trackRef = useRef<HTMLElement>(null);
-  const pinRef = useRef<HTMLDivElement>(null);
-  const gridRef = useRef<HTMLDivElement>(null);
-  const headRef = useRef<HTMLDivElement>(null);
-  const footRef = useRef<HTMLDivElement>(null);
-  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const wrapRef = useRef<HTMLDivElement>(null);
   const frameRef = useRef(0);
 
   useEffect(() => {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const enterEnd = 0.36;
-    const holdEnd = 0.52;
-    const exitEnd = 0.78;
 
     const apply = () => {
       const track = trackRef.current;
-      const pin = pinRef.current;
-      const grid = gridRef.current;
-      if (!track || !grid) return;
+      const wrap = wrapRef.current;
+      if (!track || !wrap) return;
 
       const travel = Math.max(track.offsetHeight - window.innerHeight, 1);
-      const rect = track.getBoundingClientRect();
-      const raw = clamp(-rect.top / travel, 0, 1);
+      const raw = clamp(-track.getBoundingClientRect().top / travel, 0, 1);
+      track.classList.toggle("is-soft-scrolling", raw > 0.02 && raw < 0.98);
 
       if (reduce) {
-        grid.style.transform = "translate3d(0, 0, 0) rotateX(0deg) scale3d(1, 1, 1)";
-        grid.style.opacity = "1";
-        if (headRef.current) {
-          headRef.current.style.opacity = "1";
-          headRef.current.style.transform = "translate3d(0, 0, 0)";
-        }
-        if (footRef.current) {
-          footRef.current.style.opacity = "1";
-          footRef.current.style.transform = "translate3d(0, 0, 0)";
-        }
-        cardRefs.current.forEach((el) => {
-          if (!el) return;
-          el.style.setProperty("--soft-shell-y", "0px");
-          el.style.setProperty("--soft-shell-z", "0px");
-          el.style.setProperty("--soft-shell-rx", "0deg");
-          el.style.setProperty("--soft-shell-ry", "0deg");
-          el.style.setProperty("--soft-shell-s", "1");
-          el.style.opacity = "1";
-        });
-        if (pin) pin.style.opacity = "1";
+        wrap.style.transform = "translate3d(0,0,0) scale3d(1,1,1)";
         return;
       }
 
-      const touch = isOrbitTouch();
-      let scale = 1;
-      let rotX = 0;
-      let tz = 0;
-      let gridOpacity = 1;
-
-      if (raw < enterEnd) {
-        const t = easeOutCubic(raw / enterEnd);
-        scale = 0.62 + t * 0.38;
-        rotX = 26 * (1 - t);
-        tz = -240 * (1 - t);
-        gridOpacity = 0.35 + t * 0.65;
-      } else if (raw < holdEnd) {
-        const t = (raw - enterEnd) / (holdEnd - enterEnd);
-        scale = 1 + Math.sin(t * Math.PI) * 0.045;
-        rotX = 0;
-        tz = 0;
-        gridOpacity = 1;
-      } else {
-        const t = easeInCubic(clamp((raw - holdEnd) / (exitEnd - holdEnd), 0, 1));
-        scale = 1 - t * 0.38;
-        rotX = -22 * t;
-        tz = -260 * t;
-        gridOpacity = 1 - t * 0.55;
-      }
-
-      const exitLift =
-        raw > holdEnd ? easeInCubic(clamp((raw - holdEnd) / (exitEnd - holdEnd), 0, 1)) * -32 : 0;
-
-      const rx = touch ? 0 : rotX;
-      const z = touch ? 0 : tz;
-      const lift = raw < enterEnd ? (1 - easeOutCubic(raw / enterEnd)) * (touch ? 14 : 28) : exitLift * (touch ? 0.5 : 1);
-      grid.style.transform = `translate3d(0, ${lift}px, ${z}px) rotateX(${rx}deg) scale3d(${scale}, ${scale}, 1)`;
-      grid.style.opacity = String(gridOpacity);
-
-      const exitT = () => easeInCubic(clamp((raw - holdEnd) / (exitEnd - holdEnd), 0, 1));
-      const headIn = raw < enterEnd ? easeOutCubic(raw / enterEnd) : raw > holdEnd ? 1 - exitT() * 0.85 : 1;
-      if (headRef.current) {
-        headRef.current.style.opacity = String(0.25 + headIn * 0.75);
-        headRef.current.style.transform = `translate3d(0, ${(1 - headIn) * 22}px, 0)`;
-      }
-
-      const footShow =
-        raw < enterEnd
-          ? easeOutCubic(Math.max(0, (raw - 0.12) / (enterEnd - 0.12)))
-          : raw > holdEnd
-            ? 1 - exitT()
-            : 1;
-      if (footRef.current) {
-        footRef.current.style.opacity = String(footShow * 0.95);
-        footRef.current.style.transform = `translate3d(0, ${(1 - footShow) * 18}px, 0)`;
-      }
-
-      cardRefs.current.forEach((el, index) => {
-        if (!el) return;
-        const col = index % 5;
-        const row = Math.floor(index / 5);
-        const stagger = (col * 0.028 + row * 0.04) * 0.55;
-
-        if (raw < enterEnd) {
-          const local = easeOutCubic(clamp((raw - stagger) / (enterEnd - stagger), 0, 1));
-          const ry = touch ? 0 : (col - 2) * 5 * (1 - local);
-          el.style.setProperty("--soft-shell-y", `${(1 - local) * (touch ? 18 : 36)}px`);
-          el.style.setProperty("--soft-shell-z", touch ? "0px" : `${(1 - local) * -90}px`);
-          el.style.setProperty("--soft-shell-rx", touch ? "0deg" : `${(1 - local) * 14}deg`);
-          el.style.setProperty("--soft-shell-ry", touch ? "0deg" : `${ry}deg`);
-          el.style.setProperty("--soft-shell-s", String(0.86 + local * 0.14));
-          el.style.opacity = String(0.2 + local * 0.8);
-        } else if (raw > holdEnd) {
-          const t = exitT();
-          const local = clamp(t - stagger * 0.35, 0, 1);
-          const ry = touch ? 0 : (col - 2) * 5 * local;
-          el.style.setProperty("--soft-shell-y", `${local * (touch ? -14 : -28)}px`);
-          el.style.setProperty("--soft-shell-z", touch ? "0px" : `${local * -110}px`);
-          el.style.setProperty("--soft-shell-rx", touch ? "0deg" : `${local * -16}deg`);
-          el.style.setProperty("--soft-shell-ry", touch ? "0deg" : `${ry}deg`);
-          el.style.setProperty("--soft-shell-s", String(1 - local * 0.12));
-          el.style.opacity = String(1 - local * 0.7);
-        } else {
-          el.style.setProperty("--soft-shell-y", "0px");
-          el.style.setProperty("--soft-shell-z", "0px");
-          el.style.setProperty("--soft-shell-rx", "0deg");
-          el.style.setProperty("--soft-shell-ry", "0deg");
-          el.style.setProperty("--soft-shell-s", "1");
-          el.style.opacity = "1";
-        }
-      });
-
-      if (pin) {
-        if (raw >= exitEnd) {
-          pin.style.opacity = "0";
-          pin.style.pointerEvents = "none";
-        } else if (raw > holdEnd) {
-          const fade = easeInCubic((raw - holdEnd) / (exitEnd - holdEnd));
-          pin.style.opacity = String(1 - fade * 0.94);
-          pin.style.pointerEvents = fade > 0.65 ? "none" : "";
-        } else {
-          pin.style.opacity = "1";
-          pin.style.pointerEvents = "";
-        }
-      }
+      const scale = softwareScale(raw, isOrbitTouch());
+      wrap.style.transform = `translate3d(0,0,0) scale3d(${scale.toFixed(5)}, ${scale.toFixed(5)}, 1)`;
     };
 
     return bindOrbitScroll(trackRef.current, apply, frameRef);
-  }, [config.products.length]);
+  }, []);
 
   return (
     <section
@@ -207,13 +81,11 @@ export function OrbitSoftwareSection({ config }: { config: SoftwareConfig }) {
       className="orbit-soft-track relative isolate text-white"
       aria-labelledby="software-heading"
     >
-      <div ref={pinRef} className="orbit-soft-pin">
-        <div className="pointer-events-none absolute inset-0" aria-hidden="true">
-          <div className="orbit-soft-veil absolute inset-0" />
-        </div>
+      <div className="orbit-soft-pin">
+        <div className="orbit-soft-veil" aria-hidden="true" />
 
-        <div className="orbit-soft-inner relative z-[1] mx-auto flex h-full w-full max-w-[1680px] flex-col px-[clamp(1.25rem,3.6vw,3.4rem)] pb-[clamp(1.25rem,2.5vh,2rem)] pt-[clamp(2.25rem,4.5vh,3.25rem)]">
-          <div ref={headRef} className="orbit-soft-head mx-auto mb-6 max-w-3xl shrink-0 text-center sm:mb-8">
+        <div className="orbit-soft-inner relative z-[1] mx-auto flex h-full w-full max-w-[1680px] flex-col px-[clamp(1rem,3vw,3.2rem)] pb-[clamp(1rem,2vh,1.5rem)] pt-[clamp(4.6rem,8vh,5.75rem)]">
+          <header className="orbit-soft-head mx-auto mb-4 max-w-3xl shrink-0 text-center sm:mb-5">
             <p className="orbit-work-badge mx-auto">
               <span className="orbit-work-badge-num">4</span>
               {config.kicker}
@@ -221,30 +93,29 @@ export function OrbitSoftwareSection({ config }: { config: SoftwareConfig }) {
             <h2 id="software-heading" className="orbit-soft-headline">
               {config.headline} <span>{config.headlineAccent}</span>
             </h2>
-            <p className="mx-auto mt-4 max-w-2xl text-[15px] leading-8 text-white/62">{config.lede}</p>
-          </div>
+            {config.lede ? (
+              <p className="orbit-soft-lede mx-auto mt-2 max-w-2xl text-[14px] leading-6 text-white/62 sm:mt-3 sm:text-[15px] sm:leading-7">
+                {config.lede}
+              </p>
+            ) : null}
+          </header>
 
           <div className="orbit-soft-grid-stage min-h-0 flex-1">
-            <div ref={gridRef} className="orbit-soft-grid-3d">
-              {config.products.map((item, index) => {
-                const num = String(index + 1).padStart(2, "0");
-                return (
-                  <div
-                    key={item.slug}
-                    ref={(node) => {
-                      cardRefs.current[index] = node;
-                    }}
-                    className="orbit-soft-card-shell"
-                  >
+            <div ref={wrapRef} className="orbit-soft-zoom">
+              <div className="orbit-soft-grid-3d">
+                {config.products.map((item, index) => {
+                  const num = String(index + 1).padStart(2, "0");
+                  return (
                     <Link
+                      key={item.slug}
                       href={item.href}
-                      className="orbit-soft-card group relative flex min-h-[250px] flex-col overflow-hidden rounded-[22px] p-4 sm:min-h-[270px] sm:p-5"
+                      className="orbit-soft-card group relative flex min-h-0 flex-col overflow-hidden rounded-[16px] p-3 sm:rounded-[18px] sm:p-4"
                       style={{ "--soft-accent": item.accent } as CSSProperties}
                     >
                       <div className="orbit-soft-card-shine" aria-hidden="true" />
-                      <div className="flex items-start gap-3">
+                      <div className="flex min-w-0 items-start gap-2.5">
                         <span
-                          className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-[12px]"
+                          className="orbit-soft-icon inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-[11px]"
                           style={{
                             background: `linear-gradient(145deg, ${item.accent}33, rgba(255,255,255,0.05))`,
                             boxShadow: `0 0 0 1px ${item.accent}66, 0 8px 18px ${item.accent}40`,
@@ -253,48 +124,45 @@ export function OrbitSoftwareSection({ config }: { config: SoftwareConfig }) {
                           <SoftIcon index={index} color={item.accent} />
                         </span>
                         <div className="min-w-0 pt-0.5">
-                          <p className="text-[11px] font-bold tracking-[0.14em]" style={{ color: item.accent }}>
+                          <p className="orbit-soft-num text-[10px] font-bold tracking-[0.14em]" style={{ color: item.accent }}>
                             {num}
                           </p>
-                          <h3 className="mt-0.5 text-[14px] font-semibold leading-snug text-white sm:text-[15px]">
+                          <h3 className="orbit-soft-card-title mt-0.5 text-[13px] font-semibold leading-snug text-white sm:text-[14px]">
                             {item.title}
                           </h3>
                         </div>
                       </div>
-                      <p className="mt-3 line-clamp-3 text-[12px] leading-5 text-white/65 sm:text-[13px] sm:leading-[1.55]">
+                      <p className="orbit-soft-card-copy mt-2 line-clamp-2 text-[11px] leading-4 text-white/65 sm:mt-2.5 sm:text-[12px] sm:leading-5">
                         {item.summary}
                       </p>
-                      <div className="relative mt-auto flex min-h-[108px] items-end justify-between gap-2 pt-4">
-                        <span className="relative z-[1] inline-flex items-center gap-2 text-[12px] font-semibold text-white/92">
-                          <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-white text-[11px] text-[#0b0b10] shadow-[0_8px_18px_rgba(255,255,255,0.18)] transition-transform group-hover:translate-x-0.5">
+                      <div className="orbit-soft-card-foot relative mt-auto flex min-h-0 items-end justify-between gap-2 pt-2">
+                        <span className="orbit-soft-more relative z-[1] inline-flex items-center gap-1.5 text-[11px] font-semibold text-white/92">
+                          <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-white text-[10px] text-[#0b0b10]">
                             →
                           </span>
                           Learn more
                         </span>
                         {item.previewSrc ? (
-                          <div className="pointer-events-none absolute -bottom-1 -right-2 h-[108px] w-[108px] sm:-right-1 sm:h-[116px] sm:w-[116px]">
+                          <div className="orbit-soft-preview pointer-events-none h-11 w-11 shrink-0 sm:h-14 sm:w-14">
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img
                               src={item.previewSrc}
                               alt=""
-                              className="h-full w-full object-contain object-bottom drop-shadow-[0_12px_24px_rgba(0,0,0,0.55)] transition-transform duration-300 group-hover:-translate-y-1"
+                              className="h-full w-full object-contain object-bottom"
                             />
                           </div>
                         ) : null}
                       </div>
                     </Link>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
             </div>
           </div>
 
-          <div
-            ref={footRef}
-            className="orbit-soft-foot mt-6 flex shrink-0 flex-col items-start justify-between gap-4 sm:mt-8 sm:flex-row sm:items-end"
-          >
+          <div className="orbit-soft-foot mt-4 flex shrink-0 flex-col items-start justify-between gap-2 sm:mt-5 sm:flex-row sm:items-end">
             <p className="text-[10px] font-semibold uppercase tracking-[0.32em] text-white/55">{config.footerKicker}</p>
-            <p className="font-[family-name:var(--font-jakarta)] text-[clamp(1.35rem,3vw,2.1rem)] font-semibold leading-[1.15] text-white sm:text-right">
+            <p className="font-[family-name:var(--font-jakarta)] text-[clamp(1.15rem,2.4vw,1.75rem)] font-semibold leading-[1.2] text-white sm:text-right">
               {config.footerTitle}
             </p>
           </div>
