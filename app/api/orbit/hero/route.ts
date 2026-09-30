@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { parseHeroConfig } from "@/lib/hero-config";
 import { getHeroConfig, saveHeroConfig } from "@/lib/hero-store";
 import { isOrbitAuthed } from "@/lib/orbit-auth";
+import { revalidatePath } from "next/cache";
 
 export async function GET() {
   if (!(await isOrbitAuthed())) {
@@ -17,5 +18,6 @@ export async function POST(request: Request) {
   const body = await request.json();
   const config = parseHeroConfig(body);
   await saveHeroConfig(config);
+  revalidatePath("/");
   return NextResponse.json({ ok: true, config });
 }

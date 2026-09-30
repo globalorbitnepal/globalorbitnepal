@@ -1,5 +1,6 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
+import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 import { getHeroConfig, heroUploadDir, saveHeroConfig } from "@/lib/hero-store";
 import { getNeedConfig, saveNeedConfig } from "@/lib/need-store";
@@ -116,6 +117,7 @@ export async function POST(request: Request) {
     const need = await getNeedConfig();
     need.videoSrc = `/api/media/hero/${name}?v=${stamp}`;
     await saveNeedConfig(need);
+    revalidatePath("/");
     return NextResponse.json({ ok: true, needConfig: need });
   }
   if (isWorkImage) {
@@ -125,12 +127,14 @@ export async function POST(request: Request) {
       tile.slot === tileSlot ? { ...tile, imageSrc: src } : tile,
     );
     await saveWorkConfig(work);
+    revalidatePath("/");
     return NextResponse.json({ ok: true, workConfig: work });
   }
   if (isSoftwareVideo) {
     const software = await getSoftwareConfig();
     software.videoSrc = `/api/media/hero/${name}?v=${stamp}`;
     await saveSoftwareConfig(software);
+    revalidatePath("/");
     return NextResponse.json({ ok: true, softwareConfig: software });
   }
   if (isSoftwarePreview) {
@@ -140,6 +144,7 @@ export async function POST(request: Request) {
       product.slug === productSlug ? { ...product, previewSrc: src } : product,
     );
     await saveSoftwareConfig(software);
+    revalidatePath("/");
     return NextResponse.json({ ok: true, softwareConfig: software });
   }
   if (isTrustLogo) {
@@ -154,5 +159,6 @@ export async function POST(request: Request) {
     config.imageSrc = `/api/media/hero/${name}?v=${stamp}`;
   }
   await saveHeroConfig(config);
+  revalidatePath("/");
   return NextResponse.json({ ok: true, config });
 }

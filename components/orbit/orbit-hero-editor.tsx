@@ -81,7 +81,9 @@ export function OrbitHeroEditor({
   const [password, setPassword] = useState("");
   const [status, setStatus] = useState("");
   const [busy, setBusy] = useState(false);
-  const [section, setSection] = useState<"hero" | "need" | "work" | "software" | "appointments">("hero");
+  const [section, setSection] = useState<
+    "overview" | "hero" | "need" | "work" | "software" | "appointments"
+  >("overview");
 
   const set = (key: keyof HeroConfig) => (value: string | boolean) => {
     setConfig((current) => ({ ...current, [key]: value }));
@@ -101,7 +103,7 @@ export function OrbitHeroEditor({
       setStatus(data.error || "Login failed");
       return;
     }
-    window.location.reload();
+    window.location.assign("/orbit");
   }
 
   async function saveNeed(event: React.FormEvent) {
@@ -113,7 +115,7 @@ export function OrbitHeroEditor({
       body: JSON.stringify(needConfig),
     });
     setBusy(false);
-    setStatus(response.ok ? "Saved. Review the Why section on the homepage." : "Save failed");
+    setStatus(response.ok ? "Saved. Homepage updates in a few seconds — open the live site." : "Save failed");
   }
 
   async function uploadNeedVideo(file: File | undefined) {
@@ -157,7 +159,7 @@ export function OrbitHeroEditor({
       body: JSON.stringify(workConfig),
     });
     setBusy(false);
-    setStatus(response.ok ? "Saved. Review the What we do section on the homepage." : "Save failed");
+    setStatus(response.ok ? "Saved. Homepage updates in a few seconds — open the live site." : "Save failed");
   }
 
   function updateWorkTile(slot: string, patch: Partial<WorkTile>) {
@@ -207,7 +209,7 @@ export function OrbitHeroEditor({
       body: JSON.stringify(softwareConfig),
     });
     setBusy(false);
-    setStatus(response.ok ? "Saved. Review the Enterprise software section on the homepage." : "Save failed");
+    setStatus(response.ok ? "Saved. Homepage updates in a few seconds — open the live site." : "Save failed");
   }
 
   function updateSoftwareProduct(slug: string, patch: Partial<SoftwareProduct>) {
@@ -248,7 +250,7 @@ export function OrbitHeroEditor({
       body: JSON.stringify(config),
     });
     setBusy(false);
-    setStatus(response.ok ? "Saved. Review the homepage." : "Save failed");
+    setStatus(response.ok ? "Saved. Homepage updates in a few seconds — open the live site." : "Save failed");
   }
 
   async function upload(kind: "image" | "video", file: File | undefined) {
@@ -382,13 +384,23 @@ export function OrbitHeroEditor({
     );
   }
 
-  const navItems: { id: "hero" | "need" | "work" | "software" | "appointments"; label: string; hint: string }[] = [
-    { id: "hero", label: "Homepage hero", hint: "Headline, video, flags, marquee" },
+  const navItems: {
+    id: "overview" | "hero" | "need" | "work" | "software" | "appointments";
+    label: string;
+    hint: string;
+  }[] = [
+    { id: "overview", label: "Dashboard", hint: "Live homepage at a glance" },
+    { id: "hero", label: "Hero", hint: "Headline, video, flags, marquee" },
     { id: "need", label: "Why you need us", hint: "Stats, slides, zoom video" },
-    { id: "work", label: "What we do", hint: "Metaminds-style mosaic zoom" },
+    { id: "work", label: "What we do", hint: "Website mosaic wall" },
     { id: "software", label: "Enterprise software", hint: "Product cards, copy, previews" },
     { id: "appointments", label: "Appointments", hint: "Book Appointment inbox" },
   ];
+
+  async function logout() {
+    await fetch("/api/orbit/logout", { method: "POST" });
+    window.location.assign("/orbit");
+  }
 
   return (
     <div className="orbit-dash-shell flex-col lg:flex-row">
@@ -419,6 +431,13 @@ export function OrbitHeroEditor({
           >
             View live site →
           </Link>
+          <button
+            type="button"
+            onClick={() => void logout()}
+            className="mt-2 w-full rounded-2xl border border-white/10 px-4 py-3 text-sm font-medium text-white/55 hover:bg-white/5 hover:text-white"
+          >
+            Log out
+          </button>
         </div>
       </aside>
 
@@ -438,7 +457,41 @@ export function OrbitHeroEditor({
           ))}
         </div>
 
-        {section === "appointments" ? (
+        {section === "overview" ? (
+          <div className="space-y-6">
+            <div>
+              <h1 className="font-[family-name:var(--font-jakarta)] text-2xl font-semibold text-white">Control plane</h1>
+              <p className="mt-1 text-sm text-white/55">
+                Super admin for the live homepage. Edit one section, save, then refresh the public site — updates land in
+                seconds (no rebuild).
+              </p>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2">
+              {(
+                [
+                  ["Hero", "headline, CTAs, video, trust logos", "hero"],
+                  ["Why you need us", "stats, slides, zoom video", "need"],
+                  ["What we do", "8 website mosaic tiles", "work"],
+                  ["Enterprise software", `${softwareConfig.products.length} product cards`, "software"],
+                ] as const
+              ).map(([title, hint, id]) => (
+                <button
+                  key={id}
+                  type="button"
+                  onClick={() => setSection(id)}
+                  className="orbit-studio-glass rounded-3xl p-5 text-left transition hover:border-white/20"
+                >
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#818cf8]">{title}</p>
+                  <p className="mt-2 text-sm text-white/60">{hint}</p>
+                  <p className="mt-4 text-xs text-white/40">Open editor →</p>
+                </button>
+              ))}
+            </div>
+            <p className="text-xs text-white/40">
+              Passkey is stored only in the server environment. Appointments open from the sidebar.
+            </p>
+          </div>
+        ) : section === "appointments" ? (
           <OrbitAppointmentsPanel />
         ) : section === "software" ? (
           <>

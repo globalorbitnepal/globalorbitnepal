@@ -1779,8 +1779,13 @@ li.orbit-card:hover {
   }
 }
 
-.orbit-brand-logo-bar {
-  max-width: min(42vw, 17.5rem);
+.orbit-header-bar {
+  background: linear-gradient(180deg, rgba(7, 7, 11, 0.72), rgba(7, 7, 11, 0.28) 70%, transparent);
+  pointer-events: none;
+}
+
+.orbit-header-bar > * {
+  pointer-events: auto;
 }
 
 .orbit-header-glass {

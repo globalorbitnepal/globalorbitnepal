@@ -1,3 +1,4 @@
+import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 import { parseNeedConfig } from "@/lib/need-config";
 import { getNeedConfig, saveNeedConfig } from "@/lib/need-store";
@@ -17,5 +18,6 @@ export async function POST(request: Request) {
   const body = await request.json();
   const config = parseNeedConfig(body);
   await saveNeedConfig(config);
+  revalidatePath("/");
   return NextResponse.json({ ok: true, config });
 }
