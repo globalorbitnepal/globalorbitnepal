@@ -140,7 +140,7 @@ const DEFAULT_TILES: WorkTile[] = [
 export const DEFAULT_WORK: WorkConfig = {
   badgeNum: "3",
   badgeLabel: "What we do",
-  headline: "Helped businesses transform ideas into intuitive designs.",
+  headline: "Websites we ship.",
   madeLabel: "Made at Global Orbit",
   tiles: DEFAULT_TILES,
 };
@@ -232,7 +232,9 @@ export function parseWorkConfig(raw: unknown): WorkConfig {
   return {
     badgeNum: str("badgeNum", DEFAULT_WORK.badgeNum),
     badgeLabel: str("badgeLabel", DEFAULT_WORK.badgeLabel),
-    headline: str("headline", DEFAULT_WORK.headline),
+    headline: str("headline", DEFAULT_WORK.headline).includes("transform ideas")
+      ? DEFAULT_WORK.headline
+      : str("headline", DEFAULT_WORK.headline),
     madeLabel: str("madeLabel", DEFAULT_WORK.madeLabel),
     tiles,
   };

@@ -1,31 +1,9 @@
 "use client";
 
 import { useEffect, useMemo, useRef } from "react";
+import { DEMO_SITES, DemoWebsite } from "@/components/orbit/demo-sites";
 import { bindOrbitScroll, isOrbitTouch } from "@/lib/orbit/scroll-performance";
-import {
-  WORK_BENTO_ORDER,
-  workTileBySlot,
-  type WorkConfig,
-  type WorkTile,
-  type WorkTileSlot,
-} from "@/lib/work-config";
-
-function WorkBlock({ tile, priority }: { tile: WorkTile; priority?: boolean }) {
-  const src = tile.imageSrc || "/brand/work/work-journey.jpg";
-  return (
-    <article className="orbit-work-block">
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        className="orbit-work-shot"
-        src={src}
-        alt={tile.title || tile.chromeTitle || "Website"}
-        loading={priority ? "eager" : "lazy"}
-        decoding="async"
-        draggable={false}
-      />
-    </article>
-  );
-}
+import type { WorkConfig } from "@/lib/work-config";
 
 function clamp(n: number, min: number, max: number) {
   return Math.min(max, Math.max(min, n));
@@ -36,19 +14,18 @@ function smoothStep(t: number) {
   return x * x * (3 - 2 * x);
 }
 
-/** Metaminds: hold ~1.6 until 30% then linear settle to 1.0 */
 function mosaicScale(raw: number, touch: boolean) {
-  const holdEnd = touch ? 0.22 : 0.32;
-  const start = touch ? 1.38 : 1.55;
+  const holdEnd = touch ? 0.16 : 0.22;
+  const start = touch ? 1.16 : 1.28;
   if (raw <= holdEnd) return start;
   return start - (start - 1) * ((raw - holdEnd) / (1 - holdEnd));
 }
 
 function madeLabelProgress(raw: number) {
-  if (raw < 0.28) return 0;
-  if (raw < 0.48) return smoothStep((raw - 0.28) / 0.2);
-  if (raw < 0.88) return 1;
-  return 1 - smoothStep((raw - 0.88) / 0.12);
+  if (raw < 0.22) return 0;
+  if (raw < 0.4) return smoothStep((raw - 0.22) / 0.18);
+  if (raw < 0.86) return 1;
+  return 1 - smoothStep((raw - 0.86) / 0.12);
 }
 
 export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
@@ -56,19 +33,7 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const madeRef = useRef<HTMLParagraphElement>(null);
   const frameRef = useRef(0);
-
-  const tiles = useMemo(
-    () => WORK_BENTO_ORDER.map((slot) => workTileBySlot(config, slot as WorkTileSlot)),
-    [config],
-  );
-
-  useEffect(() => {
-    [...new Set(tiles.map((t) => t.imageSrc || "/brand/work/work-journey.jpg"))].forEach((src) => {
-      const img = new Image();
-      img.decoding = "async";
-      img.src = src;
-    });
-  }, [tiles]);
+  const sites = useMemo(() => DEMO_SITES, []);
 
   useEffect(() => {
     const track = trackRef.current;
@@ -81,7 +46,6 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
 
       const travel = Math.max(track.offsetHeight - window.innerHeight, 1);
       const raw = clamp(-track.getBoundingClientRect().top / travel, 0, 1);
-      const touch = isOrbitTouch();
       track.classList.toggle("is-work-scrolling", raw > 0.02 && raw < 0.98);
 
       if (reduce) {
@@ -90,13 +54,13 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
         return;
       }
 
-      const scale = mosaicScale(raw, touch);
+      const scale = mosaicScale(raw, isOrbitTouch());
       wrap.style.transform = `translate3d(0,0,0) scale3d(${scale.toFixed(5)}, ${scale.toFixed(5)}, 1)`;
 
       if (madeRef.current) {
         const m = madeLabelProgress(raw);
         madeRef.current.style.opacity = m.toFixed(3);
-        madeRef.current.style.transform = `translate3d(-50%, -50%, 0) scale(${(0.94 + m * 0.06).toFixed(3)})`;
+        madeRef.current.style.transform = `translate3d(-50%, -50%, 0) scale(${(0.96 + m * 0.04).toFixed(3)})`;
       }
     };
 
@@ -119,8 +83,10 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
         <div className="orbit-work-mosaic-main">
           <div ref={wrapRef} className="orbit-work-mosaic-wrap">
             <div className="orbit-work-mosaic">
-              {tiles.map((tile, index) => (
-                <WorkBlock key={tile.slot} tile={tile} priority={index < 4} />
+              {sites.map((site) => (
+                <div key={site.id} className="orbit-work-block">
+                  <DemoWebsite site={site} />
+                </div>
               ))}
             </div>
             <p ref={madeRef} className="orbit-work-made">
