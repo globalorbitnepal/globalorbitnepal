@@ -69,6 +69,18 @@ export function OrbitOfficesSection() {
           </p>
         </header>
 
+        <div className="orbit-offices-ticker mb-8 sm:mb-10" aria-hidden="true">
+          <div className="orbit-offices-ticker-track">
+            {[0, 1].map((pass) =>
+              ORBIT_BRAND.salesOffices.map((office) => (
+                <span key={`${pass}-${office.code}`}>
+                  Sales office · {office.country}
+                </span>
+              )),
+            )}
+          </div>
+        </div>
+
         <ul className="orbit-offices-grid">
           {ORBIT_BRAND.salesOffices.map((office, index) => (
             <li
@@ -84,7 +96,7 @@ export function OrbitOfficesSection() {
                 <div className="orbit-offices-visual">
                   <Image
                     src={office.image}
-                    alt={office.landmark}
+                    alt={`${office.city} sales office`}
                     fill
                     unoptimized
                     sizes="(max-width: 640px) 100vw, 33vw"
@@ -96,7 +108,7 @@ export function OrbitOfficesSection() {
                   </div>
                 </div>
                 <div className="orbit-offices-copy">
-                  <p className="orbit-offices-landmark">{office.landmark}</p>
+                  <p className="orbit-offices-landmark">Sales office</p>
                   <h3 className="orbit-offices-country">{office.country}</h3>
                   <p className="orbit-offices-city">{office.city}</p>
                   <div className="orbit-offices-contact">
