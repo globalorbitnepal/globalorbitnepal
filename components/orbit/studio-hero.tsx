@@ -16,7 +16,8 @@ export function OrbitStudioHero({ config }: Props) {
 
   useEffect(() => {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) return;
+    const mobile = window.matchMedia("(max-width: 767px)").matches;
+    if (reduce || mobile) return;
     let frame = 0;
     const onScroll = () => {
       if (frame) return;

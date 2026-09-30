@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Caveat, Geist, Geist_Mono, Plus_Jakarta_Sans } from "next/font/google";
 import { SiteShell } from "@/components/layout/site-shell";
 import { listVisibleNavItems } from "@/lib/db/nav-items";
@@ -12,6 +12,13 @@ import {
 import "./globals.css";
 
 export const dynamic = "force-dynamic";
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: "#07070b",
+};
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -87,7 +94,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} ${jakarta.variable} ${caveat.variable} h-full antialiased`}
     >
-      <body className="min-h-full overflow-x-clip">
+      <body className="orbit-app-body min-h-full overflow-x-clip antialiased">
         <SiteShell
           companyName={companyName}
           tagline={tagline}
