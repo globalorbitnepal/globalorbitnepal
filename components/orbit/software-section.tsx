@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef } from "react";
 import type { CSSProperties } from "react";
-import { SoftwareProductUi } from "@/components/orbit/demo-sites";
+import { SoftwareProductUi } from "@/components/orbit/software-preview-ui";
 import { bindOrbitScroll, isOrbitTouch } from "@/lib/orbit/scroll-performance";
 import type { SoftwareConfig } from "@/lib/software-config";
 
@@ -77,7 +77,12 @@ export function OrbitSoftwareSection({ config }: { config: SoftwareConfig }) {
                     className="orbit-soft-card group relative flex min-h-0 flex-col overflow-hidden"
                     style={{ "--soft-accent": item.accent, "--i": index } as CSSProperties}
                   >
-                    <SoftwareProductUi title={item.title} accent={item.accent} index={index} />
+                    <SoftwareProductUi
+                      slug={item.slug}
+                      title={item.title}
+                      accent={item.accent}
+                      previewSrc={item.previewSrc}
+                    />
                   </Link>
                 ))}
               </div>

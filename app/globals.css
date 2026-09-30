@@ -308,6 +308,451 @@ li.orbit-card:hover {
 
 .orbit-soft-track .orbit-soft-card:hover {
   transform: none;
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.42),
+    0 0 0 1px color-mix(in srgb, var(--soft-accent, #60a5fa) 65%, rgba(255, 255, 255, 0.2));
+}
+
+.orbit-sw {
+  display: flex;
+  height: 100%;
+  min-height: 0;
+  flex-direction: column;
+  background: #0a0e14;
+  color: #e8edf7;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+}
+
+.orbit-sw-chrome {
+  display: grid;
+  flex-shrink: 0;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 8px;
+  background: linear-gradient(180deg, #1a2030, #121722);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.orbit-sw-dots {
+  display: inline-flex;
+  gap: 4px;
+}
+
+.orbit-sw-dots i {
+  display: block;
+  height: 7px;
+  width: 7px;
+  border-radius: 999px;
+  background: #ff5f57;
+  font-style: normal;
+}
+
+.orbit-sw-dots i:nth-child(2) {
+  background: #febc2e;
+}
+
+.orbit-sw-dots i:nth-child(3) {
+  background: #28c840;
+}
+
+.orbit-sw-title {
+  overflow: hidden;
+  margin: 0;
+  font-size: 8px;
+  font-weight: 750;
+  letter-spacing: -0.02em;
+  color: #fff;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.orbit-sw-host {
+  font-size: 6px;
+  font-weight: 650;
+  color: color-mix(in srgb, var(--sw-accent, #60a5fa) 70%, white);
+}
+
+.orbit-sw-viewport {
+  min-height: 0;
+  flex: 1;
+  overflow: hidden;
+  padding: 6px 7px;
+  background: #0d1118;
+}
+
+.orbit-sw-foot {
+  flex-shrink: 0;
+  padding: 4px 8px 5px;
+  background: #121722;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.orbit-sw-foot strong {
+  display: block;
+  overflow: hidden;
+  font-size: 7px;
+  font-weight: 750;
+  letter-spacing: -0.01em;
+  color: color-mix(in srgb, var(--sw-accent, #60a5fa) 88%, white);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.orbit-sw-billing header,
+.orbit-sw-wms header,
+.orbit-sw-saas header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 5px;
+  font-size: 7px;
+}
+
+.orbit-sw-billing header b,
+.orbit-sw-billing footer button {
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--sw-accent, #60a5fa) 35%, transparent);
+  padding: 2px 6px;
+  font-size: 6px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.orbit-sw-billing-meta {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 4px;
+  margin-bottom: 5px;
+  font-size: 7px;
+}
+
+.orbit-sw-billing-meta em {
+  display: block;
+  font-style: normal;
+  font-size: 6px;
+  color: rgba(255, 255, 255, 0.45);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.orbit-sw-billing table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 6.5px;
+}
+
+.orbit-sw-billing td {
+  padding: 3px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.orbit-sw-billing td:last-child {
+  text-align: right;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.orbit-sw-billing footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 5px;
+  font-size: 6px;
+  color: #34d399;
+}
+
+.orbit-sw-hotel-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3px;
+  margin-bottom: 5px;
+}
+
+.orbit-sw-hotel-stats div {
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 4px;
+  font-size: 6px;
+}
+
+.orbit-sw-hotel-stats strong {
+  display: block;
+  font-size: 9px;
+}
+
+.orbit-sw-hotel-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3px;
+}
+
+.orbit-sw-hotel-grid > div {
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 4px;
+  font-size: 6px;
+}
+
+.orbit-sw-hotel-grid b {
+  display: block;
+  font-size: 8px;
+}
+
+.orbit-sw-hotel-grid em {
+  font-style: normal;
+  color: color-mix(in srgb, var(--sw-accent, #60a5fa) 80%, white);
+}
+
+.orbit-sw-hotel-grid > div[data-st="In"] {
+  background: color-mix(in srgb, var(--sw-accent, #60a5fa) 18%, transparent);
+}
+
+.orbit-sw-ota-channels {
+  display: flex;
+  gap: 3px;
+  margin-bottom: 5px;
+}
+
+.orbit-sw-ota-channels > div {
+  flex: 1;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 4px;
+  font-size: 6px;
+}
+
+.orbit-sw-ota-channels b {
+  display: inline-flex;
+  height: 12px;
+  width: 12px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+  background: #003580;
+  font-size: 5px;
+}
+
+.orbit-sw-ota-rates > div {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 4px;
+  padding: 3px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  font-size: 6.5px;
+}
+
+.orbit-sw-wms ul {
+  margin: 0 0 5px;
+  padding: 0;
+  list-style: none;
+  font-size: 6.5px;
+}
+
+.orbit-sw-wms li {
+  display: grid;
+  grid-template-columns: 22px 1fr auto;
+  gap: 4px;
+  padding: 3px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.orbit-sw-wms-map {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 3px;
+}
+
+.orbit-sw-wms-map i {
+  display: block;
+  height: 14px;
+  border-radius: 3px;
+  background: color-mix(in srgb, var(--sw-accent, #60a5fa) 22%, rgba(255, 255, 255, 0.06));
+  font-style: normal;
+  font-size: 7px;
+  line-height: 14px;
+  text-align: center;
+}
+
+.orbit-sw-erp-bom {
+  margin-bottom: 5px;
+  padding: 5px;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.04);
+  font-size: 6.5px;
+}
+
+.orbit-sw-erp-bom strong {
+  display: block;
+  font-size: 8px;
+}
+
+.orbit-sw-erp-steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 3px;
+}
+
+.orbit-sw-erp-steps > div {
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 4px 2px;
+  font-size: 6px;
+  text-align: center;
+}
+
+.orbit-sw-erp-steps em {
+  display: block;
+  font-style: normal;
+  font-size: 5px;
+  color: color-mix(in srgb, var(--sw-accent, #60a5fa) 75%, white);
+}
+
+.orbit-sw-pos {
+  display: grid;
+  height: 100%;
+  grid-template-rows: auto 1fr;
+  gap: 5px;
+}
+
+.orbit-sw-pos-floor {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3px;
+}
+
+.orbit-sw-pos-floor button {
+  border: 0;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.06);
+  padding: 6px 0;
+  font-size: 7px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.orbit-sw-pos-floor button[data-open="1"] {
+  background: color-mix(in srgb, var(--sw-accent, #60a5fa) 35%, transparent);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--sw-accent, #60a5fa) 60%, white);
+}
+
+.orbit-sw-pos-ticket {
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 5px;
+  font-size: 6.5px;
+}
+
+.orbit-sw-pos-ticket footer {
+  margin-top: 4px;
+  font-weight: 700;
+  color: color-mix(in srgb, var(--sw-accent, #60a5fa) 85%, white);
+}
+
+.orbit-sw-crm {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 3px;
+  height: 100%;
+}
+
+.orbit-sw-crm-col {
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 4px 3px;
+  font-size: 6px;
+}
+
+.orbit-sw-crm-col strong {
+  display: block;
+  margin: 2px 0;
+  font-size: 6.5px;
+}
+
+.orbit-sw-suite {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  height: 100%;
+}
+
+.orbit-sw-suite > div {
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 5px;
+  font-size: 6.5px;
+}
+
+.orbit-sw-suite b {
+  display: block;
+  font-size: 7px;
+}
+
+.orbit-sw-suite em {
+  color: #34d399;
+  font-style: normal;
+}
+
+.orbit-sw-custom {
+  display: grid;
+  height: 100%;
+  grid-template-columns: 0.42fr 0.58fr;
+  gap: 4px;
+}
+
+.orbit-sw-custom-phone,
+.orbit-sw-custom-web {
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 5px;
+  font-size: 6px;
+}
+
+.orbit-sw-custom-phone {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+}
+
+.orbit-sw-custom-phone button {
+  margin-top: 4px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--sw-accent, #60a5fa);
+  padding: 2px 6px;
+  font-size: 6px;
+  color: #0a0e14;
+}
+
+.orbit-sw-custom-chart {
+  height: 28px;
+  margin-top: 4px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--sw-accent, #60a5fa) 50%, transparent), transparent);
+}
+
+.orbit-sw-saas ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 6.5px;
+}
+
+.orbit-sw-saas li {
+  margin-bottom: 5px;
+}
+
+.orbit-sw-meter {
+  height: 4px;
+  margin-top: 3px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--sw-accent, #60a5fa) 75%, white);
+}
+
+.orbit-sw-fallback-img {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+  object-position: top;
 }
 
 .orbit-soft-track.is-soft-scrolling .orbit-soft-card {
