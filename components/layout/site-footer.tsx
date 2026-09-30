@@ -1,7 +1,22 @@
 import Link from "next/link";
 import { BrandLogo } from "@/components/brand/brand-logo";
-import { OrbitFooterSocial } from "@/components/layout/footer-social";
-import { ORBIT_BRAND, ORBIT_FOOTER_QUICK, ORBIT_FOOTER_SERVICES } from "@/lib/orbit/brand";
+import { FooterBackToTop } from "@/components/layout/footer-back-top";
+import { FooterConnectBar } from "@/components/layout/footer-connect-bar";
+import {
+  FooterExploreIcon,
+  FooterPinIcon,
+  FooterServiceIcon,
+  FooterStatIcon,
+} from "@/components/layout/footer-icons";
+import { OrbitFlag } from "@/components/orbit/flags";
+import {
+  ORBIT_BRAND,
+  ORBIT_FOOTER_LEGAL,
+  ORBIT_FOOTER_MARKETS,
+  ORBIT_FOOTER_QUICK,
+  ORBIT_FOOTER_SERVICES,
+  ORBIT_FOOTER_STATS,
+} from "@/lib/orbit/brand";
 import type { FallbackNavItem } from "@/lib/site";
 
 type SiteFooterProps = {
@@ -18,69 +33,92 @@ export function SiteFooter({ companyName }: SiteFooterProps) {
 
   return (
     <footer className="orbit-footer mt-auto text-white">
+      <div className="orbit-footer-scene" aria-hidden="true">
+        <div className="orbit-footer-scene-mountains" />
+        <div className="orbit-footer-scene-globe" />
+        <div className="orbit-footer-scene-glow" />
+      </div>
+
       <div className="orbit-footer-accent" aria-hidden="true" />
 
       <div className="orbit-footer-shell">
-        <div className="orbit-footer-main">
+        <div className="orbit-footer-grid">
           <div className="orbit-footer-brand">
             <BrandLogo variant="footer" />
             <p className="orbit-footer-tagline">
               World-class websites, apps, ERP, billing, and SEO — engineered in Nepal, India, and the United States.
             </p>
-            <p className="orbit-footer-markets">{ORBIT_BRAND.address}</p>
+            <ul className="orbit-footer-markets">
+              {ORBIT_FOOTER_MARKETS.map((market) => (
+                <li key={market.code}>
+                  <FooterPinIcon />
+                  <span>{market.label}</span>
+                </li>
+              ))}
+            </ul>
+            <div className="orbit-footer-stats">
+              {ORBIT_FOOTER_STATS.map((stat) => (
+                <div key={stat.label} className="orbit-footer-stat">
+                  <FooterStatIcon kind={stat.icon} />
+                  <span>{stat.label}</span>
+                </div>
+              ))}
+            </div>
           </div>
 
-          <div className="orbit-footer-columns">
-            <div className="orbit-footer-col">
-              <h4 className="orbit-footer-heading">Explore</h4>
-              <ul className="orbit-footer-links">
-                {ORBIT_FOOTER_QUICK.map((item) => (
-                  <li key={item.href}>
-                    <Link href={item.href}>{item.label}</Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
+          <div className="orbit-footer-col">
+            <h4 className="orbit-footer-heading">Explore</h4>
+            <ul className="orbit-footer-links orbit-footer-links-rich">
+              {ORBIT_FOOTER_QUICK.map((item) => (
+                <li key={item.href}>
+                  <Link href={item.href}>
+                    <FooterExploreIcon id={item.icon} />
+                    <span>{item.label}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-            <div className="orbit-footer-col">
-              <h4 className="orbit-footer-heading">Services</h4>
-              <ul className="orbit-footer-links">
-                {ORBIT_FOOTER_SERVICES.map((item) => (
-                  <li key={item.href}>
-                    <Link href={item.href}>{item.label}</Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
+          <div className="orbit-footer-col">
+            <h4 className="orbit-footer-heading">Services</h4>
+            <ul className="orbit-footer-links orbit-footer-links-rich">
+              {ORBIT_FOOTER_SERVICES.map((item) => (
+                <li key={item.href}>
+                  <Link href={item.href}>
+                    <FooterServiceIcon id={item.icon} />
+                    <span>{item.label}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-            <div className="orbit-footer-col orbit-footer-col-offices">
-              <h4 className="orbit-footer-heading">Sales offices</h4>
-              <ul className="orbit-footer-offices">
-                {ORBIT_BRAND.salesOffices.map((office) => (
-                  <li key={office.code} className="orbit-footer-office-card">
-                    <p className="orbit-footer-office-country">{office.country}</p>
-                    <a href={office.phoneHref} className="orbit-footer-office-line">
-                      {office.phone}
-                    </a>
-                    <a href={`mailto:${office.email}`} className="orbit-footer-office-line">
-                      {office.email}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
+          <div className="orbit-footer-col orbit-footer-col-offices">
+            <h4 className="orbit-footer-heading">Sales offices</h4>
+            <ul className="orbit-footer-offices">
+              {ORBIT_BRAND.salesOffices.map((office) => (
+                <li key={office.code}>
+                  <a href={office.phoneHref} className="orbit-footer-office-card">
+                    <span className="orbit-footer-office-flag">
+                      <OrbitFlag code={office.code} name={office.country} size={34} rounded="full" />
+                    </span>
+                    <span className="orbit-footer-office-body">
+                      <span className="orbit-footer-office-country">{office.country}</span>
+                      <span className="orbit-footer-office-line">{office.phone}</span>
+                      <span className="orbit-footer-office-line is-muted">{office.email}</span>
+                    </span>
+                    <span className="orbit-footer-office-chevron" aria-hidden="true">
+                      ›
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
 
-        <div className="orbit-footer-connect">
-          <div className="orbit-footer-connect-copy">
-            <h4 className="orbit-footer-connect-title">Connect with us</h4>
-            <p className="orbit-footer-connect-lede">
-              Follow for product launches, SEO insights, and stories from client projects worldwide.
-            </p>
-          </div>
-          <OrbitFooterSocial />
-        </div>
+        <FooterConnectBar />
       </div>
 
       <div className="orbit-footer-bottom">
@@ -88,14 +126,32 @@ export function SiteFooter({ companyName }: SiteFooterProps) {
           <p className="orbit-footer-copy">
             © {year} {companyName}. All rights reserved.
           </p>
-          <div className="orbit-footer-bottom-links">
-            <a href={`mailto:${ORBIT_BRAND.email}`}>{ORBIT_BRAND.email}</a>
-            <a href={ORBIT_BRAND.webmail} target="_blank" rel="noreferrer">
-              Business mail
-            </a>
-            <a href={ORBIT_BRAND.whatsapp} target="_blank" rel="noreferrer">
-              WhatsApp
-            </a>
+
+          <nav className="orbit-footer-legal" aria-label="Legal">
+            {ORBIT_FOOTER_LEGAL.map((item, index) => (
+              <span key={item.href} className="orbit-footer-legal-item">
+                {index > 0 ? <span className="orbit-footer-legal-sep" aria-hidden="true">|</span> : null}
+                <Link href={item.href}>{item.label}</Link>
+              </span>
+            ))}
+          </nav>
+
+          <div className="orbit-footer-bottom-actions">
+            <div className="orbit-footer-bottom-links">
+              <a href={`mailto:${ORBIT_BRAND.email}`} className="orbit-footer-bottom-link">
+                <span className="orbit-footer-bottom-link-icon is-mail" aria-hidden="true" />
+                {ORBIT_BRAND.email}
+              </a>
+              <a href={ORBIT_BRAND.webmail} target="_blank" rel="noreferrer" className="orbit-footer-bottom-link">
+                <span className="orbit-footer-bottom-link-icon is-building" aria-hidden="true" />
+                Business mail
+              </a>
+              <a href={ORBIT_BRAND.whatsapp} target="_blank" rel="noreferrer" className="orbit-footer-bottom-link">
+                <span className="orbit-footer-bottom-link-icon is-whatsapp" aria-hidden="true" />
+                WhatsApp
+              </a>
+            </div>
+            <FooterBackToTop />
           </div>
         </div>
       </div>

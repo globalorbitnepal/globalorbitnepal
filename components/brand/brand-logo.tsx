@@ -18,7 +18,7 @@ export function BrandLogo({ priority = false, variant = "default" }: BrandLogoPr
         bar
           ? "orbit-brand-logo-bar h-[clamp(5.75rem,9.4vw,9.25rem)] w-[clamp(18.5rem,28vw,30rem)]"
           : footer
-            ? "orbit-footer-logo h-[clamp(4.75rem,14vw,5.75rem)] w-[clamp(11.5rem,52vw,15rem)] max-w-[240px] sm:h-[5.75rem] sm:w-[240px]"
+            ? "orbit-footer-logo h-[clamp(4.5rem,6.5vw,7.25rem)] w-[min(100%,420px)] max-w-[min(420px,92vw)] sm:w-[min(380px,48vw)] lg:w-[min(420px,22vw)] xl:w-[420px]"
           : hero
             ? "h-[88px] w-[min(280px,78vw)] sm:h-[104px] sm:w-[min(340px,70vw)] lg:h-[118px] lg:w-[255px] xl:h-[128px] xl:w-[255px]"
             : "h-[56px] w-[220px] sm:h-[64px] sm:w-[260px]"

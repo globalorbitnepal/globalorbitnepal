@@ -64,23 +64,41 @@ export const ORBIT_HEADER_NAV = [
   { label: "Contact", href: "/contact", location: "HEADER" as const },
 ];
 
+export const ORBIT_FOOTER_MARKETS = [
+  { label: "Kathmandu", code: "np" as const },
+  { label: "India", code: "in" as const },
+  { label: "United States", code: "us" as const },
+];
+
+export const ORBIT_FOOTER_STATS = [
+  { label: "500+ Projects", icon: "rocket" as const },
+  { label: "300+ Clients", icon: "clients" as const },
+  { label: "4.9/5 Ratings", icon: "star" as const },
+];
+
+export const ORBIT_FOOTER_LEGAL = [
+  { label: "Privacy Policy", href: "/privacy-policy" },
+  { label: "Terms & Conditions", href: "/terms-and-conditions" },
+  { label: "Sitemap", href: "/sitemap.xml" },
+];
+
 export const ORBIT_FOOTER_QUICK = [
-  { label: "Home", href: "/" },
-  { label: "Website Development", href: "/service/website-development-nepal" },
-  { label: "Hotel Websites", href: "/hotel-website-development-nepal" },
-  { label: "Trekking Websites", href: "/trekking-website-development-nepal" },
-  { label: "Restaurant Websites", href: "/restaurant-website-development-nepal" },
-  { label: "E-commerce", href: "/ecommerce-website-development-nepal" },
-  { label: "About Us", href: "/about" },
-  { label: "Contact", href: "/contact" },
+  { label: "Home", href: "/", icon: "home" as const },
+  { label: "Website Development", href: "/service/website-development-nepal", icon: "website" as const },
+  { label: "Hotel Websites", href: "/hotel-website-development-nepal", icon: "hotel" as const },
+  { label: "Trekking Websites", href: "/trekking-website-development-nepal", icon: "trek" as const },
+  { label: "Restaurant Websites", href: "/restaurant-website-development-nepal", icon: "restaurant" as const },
+  { label: "E-commerce", href: "/ecommerce-website-development-nepal", icon: "ecommerce" as const },
+  { label: "About Us", href: "/about", icon: "about" as const },
+  { label: "Contact", href: "/contact", icon: "contact" as const },
 ];
 
 export const ORBIT_FOOTER_SERVICES = [
-  { label: "Website Development", href: "/service/website-development-nepal" },
-  { label: "Custom Software Development", href: "/custom-software-development-nepal" },
-  { label: "Web Development", href: "/web-development-nepal" },
-  { label: "ERP Software Nepal", href: "/erp-software-nepal" },
-  { label: "SEO Services Nepal", href: "/seo-services-nepal" },
-  { label: "Local SEO Nepal", href: "/local-seo-nepal" },
-  { label: "Software Products", href: "/orbit-software" },
+  { label: "Website Development", href: "/service/website-development-nepal", icon: "website" as const },
+  { label: "Custom Software Development", href: "/custom-software-development-nepal", icon: "custom" as const },
+  { label: "Web Development", href: "/web-development-nepal", icon: "web" as const },
+  { label: "ERP Software Nepal", href: "/erp-software-nepal", icon: "erp" as const },
+  { label: "SEO Services Nepal", href: "/seo-services-nepal", icon: "seo" as const },
+  { label: "Local SEO Nepal", href: "/local-seo-nepal", icon: "local" as const },
+  { label: "Software Products", href: "/orbit-software", icon: "products" as const },
 ];
