@@ -30,7 +30,7 @@ export function SiteHeader(_props: SiteHeaderProps) {
       >
         <div className="orbit-header-inner pointer-events-auto mx-auto grid w-full max-w-[1680px] items-center gap-3 px-[clamp(1rem,3vw,2.75rem)] pt-[clamp(0.35rem,0.8vw,0.55rem)]">
           <div className="orbit-header-side is-left">
-            <BrandLogo priority variant="bar" />
+            <BrandLogo variant="bar" />
           </div>
 
           <nav aria-label="Main navigation" className="orbit-header-center hidden lg:flex">

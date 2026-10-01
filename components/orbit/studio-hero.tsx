@@ -13,26 +13,31 @@ export function OrbitStudioHero({ config }: Props) {
   const stageRef = useRef<HTMLDivElement>(null);
   const mediaRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [mediaReady, setMediaReady] = useState(false);
+  const [showTrust, setShowTrust] = useState(false);
 
   const videoSrc = config.videoSrc || "/brand/hero-product.mp4";
   const showVideo = config.useVideo !== false;
 
   useEffect(() => {
-    if (!showVideo) {
-      setMediaReady(true);
-      return;
-    }
-    const link = document.createElement("link");
-    link.rel = "preload";
-    link.as = "fetch";
-    link.href = videoSrc;
-    link.crossOrigin = "anonymous";
-    document.head.appendChild(link);
-    return () => {
-      link.remove();
+    let cancelled = false;
+    const show = () => {
+      if (!cancelled) setShowTrust(true);
     };
-  }, [showVideo, videoSrc]);
+
+    if (typeof requestIdleCallback === "function") {
+      const id = requestIdleCallback(show, { timeout: 900 });
+      return () => {
+        cancelled = true;
+        cancelIdleCallback(id);
+      };
+    }
+
+    const t = window.setTimeout(show, 400);
+    return () => {
+      cancelled = true;
+      window.clearTimeout(t);
+    };
+  }, []);
 
   useEffect(() => {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -66,8 +71,6 @@ export function OrbitStudioHero({ config }: Props) {
 
     video.loop = true;
 
-    const markReady = () => setMediaReady(true);
-
     const play = () => {
       if (document.hidden) return;
       void video.play().catch(() => {});
@@ -79,19 +82,14 @@ export function OrbitStudioHero({ config }: Props) {
     };
 
     video.addEventListener("ended", onEnded);
-    video.addEventListener("loadeddata", markReady);
-    video.addEventListener("canplay", markReady);
-    video.addEventListener("loadeddata", play);
+    video.addEventListener("canplay", play);
     document.addEventListener("visibilitychange", play);
 
-    if (video.readyState >= 2) markReady();
     play();
 
     return () => {
       video.removeEventListener("ended", onEnded);
-      video.removeEventListener("loadeddata", markReady);
-      video.removeEventListener("canplay", markReady);
-      video.removeEventListener("loadeddata", play);
+      video.removeEventListener("canplay", play);
       document.removeEventListener("visibilitychange", play);
     };
   }, [showVideo, videoSrc]);
@@ -99,14 +97,12 @@ export function OrbitStudioHero({ config }: Props) {
   return (
     <section
       ref={stageRef}
-      className="orbit-studio-hero relative z-[2] isolate overflow-hidden bg-[#07070c] text-white"
+      className="orbit-studio-hero relative z-[2] isolate overflow-hidden text-white"
       aria-labelledby="home-hero-heading"
     >
       <div
         ref={mediaRef}
-        className={`orbit-studio-hero-media pointer-events-none absolute inset-0 z-0 origin-[82%_48%] will-change-transform ${
-          mediaReady ? "is-ready" : ""
-        }`}
+        className="orbit-studio-hero-media pointer-events-none absolute inset-0 z-0 origin-[82%_48%] will-change-transform"
         aria-hidden="true"
       >
         {showVideo ? (
@@ -150,7 +146,11 @@ export function OrbitStudioHero({ config }: Props) {
       </div>
 
       <div className="orbit-hero-trust-bleed z-[3] w-full">
-        <OrbitHeroTrustMarquee logos={config.trustLogos} label={config.trustMarqueeLabel} />
+        {showTrust ? (
+          <OrbitHeroTrustMarquee logos={config.trustLogos} label={config.trustMarqueeLabel} />
+        ) : (
+          <div className="orbit-hero-trust-skeleton" aria-hidden="true" />
+        )}
       </div>
     </section>
   );

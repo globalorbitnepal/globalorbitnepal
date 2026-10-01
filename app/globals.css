@@ -3160,20 +3160,23 @@ li.orbit-card:hover {
   height: 100svh;
   height: 100dvh;
   min-height: calc(var(--app-vh, 1vh) * 100);
+  background:
+    radial-gradient(ellipse 85% 65% at 78% 42%, rgba(37, 99, 235, 0.38), transparent 58%),
+    radial-gradient(ellipse 55% 45% at 8% 18%, rgba(129, 140, 248, 0.22), transparent 52%),
+    linear-gradient(125deg, #121a2e 0%, #0c1220 42%, #070b14 100%);
 }
 
 .orbit-studio-hero-media {
-  opacity: 0;
-  transition: opacity 0.55s ease;
-  background: #07070c;
-}
-
-.orbit-studio-hero-media.is-ready {
   opacity: 1;
+  background: transparent;
 }
 
 .orbit-studio-hero-video {
-  background: #07070c;
+  background: transparent;
+}
+
+.orbit-hero-trust-skeleton {
+  height: clamp(3.2rem, 5vw, 3.85rem);
 }
 
 .orbit-studio-hero-veil {

@@ -28,11 +28,14 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function HomePage() {
-  const settings = await getSiteSettings();
-  const hero = await getHeroConfig();
-  const need = await getNeedConfig();
-  const work = await getWorkConfig();
-  const software = await getSoftwareConfig();
+  const [settings, hero, need, work, software] = await Promise.all([
+    getSiteSettings(),
+    getHeroConfig(),
+    getNeedConfig(),
+    getWorkConfig(),
+    getSoftwareConfig(),
+  ]);
+  const videoSrc = hero.videoSrc || "/brand/hero-product.mp4";
   const companyName = settings?.companyName || FALLBACK_SITE.companyName;
   const jsonLd = organizationJsonLd({
     name: companyName,
@@ -44,6 +47,7 @@ export default async function HomePage() {
 
   return (
     <>
+      <link rel="preload" href={videoSrc} as="video" type="video/mp4" fetchPriority="high" />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

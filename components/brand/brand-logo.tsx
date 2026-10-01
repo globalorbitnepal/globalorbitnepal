@@ -31,6 +31,8 @@ export function BrandLogo({ priority = false, variant = "default" }: BrandLogoPr
         width={600}
         height={400}
         priority={priority}
+        fetchPriority={priority ? "high" : "low"}
+        loading={priority ? "eager" : "lazy"}
         unoptimized
         className="h-full w-full object-contain object-left"
       />
