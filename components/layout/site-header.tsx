@@ -28,13 +28,13 @@ export function SiteHeader(_props: SiteHeaderProps) {
       <header
         className="orbit-header-bar pointer-events-none inset-x-0 top-0 z-50 text-white fixed"
       >
-        <div className="orbit-header-inner pointer-events-auto mx-auto grid w-full max-w-[1680px] items-center gap-3 px-[clamp(1rem,3vw,2.75rem)] pt-[clamp(0.35rem,0.8vw,0.55rem)]">
+        <div className="orbit-header-inner pointer-events-auto mx-auto w-full max-w-[1680px]">
           <div className="orbit-header-side is-left">
             <BrandLogo variant="bar" />
           </div>
 
           <nav aria-label="Main navigation" className="orbit-header-center">
-            <div className="orbit-header-glass orbit-header-glass-light inline-flex h-[clamp(2.65rem,3.6vw,3.15rem)] max-w-full items-center rounded-full px-2 py-0 xl:px-3">
+            <div className="orbit-header-glass orbit-header-glass-light orbit-header-nav-pill inline-flex items-center rounded-full">
               <StudioHeaderNav />
             </div>
           </nav>
@@ -44,11 +44,11 @@ export function SiteHeader(_props: SiteHeaderProps) {
 
             <button
               type="button"
-              className="inline-flex h-11 w-11 shrink-0 items-center justify-center self-center rounded-full border border-white/15 bg-white/5 lg:hidden"
-            aria-expanded={open}
-            aria-controls="mobile-nav"
-            onClick={() => setOpen((value) => !value)}
-          >
+              className="orbit-header-menu-btn inline-flex shrink-0 items-center justify-center rounded-full border border-white/15 bg-white/5"
+              aria-expanded={open}
+              aria-controls="mobile-nav"
+              onClick={() => setOpen((value) => !value)}
+            >
             <span className="sr-only">{open ? "Close menu" : "Open menu"}</span>
             <span aria-hidden="true">{open ? "×" : "☰"}</span>
           </button>

@@ -2982,21 +2982,31 @@ li.orbit-card:hover {
 }
 
 .orbit-header-inner {
+  --orbit-header-row: clamp(3.35rem, 3.8vw, 3.75rem);
   position: relative;
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
+  gap: 0.75rem;
+  box-sizing: border-box;
+  min-height: calc(var(--orbit-header-row) + env(safe-area-inset-top, 0px) + 0.85rem);
+  padding:
+    calc(env(safe-area-inset-top, 0px) + clamp(0.35rem, 0.8vw, 0.55rem))
+    clamp(1rem, 3vw, 2.75rem)
+    clamp(0.35rem, 0.8vw, 0.55rem);
 }
 
 @media (min-width: 1024px) {
   .orbit-header-inner {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-columns: minmax(200px, 280px) minmax(0, 1fr) minmax(200px, 280px);
+    gap: 1rem;
   }
 }
 
 .orbit-header-side {
   display: flex;
   min-width: 0;
+  height: var(--orbit-header-row);
   align-items: center;
 }
 
@@ -3012,27 +3022,56 @@ li.orbit-card:hover {
 }
 
 .orbit-header-center {
-  position: fixed;
-  left: 50%;
-  top: calc(env(safe-area-inset-top, 0px) + clamp(1.35rem, 2.2vw, 1.85rem));
-  z-index: 55;
   display: none;
-  width: max-content;
-  max-width: min(96vw, 920px);
-  transform: translateX(-50%);
+  justify-content: center;
 }
 
 @media (min-width: 1024px) {
   .orbit-header-center {
     display: flex;
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .orbit-header-side.is-left {
+    grid-column: 1;
+  }
+
+  .orbit-header-side.is-right {
+    grid-column: 3;
+  }
+}
+
+.orbit-header-nav-pill {
+  height: var(--orbit-header-row);
+  max-width: min(96vw, 920px);
+  padding: 0 0.65rem;
+}
+
+@media (min-width: 1280px) {
+  .orbit-header-nav-pill {
+    padding: 0 0.85rem;
+  }
+}
+
+.orbit-header-menu-btn {
+  display: inline-flex;
+  height: 2.75rem;
+  width: 2.75rem;
+}
+
+@media (min-width: 1024px) {
+  .orbit-header-menu-btn {
+    display: none;
   }
 }
 
 .orbit-brand-logo-bar {
-  display: block;
+  display: flex;
   width: 280px;
-  max-width: min(280px, calc(100vw - 7rem));
-  height: auto;
+  max-width: min(280px, calc(100vw - 5rem));
+  height: var(--orbit-header-row);
+  align-items: center;
   line-height: 0;
 }
 
@@ -3040,21 +3079,35 @@ li.orbit-card:hover {
   display: block;
   width: 280px;
   max-width: 100%;
-  height: auto;
+  height: 100%;
+  max-height: var(--orbit-header-row);
+  object-fit: contain;
+  object-position: left center;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 1023px) {
+  .orbit-header-inner {
+    --orbit-header-row: clamp(2.65rem, 8vw, 3rem);
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
   .orbit-brand-logo-bar {
-    width: min(240px, calc(100vw - 5.5rem));
+    width: min(220px, calc(100vw - 4.25rem));
   }
 
   .orbit-brand-logo-bar-img {
     width: 100%;
   }
+
+  .orbit-header-center {
+    display: none !important;
+  }
 }
 
 .orbit-book-appointment-btn {
   display: none;
+  height: var(--orbit-header-row);
+  align-items: center;
 }
 
 @media (min-width: 1024px) {
