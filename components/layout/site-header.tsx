@@ -40,10 +40,7 @@ export function SiteHeader(_props: SiteHeaderProps) {
           </nav>
 
           <div className="orbit-header-side is-right">
-            <BookAppointmentButton
-              className="hidden lg:inline-flex"
-              onClick={() => setAppointmentOpen(true)}
-            />
+            <BookAppointmentButton onClick={() => setAppointmentOpen(true)} />
 
             <button
               type="button"

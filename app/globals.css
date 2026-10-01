@@ -3053,6 +3053,16 @@ li.orbit-card:hover {
   }
 }
 
+.orbit-book-appointment-btn {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .orbit-book-appointment-btn {
+    display: inline-flex;
+  }
+}
+
 .orbit-header-glass {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(12, 12, 18, 0.42));
   border: 1px solid rgba(255, 255, 255, 0.16);
