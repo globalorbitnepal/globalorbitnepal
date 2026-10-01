@@ -329,7 +329,7 @@ export function BookAppointmentButton({
     <button
       type="button"
       onClick={onClick}
-      className={`orbit-book-appointment-btn inline-flex shrink-0 items-center gap-2 rounded-full px-[clamp(1.15rem,1.6vw,1.6rem)] text-[clamp(0.92rem,1.02vw,1.08rem)] font-semibold ${className ?? ""}`}
+      className={`orbit-book-appointment-btn inline-flex h-[clamp(2.65rem,3.6vw,3.15rem)] shrink-0 items-center gap-2 rounded-full px-[clamp(1.15rem,1.6vw,1.6rem)] text-[clamp(0.92rem,1.02vw,1.08rem)] font-semibold ${className ?? ""}`}
     >
       <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
         <rect x="3" y="5" width="18" height="16" rx="2" />
