@@ -16,7 +16,7 @@ export function BrandLogo({ priority = false, variant = "default" }: BrandLogoPr
       href="/"
       className={`relative z-[2] block shrink-0 self-center ${
         bar
-          ? "orbit-brand-logo-bar h-[clamp(2.35rem,3.8vw,3rem)] w-[clamp(9.5rem,18vw,12.5rem)] max-md:h-[2.05rem] max-md:w-[8.25rem]"
+          ? "orbit-brand-logo-bar h-[clamp(3.4rem,5.2vw,4.25rem)] w-[min(280px,38vw)] max-md:h-[3rem] max-md:w-[min(240px,72vw)]"
           : footer
             ? "orbit-footer-logo h-[clamp(5.4rem,7.8vw,8.7rem)] w-[min(100%,504px)] max-w-[min(504px,92vw)] sm:w-[min(456px,48vw)] lg:w-[min(504px,22vw)] xl:w-[504px]"
           : hero
