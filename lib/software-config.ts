@@ -35,8 +35,8 @@ const ACCENTS = [
 
 export const DEFAULT_SOFTWARE: SoftwareConfig = {
   kicker: "Global Orbit",
-  headline: "Enterprise software, already in",
-  headlineAccent: "production",
+  headline: "Enterprise software, already",
+  headlineAccent: "in production",
   lede: "Real products. Real users. Built for modern businesses.",
   footerKicker: "Building a smarter tomorrow",
   footerTitle: "Technology for a Brighter World",
