@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { OrbitHeroTrustMarquee } from "@/components/orbit/hero-trust-marquee";
 import type { HeroConfig } from "@/lib/hero-config";
 
@@ -13,6 +13,26 @@ export function OrbitStudioHero({ config }: Props) {
   const stageRef = useRef<HTMLDivElement>(null);
   const mediaRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [mediaReady, setMediaReady] = useState(false);
+
+  const videoSrc = config.videoSrc || "/brand/hero-product.mp4";
+  const showVideo = config.useVideo !== false;
+
+  useEffect(() => {
+    if (!showVideo) {
+      setMediaReady(true);
+      return;
+    }
+    const link = document.createElement("link");
+    link.rel = "preload";
+    link.as = "fetch";
+    link.href = videoSrc;
+    link.crossOrigin = "anonymous";
+    document.head.appendChild(link);
+    return () => {
+      link.remove();
+    };
+  }, [showVideo, videoSrc]);
 
   useEffect(() => {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -39,13 +59,14 @@ export function OrbitStudioHero({ config }: Props) {
     };
   }, []);
 
-  const videoSrc = config.videoSrc || "/brand/hero-product.mp4";
-
   useEffect(() => {
+    if (!showVideo) return;
     const video = videoRef.current;
     if (!video) return;
 
     video.loop = true;
+
+    const markReady = () => setMediaReady(true);
 
     const play = () => {
       if (document.hidden) return;
@@ -58,17 +79,22 @@ export function OrbitStudioHero({ config }: Props) {
     };
 
     video.addEventListener("ended", onEnded);
+    video.addEventListener("loadeddata", markReady);
+    video.addEventListener("canplay", markReady);
     video.addEventListener("loadeddata", play);
     document.addEventListener("visibilitychange", play);
 
+    if (video.readyState >= 2) markReady();
     play();
 
     return () => {
       video.removeEventListener("ended", onEnded);
+      video.removeEventListener("loadeddata", markReady);
+      video.removeEventListener("canplay", markReady);
       video.removeEventListener("loadeddata", play);
       document.removeEventListener("visibilitychange", play);
     };
-  }, [videoSrc]);
+  }, [showVideo, videoSrc]);
 
   return (
     <section
@@ -78,23 +104,26 @@ export function OrbitStudioHero({ config }: Props) {
     >
       <div
         ref={mediaRef}
-        className="pointer-events-none absolute inset-0 z-0 origin-[82%_48%] will-change-transform"
+        className={`orbit-studio-hero-media pointer-events-none absolute inset-0 z-0 origin-[82%_48%] will-change-transform ${
+          mediaReady ? "is-ready" : ""
+        }`}
         aria-hidden="true"
       >
-        <video
-          ref={videoRef}
-          className="h-full w-full object-cover object-[62%_center] sm:object-[68%_center] lg:object-[74%_center]"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
-          poster={config.imageSrc}
-          disablePictureInPicture
-          controls={false}
-        >
-          <source src={videoSrc} type={videoSrc.endsWith(".webm") ? "video/webm" : "video/mp4"} />
-        </video>
+        {showVideo ? (
+          <video
+            ref={videoRef}
+            className="orbit-studio-hero-video h-full w-full object-cover object-[62%_center] sm:object-[68%_center] lg:object-[74%_center]"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+            disablePictureInPicture
+            controls={false}
+          >
+            <source src={videoSrc} type={videoSrc.endsWith(".webm") ? "video/webm" : "video/mp4"} />
+          </video>
+        ) : null}
       </div>
 
       <div className="orbit-studio-hero-veil pointer-events-none absolute inset-0 z-[1]" />

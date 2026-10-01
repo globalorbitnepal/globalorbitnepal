@@ -68,6 +68,14 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
 
   return (
     <html lang="en" className="orbit-font-root h-full antialiased">
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "(function(){function s(){document.documentElement.style.setProperty('--app-vh',(window.innerHeight*0.01)+'px');}s();window.addEventListener('resize',s,{passive:true});window.addEventListener('orientationchange',s,{passive:true});})();",
+          }}
+        />
+      </head>
       <body className="orbit-app-body min-h-full overflow-x-clip antialiased">
         <SiteShell
           companyName={companyName}

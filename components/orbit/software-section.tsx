@@ -12,7 +12,8 @@ function clamp(n: number, min: number, max: number) {
 }
 
 function softwareScale(raw: number, touch: boolean) {
-  const holdEnd = touch ? 0.1 : 0.14;
+  if (touch) return 1;
+  const holdEnd = 0.14;
   const start = 1.015;
   if (raw <= holdEnd) return start;
   return start - (start - 1) * ((raw - holdEnd) / (1 - holdEnd));
