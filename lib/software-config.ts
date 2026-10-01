@@ -37,7 +37,7 @@ export const DEFAULT_SOFTWARE: SoftwareConfig = {
   kicker: "Global Orbit",
   headline: "Enterprise software, already in",
   headlineAccent: "production",
-  lede: "Billing, hotel ops, OTA, warehouse, manufacturing ERP, POS, CRM, custom apps, and the SaaS layer that runs them.",
+  lede: "Real products. Real users. Built for modern businesses.",
   footerKicker: "Building a smarter tomorrow",
   footerTitle: "Technology for a Brighter World",
   videoSrc: "/brand/hero-product.mp4",

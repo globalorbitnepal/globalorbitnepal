@@ -3,94 +3,69 @@ import type { CSSProperties, ReactNode } from "react";
 type PreviewProps = {
   slug: string;
   title: string;
+  summary: string;
   accent: string;
   previewSrc?: string;
 };
 
 const NAV: Record<string, string[]> = {
-  "billing-software": ["Dashboard", "Invoices", "Payments", "Customers", "Reports", "Settings"],
-  "hotel-management-system": ["Dashboard", "Rooms", "Guests", "Housekeeping", "Reports", "Settings"],
-  "ota-management-system": ["Dashboard", "Channels", "Rates", "Calendar", "Customers", "Settings"],
-  "warehouse-management": ["Dashboard", "Stock In", "Stock Out", "Transfers", "Purchase", "Reports"],
-  "manufacturing-erp": ["Production", "Work Orders", "BOM", "Inventory", "Quality", "Settings"],
-  "restaurant-pos": ["Orders", "Kitchen", "Tables", "Customers", "Reports", "Settings"],
-  "crm-software": ["Leads", "Deals", "Contacts", "Activities", "Reports", "Settings"],
-  "saas-business-suite": ["Home", "Billing", "CRM", "POS", "Analytics", "Settings"],
-  "custom-apps": ["App", "Web", "API", "Push", "QA", "Settings"],
-  "saas-management-system": ["Dashboard", "Tenants", "Users", "Plans", "Payments", "Analytics"],
+  "billing-software": ["Dashboard", "Invoices", "Customers", "Products", "Reports", "Settings"],
+  "hotel-management-system": ["Dashboard", "Rooms", "Bookings", "Guests", "Reports", "Settings"],
+  "ota-management-system": ["Dashboard", "Channels", "Bookings", "Rates", "Properties", "Settings"],
+  "warehouse-management": ["Dashboard", "Products", "Stock In", "Stock Out", "Reports", "Settings"],
+  "restaurant-pos": ["Dashboard", "Orders", "Menu", "Tables", "Reports", "Settings"],
+  "crm-software": ["Dashboard", "Leads", "Deals", "Contacts", "Pipeline", "Settings"],
 };
 
-const ACTION: Record<string, string> = {
-  "billing-software": "+ New Invoice",
-  "hotel-management-system": "+ New Booking",
-  "ota-management-system": "+ Sync",
-  "warehouse-management": "+ New Item",
-  "manufacturing-erp": "+ New WO",
-  "restaurant-pos": "+ New Menu Item",
-  "crm-software": "+ New Lead",
-  "saas-business-suite": "+ New Org",
-  "custom-apps": "+ New App",
-  "saas-management-system": "+ New Tenant",
-};
-
-function Frame({
+function CardShell({
   title,
+  summary,
   accent,
-  action,
   nav,
-  active,
   children,
 }: {
   title: string;
+  summary: string;
   accent: string;
-  action: string;
   nav: string[];
-  active?: string;
   children: ReactNode;
 }) {
-  const current = active ?? nav[0];
   return (
-    <div className="orbit-sw" style={{ "--sw-accent": accent } as CSSProperties} aria-hidden="true">
-      <header className="orbit-sw-top">
-        <div className="orbit-sw-brand">
-          <span className="orbit-sw-mark" />
-          <strong>{title}</strong>
+    <div className="orbit-ref-sw" style={{ "--sw-accent": accent } as CSSProperties} aria-hidden="true">
+      <div className="orbit-ref-sw-head">
+        <div className="orbit-ref-sw-brand">
+          <span className="orbit-ref-sw-icon" />
+          <div>
+            <strong>{title}</strong>
+            <p>{summary}</p>
+          </div>
         </div>
-        <div className="orbit-sw-actions">
-          <span className="orbit-sw-avs">
-            <i>A</i>
-            <i>R</i>
-          </span>
-          <span className="orbit-sw-cta">{action}</span>
-        </div>
-      </header>
-      <div className="orbit-sw-shell">
-        <aside className="orbit-sw-nav">
-          {nav.map((item) => (
-            <span key={item} data-on={item === current ? "1" : undefined}>
+        <span className="orbit-ref-sw-arrow" aria-hidden="true">
+          ↗
+        </span>
+      </div>
+      <div className="orbit-ref-sw-layout">
+        <aside className="orbit-ref-sw-nav">
+          {nav.map((item, index) => (
+            <span key={item} data-on={index === 0 ? "1" : undefined}>
               <i />
               {item}
             </span>
           ))}
         </aside>
-        <div className="orbit-sw-body">{children}</div>
+        <div className="orbit-ref-sw-body">{children}</div>
       </div>
     </div>
   );
 }
 
-function Stats({
-  items,
-}: {
-  items: { label: string; value: string; hint?: string; tone?: string }[];
-}) {
+function StatPair({ items }: { items: { label: string; value: string }[] }) {
   return (
-    <div className="orbit-sw-stats">
+    <div className="orbit-ref-stats">
       {items.map((item) => (
-        <div key={item.label} data-tone={item.tone ?? "blue"}>
+        <div key={item.label}>
           <em>{item.label}</em>
           <b>{item.value}</b>
-          {item.hint ? <small>{item.hint}</small> : null}
         </div>
       ))}
     </div>
@@ -100,81 +75,37 @@ function Stats({
 function BillingUi() {
   return (
     <>
-      <Stats
+      <StatPair
         items={[
-          { label: "Total Invoices", value: "1,248", tone: "blue" },
-          { label: "Paid", value: "986", tone: "green" },
-          { label: "Pending", value: "182", tone: "amber" },
-          { label: "Overdue", value: "80", tone: "red" },
+          { label: "Total Invoices", value: "1,248" },
+          { label: "Total Revenue", value: "$24,680" },
         ]}
       />
-      <div className="orbit-sw-panel">
-        <div className="orbit-sw-panel-h">
-          <b>Recent Invoices</b>
-          <em>View all</em>
+      <div className="orbit-ref-panel">
+        <div className="orbit-ref-panel-h">
+          <b>Revenue Overview</b>
         </div>
-        <table className="orbit-sw-table">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Customer</th>
-              <th>Amount</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {[
-              ["INV-0481", "ABC Pvt Ltd", "$1,200", "Paid"],
-              ["INV-0482", "Everest Treks", "$650", "Pending"],
-              ["INV-0483", "Hotel Thamel", "$2,400", "Paid"],
-              ["INV-0484", "Global Traders", "$890", "Overdue"],
-              ["INV-0485", "Mountain Gear", "$430", "Paid"],
-            ].map((row) => (
-              <tr key={row[0]}>
-                <td>{row[0]}</td>
-                <td>{row[1]}</td>
-                <td>{row[2]}</td>
-                <td data-st={row[3]}>{row[3]}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </>
-  );
-}
-
-function HotelUi() {
-  const rooms = [
-    ["204", "92%", "Occupied", "blue"],
-    ["118", "45%", "Cleaning", "amber"],
-    ["311", "100%", "Occupied", "green"],
-    ["402", "0%", "Available", "mint"],
-    ["221", "78%", "Occupied", "blue"],
-    ["109", "0%", "Available", "mint"],
-  ];
-  return (
-    <>
-      <Stats
-        items={[
-          { label: "Total Rooms", value: "48", tone: "blue" },
-          { label: "Occupied", value: "36", tone: "green" },
-          { label: "Available", value: "12", tone: "mint" },
-          { label: "Revenue", value: "$4,820", tone: "amber" },
-        ]}
-      />
-      <div className="orbit-sw-panel">
-        <div className="orbit-sw-panel-h">
-          <b>Room Status</b>
-          <em>All floors</em>
-        </div>
-        <div className="orbit-sw-rooms">
-          {rooms.map(([no, pct, st, tone]) => (
-            <div key={no} data-tone={tone}>
-              <span>{no}</span>
-              <b>{pct}</b>
-              <em>{st}</em>
-            </div>
+        <svg className="orbit-ref-linechart" viewBox="0 0 320 88" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="ref-bill-fill" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="rgba(99,102,241,0.45)" />
+              <stop offset="100%" stopColor="rgba(99,102,241,0)" />
+            </linearGradient>
+          </defs>
+          <path
+            d="M0 62 C40 58, 55 48, 80 52 S120 28, 160 34 S220 18, 260 22 S300 8, 320 12 L320 88 L0 88 Z"
+            fill="url(#ref-bill-fill)"
+          />
+          <path
+            d="M0 62 C40 58, 55 48, 80 52 S120 28, 160 34 S220 18, 260 22 S300 8, 320 12"
+            fill="none"
+            stroke="#818cf8"
+            strokeWidth="2.5"
+          />
+        </svg>
+        <div className="orbit-ref-axis">
+          {["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"].map((m) => (
+            <span key={m}>{m}</span>
           ))}
         </div>
       </div>
@@ -182,36 +113,66 @@ function HotelUi() {
   );
 }
 
-function OtaUi() {
+function HotelUi() {
   return (
     <>
-      <Stats
+      <StatPair
         items={[
-          { label: "Today Bookings", value: "128", hint: "+12%", tone: "blue" },
-          { label: "Revenue", value: "$12,450", hint: "+24%", tone: "green" },
-          { label: "Channels", value: "6", tone: "violet" },
-          { label: "Conversion", value: "4.2%", tone: "amber" },
+          { label: "Total Bookings", value: "128" },
+          { label: "Occupancy Rate", value: "86%" },
         ]}
       />
-      <div className="orbit-sw-panel">
-        <div className="orbit-sw-panel-h">
-          <b>Channel Performance</b>
-          <em>Last 30 days</em>
+      <div className="orbit-ref-panel orbit-ref-donut-wrap">
+        <div className="orbit-ref-panel-h">
+          <b>Room Occupancy</b>
         </div>
-        <ul className="orbit-sw-channels">
-          {[
-            ["BC", "Booking.com", "48 bookings", "28%"],
-            ["AG", "Agoda", "36 bookings", "22%"],
-            ["EX", "Expedia", "24 bookings", "19%"],
-            ["AY", "MakeMyTrip", "18 bookings", "12%"],
-            ["DT", "Direct", "12 bookings", "9%"],
-          ].map(([code, name, n, pct]) => (
-            <li key={code}>
-              <b>{code}</b>
-              <span>
-                {name}
-                <small>{n}</small>
-              </span>
+        <div className="orbit-ref-donut">
+          <div className="orbit-ref-donut-ring" style={{ "--pct": "86" } as CSSProperties}>
+            <span>86%</span>
+          </div>
+          <ul>
+            <li>
+              <i data-tone="blue" /> Occupied <em>86%</em>
+            </li>
+            <li>
+              <i data-tone="mint" /> Available <em>10%</em>
+            </li>
+            <li>
+              <i data-tone="amber" /> Maintenance <em>4%</em>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </>
+  );
+}
+
+function OtaUi() {
+  const rows = [
+    ["Booking.com", "42%"],
+    ["Agoda", "26%"],
+    ["Expedia", "18%"],
+    ["Airbnb", "14%"],
+  ];
+  return (
+    <>
+      <StatPair
+        items={[
+          { label: "Total Bookings", value: "420" },
+          { label: "Total Revenue", value: "$12,450" },
+        ]}
+      />
+      <div className="orbit-ref-panel">
+        <div className="orbit-ref-panel-h">
+          <b>Channel Performance</b>
+        </div>
+        <ul className="orbit-ref-bars-h">
+          {rows.map(([name, pct]) => (
+            <li key={name}>
+              <span>{name}</span>
+              <i style={{ "--w": pct } as CSSProperties}>
+                <b />
+              </i>
               <em>{pct}</em>
             </li>
           ))}
@@ -224,285 +185,96 @@ function OtaUi() {
 function WarehouseUi() {
   return (
     <>
-      <Stats
+      <StatPair
         items={[
-          { label: "Total Items", value: "1,248", tone: "green" },
-          { label: "In Stock", value: "986", tone: "blue" },
-          { label: "Low Stock", value: "42", tone: "amber" },
-          { label: "Out of Stock", value: "18", tone: "red" },
+          { label: "Total Products", value: "1,248" },
+          { label: "Low Stock", value: "42" },
         ]}
       />
-      <div className="orbit-sw-panel">
-        <div className="orbit-sw-panel-h">
-          <b>Stock by SKU</b>
-          <em>Live</em>
+      <div className="orbit-ref-panel">
+        <div className="orbit-ref-panel-h">
+          <b>Stock Overview</b>
         </div>
-        <table className="orbit-sw-table">
-          <thead>
-            <tr>
-              <th>SKU</th>
-              <th>Product</th>
-              <th>Qty</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {[
-              ["PRD-001", "Trekking Backpack", "120", "In Stock"],
-              ["PRD-002", "Winter Jacket", "8", "Low Stock"],
-              ["PRD-003", "Hiking Boots", "0", "Out of Stock"],
-              ["PRD-004", "Sleeping Bag", "45", "In Stock"],
-              ["PRD-005", "Trekking Pole", "16", "Low Stock"],
-            ].map((row) => (
-              <tr key={row[0]}>
-                <td>{row[0]}</td>
-                <td>{row[1]}</td>
-                <td>{row[2]}</td>
-                <td data-st={row[3]}>{row[3]}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </>
-  );
-}
-
-function ErpUi() {
-  return (
-    <>
-      <Stats
-        items={[
-          { label: "Production", value: "82%", tone: "violet" },
-          { label: "Efficiency", value: "96%", tone: "green" },
-          { label: "Orders", value: "24", tone: "blue" },
-          { label: "Defects", value: "3", tone: "red" },
-        ]}
-      />
-      <div className="orbit-sw-panel">
-        <div className="orbit-sw-panel-h">
-          <b>Production Orders</b>
-          <em>Line 2</em>
+        <div className="orbit-ref-bars-v">
+          {[
+            ["In Stock", "72%", "green"],
+            ["Low Stock", "18%", "amber"],
+            ["Out of Stock", "10%", "red"],
+          ].map(([label, h, tone]) => (
+            <div key={label} data-tone={tone}>
+              <i style={{ height: h } as CSSProperties} />
+              <span>{label}</span>
+            </div>
+          ))}
         </div>
-        <table className="orbit-sw-table">
-          <thead>
-            <tr>
-              <th>WO</th>
-              <th>Product</th>
-              <th>Qty</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {[
-              ["MO-001", "Steel Frame", "240", "Completed"],
-              ["MO-002", "Weld Kit", "180", "In Production"],
-              ["MO-003", "Backpack", "300", "In Production"],
-              ["MO-004", "Jacket", "90", "Planned"],
-              ["MO-005", "Gloves", "400", "Quality Check"],
-            ].map((row) => (
-              <tr key={row[0]}>
-                <td>{row[0]}</td>
-                <td>{row[1]}</td>
-                <td>{row[2]}</td>
-                <td data-st={row[3]}>{row[3]}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
       </div>
     </>
   );
 }
 
 function PosUi() {
-  const menu = [
-    ["Pizza", "$12.00", "/brand/soft-pos/pos-pizza.jpg"],
-    ["Burger", "$8.50", "/brand/soft-pos/pos-burger.jpg"],
-    ["Coffee", "$3.00", "/brand/soft-pos/pos-coffee.jpg"],
-    ["Pasta", "$11.00", "/brand/soft-pos/pos-pasta.jpg"],
-    ["Salad", "$7.00", "/brand/soft-pos/pos-salad.jpg"],
-    ["Sandwich", "$6.50", "/brand/soft-pos/pos-sandwich.jpg"],
+  const items = [
+    ["Pizza", "48 orders", "/brand/soft-pos/pos-pizza.jpg"],
+    ["Burger", "36 orders", "/brand/soft-pos/pos-burger.jpg"],
+    ["Pasta", "28 orders", "/brand/soft-pos/pos-pasta.jpg"],
+    ["Salad", "22 orders", "/brand/soft-pos/pos-salad.jpg"],
   ];
   return (
-    <div className="orbit-sw-pos">
-      <div className="orbit-sw-pos-main">
-        <div className="orbit-sw-pos-bar">
-          <b>Table 4</b>
-          <em>Dine In</em>
+    <>
+      <StatPair
+        items={[
+          { label: "Today's Orders", value: "186" },
+          { label: "Total Sales", value: "$2,850" },
+        ]}
+      />
+      <div className="orbit-ref-panel">
+        <div className="orbit-ref-panel-h">
+          <b>Popular Items</b>
         </div>
-        <div className="orbit-sw-menu">
-          {menu.map(([name, price, src]) => (
+        <div className="orbit-ref-popular">
+          {items.map(([name, orders, src]) => (
             <div key={name}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={src} alt="" />
               <span>{name}</span>
-              <em>{price}</em>
+              <em>{orders}</em>
             </div>
           ))}
         </div>
       </div>
-      <div className="orbit-sw-ticket">
-        <b>Order Summary</b>
-        <ul>
-          {[
-            ["2 × Coffee", "$6.00"],
-            ["1 × Pizza", "$12.00"],
-            ["1 × Burger", "$8.50"],
-          ].map(([line, amt]) => (
-            <li key={line}>
-              <span>{line}</span>
-              <em>{amt}</em>
-            </li>
-          ))}
-        </ul>
-        <div className="orbit-sw-total">
-          <span>Total</span>
-          <strong>$31.25</strong>
-        </div>
-        <span className="orbit-sw-place">Place Order</span>
-      </div>
-    </div>
+    </>
   );
 }
 
 function CrmUi() {
+  const stages = [
+    ["New Lead", "320", "25%"],
+    ["Contacted", "280", "22%"],
+    ["Proposal", "540", "38%"],
+    ["Closed", "280", "15%"],
+  ];
   return (
     <>
-      <Stats
+      <StatPair
         items={[
-          { label: "Leads", value: "1,420", tone: "blue" },
-          { label: "Deals", value: "620", tone: "violet" },
-          { label: "Win Rate", value: "42%", tone: "green" },
-          { label: "Pipeline", value: "$8,600", tone: "amber" },
+          { label: "Total Leads", value: "1,420" },
+          { label: "Closed Deals", value: "620" },
         ]}
       />
-      <div className="orbit-sw-crm">
-        {(
-          [
-            ["Contacted", [["John Smith", "$4,200"], ["Priya Sharma", "$2,100"]]],
-            ["Qualified", [["Maya Johnson", "$3,800"], ["Ramesh KC", "$1,450"]]],
-            ["Proposal", [["ABC Pvt Ltd", "$12,400"], ["Everest Treks", "$2,900"]]],
-          ] as [string, [string, string][]][]
-        ).map(([stage, cards]) => (
-          <div key={stage}>
-            <em>{stage}</em>
-            {cards.map(([name, val]) => (
-              <div key={name} className="orbit-sw-deal">
-                <b>{name}</b>
-                <span>{val}</span>
-              </div>
-            ))}
-          </div>
-        ))}
-      </div>
-    </>
-  );
-}
-
-function SuiteUi() {
-  return (
-    <>
-      <Stats
-        items={[
-          { label: "Billing", value: "128 inv", tone: "blue" },
-          { label: "CRM", value: "36 deals", tone: "violet" },
-          { label: "POS", value: "4 stores", tone: "amber" },
-          { label: "MRR", value: "$48k", tone: "green" },
-        ]}
-      />
-      <div className="orbit-sw-suite">
-        {[
-          ["Billing", "78%"],
-          ["CRM", "54%"],
-          ["POS", "62%"],
-          ["Analytics", "81%"],
-        ].map(([mod, bar]) => (
-          <div key={mod}>
-            <b>{mod}</b>
-            <i className="orbit-sw-bar">
-              <i style={{ width: bar }} />
-            </i>
-          </div>
-        ))}
-      </div>
-    </>
-  );
-}
-
-function CustomAppsUi() {
-  return (
-    <>
-      <Stats
-        items={[
-          { label: "Guest App", value: "Live", tone: "green" },
-          { label: "Owner Portal", value: "Live", tone: "blue" },
-          { label: "API Calls", value: "48k", tone: "violet" },
-          { label: "Uptime", value: "99.9%", tone: "mint" },
-        ]}
-      />
-      <div className="orbit-sw-custom">
-        <div>
-          <b>Guest app</b>
-          <em>Book · Check-in · Chat</em>
-          <span>Stay #4412 · Room 204</span>
+      <div className="orbit-ref-panel">
+        <div className="orbit-ref-panel-h">
+          <b>Sales Pipeline</b>
         </div>
-        <div>
-          <b>Owner portal</b>
-          <em>Reports · Staff · Settings</em>
-          <div className="orbit-sw-bars">
-            {[72, 54, 88, 41, 63, 91, 77].map((h, i) => (
-              <i key={i} style={{ height: `${h}%` }} />
-            ))}
-          </div>
-        </div>
-      </div>
-    </>
-  );
-}
-
-function SaasAdminUi() {
-  return (
-    <>
-      <Stats
-        items={[
-          { label: "Tenants", value: "2,860", tone: "violet" },
-          { label: "Active", value: "2,140", tone: "green" },
-          { label: "MRR", value: "$12,450", tone: "blue" },
-          { label: "Churn", value: "1.8%", tone: "red" },
-        ]}
-      />
-      <div className="orbit-sw-saas">
-        <div className="orbit-sw-chart">
-          <div className="orbit-sw-panel-h">
-            <b>Revenue Growth</b>
-            <em>Last 6 months</em>
-          </div>
-          <div className="orbit-sw-bars">
-            {[38, 48, 44, 62, 71, 86].map((h, i) => (
-              <i key={i} style={{ height: `${h}%` }} />
-            ))}
-          </div>
-          <div className="orbit-sw-axis">
-            {["Jan", "Feb", "Mar", "Apr", "May", "Jun"].map((m) => (
-              <span key={m}>{m}</span>
-            ))}
-          </div>
-        </div>
-        <ul className="orbit-sw-modules">
-          {[
-            ["Website Builder", "82%"],
-            ["Billing System", "74%"],
-            ["Hotel Management", "61%"],
-          ].map(([name, use]) => (
-            <li key={name}>
-              <span>{name}</span>
-              <i className="orbit-sw-bar">
-                <i style={{ width: use }} />
-              </i>
-            </li>
+        <div className="orbit-ref-pipeline">
+          {stages.map(([label, val, pct]) => (
+            <div key={label}>
+              <i style={{ height: pct } as CSSProperties} />
+              <b>{val}</b>
+              <span>{label}</span>
+              <em>{pct}</em>
+            </div>
           ))}
-        </ul>
+        </div>
       </div>
     </>
   );
@@ -518,33 +290,24 @@ function PreviewBody({ slug }: { slug: string }) {
       return <OtaUi />;
     case "warehouse-management":
       return <WarehouseUi />;
-    case "manufacturing-erp":
-      return <ErpUi />;
     case "restaurant-pos":
       return <PosUi />;
     case "crm-software":
       return <CrmUi />;
-    case "saas-business-suite":
-      return <SuiteUi />;
-    case "custom-apps":
-      return <CustomAppsUi />;
-    case "saas-management-system":
-      return <SaasAdminUi />;
     default:
       return <BillingUi />;
   }
 }
 
-export function SoftwareProductUi({ slug, title, accent }: PreviewProps) {
+export function SoftwareProductUi({ slug, title, summary, accent }: PreviewProps) {
   return (
-    <Frame
+    <CardShell
       title={title}
+      summary={summary}
       accent={accent}
-      action={ACTION[slug] ?? "+ New"}
       nav={NAV[slug] ?? ["Dashboard", "Reports", "Settings"]}
-      active={NAV[slug]?.[0]}
     >
       <PreviewBody slug={slug} />
-    </Frame>
+    </CardShell>
   );
 }
