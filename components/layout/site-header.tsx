@@ -33,7 +33,7 @@ export function SiteHeader(_props: SiteHeaderProps) {
             <BrandLogo variant="bar" />
           </div>
 
-          <nav aria-label="Main navigation" className="orbit-header-center hidden lg:flex">
+          <nav aria-label="Main navigation" className="orbit-header-center">
             <div className="orbit-header-glass orbit-header-glass-light inline-flex h-[clamp(2.65rem,3.6vw,3.15rem)] max-w-full items-center rounded-full px-2 py-0 xl:px-3">
               <StudioHeaderNav />
             </div>

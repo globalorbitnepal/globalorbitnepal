@@ -3012,12 +3012,14 @@ li.orbit-card:hover {
 }
 
 .orbit-header-center {
-  position: absolute;
+  position: fixed;
   left: 50%;
-  top: 50%;
-  z-index: 3;
+  top: calc(env(safe-area-inset-top, 0px) + clamp(1.35rem, 2.2vw, 1.85rem));
+  z-index: 55;
   display: none;
-  transform: translate(-50%, -50%);
+  width: max-content;
+  max-width: min(96vw, 920px);
+  transform: translateX(-50%);
 }
 
 @media (min-width: 1024px) {
@@ -3027,15 +3029,27 @@ li.orbit-card:hover {
 }
 
 .orbit-brand-logo-bar {
-  width: min(280px, 38vw);
-  max-width: 280px;
+  display: block;
+  width: 280px;
+  max-width: min(280px, calc(100vw - 7rem));
+  height: auto;
+  line-height: 0;
 }
 
-@media (max-width: 1100px) {
+.orbit-brand-logo-bar-img {
+  display: block;
+  width: 280px;
+  max-width: 100%;
+  height: auto;
+}
+
+@media (max-width: 767px) {
   .orbit-brand-logo-bar {
-    height: clamp(3rem, 7vw, 3.75rem) !important;
-    width: min(240px, 72vw) !important;
-    max-width: min(240px, 72vw);
+    width: min(240px, calc(100vw - 5.5rem));
+  }
+
+  .orbit-brand-logo-bar-img {
+    width: 100%;
   }
 }
 
