@@ -1,6 +1,7 @@
 export type HeaderNavLink = {
   label: string;
-  href: string;
+  href?: string;
+  children?: HeaderNavLink[];
 };
 
 export type HeaderNavItem =
@@ -14,6 +15,20 @@ export function isNavDropdown(item: HeaderNavItem): item is { label: string; chi
   return "children" in item && Array.isArray(item.children);
 }
 
+function hasHref(link: HeaderNavLink): link is HeaderNavLink & { href: string } {
+  return typeof link.href === "string" && link.href.length > 0;
+}
+
+export function navLinkActive(pathname: string, href: string) {
+  if (href === "/") return pathname === "/";
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
+
+export function navLinkTreeActive(pathname: string, link: HeaderNavLink): boolean {
+  if (hasHref(link) && navLinkActive(pathname, link.href)) return true;
+  return link.children?.some((child) => navLinkTreeActive(pathname, child)) ?? false;
+}
+
 /** Primary studio header — matches Metaminds-style pill + Services flyout. */
 export const STUDIO_HEADER_NAV: HeaderNavItem[] = [
   { label: "Home", href: "/" },
@@ -23,7 +38,14 @@ export const STUDIO_HEADER_NAV: HeaderNavItem[] = [
   {
     label: "Services",
     children: [
-      { label: "App", href: "/orbit-software/custom-apps" },
+      {
+        label: "APPS",
+        children: [
+          { label: "Android Apps", href: "/orbit-software/android-apps" },
+          { label: "iOS Apps", href: "/orbit-software/ios-apps" },
+          { label: "Web Apps", href: "/orbit-software/web-apps" },
+        ],
+      },
       { label: "Website", href: "/service/website-development-nepal" },
       { label: "ERP Software", href: "/orbit-software" },
       { label: "AI Automation", href: "/service/ai-automation" },

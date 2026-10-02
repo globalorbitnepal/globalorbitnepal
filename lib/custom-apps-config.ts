@@ -1,3 +1,5 @@
+import type { PlatformPageSlug } from "@/lib/platform-page-slugs";
+
 export type CustomAppsStat = {
   value: string;
   label: string;
@@ -292,53 +294,203 @@ function parseAppVideos(raw: unknown, fallback: CustomAppsVideoClip[]): CustomAp
   });
 }
 
-export function parseCustomAppsConfig(raw: unknown): CustomAppsConfig {
+export function parseCustomAppsConfig(raw: unknown, base: CustomAppsConfig = DEFAULT_CUSTOM_APPS): CustomAppsConfig {
   const data = raw && typeof raw === "object" ? (raw as Record<string, unknown>) : {};
   const str = (key: keyof CustomAppsConfig, fallback: string) => parseString(data[key], fallback);
   return {
-    heroEyebrow: str("heroEyebrow", DEFAULT_CUSTOM_APPS.heroEyebrow),
-    heroTitleBefore: str("heroTitleBefore", DEFAULT_CUSTOM_APPS.heroTitleBefore),
-    heroTitleAccent: str("heroTitleAccent", DEFAULT_CUSTOM_APPS.heroTitleAccent),
-    heroTitleAfter: str("heroTitleAfter", DEFAULT_CUSTOM_APPS.heroTitleAfter),
-    heroLede: str("heroLede", DEFAULT_CUSTOM_APPS.heroLede),
-    heroVideoSrc: str("heroVideoSrc", DEFAULT_CUSTOM_APPS.heroVideoSrc),
-    appVideosEyebrow: str("appVideosEyebrow", DEFAULT_CUSTOM_APPS.appVideosEyebrow),
-    appVideosTitle: str("appVideosTitle", DEFAULT_CUSTOM_APPS.appVideosTitle),
-    appVideosTitleAccent: str("appVideosTitleAccent", DEFAULT_CUSTOM_APPS.appVideosTitleAccent),
-    appVideosLede: str("appVideosLede", DEFAULT_CUSTOM_APPS.appVideosLede),
-    appVideos: parseAppVideos(data.appVideos, DEFAULT_CUSTOM_APPS.appVideos),
-    stats: parseStats(data.stats, DEFAULT_CUSTOM_APPS.stats),
-    overviewEyebrow: str("overviewEyebrow", DEFAULT_CUSTOM_APPS.overviewEyebrow),
-    overviewTitle: str("overviewTitle", DEFAULT_CUSTOM_APPS.overviewTitle),
-    overviewParagraphs: parseStringArray(data.overviewParagraphs, [...DEFAULT_CUSTOM_APPS.overviewParagraphs]),
-    capabilitiesEyebrow: str("capabilitiesEyebrow", DEFAULT_CUSTOM_APPS.capabilitiesEyebrow),
-    capabilitiesTitle: str("capabilitiesTitle", DEFAULT_CUSTOM_APPS.capabilitiesTitle),
-    capabilitiesTitleAccent: str("capabilitiesTitleAccent", DEFAULT_CUSTOM_APPS.capabilitiesTitleAccent),
-    capabilitiesLede: str("capabilitiesLede", DEFAULT_CUSTOM_APPS.capabilitiesLede),
-    capabilities: parseCards(data.capabilities, DEFAULT_CUSTOM_APPS.capabilities),
-    platformsEyebrow: str("platformsEyebrow", DEFAULT_CUSTOM_APPS.platformsEyebrow),
-    platformsTitle: str("platformsTitle", DEFAULT_CUSTOM_APPS.platformsTitle),
-    platforms: parseCards(data.platforms, DEFAULT_CUSTOM_APPS.platforms),
-    useCasesEyebrow: str("useCasesEyebrow", DEFAULT_CUSTOM_APPS.useCasesEyebrow),
-    useCasesTitle: str("useCasesTitle", DEFAULT_CUSTOM_APPS.useCasesTitle),
-    useCases: parseCards(data.useCases, DEFAULT_CUSTOM_APPS.useCases),
-    processEyebrow: str("processEyebrow", DEFAULT_CUSTOM_APPS.processEyebrow),
-    processTitle: str("processTitle", DEFAULT_CUSTOM_APPS.processTitle),
-    processLede: str("processLede", DEFAULT_CUSTOM_APPS.processLede),
-    processSteps: parseSteps(data.processSteps, DEFAULT_CUSTOM_APPS.processSteps),
-    stackEyebrow: str("stackEyebrow", DEFAULT_CUSTOM_APPS.stackEyebrow),
-    stackTitle: str("stackTitle", DEFAULT_CUSTOM_APPS.stackTitle),
-    stackItems: parseCards(data.stackItems, DEFAULT_CUSTOM_APPS.stackItems),
-    deliverablesEyebrow: str("deliverablesEyebrow", DEFAULT_CUSTOM_APPS.deliverablesEyebrow),
-    deliverablesTitle: str("deliverablesTitle", DEFAULT_CUSTOM_APPS.deliverablesTitle),
-    deliverablesBullets: parseStringArray(data.deliverablesBullets, [...DEFAULT_CUSTOM_APPS.deliverablesBullets]),
-    assuranceTitle: str("assuranceTitle", DEFAULT_CUSTOM_APPS.assuranceTitle),
-    assuranceBullets: parseStringArray(data.assuranceBullets, [...DEFAULT_CUSTOM_APPS.assuranceBullets]),
-    ctaTitle: str("ctaTitle", DEFAULT_CUSTOM_APPS.ctaTitle),
-    ctaLede: str("ctaLede", DEFAULT_CUSTOM_APPS.ctaLede),
-    ctaPrimaryLabel: str("ctaPrimaryLabel", DEFAULT_CUSTOM_APPS.ctaPrimaryLabel),
-    ctaPrimaryHref: str("ctaPrimaryHref", DEFAULT_CUSTOM_APPS.ctaPrimaryHref),
-    ctaSecondaryLabel: str("ctaSecondaryLabel", DEFAULT_CUSTOM_APPS.ctaSecondaryLabel),
-    ctaSecondaryHref: str("ctaSecondaryHref", DEFAULT_CUSTOM_APPS.ctaSecondaryHref),
+    heroEyebrow: str("heroEyebrow", base.heroEyebrow),
+    heroTitleBefore: str("heroTitleBefore", base.heroTitleBefore),
+    heroTitleAccent: str("heroTitleAccent", base.heroTitleAccent),
+    heroTitleAfter: str("heroTitleAfter", base.heroTitleAfter),
+    heroLede: str("heroLede", base.heroLede),
+    heroVideoSrc: str("heroVideoSrc", base.heroVideoSrc),
+    appVideosEyebrow: str("appVideosEyebrow", base.appVideosEyebrow),
+    appVideosTitle: str("appVideosTitle", base.appVideosTitle),
+    appVideosTitleAccent: str("appVideosTitleAccent", base.appVideosTitleAccent),
+    appVideosLede: str("appVideosLede", base.appVideosLede),
+    appVideos: parseAppVideos(data.appVideos, base.appVideos),
+    stats: parseStats(data.stats, base.stats),
+    overviewEyebrow: str("overviewEyebrow", base.overviewEyebrow),
+    overviewTitle: str("overviewTitle", base.overviewTitle),
+    overviewParagraphs: parseStringArray(data.overviewParagraphs, [...base.overviewParagraphs]),
+    capabilitiesEyebrow: str("capabilitiesEyebrow", base.capabilitiesEyebrow),
+    capabilitiesTitle: str("capabilitiesTitle", base.capabilitiesTitle),
+    capabilitiesTitleAccent: str("capabilitiesTitleAccent", base.capabilitiesTitleAccent),
+    capabilitiesLede: str("capabilitiesLede", base.capabilitiesLede),
+    capabilities: parseCards(data.capabilities, base.capabilities),
+    platformsEyebrow: str("platformsEyebrow", base.platformsEyebrow),
+    platformsTitle: str("platformsTitle", base.platformsTitle),
+    platforms: parseCards(data.platforms, base.platforms),
+    useCasesEyebrow: str("useCasesEyebrow", base.useCasesEyebrow),
+    useCasesTitle: str("useCasesTitle", base.useCasesTitle),
+    useCases: parseCards(data.useCases, base.useCases),
+    processEyebrow: str("processEyebrow", base.processEyebrow),
+    processTitle: str("processTitle", base.processTitle),
+    processLede: str("processLede", base.processLede),
+    processSteps: parseSteps(data.processSteps, base.processSteps),
+    stackEyebrow: str("stackEyebrow", base.stackEyebrow),
+    stackTitle: str("stackTitle", base.stackTitle),
+    stackItems: parseCards(data.stackItems, base.stackItems),
+    deliverablesEyebrow: str("deliverablesEyebrow", base.deliverablesEyebrow),
+    deliverablesTitle: str("deliverablesTitle", base.deliverablesTitle),
+    deliverablesBullets: parseStringArray(data.deliverablesBullets, [...base.deliverablesBullets]),
+    assuranceTitle: str("assuranceTitle", base.assuranceTitle),
+    assuranceBullets: parseStringArray(data.assuranceBullets, [...base.assuranceBullets]),
+    ctaTitle: str("ctaTitle", base.ctaTitle),
+    ctaLede: str("ctaLede", base.ctaLede),
+    ctaPrimaryLabel: str("ctaPrimaryLabel", base.ctaPrimaryLabel),
+    ctaPrimaryHref: str("ctaPrimaryHref", base.ctaPrimaryHref),
+    ctaSecondaryLabel: str("ctaSecondaryLabel", base.ctaSecondaryLabel),
+    ctaSecondaryHref: str("ctaSecondaryHref", base.ctaSecondaryHref),
   };
+}
+
+export const DEFAULT_WEB_APPS = parseCustomAppsConfig({
+  heroEyebrow: "Orbit Software · Web Apps",
+  heroTitleBefore: "Progressive web apps",
+  heroTitleAccent: "that feel native",
+  heroTitleAfter: "and rank on Google",
+  heroLede:
+    "Installable PWAs, customer portals, and admin consoles on Next.js — fast first paint, SEO built in, and one codebase for marketing plus product.",
+  heroVideoSrc: "/brand/platform-apps/web/01-customer-portal.mp4",
+  appVideos: [
+    {
+      title: "Customer portal",
+      body: "Logged-in journeys, payments, and support — full-width web app polish.",
+      videoSrc: "/brand/platform-apps/web/01-customer-portal.mp4",
+    },
+    {
+      title: "Operations admin",
+      body: "Dense tables, role gates, and exports for teams at HQ.",
+      videoSrc: "/brand/platform-apps/web/02-admin-dashboard.mp4",
+    },
+    {
+      title: "Responsive booking",
+      body: "Mobile-first flows that still scale to desktop dashboards.",
+      videoSrc: "/brand/platform-apps/web/03-mobile-booking.mp4",
+    },
+    {
+      title: "Field sync",
+      body: "Offline-tolerant steps with background sync to Node APIs.",
+      videoSrc: "/brand/platform-apps/web/04-field-operations.webm",
+    },
+  ],
+  ctaTitle: "Planning a web app?",
+});
+
+export const DEFAULT_ANDROID_APPS = parseCustomAppsConfig({
+  heroEyebrow: "Orbit Software · Android Apps",
+  heroTitleBefore: "Android apps",
+  heroTitleAccent: "built for the field",
+  heroTitleAfter: "Play Store ready",
+  heroLede:
+    "Kotlin-forward Android builds for booking, logistics, and staff — Material motion, push notifications, and secure APIs to your Node backend.",
+  heroVideoSrc: "/brand/platform-apps/android/01-play-store-flow.mp4",
+  appVideosEyebrow: "Android motion",
+  appVideosTitle: "Four Android surfaces",
+  appVideosTitleAccent: "we ship",
+  appVideosLede:
+    "Store listing flows, Material UI, API integration, and offline push — production motion from Global Orbit builds.",
+  appVideos: [
+    {
+      title: "Play Store journey",
+      body: "Onboarding, permissions, and deep links from your marketing site.",
+      videoSrc: "/brand/platform-apps/android/01-play-store-flow.mp4",
+    },
+    {
+      title: "Material product UI",
+      body: "Thumb zones, bottom sheets, and dark mode for long shifts.",
+      videoSrc: "/brand/platform-apps/android/02-material-ui.mp4",
+    },
+    {
+      title: "API integration",
+      body: "Retrofit/Ktor clients against your Node.js services with auth refresh.",
+      videoSrc: "/brand/platform-apps/android/03-kotlin-api.mp4",
+    },
+    {
+      title: "Push & offline",
+      body: "FCM alerts, cached queues, and sync when connectivity returns.",
+      videoSrc: "/brand/platform-apps/android/04-push-offline.mp4",
+    },
+  ],
+  platformsTitle: "Android delivery",
+  platforms: [
+    { title: "Google Play", body: "Listing assets, staged rollouts, and crash reporting with Play Console." },
+    { title: "Enterprise MDM", body: "Private builds and device policies for operator fleets." },
+    { title: "Kotlin & Compose", body: "Modern UI toolkit with testable architecture and CI builds." },
+  ],
+  stackItems: [
+    { title: "Kotlin", body: "Jetpack Compose, Navigation, and coroutines for responsive UI." },
+    { title: "Node APIs", body: "Shared backend with web — one auth model across clients." },
+    { title: "Firebase", body: "Push, analytics, and remote config when your roadmap needs it." },
+    { title: "Quality", body: "Espresso tests, ProGuard rules, and Play pre-launch reports." },
+  ],
+  ctaTitle: "Planning an Android app?",
+});
+
+export const DEFAULT_IOS_APPS = parseCustomAppsConfig({
+  heroEyebrow: "Orbit Software · iOS Apps",
+  heroTitleBefore: "iOS apps",
+  heroTitleAccent: "with Apple-grade polish",
+  heroTitleAfter: "TestFlight to App Store",
+  heroLede:
+    "SwiftUI and UIKit builds for premium brands — smooth motion, Sign in with Apple, in-app purchases, and Node.js backends your web team already runs.",
+  heroVideoSrc: "/brand/platform-apps/ios/01-app-store-flow.mp4",
+  appVideosEyebrow: "iOS motion",
+  appVideosTitle: "Four iOS experiences",
+  appVideosTitleAccent: "we ship",
+  appVideosLede:
+    "App Store flows, SwiftUI screens, TestFlight betas, and widget sync — the same premium bar as our web studio.",
+  appVideos: [
+    {
+      title: "App Store flow",
+      body: "Privacy labels, onboarding, and universal links from campaigns.",
+      videoSrc: "/brand/platform-apps/ios/01-app-store-flow.mp4",
+    },
+    {
+      title: "SwiftUI product",
+      body: "Native navigation, haptics, and Dynamic Type for accessibility.",
+      videoSrc: "/brand/platform-apps/ios/02-swiftui.mp4",
+    },
+    {
+      title: "TestFlight beta",
+      body: "Staged releases with crash logs before public launch.",
+      videoSrc: "/brand/platform-apps/ios/03-testflight.mp4",
+    },
+    {
+      title: "Widgets & sync",
+      body: "Home-screen widgets and background refresh against your APIs.",
+      videoSrc: "/brand/platform-apps/ios/04-widget-sync.webm",
+    },
+  ],
+  platformsTitle: "Apple platforms",
+  platforms: [
+    { title: "iPhone & iPad", body: "Adaptive layouts from SE to Pro Max and tablet split views." },
+    { title: "App Store Connect", body: "Metadata, screenshots, and phased release management." },
+    { title: "Sign in with Apple", body: "Privacy-first auth aligned with App Review guidelines." },
+  ],
+  stackItems: [
+    { title: "SwiftUI", body: "Declarative UI with Combine and async/await networking." },
+    { title: "Node APIs", body: "Shared services with web and Android — one product backend." },
+    { title: "TestFlight", body: "Beta cohorts, feedback, and crash symbolication before launch." },
+    { title: "Quality", body: "XCTest, accessibility audits, and App Store review prep." },
+  ],
+  ctaTitle: "Planning an iOS app?",
+});
+
+export function getDefaultPlatformConfig(slug: PlatformPageSlug): CustomAppsConfig {
+  switch (slug) {
+    case "web-apps":
+      return DEFAULT_WEB_APPS;
+    case "android-apps":
+      return DEFAULT_ANDROID_APPS;
+    case "ios-apps":
+      return DEFAULT_IOS_APPS;
+    default:
+      return DEFAULT_WEB_APPS;
+  }
+}
+
+export function parsePlatformPageConfig(slug: PlatformPageSlug, raw: unknown): CustomAppsConfig {
+  return parseCustomAppsConfig(raw, getDefaultPlatformConfig(slug));
 }

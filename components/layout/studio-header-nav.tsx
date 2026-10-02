@@ -6,20 +6,17 @@ import { useEffect, useId, useRef, useState } from "react";
 import {
   STUDIO_HEADER_NAV,
   isNavDropdown,
+  navLinkActive,
+  navLinkTreeActive,
   type HeaderNavItem,
   type HeaderNavLink,
 } from "@/lib/header-nav";
 
-function linkActive(pathname: string, href: string) {
-  if (href === "/") return pathname === "/";
-  return pathname === href || pathname.startsWith(`${href}/`);
-}
-
 function itemActive(pathname: string, item: HeaderNavItem) {
   if (isNavDropdown(item)) {
-    return item.children.some((child) => linkActive(pathname, child.href));
+    return item.children.some((child) => navLinkTreeActive(pathname, child));
   }
-  return linkActive(pathname, item.href);
+  return item.href ? navLinkActive(pathname, item.href) : false;
 }
 
 function NavAnchor({
@@ -47,13 +44,76 @@ function NavAnchor({
   );
 }
 
+function DropdownRow({
+  child,
+  pathname,
+  onNavigate,
+}: {
+  child: HeaderNavLink;
+  pathname: string;
+  onNavigate: () => void;
+}) {
+  const active = navLinkTreeActive(pathname, child);
+  const hasSub = Boolean(child.children?.length);
+
+  if (hasSub && child.children) {
+    return (
+      <div
+        className="orbit-header-flyout-row group relative"
+        onMouseEnter={() => {}}
+      >
+        <span
+          className={`orbit-header-dropdown-link flex cursor-default items-center justify-between gap-3 rounded-xl px-3.5 py-2.5 text-[17px] font-medium ${active ? "is-active" : ""}`}
+        >
+          <span>{child.label}</span>
+          <svg viewBox="0 0 12 12" className="h-3 w-3 shrink-0 opacity-70" aria-hidden="true">
+            <path fill="currentColor" d="M4.5 2.5 8 6l-3.5 3.5" />
+          </svg>
+        </span>
+        <div className="orbit-header-flyout-sub pointer-events-none absolute left-[calc(100%+0.35rem)] top-0 z-[70] min-w-[11.5rem] rounded-2xl p-2 opacity-0 transition-opacity group-hover:pointer-events-auto group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100">
+          <ul className="flex flex-col gap-0.5">
+            {child.children.map((sub) => (
+              <li key={sub.href ?? sub.label} role="none">
+                <Link
+                  href={sub.href ?? "#"}
+                  role="menuitem"
+                  className={`orbit-header-dropdown-link block rounded-xl px-3.5 py-2.5 text-[15px] font-medium ${sub.href && navLinkActive(pathname, sub.href) ? "is-active" : ""}`}
+                  onClick={onNavigate}
+                >
+                  {sub.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <Link
+      href={child.href ?? "#"}
+      role="menuitem"
+      className={`orbit-header-dropdown-link flex items-center justify-between gap-3 rounded-xl px-3.5 py-2.5 text-[17px] font-medium ${child.href && navLinkActive(pathname, child.href) ? "is-active" : ""}`}
+      onClick={onNavigate}
+    >
+      <span>{child.label}</span>
+      {child.label === "Website" ? (
+        <svg viewBox="0 0 12 12" className="h-3 w-3 shrink-0 opacity-70" aria-hidden="true">
+          <path fill="currentColor" d="M4.5 2.5 8 6l-3.5 3.5" />
+        </svg>
+      ) : null}
+    </Link>
+  );
+}
+
 function ServicesDropdown({ pathname, onNavigate }: { pathname: string; onNavigate?: () => void }) {
   const menuId = useId();
   const rootRef = useRef<HTMLLIElement>(null);
   const [open, setOpen] = useState(false);
   const item = STUDIO_HEADER_NAV.find((entry) => isNavDropdown(entry) && entry.label === "Services");
   const children = item && isNavDropdown(item) ? item.children : [];
-  const active = children.some((child) => linkActive(pathname, child.href));
+  const active = children.some((child) => navLinkTreeActive(pathname, child));
 
   useEffect(() => {
     if (!open) return;
@@ -100,7 +160,7 @@ function ServicesDropdown({ pathname, onNavigate }: { pathname: string; onNaviga
         >
           <ul className="flex flex-col gap-0.5">
             {children.map((child) => (
-              <li key={child.href} role="none">
+              <li key={child.label} role="none">
                 <DropdownRow
                   child={child}
                   pathname={pathname}
@@ -118,31 +178,39 @@ function ServicesDropdown({ pathname, onNavigate }: { pathname: string; onNaviga
   );
 }
 
-function DropdownRow({
-  child,
+function MobileNavLink({
+  link,
   pathname,
+  depth,
   onNavigate,
 }: {
-  child: HeaderNavLink;
+  link: HeaderNavLink;
   pathname: string;
-  onNavigate: () => void;
+  depth: number;
+  onNavigate?: () => void;
 }) {
-  const active = linkActive(pathname, child.href);
-  const showChevron = child.label === "App" || child.label === "Website";
+  if (link.children?.length) {
+    return (
+      <ul className={`${depth ? "ml-2 border-l border-white/10 pl-3" : ""} flex flex-col gap-1`}>
+        <li className="px-3 py-1 text-[11px] font-bold uppercase tracking-[0.18em] text-[#f0c43a]/80">{link.label}</li>
+        {link.children.map((sub) => (
+          <li key={sub.href ?? sub.label}>
+            <MobileNavLink link={sub} pathname={pathname} depth={depth + 1} onNavigate={onNavigate} />
+          </li>
+        ))}
+      </ul>
+    );
+  }
+
+  if (!link.href) return null;
 
   return (
     <Link
-      href={child.href}
-      role="menuitem"
-      className={`orbit-header-dropdown-link flex items-center justify-between gap-3 rounded-xl px-3.5 py-2.5 text-[17px] font-medium ${active ? "is-active" : ""}`}
+      href={link.href}
+      className={`block rounded-lg px-3 py-2.5 ${navLinkActive(pathname, link.href) ? "text-white" : "text-white/70"}`}
       onClick={onNavigate}
     >
-      <span>{child.label}</span>
-      {showChevron ? (
-        <svg viewBox="0 0 12 12" className="h-3 w-3 shrink-0 opacity-70" aria-hidden="true">
-          <path fill="currentColor" d="M4.5 2.5 8 6l-3.5 3.5" />
-        </svg>
-      ) : null}
+      {link.label}
     </Link>
   );
 }
@@ -159,7 +227,7 @@ export function StudioHeaderNav({ onNavigate, className }: { onNavigate?: () => 
         return (
           <li key={item.href}>
             <NavAnchor
-              href={item.href}
+              href={item.href!}
               label={item.label}
               active={itemActive(pathname, item)}
               onClick={onNavigate}
@@ -193,19 +261,13 @@ export function StudioHeaderNavMobile({ onNavigate }: { onNavigate?: () => void 
                 <span aria-hidden="true">{servicesOpen ? "−" : "+"}</span>
               </button>
               {servicesOpen ? (
-                <ul className="mb-2 ml-2 border-l border-white/10 pl-3">
+                <div className="mb-2 ml-2 border-l border-white/10 pl-3">
                   {serviceLinks.map((child) => (
-                    <li key={child.href}>
-                      <Link
-                        href={child.href}
-                        className={`block rounded-lg px-3 py-2.5 ${linkActive(pathname, child.href) ? "text-white" : "text-white/70"}`}
-                        onClick={onNavigate}
-                      >
-                        {child.label}
-                      </Link>
-                    </li>
+                    <div key={child.label} className="mb-2">
+                      <MobileNavLink link={child} pathname={pathname} depth={0} onNavigate={onNavigate} />
+                    </div>
                   ))}
-                </ul>
+                </div>
               ) : null}
             </li>
           );
@@ -213,7 +275,7 @@ export function StudioHeaderNavMobile({ onNavigate }: { onNavigate?: () => void 
         return (
           <li key={item.href}>
             <Link
-              href={item.href}
+              href={item.href!}
               className={`block rounded-xl px-3 py-3 ${itemActive(pathname, item) ? "text-white" : "text-white/80"}`}
               onClick={onNavigate}
             >

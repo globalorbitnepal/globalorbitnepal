@@ -55,10 +55,28 @@ export const ORBIT_SOFTWARE: OrbitCard[] = [
     href: "/orbit-software/saas-business-suite",
   },
   {
+    slug: "web-apps",
+    title: "Web Apps",
+    summary: "Progressive web apps, portals, and admin on Next.js — SEO and app-like UX in one stack.",
+    href: "/orbit-software/web-apps",
+  },
+  {
+    slug: "android-apps",
+    title: "Android Apps",
+    summary: "Kotlin Android apps for operators — Play Store launch, push, offline, and Node.js APIs.",
+    href: "/orbit-software/android-apps",
+  },
+  {
+    slug: "ios-apps",
+    title: "iOS Apps",
+    summary: "SwiftUI iOS apps with TestFlight to App Store — premium motion and shared backends.",
+    href: "/orbit-software/ios-apps",
+  },
+  {
     slug: "custom-apps",
     title: "Custom Web & Mobile Apps",
-    summary: "Operator apps for bookings, field teams, and customer portals — web first, mobile ready.",
-    href: "/orbit-software/custom-apps",
+    summary: "Legacy URL — redirects to Web Apps.",
+    href: "/orbit-software/web-apps",
   },
   {
     slug: "saas-management-system",

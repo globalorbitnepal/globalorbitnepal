@@ -10,6 +10,8 @@ import { OrbitAppointmentsPanel } from "@/components/orbit/orbit-appointments-pa
 import type { AboutConfig } from "@/lib/about-config";
 import type { CareersConfig } from "@/lib/careers-config";
 import type { CustomAppsConfig } from "@/lib/custom-apps-config";
+import type { PlatformPageSlug } from "@/lib/platform-page-slugs";
+import { platformPagePath } from "@/lib/platform-page-slugs";
 import type { ProjectsConfig } from "@/lib/projects-config";
 import type { HeroConfig } from "@/lib/hero-config";
 import type { NeedConfig, NeedSlide, NeedStat } from "@/lib/need-config";
@@ -28,7 +30,9 @@ type Props = {
   initialAbout: AboutConfig;
   initialCareers: CareersConfig;
   initialProjects: ProjectsConfig;
-  initialCustomApps: CustomAppsConfig;
+  initialWebApps: CustomAppsConfig;
+  initialAndroidApps: CustomAppsConfig;
+  initialIosApps: CustomAppsConfig;
   needsSetup: boolean;
   authed: boolean;
 };
@@ -86,7 +90,9 @@ export function OrbitHeroEditor({
   initialAbout,
   initialCareers,
   initialProjects,
-  initialCustomApps,
+  initialWebApps,
+  initialAndroidApps,
+  initialIosApps,
   needsSetup,
   authed,
 }: Props) {
@@ -97,7 +103,10 @@ export function OrbitHeroEditor({
   const [aboutConfig, setAboutConfig] = useState(initialAbout);
   const [careersConfig, setCareersConfig] = useState(initialCareers);
   const [projectsConfig, setProjectsConfig] = useState(initialProjects);
-  const [customAppsConfig, setCustomAppsConfig] = useState(initialCustomApps);
+  const [webAppsConfig, setWebAppsConfig] = useState(initialWebApps);
+  const [androidAppsConfig, setAndroidAppsConfig] = useState(initialAndroidApps);
+  const [iosAppsConfig, setIosAppsConfig] = useState(initialIosApps);
+  const [platformEditorSlug, setPlatformEditorSlug] = useState<PlatformPageSlug>("web-apps");
   const [password, setPassword] = useState("");
   const [status, setStatus] = useState("");
   const [busy, setBusy] = useState(false);
@@ -126,20 +135,27 @@ export function OrbitHeroEditor({
     window.location.assign("/orbit");
   }
 
-  async function saveCustomApps(event: React.FormEvent) {
+  async function savePlatformPage(event: React.FormEvent) {
     event.preventDefault();
     setBusy(true);
-    const response = await fetch("/api/orbit/custom-apps", {
+    const slug = platformEditorSlug;
+    const payload =
+      slug === "web-apps" ? webAppsConfig : slug === "android-apps" ? androidAppsConfig : iosAppsConfig;
+    const response = await fetch("/api/orbit/platform-page", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(customAppsConfig),
+      body: JSON.stringify({ ...payload, slug }),
     });
     setBusy(false);
     setStatus(
       response.ok
-        ? "Saved. Custom apps page updates in a few seconds — open /orbit-software/custom-apps."
+        ? `Saved. Open ${platformPagePath(slug)} on the live site.`
         : "Save failed",
     );
+  }
+
+  async function saveCustomApps(event: React.FormEvent) {
+    return savePlatformPage(event);
   }
 
   async function saveProjects(event: React.FormEvent) {
@@ -469,7 +485,7 @@ export function OrbitHeroEditor({
     { id: "about", label: "About page", hint: "Full /about text — no images" },
     { id: "careers", label: "Careers page", hint: "Jobs, culture, hiring — text only" },
     { id: "projects", label: "Projects page", hint: "Nine zoom demos — text only" },
-    { id: "customApps", label: "Custom apps page", hint: "/orbit-software/custom-apps" },
+    { id: "customApps", label: "App platform pages", hint: "Web · Android · iOS" },
     { id: "appointments", label: "Appointments", hint: "Book Appointment inbox" },
   ];
 
@@ -572,13 +588,55 @@ export function OrbitHeroEditor({
             </p>
           </div>
         ) : section === "customApps" ? (
-          <OrbitCustomAppsEditorForm
-            config={customAppsConfig}
-            setConfig={setCustomAppsConfig}
-            busy={busy}
-            status={status}
-            onSubmit={saveCustomApps}
-          />
+          <>
+            <div className="mb-4 flex flex-wrap gap-2">
+              {(
+                [
+                  ["web-apps", "Web Apps"],
+                  ["android-apps", "Android Apps"],
+                  ["ios-apps", "iOS Apps"],
+                ] as const
+              ).map(([slug, label]) => (
+                <button
+                  key={slug}
+                  type="button"
+                  onClick={() => setPlatformEditorSlug(slug)}
+                  className={`rounded-full px-4 py-2 text-sm font-medium ${
+                    platformEditorSlug === slug ? "bg-[#f0c43a] text-[#14120a]" : "bg-white/10 text-white/80"
+                  }`}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+            <OrbitCustomAppsEditorForm
+              config={
+                platformEditorSlug === "web-apps"
+                  ? webAppsConfig
+                  : platformEditorSlug === "android-apps"
+                    ? androidAppsConfig
+                    : iosAppsConfig
+              }
+              setConfig={
+                platformEditorSlug === "web-apps"
+                  ? setWebAppsConfig
+                  : platformEditorSlug === "android-apps"
+                    ? setAndroidAppsConfig
+                    : setIosAppsConfig
+              }
+              pageTitle={
+                platformEditorSlug === "web-apps"
+                  ? "Web Apps page"
+                  : platformEditorSlug === "android-apps"
+                    ? "Android Apps page"
+                    : "iOS Apps page"
+              }
+              livePath={platformPagePath(platformEditorSlug)}
+              busy={busy}
+              status={status}
+              onSubmit={savePlatformPage}
+            />
+          </>
         ) : section === "projects" ? (
           <OrbitProjectsEditorForm
             config={projectsConfig}

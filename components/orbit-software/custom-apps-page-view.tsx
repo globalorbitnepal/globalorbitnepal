@@ -18,8 +18,8 @@ const CAP_ICONS = ["◆", "◎", "▣", "◈", "⬡", "✦"];
 
 export function CustomAppsPageView({ config }: { config: CustomAppsConfig }) {
   return (
-    <div className="orbit-about-page orbit-custom-apps-page text-white">
-      <section className="orbit-custom-apps-hero relative isolate px-4 pb-10 pt-2 sm:px-6 lg:px-8">
+    <div className="orbit-about-page orbit-custom-apps-page orbit-platform-detail-page text-white">
+      <section className="orbit-custom-apps-hero relative isolate px-4 pb-10 pt-0 sm:px-6 lg:px-8">
         <div className="orbit-about-hero-glow pointer-events-none absolute inset-0 -z-10" aria-hidden="true" />
         <div className="orbit-about-hero-grid pointer-events-none absolute inset-0 -z-10 opacity-40" aria-hidden="true" />
         <div className="mx-auto grid max-w-[76rem] gap-8 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-center lg:gap-10">

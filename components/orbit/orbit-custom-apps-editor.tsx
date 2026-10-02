@@ -51,12 +51,22 @@ function Panel({ title, description, children }: { title: string; description?: 
 type Props = {
   config: CustomAppsConfig;
   setConfig: React.Dispatch<React.SetStateAction<CustomAppsConfig>>;
+  pageTitle: string;
+  livePath: string;
   busy: boolean;
   status: string;
   onSubmit: (event: FormEvent) => void;
 };
 
-export function OrbitCustomAppsEditorForm({ config, setConfig, busy, status, onSubmit }: Props) {
+export function OrbitCustomAppsEditorForm({
+  config,
+  setConfig,
+  pageTitle,
+  livePath,
+  busy,
+  status,
+  onSubmit,
+}: Props) {
   const set = <K extends keyof CustomAppsConfig>(key: K) => (value: CustomAppsConfig[K]) => {
     setConfig((current) => ({ ...current, [key]: value }));
   };
@@ -75,8 +85,10 @@ export function OrbitCustomAppsEditorForm({ config, setConfig, busy, status, onS
   return (
     <>
       <div className="mb-6 hidden lg:block">
-        <h1 className="font-[family-name:var(--font-jakarta)] text-2xl font-semibold text-white">Custom apps page</h1>
-        <p className="mt-1 text-sm text-white/55">Full text for /orbit-software/custom-apps — no image uploads.</p>
+        <h1 className="font-[family-name:var(--font-jakarta)] text-2xl font-semibold text-white">{pageTitle}</h1>
+        <p className="mt-1 text-sm text-white/55">
+          Full text for {livePath} — hero, four videos, sections. No image uploads.
+        </p>
       </div>
 
       <form onSubmit={onSubmit} className="space-y-6">
@@ -311,7 +323,7 @@ export function OrbitCustomAppsEditorForm({ config, setConfig, busy, status, onS
             disabled={busy}
             className="rounded-full bg-[#f0c43a] px-8 py-3.5 text-sm font-semibold text-[#14120a] disabled:opacity-50"
           >
-            {busy ? "Saving…" : "Save custom apps page"}
+            {busy ? "Saving…" : `Save ${pageTitle.toLowerCase()}`}
           </button>
           {status ? <p className="text-sm text-white/60">{status}</p> : null}
         </div>
