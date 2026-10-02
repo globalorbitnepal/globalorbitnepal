@@ -88,6 +88,57 @@ export function OrbitCustomAppsEditorForm({ config, setConfig, busy, status, onS
           <Field label="Intro" value={config.heroLede} onChange={(v) => set("heroLede")(v)} multiline />
         </Panel>
 
+        <Panel title="Hero video" description="Path under /public — no upload">
+          <Field
+            label="Hero video URL"
+            value={config.heroVideoSrc}
+            onChange={(v) => set("heroVideoSrc")(v)}
+            hint="e.g. /brand/custom-apps/01-customer-portal.mp4"
+          />
+        </Panel>
+
+        <Panel title="Four app videos">
+          <Field label="Section eyebrow" value={config.appVideosEyebrow} onChange={(v) => set("appVideosEyebrow")(v)} />
+          <Field label="Title" value={config.appVideosTitle} onChange={(v) => set("appVideosTitle")(v)} />
+          <Field label="Title accent" value={config.appVideosTitleAccent} onChange={(v) => set("appVideosTitleAccent")(v)} />
+          <Field label="Supporting line" value={config.appVideosLede} onChange={(v) => set("appVideosLede")(v)} multiline />
+          {config.appVideos.map((clip, index) => (
+            <div key={`vid-${index}`} className="rounded-2xl border border-white/10 bg-black/25 p-4">
+              <Field
+                label={`Video ${index + 1} title`}
+                value={clip.title}
+                onChange={(v) =>
+                  setConfig((c) => ({
+                    ...c,
+                    appVideos: c.appVideos.map((item, i) => (i === index ? { ...item, title: v } : item)),
+                  }))
+                }
+              />
+              <Field
+                label="Caption"
+                value={clip.body}
+                onChange={(v) =>
+                  setConfig((c) => ({
+                    ...c,
+                    appVideos: c.appVideos.map((item, i) => (i === index ? { ...item, body: v } : item)),
+                  }))
+                }
+                multiline
+              />
+              <Field
+                label="Video path"
+                value={clip.videoSrc}
+                onChange={(v) =>
+                  setConfig((c) => ({
+                    ...c,
+                    appVideos: c.appVideos.map((item, i) => (i === index ? { ...item, videoSrc: v } : item)),
+                  }))
+                }
+              />
+            </div>
+          ))}
+        </Panel>
+
         <Panel title="Stats (4)">
           {config.stats.map((stat, index) => (
             <div key={`stat-${index}`} className="rounded-2xl border border-white/10 bg-black/25 p-4">

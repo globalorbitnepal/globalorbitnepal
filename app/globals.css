@@ -6303,6 +6303,17 @@ li.orbit-card:hover {
 
 .orbit-custom-apps-page {
   background: #07070b;
+  position: relative;
+  z-index: 0;
+}
+
+.orbit-app-shell:has(.orbit-custom-apps-page) .orbit-header-bar {
+  z-index: 100;
+  background: rgba(7, 7, 11, 0.9);
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
 }
 
 .orbit-custom-apps-section {
@@ -6504,6 +6515,142 @@ li.orbit-card:hover {
   border: 1px solid rgba(129, 140, 248, 0.25);
   background: linear-gradient(160deg, rgba(99, 102, 241, 0.12) 0%, rgba(8, 10, 18, 0.85) 100%);
   padding: clamp(1.25rem, 3vw, 1.75rem);
+}
+
+.orbit-custom-apps-hero-video {
+  position: relative;
+  margin-inline: auto;
+  width: min(100%, 420px);
+}
+
+.orbit-custom-apps-hero-video-glow {
+  pointer-events: none;
+  position: absolute;
+  inset: -12% -8%;
+  background: radial-gradient(circle at 50% 40%, rgba(240, 196, 58, 0.18), transparent 62%);
+  animation: orbit-custom-apps-pulse 6s ease-in-out infinite;
+}
+
+@keyframes orbit-custom-apps-pulse {
+  0%,
+  100% {
+    opacity: 0.75;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.04);
+  }
+}
+
+.orbit-custom-apps-hero-device {
+  position: relative;
+  overflow: hidden;
+  border-radius: clamp(18px, 2vw, 26px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: #0a0a10;
+  box-shadow:
+    0 32px 80px rgba(0, 0, 0, 0.55),
+    0 0 60px rgba(129, 140, 248, 0.12);
+  aspect-ratio: 9 / 16;
+  max-height: min(62vh, 520px);
+  margin-inline: auto;
+}
+
+.orbit-custom-apps-hero-video-el {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.orbit-custom-apps-video-grid {
+  display: grid;
+  gap: clamp(1rem, 2.5vw, 1.5rem);
+}
+
+@media (min-width: 640px) {
+  .orbit-custom-apps-video-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1280px) {
+  .orbit-custom-apps-video-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.orbit-custom-apps-video-card {
+  border-radius: 1.15rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(8, 10, 18, 0.75) 100%);
+  padding: 1rem 1rem 1.15rem;
+  text-align: center;
+  transition:
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+.orbit-custom-apps-video-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(240, 196, 58, 0.35);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.4);
+}
+
+.orbit-custom-apps-phone {
+  position: relative;
+  margin-inline: auto;
+  width: min(100%, 168px);
+  aspect-ratio: 9 / 19;
+  overflow: hidden;
+  border-radius: 22px;
+  border: 2px solid rgba(255, 255, 255, 0.12);
+  background: #050508;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+
+.orbit-custom-apps-phone-notch {
+  position: absolute;
+  left: 50%;
+  top: 8px;
+  z-index: 2;
+  height: 5px;
+  width: 28%;
+  transform: translateX(-50%);
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.65);
+}
+
+.orbit-custom-apps-phone-video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.orbit-custom-apps-video-index {
+  margin-top: 0.85rem;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  color: rgba(240, 196, 58, 0.6);
+}
+
+.orbit-custom-apps-video-title {
+  margin-top: 0.35rem;
+  font-family: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.95rem;
+  font-weight: 650;
+  color: #fff;
+}
+
+.orbit-custom-apps-video-body {
+  margin-top: 0.35rem;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.48);
 }
 
 .orbit-offices-section {

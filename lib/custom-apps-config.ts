@@ -13,12 +13,24 @@ export type CustomAppsStep = {
   body: string;
 };
 
+export type CustomAppsVideoClip = {
+  title: string;
+  body: string;
+  videoSrc: string;
+};
+
 export type CustomAppsConfig = {
   heroEyebrow: string;
   heroTitleBefore: string;
   heroTitleAccent: string;
   heroTitleAfter: string;
   heroLede: string;
+  heroVideoSrc: string;
+  appVideosEyebrow: string;
+  appVideosTitle: string;
+  appVideosTitleAccent: string;
+  appVideosLede: string;
+  appVideos: CustomAppsVideoClip[];
   stats: CustomAppsStat[];
   overviewEyebrow: string;
   overviewTitle: string;
@@ -61,6 +73,34 @@ export const DEFAULT_CUSTOM_APPS: CustomAppsConfig = {
   heroTitleAfter: "not demo-day slides",
   heroLede:
     "Booking portals, staff dashboards, customer apps, and field tools — engineered on Next.js and Node.js with the same premium bar as our homepage. One studio in Nepal, India, and the USA; deployments in 25+ countries.",
+  heroVideoSrc: "/brand/custom-apps/01-customer-portal.mp4",
+  appVideosEyebrow: "Live product motion",
+  appVideosTitle: "Four app experiences",
+  appVideosTitleAccent: "we ship",
+  appVideosLede:
+    "Customer portal, admin control, mobile booking, and field ops — each clip shows the motion, density, and polish of a production Global Orbit build.",
+  appVideos: [
+    {
+      title: "Customer portal",
+      body: "Self-service booking, profile, and payments — web app speed with app-like flows.",
+      videoSrc: "/brand/custom-apps/01-customer-portal.mp4",
+    },
+    {
+      title: "Admin dashboard",
+      body: "Role-based tables, filters, and approvals for operators who live in the product daily.",
+      videoSrc: "/brand/custom-apps/02-admin-dashboard.mp4",
+    },
+    {
+      title: "Mobile booking",
+      body: "Thumb-first UI, sticky CTAs, and offline-friendly steps for guides and guests on the move.",
+      videoSrc: "/brand/custom-apps/03-mobile-booking.mp4",
+    },
+    {
+      title: "Field operations",
+      body: "Dispatch, checklists, and status sync for teams away from the desk.",
+      videoSrc: "/brand/custom-apps/04-field-operations.webm",
+    },
+  ],
   stats: [
     { value: "120+", label: "Custom apps shipped" },
     { value: "15+", label: "Industries served" },
@@ -239,6 +279,19 @@ function parseSteps(raw: unknown, fallback: CustomAppsStep[]): CustomAppsStep[] 
   });
 }
 
+function parseAppVideos(raw: unknown, fallback: CustomAppsVideoClip[]): CustomAppsVideoClip[] {
+  if (!Array.isArray(raw)) return fallback;
+  return fallback.map((fb, index) => {
+    const item = raw[index];
+    const data = item && typeof item === "object" ? (item as Record<string, unknown>) : {};
+    return {
+      title: parseString(data.title, fb.title),
+      body: parseString(data.body, fb.body),
+      videoSrc: parseString(data.videoSrc, fb.videoSrc),
+    };
+  });
+}
+
 export function parseCustomAppsConfig(raw: unknown): CustomAppsConfig {
   const data = raw && typeof raw === "object" ? (raw as Record<string, unknown>) : {};
   const str = (key: keyof CustomAppsConfig, fallback: string) => parseString(data[key], fallback);
@@ -248,6 +301,12 @@ export function parseCustomAppsConfig(raw: unknown): CustomAppsConfig {
     heroTitleAccent: str("heroTitleAccent", DEFAULT_CUSTOM_APPS.heroTitleAccent),
     heroTitleAfter: str("heroTitleAfter", DEFAULT_CUSTOM_APPS.heroTitleAfter),
     heroLede: str("heroLede", DEFAULT_CUSTOM_APPS.heroLede),
+    heroVideoSrc: str("heroVideoSrc", DEFAULT_CUSTOM_APPS.heroVideoSrc),
+    appVideosEyebrow: str("appVideosEyebrow", DEFAULT_CUSTOM_APPS.appVideosEyebrow),
+    appVideosTitle: str("appVideosTitle", DEFAULT_CUSTOM_APPS.appVideosTitle),
+    appVideosTitleAccent: str("appVideosTitleAccent", DEFAULT_CUSTOM_APPS.appVideosTitleAccent),
+    appVideosLede: str("appVideosLede", DEFAULT_CUSTOM_APPS.appVideosLede),
+    appVideos: parseAppVideos(data.appVideos, DEFAULT_CUSTOM_APPS.appVideos),
     stats: parseStats(data.stats, DEFAULT_CUSTOM_APPS.stats),
     overviewEyebrow: str("overviewEyebrow", DEFAULT_CUSTOM_APPS.overviewEyebrow),
     overviewTitle: str("overviewTitle", DEFAULT_CUSTOM_APPS.overviewTitle),

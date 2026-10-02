@@ -1,7 +1,9 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { AboutReveal } from "@/components/about/reveal";
+import { CustomAppsHeroVideo } from "@/components/orbit-software/custom-apps-hero-video";
 import { CustomAppsProcessTimeline } from "@/components/orbit-software/custom-apps-process";
+import { CustomAppsVideoShowcase } from "@/components/orbit-software/custom-apps-video-showcase";
 import type { CustomAppsConfig } from "@/lib/custom-apps-config";
 
 function Badge({ children }: { children: ReactNode }) {
@@ -16,12 +18,12 @@ const CAP_ICONS = ["◆", "◎", "▣", "◈", "⬡", "✦"];
 
 export function CustomAppsPageView({ config }: { config: CustomAppsConfig }) {
   return (
-    <main className="orbit-about-page orbit-custom-apps-page text-white">
-      <section className="orbit-custom-apps-hero relative isolate px-4 pb-10 pt-[clamp(4.75rem,9vh,6rem)] sm:px-6 lg:px-8">
+    <div className="orbit-about-page orbit-custom-apps-page text-white">
+      <section className="orbit-custom-apps-hero relative isolate px-4 pb-10 pt-2 sm:px-6 lg:px-8">
         <div className="orbit-about-hero-glow pointer-events-none absolute inset-0 -z-10" aria-hidden="true" />
         <div className="orbit-about-hero-grid pointer-events-none absolute inset-0 -z-10 opacity-40" aria-hidden="true" />
-        <div className="mx-auto max-w-[76rem]">
-          <div className="mx-auto max-w-[54rem] text-center">
+        <div className="mx-auto grid max-w-[76rem] gap-8 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-center lg:gap-10">
+          <div className="text-center lg:text-left">
             <Badge>{config.heroEyebrow}</Badge>
             <h1 className="orbit-about-hero-title mt-5 font-[family-name:var(--font-jakarta)]">
               <span className="text-white">{config.heroTitleBefore} </span>
@@ -29,18 +31,39 @@ export function CustomAppsPageView({ config }: { config: CustomAppsConfig }) {
               <br />
               <span className="text-white/92">{config.heroTitleAfter}</span>
             </h1>
-            <p className="orbit-about-hero-lede mx-auto mt-5 max-w-2xl">{config.heroLede}</p>
+            <p className="orbit-about-hero-lede mx-auto mt-5 max-w-2xl lg:mx-0">{config.heroLede}</p>
+            <div className="mt-7 flex flex-wrap items-center justify-center gap-3 lg:justify-start">
+              <Link href={config.ctaPrimaryHref} className="orbit-about-cta-primary">
+                {config.ctaPrimaryLabel}
+                <span aria-hidden="true">→</span>
+              </Link>
+              <Link href={config.ctaSecondaryHref} className="orbit-about-cta-ghost">
+                {config.ctaSecondaryLabel}
+              </Link>
+            </div>
           </div>
-          <div className="orbit-projects-hero-stats mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {config.stats.map((stat) => (
-              <div key={stat.label} className="orbit-projects-stat-card orbit-custom-apps-stat">
-                <p className="orbit-projects-stat-value">{stat.value}</p>
-                <p className="orbit-projects-stat-label">{stat.label}</p>
-              </div>
-            ))}
-          </div>
+          <CustomAppsHeroVideo src={config.heroVideoSrc} />
+        </div>
+
+        <div className="orbit-projects-hero-stats mx-auto mt-10 grid max-w-[76rem] gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {config.stats.map((stat) => (
+            <div key={stat.label} className="orbit-projects-stat-card orbit-custom-apps-stat">
+              <p className="orbit-projects-stat-value">{stat.value}</p>
+              <p className="orbit-projects-stat-label">{stat.label}</p>
+            </div>
+          ))}
         </div>
       </section>
+
+      <CustomAppsVideoShowcase
+        clips={config.appVideos}
+        header={{
+          eyebrow: config.appVideosEyebrow,
+          title: config.appVideosTitle,
+          titleAccent: config.appVideosTitleAccent,
+          lede: config.appVideosLede,
+        }}
+      />
 
       <section className="orbit-custom-apps-section px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-[76rem]">
@@ -204,6 +227,6 @@ export function CustomAppsPageView({ config }: { config: CustomAppsConfig }) {
           </div>
         </AboutReveal>
       </section>
-    </main>
+    </div>
   );
 }

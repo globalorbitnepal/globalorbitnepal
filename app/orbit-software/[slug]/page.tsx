@@ -34,7 +34,12 @@ export default async function SoftwareDetailPage({ params }: Props) {
 
   if (slug === "custom-apps") {
     const config = await getCustomAppsConfig();
-    return <CustomAppsPageView config={config} />;
+    return (
+      <>
+        <link rel="preload" href={config.heroVideoSrc} as="video" fetchPriority="high" />
+        <CustomAppsPageView config={config} />
+      </>
+    );
   }
 
   return <OrbitArticlePage eyebrow="ERP Software" title={item.title} summary={item.summary} />;
