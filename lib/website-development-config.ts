@@ -106,18 +106,67 @@ export const WEBSITE_DEV_PROCESS = {
   ],
 };
 
+export const WEBSITE_DEV_VERTICALS = {
+  eyebrow: "Who we design for",
+  title: "Six unique art directions — not one template stamped six times",
+  lede:
+    "The frames above are coded homepages with their own type, color, and conversion pattern. Your live site will be original too — never a copy of globalorbitnepal.com.",
+  items: [
+    {
+      title: "Hotels & lodges",
+      body: "Availability bars, room stories, and Hotel schema so guests book without a call-back loop.",
+    },
+    {
+      title: "Trek & travel brands",
+      body: "Itinerary pages, difficulty chips, and enquiry funnels that still rank for seasonal keywords.",
+    },
+    {
+      title: "Restaurants & tasting rooms",
+      body: "Menu rhythm, reservation CTAs, and local SEO for Kathmandu, Pokhara, and tourist corridors.",
+    },
+    {
+      title: "Retail & labels",
+      body: "Lookbooks, GST-ready checkout hooks, and collection landings for Nepal plus export shops.",
+    },
+    {
+      title: "SaaS & B2B products",
+      body: "Pricing, dashboards-in-hero, and trial flows that survive investor and enterprise reviews.",
+    },
+    {
+      title: "Spa & wellness",
+      body: "Treatment lists, gift cards, and calm motion that converts without pop-up spam.",
+    },
+  ],
+};
+
 export const WEBSITE_DEV_SEO = {
   eyebrow: "Search-ready",
   title: "SEO and performance are structural, not an add-on",
   paragraphs: [
     "Website development in Nepal often stops at a pretty homepage. We bake in canonical URLs, metadata, Open Graph, JSON-LD, XML sitemaps, and internal linking patterns that match how Google crawls hospitality, travel, retail, and SaaS sites.",
     "Core Web Vitals budgets are agreed in scope — LCP, INP, and CLS tracked on staging before go-live. Multilingual hreflang and Nepal + global keyword clusters are documented for your content team.",
+    "Every page we ship has a unique H1, supporting H2s, FAQ schema where it helps, and image alt text written for the brand — not generic stock captions. Blog and landing templates exist so you can keep publishing after handover.",
   ],
   bullets: [
     "Technical SEO audit checklist on handover",
     "Schema for Organization, Service, FAQ, and vertical types",
     "Image pipelines with modern formats and lazy loading",
     "Blog and landing page templates for long-tail Nepal queries",
+    "301 maps and Search Console monitoring on redesigns",
+    "Nepali + English content architecture when you need both markets",
+  ],
+};
+
+export const WEBSITE_DEV_DELIVERABLES = {
+  eyebrow: "Handover",
+  title: "What a finished website includes",
+  bullets: [
+    "Production Next.js or WordPress deploy with environments documented",
+    "CMS training so your team edits pages without a developer ticket",
+    "Analytics, Search Console, and uptime monitoring wired on day one",
+    "Accessibility pass (contrast, focus, reduced motion)",
+    "30-day hypercare with a named engineer",
+    "Phase-two roadmap with estimate ranges, not surprise invoices",
   ],
 };
 
@@ -137,6 +186,14 @@ export const WEBSITE_DEV_FAQ = [
   {
     q: "Do you provide demo designs before signing?",
     a: "The layouts on this page are fictional showcases of our craft; your project receives custom mocks after discovery.",
+  },
+  {
+    q: "Will my website look like the Global Orbit homepage?",
+    a: "No. These demos exist to prove we can art-direct lodge, trek, restaurant, retail, SaaS, and spa sites as unique products. Your brand gets its own type, color, and motion.",
+  },
+  {
+    q: "How long does a professional website take in Nepal?",
+    a: "Typical production sites ship in 6–10 weeks after discovery: sitemap, design, build, content, SEO pass, and launch.",
   },
 ];
 

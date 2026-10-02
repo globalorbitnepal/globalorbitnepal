@@ -4,12 +4,14 @@ import { AboutReveal } from "@/components/about/reveal";
 import { WebsiteDevDemoShowcase } from "@/components/services/website-development/demo-showcase";
 import {
   WEBSITE_DEV_CTA,
+  WEBSITE_DEV_DELIVERABLES,
   WEBSITE_DEV_DEMOS,
   WEBSITE_DEV_FAQ,
   WEBSITE_DEV_HERO,
   WEBSITE_DEV_PROCESS,
   WEBSITE_DEV_SEO,
   WEBSITE_DEV_STATS,
+  WEBSITE_DEV_VERTICALS,
 } from "@/lib/website-development-config";
 
 function Badge({ children }: { children: ReactNode }) {
@@ -64,10 +66,30 @@ export function WebsiteDevelopmentPageView() {
           eyebrow: "Template quality · original art direction",
           title: "Six fictional brands,",
           titleAccent: "six distinct layouts",
-  lede:
-    "Each preview is a fully coded landing page — full-bleed hero, bold type, pill CTAs, and dark-mode polish like a premium agency template. Not our homepage and not flat wireframes.",
+          lede:
+            "Each frame is a coded website — nav, hero, inner sections, and footer — auto-scrolling so you see a real homepage, not a still image of ours.",
         }}
       />
+
+      <section className="orbit-projects-tight px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-[76rem]">
+          <AboutReveal>
+            <div className="orbit-about-glass orbit-about-story">
+              <Badge>{WEBSITE_DEV_VERTICALS.eyebrow}</Badge>
+              <h2 className="orbit-about-h2 mt-4">{WEBSITE_DEV_VERTICALS.title}</h2>
+              <p className="mt-3 max-w-2xl text-base leading-relaxed text-white/55">{WEBSITE_DEV_VERTICALS.lede}</p>
+              <ul className="orbit-wd-process mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                {WEBSITE_DEV_VERTICALS.items.map((item) => (
+                  <li key={item.title} className="orbit-wd-process-step">
+                    <h3 className="text-lg font-semibold text-white/92">{item.title}</h3>
+                    <p className="mt-2 text-sm leading-relaxed text-white/52">{item.body}</p>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </AboutReveal>
+        </div>
+      </section>
 
       <section className="orbit-projects-tight px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-[76rem]">
@@ -103,6 +125,25 @@ export function WebsiteDevelopmentPageView() {
               </div>
               <ul className="mt-6 grid gap-2.5 sm:grid-cols-2">
                 {WEBSITE_DEV_SEO.bullets.map((bullet) => (
+                  <li key={bullet} className="flex gap-3 text-sm leading-relaxed text-white/55">
+                    <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#f0c43a]" aria-hidden="true" />
+                    {bullet}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </AboutReveal>
+        </div>
+      </section>
+
+      <section className="orbit-projects-tight px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-[76rem]">
+          <AboutReveal>
+            <div className="orbit-about-glass orbit-about-story">
+              <Badge>{WEBSITE_DEV_DELIVERABLES.eyebrow}</Badge>
+              <h2 className="orbit-about-h2 mt-4">{WEBSITE_DEV_DELIVERABLES.title}</h2>
+              <ul className="mt-6 grid gap-2.5 sm:grid-cols-2">
+                {WEBSITE_DEV_DELIVERABLES.bullets.map((bullet) => (
                   <li key={bullet} className="flex gap-3 text-sm leading-relaxed text-white/55">
                     <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#f0c43a]" aria-hidden="true" />
                     {bullet}

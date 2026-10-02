@@ -1,255 +1,265 @@
 import type { ComponentType, ReactNode } from "react";
 
-type ShellProps = {
-  theme: string;
-  brand: string;
-  bg: string;
-  navLeft?: ReactNode;
-  navRight?: ReactNode;
-  children: ReactNode;
-  overlay?: "dark" | "darker" | "warm" | "light";
-};
+function Pill({ children, variant = "light" }: { children: ReactNode; variant?: "light" | "dark" | "ghost" | "gold" | "lime" | "copper" }) {
+  return <span className={`wd-site-pill wd-site-pill--${variant}`}>{children}</span>;
+}
 
-function DemoShell({ theme, brand, bg, navLeft, navRight, children, overlay = "dark" }: ShellProps) {
+function Nav({
+  brand,
+  links,
+  cta,
+  tone = "light",
+}: {
+  brand: string;
+  links: string[];
+  cta: string;
+  tone?: "light" | "dark";
+}) {
   return (
-    <div className={`wd-prem wd-prem--${theme}`}>
-      <div className={`wd-prem-bg ${bg}`} aria-hidden="true" />
-      <div className={`wd-prem-overlay wd-prem-overlay--${overlay}`} aria-hidden="true" />
-      <header className="wd-prem-nav">
-        <span className="wd-prem-brand">{brand}</span>
-        <div className="wd-prem-nav-links">{navLeft}</div>
-        <div className="wd-prem-nav-actions">{navRight}</div>
-      </header>
-      <div className="wd-prem-stage">{children}</div>
+    <header className={`wd-site-nav wd-site-nav--${tone}`}>
+      <span className="wd-site-logo">{brand}</span>
+      <nav className="wd-site-links">
+        {links.map((link) => (
+          <span key={link}>{link}</span>
+        ))}
+      </nav>
+      <Pill variant={tone === "dark" ? "dark" : "light"}>{cta}</Pill>
+    </header>
+  );
+}
+
+/** Lodge — warm photography, booking bar, room cards */
+export function DemoSummitLodge() {
+  return (
+    <div className="wd-site wd-site--lodge">
+      <Nav brand="Summit Lodge" links={["Rooms", "Dining", "Stay"]} cta="Book stay" />
+      <section className="wd-site-hero wd-scene--lodge-dusk">
+        <p className="wd-site-kicker">Nagarkot · 2,195 m</p>
+        <h1>
+          Journey starts
+          <em> here</em>
+        </h1>
+        <p className="wd-site-lede">Twelve rooms above the cloud line. Forest trails. Fireside dinners.</p>
+        <div className="wd-site-bookbar">
+          <span>12 Oct</span>
+          <span>15 Oct</span>
+          <span>2 guests</span>
+          <Pill>See rooms</Pill>
+        </div>
+      </section>
+      <section className="wd-site-band">
+        <h2>Suites with a horizon</h2>
+        <div className="wd-site-cards">
+          {[
+            { name: "Forest deluxe", price: "NPR 12,500", scene: "wd-scene--forest" },
+            { name: "Panorama suite", price: "NPR 18,900", scene: "wd-scene--ridge" },
+            { name: "Cottage", price: "NPR 15,200", scene: "wd-scene--fire" },
+          ].map((room) => (
+            <article key={room.name} className="wd-site-card">
+              <div className={`wd-site-thumb ${room.scene}`} />
+              <h3>{room.name}</h3>
+              <p>From {room.price}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+      <footer className="wd-site-foot">Check-in from 2pm · Airport transfer on request</footer>
     </div>
   );
 }
 
-function Pill({ children, variant = "light" }: { children: ReactNode; variant?: "light" | "dark" | "ghost" }) {
-  return <span className={`wd-prem-pill wd-prem-pill--${variant}`}>{children}</span>;
-}
-
-/** Hospitality — Northline-style journey hero */
-export function DemoSummitLodge() {
-  return (
-    <DemoShell
-      theme="northline"
-      brand="Summit Lodge"
-      bg="wd-prem-bg--alps-sunset"
-      navLeft={
-        <>
-          <span>Rooms</span>
-          <span>Experiences</span>
-        </>
-      }
-      navRight={<Pill>Book stay</Pill>}
-      overlay="warm"
-    >
-      <div className="wd-prem-hero wd-prem-hero--center">
-        <p className="wd-prem-eyebrow">Nagarkot · Nepal</p>
-        <h1 className="wd-prem-h1 wd-prem-h1--split">
-          <span>Journey starts</span>
-          <span className="wd-prem-h1-accent">here</span>
-        </h1>
-        <p className="wd-prem-sub">Twelve rooms above the cloud line — forest trails and fireside tables.</p>
-        <div className="wd-prem-actions">
-          <Pill>See availability</Pill>
-          <Pill variant="ghost">View gallery</Pill>
-        </div>
-      </div>
-      <div className="wd-prem-float-row" aria-hidden="true">
-        <div className="wd-prem-float-card">
-          <div className="wd-prem-float-img wd-prem-float-img--forest" />
-          <p>Panorama suite</p>
-        </div>
-        <div className="wd-prem-float-card">
-          <div className="wd-prem-float-img wd-prem-float-img--fire" />
-          <p>Chef&apos;s table</p>
-        </div>
-      </div>
-    </DemoShell>
-  );
-}
-
-/** Trek — Wildline-style oversized type */
+/** Trek operator — oversized type, itinerary, guides */
 export function DemoTrailhead() {
   return (
-    <DemoShell
-      theme="wildline"
-      brand="Trailhead"
-      bg="wd-prem-bg--ridge"
-      navLeft={
-        <>
-          <span>Trips</span>
-          <span>Guides</span>
-        </>
-      }
-      navRight={<Pill variant="ghost">Enquire</Pill>}
-      overlay="darker"
-    >
-      <div className="wd-prem-hero wd-prem-hero--bottom">
-        <p className="wd-prem-eyebrow wd-prem-eyebrow--lime">Everest region · 14 days</p>
-        <h1 className="wd-prem-h1 wd-prem-h1--mega">
+    <div className="wd-site wd-site--trail">
+      <Nav brand="Trailhead" links={["Trips", "Guides", "Safety"]} cta="Enquire" />
+      <section className="wd-site-hero wd-scene--everest">
+        <p className="wd-site-kicker wd-site-kicker--lime">Everest region · 14 days</p>
+        <h1 className="wd-site-mega">
           Book
           <br />
-          adventure<span className="wd-prem-dot">.</span>
+          adventure<span>.</span>
         </h1>
-        <p className="wd-prem-sub wd-prem-sub--narrow">Small groups. Certified guides. Ethical pacing at altitude.</p>
-        <Pill>Download itinerary</Pill>
-      </div>
-    </DemoShell>
+        <p className="wd-site-lede">Small groups. Certified guides. Ethical pacing at altitude.</p>
+        <Pill variant="lime">Download itinerary</Pill>
+      </section>
+      <section className="wd-site-band wd-site-band--dark">
+        <h2>Days on the trail</h2>
+        <ol className="wd-site-days">
+          <li>
+            <strong>03</strong> Lukla · first tea house
+          </li>
+          <li>
+            <strong>05</strong> Namche rest &amp; views
+          </li>
+          <li>
+            <strong>11</strong> Base camp sunrise
+          </li>
+        </ol>
+      </section>
+      <footer className="wd-site-foot wd-site-foot--dark">Licensed operator · Porter welfare policy</footer>
+    </div>
   );
 }
 
-/** Dining — Forma-style dark interior */
+/** Fine dining — serif, tasting menu, reservation */
 export function DemoEmberSlate() {
   return (
-    <DemoShell
-      theme="forma"
-      brand="Ember & Slate"
-      bg="wd-prem-bg--interior"
-      navLeft={
-        <>
-          <span>Menu</span>
-          <span>Wine</span>
-          <span>Private</span>
-        </>
-      }
-      navRight={<Pill variant="ghost">Reserve</Pill>}
-      overlay="dark"
-    >
-      <div className="wd-prem-hero wd-prem-hero--left">
-        <p className="wd-prem-eyebrow">Kathmandu · Tasting room</p>
-        <h1 className="wd-prem-h1 wd-prem-h1--stack">
-          <span>Seven courses.</span>
-          <span>One slow evening.</span>
+    <div className="wd-site wd-site--ember">
+      <Nav brand="Ember & Slate" links={["Menu", "Wine", "Private"]} cta="Reserve" />
+      <section className="wd-site-hero wd-scene--dining">
+        <p className="wd-site-kicker wd-site-kicker--copper">Kathmandu tasting room</p>
+        <h1 className="wd-site-serif">
+          Seven courses.
+          <br />
+          One slow evening.
         </h1>
-        <p className="wd-prem-sub">Wood-fired produce, natural pairings, reservations through midnight.</p>
-        <Pill>Hold a table</Pill>
-      </div>
-    </DemoShell>
+        <p className="wd-site-lede">Wood-fired produce, natural wines, reservations through midnight.</p>
+        <Pill variant="copper">Hold a table</Pill>
+      </section>
+      <section className="wd-site-band wd-site-band--ember">
+        <h2>Tonight&apos;s tasting</h2>
+        <div className="wd-site-menu">
+          <p>
+            <span>01</span> Charred leek, miso butter
+          </p>
+          <p>
+            <span>04</span> Line-caught trout, fennel
+          </p>
+          <p>
+            <span>07</span> Dark chocolate, smoked salt
+          </p>
+        </div>
+      </section>
+      <footer className="wd-site-foot wd-site-foot--ember">Thu–Sun · Last seating 21:30</footer>
+    </div>
   );
 }
 
-/** Retail — editorial light hero */
+/** Fashion retail — light editorial lookbook */
 export function DemoNorwood() {
   return (
-    <DemoShell
-      theme="atelier"
-      brand="Norwood"
-      bg="wd-prem-bg--studio-light"
-      navLeft={
-        <>
-          <span>Lookbook</span>
-          <span>Craft</span>
-        </>
-      }
-      navRight={
-        <>
-          <span className="wd-prem-link">Cart</span>
-          <Pill variant="dark">Shop drop</Pill>
-        </>
-      }
-      overlay="light"
-    >
-      <div className="wd-prem-hero wd-prem-hero--split-light">
+    <div className="wd-site wd-site--norwood">
+      <Nav brand="Norwood" links={["Lookbook", "Craft", "Stores"]} cta="Shop drop" tone="dark" />
+      <section className="wd-site-hero wd-site-hero--split">
         <div>
-          <p className="wd-prem-eyebrow wd-prem-eyebrow--dark">Winter 2026</p>
-          <h1 className="wd-prem-h1 wd-prem-h1--dark">Layers built for hill mornings.</h1>
-          <p className="wd-prem-sub wd-prem-sub--dark">Merino, structure, and export-ready sizing charts.</p>
+          <p className="wd-site-kicker wd-site-kicker--ink">Winter 2026</p>
+          <h1 className="wd-site-ink">Layers built for hill mornings.</h1>
+          <p className="wd-site-lede wd-site-lede--ink">Merino knits, structured coats, export-ready sizing.</p>
           <Pill variant="dark">Explore collection</Pill>
         </div>
-        <div className="wd-prem-product-stack" aria-hidden="true">
-          <div className="wd-prem-product-tile wd-prem-product-tile--a" />
-          <div className="wd-prem-product-tile wd-prem-product-tile--b" />
+        <div className="wd-site-look">
+          <div className="wd-scene--wool" />
+          <div className="wd-scene--rose" />
         </div>
-      </div>
-    </DemoShell>
+      </section>
+      <section className="wd-site-band">
+        <h2 className="wd-site-ink">New in</h2>
+        <div className="wd-site-cards wd-site-cards--3">
+          {["Alpine coat", "Ridge scarf", "Summit boot"].map((name, i) => (
+            <article key={name} className="wd-site-card wd-site-card--light">
+              <div className={`wd-site-thumb ${["wd-scene--wool", "wd-scene--rose", "wd-scene--char"][i]}`} />
+              <h3>{name}</h3>
+              <p>NPR {(8900 + i * 2400).toLocaleString()}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+      <footer className="wd-site-foot wd-site-foot--ink">Free pickup in Thamel · Worldwide shipping</footer>
+    </div>
   );
 }
 
-/** SaaS — Pulse split with dashboard */
+/** SaaS analytics — dashboard + pricing */
 export function DemoPulseMetrics() {
   return (
-    <DemoShell
-      theme="pulse"
-      brand="PulseMetrics"
-      bg="wd-prem-bg--mesh"
-      navLeft={
-        <>
-          <span>Product</span>
-          <span>Pricing</span>
-        </>
-      }
-      navRight={
-        <>
-          <span className="wd-prem-link">Sign in</span>
-          <Pill>Start trial</Pill>
-        </>
-      }
-      overlay="dark"
-    >
-      <div className="wd-prem-hero wd-prem-hero--saas">
-        <div className="wd-prem-saas-copy">
-          <span className="wd-prem-badge">AI revenue cockpit</span>
-          <h1 className="wd-prem-h1 wd-prem-h1--saas">
-            Build relationships and drive revenue through data.
-          </h1>
-          <p className="wd-prem-sub">Pipeline, churn, and expansion — one dark dashboard your team actually opens.</p>
-          <div className="wd-prem-actions">
+    <div className="wd-site wd-site--pulse">
+      <Nav brand="PulseMetrics" links={["Product", "Pricing", "Docs"]} cta="Start trial" />
+      <section className="wd-site-hero wd-site-hero--saas">
+        <div>
+          <span className="wd-site-chip">AI revenue cockpit</span>
+          <h1>Build relationships and drive revenue.</h1>
+          <p className="wd-site-lede">Pipeline, churn, and expansion — one console your team actually opens.</p>
+          <div className="wd-site-pills">
             <Pill>Open console</Pill>
             <Pill variant="ghost">Book demo</Pill>
           </div>
         </div>
-        <div className="wd-prem-dashboard" aria-hidden="true">
-          <div className="wd-prem-dash-head">
+        <div className="wd-dash">
+          <div className="wd-dash-top">
             <span>Relationships</span>
-            <span className="wd-prem-dash-up">+18%</span>
+            <em>+18%</em>
           </div>
-          <div className="wd-prem-dash-chart">
-            <div style={{ height: "38%" }} />
-            <div style={{ height: "62%" }} />
-            <div style={{ height: "48%" }} />
-            <div style={{ height: "78%" }} />
-            <div style={{ height: "55%" }} />
+          <div className="wd-dash-bars">
+            <i style={{ height: "42%" }} />
+            <i style={{ height: "68%" }} />
+            <i style={{ height: "51%" }} />
+            <i style={{ height: "86%" }} />
+            <i style={{ height: "60%" }} />
+            <i style={{ height: "74%" }} />
           </div>
-          <div className="wd-prem-dash-row">
-            <span>MRR</span>
-            <strong>$284k</strong>
+          <div className="wd-dash-kpis">
+            <span>
+              MRR <b>$284k</b>
+            </span>
+            <span>
+              NRR <b>118%</b>
+            </span>
           </div>
         </div>
-      </div>
-    </DemoShell>
+      </section>
+      <section className="wd-site-band wd-site-band--pulse">
+        <h2>Plans that scale with ARR</h2>
+        <div className="wd-site-plans">
+          <article>
+            <h3>Launch</h3>
+            <p>$49 / seat</p>
+          </article>
+          <article className="is-hot">
+            <h3>Growth</h3>
+            <p>$129 / seat</p>
+          </article>
+          <article>
+            <h3>Enterprise</h3>
+            <p>Custom</p>
+          </article>
+        </div>
+      </section>
+      <footer className="wd-site-foot wd-site-foot--dark">SOC 2 in progress · 14-day trial</footer>
+    </div>
   );
 }
 
-/** Property / wellness — Haven skyline hero */
+/** Spa / property calm — treatments */
 export function DemoHavenSpa() {
   return (
-    <DemoShell
-      theme="haven"
-      brand="Haven Spa"
-      bg="wd-prem-bg--city-night"
-      navLeft={
-        <>
-          <span>Treatments</span>
-          <span>Gift cards</span>
-        </>
-      }
-      navRight={<Pill>Book now</Pill>}
-      overlay="darker"
-    >
-      <div className="wd-prem-hero wd-prem-hero--center">
-        <p className="wd-prem-eyebrow">Thamel · Wellness</p>
-        <h1 className="wd-prem-h1 wd-prem-h1--serif">Spaces that hold calm.</h1>
-        <p className="wd-prem-sub">Hot stone, herbal steam, and therapists matched to your rhythm.</p>
+    <div className="wd-site wd-site--haven">
+      <Nav brand="Haven Spa" links={["Rituals", "Therapists", "Gifts"]} cta="Book now" />
+      <section className="wd-site-hero wd-scene--city-dusk">
+        <p className="wd-site-kicker">Thamel · Wellness</p>
+        <h1 className="wd-site-serif">Spaces that hold calm.</h1>
+        <p className="wd-site-lede">Hot stone, herbal steam, therapists matched to your rhythm.</p>
         <Pill>View treatments</Pill>
-      </div>
-      <div className="wd-prem-inset-grid" aria-hidden="true">
-        <div className="wd-prem-inset wd-prem-inset--spa" />
-        <div className="wd-prem-inset wd-prem-inset--steam" />
-      </div>
-    </DemoShell>
+      </section>
+      <section className="wd-site-band wd-site-band--haven">
+        <h2>Rituals</h2>
+        <ul className="wd-site-rituals">
+          <li>
+            <span>Deep tissue</span>
+            <em>60 min · NPR 4,200</em>
+          </li>
+          <li>
+            <span>Couples ritual</span>
+            <em>120 min · NPR 9,800</em>
+          </li>
+          <li>
+            <span>Abhyanga</span>
+            <em>75 min · NPR 5,100</em>
+          </li>
+        </ul>
+      </section>
+      <footer className="wd-site-foot">Open daily 10:00–21:00 · Gift vouchers</footer>
+    </div>
   );
 }
 
