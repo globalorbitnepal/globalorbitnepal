@@ -64,8 +64,8 @@ export function WebsiteDevelopmentPageView() {
           eyebrow: "Template quality · original art direction",
           title: "Six fictional brands,",
           titleAccent: "six distinct layouts",
-          lede:
-            "Each preview is a fully coded mini-site inside the browser frame — not a screenshot of this domain and not AI placeholder images standing in for design.",
+  lede:
+    "Each preview is a fully coded landing page — full-bleed hero, bold type, pill CTAs, and dark-mode polish like a premium agency template. Not our homepage and not flat wireframes.",
         }}
       />
 
