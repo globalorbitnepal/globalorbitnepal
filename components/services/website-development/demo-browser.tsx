@@ -16,7 +16,7 @@ export function WebsiteDemoBrowser({ children, url }: { children: ReactNode; url
     const tick = () => {
       const max = el.scrollHeight - el.clientHeight;
       if (max > 8) {
-        el.scrollTop += dir * 0.35;
+        el.scrollTop += dir * 0.22;
         if (el.scrollTop >= max - 1) dir = -1;
         if (el.scrollTop <= 0) dir = 1;
       }
