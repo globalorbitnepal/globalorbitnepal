@@ -425,6 +425,31 @@ html.orbit-touch {
     #050508;
 }
 
+.orbit-career-role {
+  padding: 1.35rem 1.5rem;
+  color: inherit;
+  transition:
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.35s ease;
+}
+
+.orbit-career-role:hover {
+  transform: translateY(-4px);
+  border-color: rgba(240, 196, 58, 0.35);
+}
+
+.orbit-career-role-arrow {
+  transition: transform 0.25s ease;
+}
+
+.orbit-career-role:hover .orbit-career-role-arrow {
+  transform: translateX(4px);
+}
+
+.orbit-career-quote {
+  padding: clamp(1.75rem, 4vw, 2.5rem);
+}
+
 html,
 body {
   overflow-x: clip;

@@ -1,28 +1,17 @@
 import type { Metadata } from "next";
-import { OrbitCatalogPage } from "@/components/orbit/catalog-page";
-import { ORBIT_CAREERS } from "@/lib/orbit/catalog";
+import { CareersPageView } from "@/components/careers/careers-page-view";
+import { getCareersConfig } from "@/lib/careers-store";
 import { buildPageMetadata } from "@/lib/seo";
 
 export async function generateMetadata(): Promise<Metadata> {
   return buildPageMetadata({
     title: "Careers",
-    description: "Join Global Orbit — studios in Nepal, India, and the United States.",
+    description: "Join Global Orbit — engineering, design, and SEO roles across Nepal, India, and the United States.",
     path: "/careers",
   });
 }
 
-export default function CareersPage() {
-  return (
-    <OrbitCatalogPage
-      eyebrow="Careers"
-      title="Three offices. One engineering bar."
-      lede="Engineering, design, and SEO roles across Nepal, India, and the United States."
-      items={ORBIT_CAREERS.map((item) => ({
-        slug: item.slug,
-        title: item.title,
-        summary: item.summary,
-        href: `/careers/${item.slug}`,
-      }))}
-    />
-  );
+export default async function CareersPage() {
+  const config = await getCareersConfig();
+  return <CareersPageView config={config} />;
 }
