@@ -10,7 +10,8 @@
     "lint": "eslint",
     "db:generate": "prisma generate",
     "db:validate": "prisma validate",
-    "db:verify-target": "node scripts/verify-database-target.mjs"
+    "db:verify-target": "node scripts/verify-database-target.mjs",
+    "videos:platform": "bash scripts/build-platform-app-videos.sh"
   },
   "dependencies": {
     "@prisma/client": "^6.16.2",
@@ -19,6 +20,7 @@
     "react-dom": "19.2.8"
   },
   "devDependencies": {
+    "@ffmpeg-installer/ffmpeg": "^1.1.0",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",

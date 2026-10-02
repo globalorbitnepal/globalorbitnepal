@@ -2,13 +2,16 @@
 
 import { useEffect, useRef } from "react";
 import type { PlatformPageSlug } from "@/lib/platform-page-slugs";
+import { platformVideoSrc } from "@/lib/platform-video-version";
 
 function videoMime(src: string) {
-  if (src.endsWith(".webm")) return "video/webm";
+  const path = src.split("?")[0] ?? src;
+  if (path.endsWith(".webm")) return "video/webm";
   return "video/mp4";
 }
 
 export function CustomAppsHeroVideo({ src, platform }: { src: string; platform: PlatformPageSlug }) {
+  const videoSrc = platformVideoSrc(src);
   const ref = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
@@ -25,7 +28,7 @@ export function CustomAppsHeroVideo({ src, platform }: { src: string; platform: 
       video.removeEventListener("loadeddata", play);
       document.removeEventListener("visibilitychange", play);
     };
-  }, [src]);
+  }, [videoSrc]);
 
   if (platform === "web-apps") {
     return (
@@ -50,7 +53,7 @@ export function CustomAppsHeroVideo({ src, platform }: { src: string; platform: 
             preload="auto"
             disablePictureInPicture
           >
-            <source src={src} type={videoMime(src)} />
+            <source src={videoSrc} type={videoMime(src)} />
           </video>
         </div>
       </div>
@@ -78,7 +81,7 @@ export function CustomAppsHeroVideo({ src, platform }: { src: string; platform: 
           preload="auto"
           disablePictureInPicture
         >
-          <source src={src} type={videoMime(src)} />
+          <source src={videoSrc} type={videoMime(src)} />
         </video>
       </div>
     </div>

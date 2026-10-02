@@ -2,9 +2,11 @@
 
 import type { CustomAppsVideoClip } from "@/lib/custom-apps-config";
 import type { PlatformPageSlug } from "@/lib/platform-page-slugs";
+import { platformVideoSrc } from "@/lib/platform-video-version";
 
 function videoMime(src: string) {
-  if (src.endsWith(".webm")) return "video/webm";
+  const path = src.split("?")[0] ?? src;
+  if (path.endsWith(".webm")) return "video/webm";
   return "video/mp4";
 }
 
@@ -58,7 +60,7 @@ export function CustomAppsVideoShowcase({
                     preload="metadata"
                     disablePictureInPicture
                   >
-                    <source src={clip.videoSrc} type={videoMime(clip.videoSrc)} />
+                    <source src={platformVideoSrc(clip.videoSrc)} type={videoMime(clip.videoSrc)} />
                   </video>
                 </div>
               ) : (
@@ -79,7 +81,7 @@ export function CustomAppsVideoShowcase({
                     preload="metadata"
                     disablePictureInPicture
                   >
-                    <source src={clip.videoSrc} type={videoMime(clip.videoSrc)} />
+                    <source src={platformVideoSrc(clip.videoSrc)} type={videoMime(clip.videoSrc)} />
                   </video>
                 </div>
               )}
