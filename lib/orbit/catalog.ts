@@ -165,7 +165,8 @@ export const ORBIT_SERVICE_PAGES: OrbitCard[] = [
   {
     slug: "website-development-nepal",
     title: "Website Development Nepal",
-    summary: "Professional website development services in Nepal by Global Orbit.",
+    summary:
+      "Custom website design and Next.js development in Kathmandu — original layouts, SEO structure, and coded demos (not template clones).",
     href: "/service/website-development-nepal",
   },
   {

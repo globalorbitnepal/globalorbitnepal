@@ -7833,3 +7833,584 @@ li.orbit-card:hover {
     transition: none !important;
   }
 }
+
+.orbit-wd-page {
+  background: #07070b;
+}
+
+.orbit-wd-demos {
+  padding-block: clamp(2rem, 4vh, 3rem) clamp(2.5rem, 5vh, 3.5rem);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.orbit-wd-demo-list {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(3rem, 8vh, 5rem);
+}
+
+.orbit-wd-demo-row {
+  display: grid;
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+  align-items: center;
+}
+
+@media (min-width: 1024px) {
+  .orbit-wd-demo-row {
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  }
+
+  .orbit-wd-demo-row.is-flip {
+    direction: rtl;
+  }
+
+  .orbit-wd-demo-row.is-flip > * {
+    direction: ltr;
+  }
+}
+
+.orbit-wd-demo-copy {
+  will-change: transform, opacity;
+}
+
+.orbit-wd-demo-index {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(240, 196, 58, 0.85);
+}
+
+.orbit-wd-demo-brand {
+  margin-top: 0.5rem;
+  font-family: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  font-size: clamp(1.5rem, 1.1rem + 1.2vw, 2rem);
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  color: rgba(255, 255, 255, 0.94);
+}
+
+.orbit-wd-demo-tagline {
+  margin-top: 0.35rem;
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.orbit-wd-demo-story {
+  margin-top: 0.85rem;
+  font-size: 0.9rem;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.48);
+}
+
+.orbit-wd-demo-bullets {
+  margin-top: 1rem;
+  display: grid;
+  gap: 0.45rem;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.52);
+}
+
+.orbit-wd-demo-bullets li {
+  padding-left: 1rem;
+  position: relative;
+}
+
+.orbit-wd-demo-bullets li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 4px;
+  height: 4px;
+  border-radius: 999px;
+  background: #f0c43a;
+}
+
+.orbit-wd-demo-stack {
+  margin-top: 1.15rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.orbit-wd-demo-stack span {
+  font-size: 0.62rem;
+  font-weight: 650;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.35rem 0.55rem;
+  border-radius: 0.35rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.orbit-wd-demo-frame {
+  will-change: transform;
+  transition: box-shadow 0.4s ease;
+}
+
+.wd-browser {
+  border-radius: clamp(12px, 1.2vw, 18px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  overflow: hidden;
+  background: #0a0a10;
+  box-shadow:
+    0 28px 70px rgba(0, 0, 0, 0.55),
+    0 0 50px rgba(240, 196, 58, 0.06);
+}
+
+.wd-browser-chrome {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.45rem 0.75rem;
+  background: rgba(10, 10, 16, 0.98);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.wd-browser-url {
+  flex: 1;
+  font-size: 0.65rem;
+  color: rgba(255, 255, 255, 0.4);
+  padding: 0.28rem 0.5rem;
+  border-radius: 0.35rem;
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.wd-browser-viewport {
+  aspect-ratio: 16 / 11;
+  overflow: hidden;
+  background: #fff;
+}
+
+.orbit-wd-process-step {
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 1.15rem 1.1rem;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.orbit-wd-process-num {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: #f0c43a;
+}
+
+.orbit-wd-faq dt {
+  line-height: 1.45;
+}
+
+/* ——— Fictional demo mini-sites (scoped) ——— */
+.wd-t {
+  min-height: 100%;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: 11px;
+  line-height: 1.4;
+  text-align: left;
+}
+
+.wd-t-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.65rem 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.wd-t-logo {
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.wd-t-links {
+  display: flex;
+  gap: 0.75rem;
+  font-size: 9px;
+  color: rgba(0, 0, 0, 0.55);
+}
+
+.wd-t-links span {
+  cursor: default;
+}
+
+.wd-t-cta-sm {
+  padding: 0.25rem 0.45rem;
+  border-radius: 0.25rem;
+  background: #1e3d32;
+  color: #fff !important;
+  font-weight: 600;
+}
+
+.wd-t-hero {
+  padding: 1.25rem 1rem 1rem;
+}
+
+.wd-t-kicker {
+  font-size: 8px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(30, 61, 50, 0.7);
+}
+
+.wd-t-hero h1 {
+  margin-top: 0.35rem;
+  font-size: clamp(14px, 2.2vw, 18px);
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.wd-t-hero p {
+  margin-top: 0.35rem;
+  font-size: 9px;
+  opacity: 0.75;
+  max-width: 28em;
+}
+
+.wd-t--lodge {
+  background: #f4f0e8;
+  color: #1a2e28;
+}
+
+.wd-t-hero--lodge {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 0.75rem;
+  align-items: stretch;
+}
+
+.wd-t-mountain {
+  border-radius: 0.5rem;
+  background:
+    linear-gradient(180deg, rgba(135, 206, 235, 0.5) 0%, transparent 40%),
+    linear-gradient(145deg, #2d5a47 0%, #1e3d32 45%, #3d6b4f 100%);
+  min-height: 5.5rem;
+}
+
+.wd-t-bar {
+  margin-top: 0.65rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  align-items: center;
+  padding: 0.4rem;
+  border-radius: 0.35rem;
+  background: rgba(255, 255, 255, 0.65);
+  font-size: 8px;
+}
+
+.wd-t-bar button {
+  margin-left: auto;
+  padding: 0.35rem 0.55rem;
+  border: none;
+  border-radius: 0.25rem;
+  background: #1e3d32;
+  color: #fff;
+  font-size: 8px;
+  font-weight: 600;
+}
+
+.wd-t-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.45rem;
+  padding: 0 1rem 1rem;
+}
+
+.wd-t-card {
+  border-radius: 0.35rem;
+  overflow: hidden;
+  background: #fff;
+  padding-bottom: 0.45rem;
+}
+
+.wd-t-thumb {
+  height: 2.75rem;
+}
+
+.wd-t-thumb--green {
+  background: linear-gradient(135deg, #4a7c59, #2d5a47);
+}
+
+.wd-t-card h3 {
+  padding: 0.35rem 0.4rem 0;
+  font-size: 9px;
+  font-weight: 650;
+}
+
+.wd-t-card p {
+  padding: 0 0.4rem;
+  font-size: 8px;
+  opacity: 0.65;
+}
+
+.wd-t--trail {
+  background: #0f1419;
+  color: #f5f5f5;
+}
+
+.wd-t-nav--dark {
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.wd-t-logo--orange {
+  color: #e85d04;
+}
+
+.wd-t-kicker--orange {
+  color: #e85d04;
+}
+
+.wd-t-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.5rem;
+}
+
+.wd-t-chips span {
+  font-size: 8px;
+  padding: 0.2rem 0.4rem;
+  border-radius: 999px;
+  border: 1px solid rgba(232, 93, 4, 0.45);
+  color: #ffb381;
+}
+
+.wd-t-cta-orange {
+  margin-top: 0.65rem;
+  padding: 0.45rem 0.65rem;
+  border: none;
+  border-radius: 0.3rem;
+  background: #e85d04;
+  color: #fff;
+  font-size: 9px;
+  font-weight: 650;
+}
+
+.wd-t-timeline {
+  padding: 0 1rem 1rem;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.wd-t-timeline-item {
+  display: flex;
+  gap: 0.5rem;
+  align-items: baseline;
+  padding: 0.4rem 0.5rem;
+  border-radius: 0.3rem;
+  background: rgba(255, 255, 255, 0.04);
+  font-size: 9px;
+}
+
+.wd-t-day {
+  font-weight: 700;
+  color: #e85d04;
+  font-size: 8px;
+}
+
+.wd-t--ember {
+  background: #0a0a0a;
+  color: #f2ebe3;
+}
+
+.wd-t-nav--ember {
+  border-color: rgba(184, 115, 51, 0.25);
+}
+
+.wd-t-logo--copper {
+  color: #b87333;
+}
+
+.wd-t-res {
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #b87333;
+}
+
+.wd-t-hero--ember h1 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 400;
+  font-size: 16px;
+}
+
+.wd-t-menu-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.45rem;
+  padding: 0 1rem 1rem;
+}
+
+.wd-t-menu-item {
+  padding: 0.5rem;
+  border: 1px solid rgba(184, 115, 51, 0.25);
+  border-radius: 0.35rem;
+}
+
+.wd-t-menu-item span {
+  font-size: 8px;
+  color: #b87333;
+}
+
+.wd-t-menu-item p {
+  margin-top: 0.25rem;
+  font-size: 9px;
+}
+
+.wd-t--norwood {
+  background: #fafafa;
+  color: #111;
+}
+
+.wd-t-nav--light {
+  background: #fff;
+}
+
+.wd-t-logo--dark {
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 10px;
+}
+
+.wd-t-links--dark {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.wd-t-hero--norwood h1 {
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+.wd-t-product-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  padding: 0 1rem 1rem;
+}
+
+.wd-t-product-img {
+  aspect-ratio: 3 / 4;
+  border-radius: 0.25rem;
+  margin-bottom: 0.35rem;
+}
+
+.wd-t-product-img--0 {
+  background: linear-gradient(160deg, #d4d4d8, #71717a);
+}
+
+.wd-t-product-img--1 {
+  background: linear-gradient(160deg, #fecdd3, #be123c);
+}
+
+.wd-t-product-img--2 {
+  background: linear-gradient(160deg, #1c1917, #57534e);
+}
+
+.wd-t-product h3 {
+  font-size: 9px;
+  font-weight: 600;
+}
+
+.wd-t-product p {
+  font-size: 8px;
+  opacity: 0.6;
+}
+
+.wd-t-product button {
+  margin-top: 0.25rem;
+  font-size: 8px;
+  border: 1px solid #111;
+  background: transparent;
+  padding: 0.2rem 0.45rem;
+  border-radius: 999px;
+}
+
+.wd-t--pulse {
+  background: linear-gradient(165deg, #1e1b4b 0%, #312e81 50%, #0f172a 100%);
+  color: #e0e7ff;
+}
+
+.wd-t-nav--pulse {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.wd-t-cta-sm--purple {
+  background: #6366f1 !important;
+}
+
+.wd-t-hero--pulse h1 {
+  font-size: 14px;
+  max-width: 22em;
+}
+
+.wd-t-dash {
+  margin-top: 0.75rem;
+  display: flex;
+  align-items: flex-end;
+  gap: 0.35rem;
+  height: 3.5rem;
+  padding: 0.5rem;
+  border-radius: 0.4rem;
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.wd-t-dash-bar {
+  flex: 1;
+  border-radius: 0.2rem 0.2rem 0 0;
+  background: linear-gradient(180deg, #818cf8, #4f46e5);
+}
+
+.wd-t--haven {
+  background: #e8f0ec;
+  color: #1a3329;
+}
+
+.wd-t-nav--haven {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.wd-t-logo--sage {
+  color: #2d5a47;
+  font-weight: 650;
+}
+
+.wd-t-res--sage {
+  color: #2d5a47;
+}
+
+.wd-t-hero--haven h1 {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.wd-t-spa-list {
+  padding: 0 1rem 1rem;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.wd-t-spa-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.45rem 0.55rem;
+  border-radius: 0.35rem;
+  background: rgba(255, 255, 255, 0.55);
+  font-size: 9px;
+}
+
+.wd-t-spa-item h3 {
+  font-size: 9px;
+  font-weight: 650;
+}
+
+.wd-t-spa-item p {
+  font-size: 8px;
+  opacity: 0.65;
+}
+

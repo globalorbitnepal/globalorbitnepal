@@ -1,0 +1,157 @@
+import Link from "next/link";
+import type { ReactNode } from "react";
+import { AboutReveal } from "@/components/about/reveal";
+import { WebsiteDevDemoShowcase } from "@/components/services/website-development/demo-showcase";
+import {
+  WEBSITE_DEV_CTA,
+  WEBSITE_DEV_DEMOS,
+  WEBSITE_DEV_FAQ,
+  WEBSITE_DEV_HERO,
+  WEBSITE_DEV_PROCESS,
+  WEBSITE_DEV_SEO,
+  WEBSITE_DEV_STATS,
+} from "@/lib/website-development-config";
+
+function Badge({ children }: { children: ReactNode }) {
+  return <span className="orbit-about-badge">{children}</span>;
+}
+
+function GoldGradient({ children }: { children: ReactNode }) {
+  return <span className="orbit-about-gold-text">{children}</span>;
+}
+
+export function WebsiteDevelopmentPageView() {
+  return (
+    <main className="orbit-about-page orbit-wd-page text-white">
+      <section className="orbit-projects-hero relative isolate px-4 pb-12 pt-[clamp(4.75rem,9vh,6rem)] sm:px-6 lg:px-8">
+        <div className="orbit-about-hero-glow pointer-events-none absolute inset-0 -z-10" aria-hidden="true" />
+        <div className="orbit-about-hero-grid pointer-events-none absolute inset-0 -z-10 opacity-40" aria-hidden="true" />
+        <div className="mx-auto max-w-[76rem]">
+          <div className="mx-auto max-w-[54rem] text-center">
+            <Badge>{WEBSITE_DEV_HERO.eyebrow}</Badge>
+            <h1 className="orbit-about-hero-title mt-5 font-[family-name:var(--font-jakarta)]">
+              <span className="text-white">{WEBSITE_DEV_HERO.titleBefore} </span>
+              <GoldGradient>{WEBSITE_DEV_HERO.titleAccent}</GoldGradient>
+              <br />
+              <span className="text-white/92">{WEBSITE_DEV_HERO.titleAfter}</span>
+            </h1>
+            <p className="orbit-about-hero-lede mx-auto mt-5 max-w-2xl">{WEBSITE_DEV_HERO.lede}</p>
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+              <Link href="/contact" className="orbit-about-cta-primary">
+                Start a project
+                <span aria-hidden="true">→</span>
+              </Link>
+              <Link href="#wd-demos-heading" className="orbit-about-cta-ghost">
+                Scroll demos
+              </Link>
+            </div>
+          </div>
+
+          <div className="orbit-projects-hero-stats mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {WEBSITE_DEV_STATS.map((stat) => (
+              <div key={stat.label} className="orbit-projects-stat-card">
+                <p className="orbit-projects-stat-value">{stat.value}</p>
+                <p className="orbit-projects-stat-label">{stat.label}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <WebsiteDevDemoShowcase
+        demos={WEBSITE_DEV_DEMOS}
+        header={{
+          eyebrow: "Template quality · original art direction",
+          title: "Six fictional brands,",
+          titleAccent: "six distinct layouts",
+          lede:
+            "Each preview is a fully coded mini-site inside the browser frame — not a screenshot of this domain and not AI placeholder images standing in for design.",
+        }}
+      />
+
+      <section className="orbit-projects-tight px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-[76rem]">
+          <AboutReveal>
+            <div className="orbit-about-glass orbit-about-story">
+              <Badge>{WEBSITE_DEV_PROCESS.eyebrow}</Badge>
+              <h2 className="orbit-about-h2 mt-4">{WEBSITE_DEV_PROCESS.title}</h2>
+              <p className="mt-3 max-w-2xl text-base leading-relaxed text-white/55">{WEBSITE_DEV_PROCESS.lede}</p>
+              <ol className="orbit-wd-process mt-8 grid gap-4 sm:grid-cols-2">
+                {WEBSITE_DEV_PROCESS.steps.map((step, i) => (
+                  <li key={step.title} className="orbit-wd-process-step">
+                    <span className="orbit-wd-process-num">{String(i + 1).padStart(2, "0")}</span>
+                    <h3 className="text-lg font-semibold text-white/92">{step.title}</h3>
+                    <p className="mt-2 text-sm leading-relaxed text-white/52">{step.body}</p>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </AboutReveal>
+        </div>
+      </section>
+
+      <section className="orbit-projects-tight px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-[76rem]">
+          <AboutReveal>
+            <div className="orbit-about-glass orbit-about-story">
+              <Badge>{WEBSITE_DEV_SEO.eyebrow}</Badge>
+              <h2 className="orbit-about-h2 mt-4">{WEBSITE_DEV_SEO.title}</h2>
+              <div className="mt-5 space-y-3 text-base leading-relaxed text-white/58">
+                {WEBSITE_DEV_SEO.paragraphs.map((p) => (
+                  <p key={p.slice(0, 40)}>{p}</p>
+                ))}
+              </div>
+              <ul className="mt-6 grid gap-2.5 sm:grid-cols-2">
+                {WEBSITE_DEV_SEO.bullets.map((bullet) => (
+                  <li key={bullet} className="flex gap-3 text-sm leading-relaxed text-white/55">
+                    <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#f0c43a]" aria-hidden="true" />
+                    {bullet}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </AboutReveal>
+        </div>
+      </section>
+
+      <section className="orbit-projects-tight px-4 sm:px-6 lg:px-8" aria-labelledby="wd-faq-heading">
+        <div className="mx-auto max-w-[76rem]">
+          <AboutReveal>
+            <div className="orbit-about-glass">
+              <Badge>FAQ</Badge>
+              <h2 id="wd-faq-heading" className="orbit-about-h2 mt-4">
+                Website development Nepal — common questions
+              </h2>
+              <dl className="orbit-wd-faq mt-8 space-y-6">
+                {WEBSITE_DEV_FAQ.map((item) => (
+                  <div key={item.q}>
+                    <dt className="text-base font-semibold text-white/90">{item.q}</dt>
+                    <dd className="mt-2 text-sm leading-relaxed text-white/52">{item.a}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+          </AboutReveal>
+        </div>
+      </section>
+
+      <section className="orbit-projects-tight px-4 pb-16 sm:px-6 lg:px-8">
+        <AboutReveal>
+          <div className="orbit-about-cta mx-auto max-w-[48rem] text-center">
+            <h2 className="orbit-about-h2">{WEBSITE_DEV_CTA.title}</h2>
+            <p className="mx-auto mt-3 max-w-xl text-base leading-relaxed text-white/55">{WEBSITE_DEV_CTA.lede}</p>
+            <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
+              <Link href={WEBSITE_DEV_CTA.primaryHref} className="orbit-about-cta-primary">
+                {WEBSITE_DEV_CTA.primaryLabel}
+                <span aria-hidden="true">→</span>
+              </Link>
+              <Link href={WEBSITE_DEV_CTA.secondaryHref} className="orbit-about-cta-ghost">
+                {WEBSITE_DEV_CTA.secondaryLabel}
+              </Link>
+            </div>
+          </div>
+        </AboutReveal>
+      </section>
+    </main>
+  );
+}
