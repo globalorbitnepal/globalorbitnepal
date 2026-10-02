@@ -352,27 +352,32 @@ export const DEFAULT_WEB_APPS = parseCustomAppsConfig({
   heroTitleAfter: "and rank on Google",
   heroLede:
     "Installable PWAs, customer portals, and admin consoles on Next.js — fast first paint, SEO built in, and one codebase for marketing plus product.",
-  heroVideoSrc: "/brand/platform-apps/web/01-customer-portal.mp4",
+  heroVideoSrc: "/brand/platform-apps/web/hero-main.mp4",
+  appVideosEyebrow: "Web product motion",
+  appVideosTitle: "Four web experiences",
+  appVideosTitleAccent: "in the browser",
+  appVideosLede:
+    "Portal, admin, responsive booking, and installable PWA — widescreen product motion built on Next.js, not recycled mobile reels.",
   appVideos: [
     {
       title: "Customer portal",
-      body: "Logged-in journeys, payments, and support — full-width web app polish.",
-      videoSrc: "/brand/platform-apps/web/01-customer-portal.mp4",
+      body: "Logged-in dashboards in the browser — auth, billing, and support in one tab.",
+      videoSrc: "/brand/platform-apps/web/01-portal.mp4",
     },
     {
       title: "Operations admin",
-      body: "Dense tables, role gates, and exports for teams at HQ.",
-      videoSrc: "/brand/platform-apps/web/02-admin-dashboard.mp4",
+      body: "Multi-column tables, filters, and exports for HQ teams on desktop.",
+      videoSrc: "/brand/platform-apps/web/02-admin.mp4",
     },
     {
       title: "Responsive booking",
-      body: "Mobile-first flows that still scale to desktop dashboards.",
-      videoSrc: "/brand/platform-apps/web/03-mobile-booking.mp4",
+      body: "Mobile web flows that still feel at home on 27-inch monitors.",
+      videoSrc: "/brand/platform-apps/web/03-responsive.mp4",
     },
     {
-      title: "Field sync",
-      body: "Offline-tolerant steps with background sync to Node APIs.",
-      videoSrc: "/brand/platform-apps/web/04-field-operations.webm",
+      title: "Installable PWA",
+      body: "Add-to-home-screen, offline shell, and push-ready web app packaging.",
+      videoSrc: "/brand/platform-apps/web/04-pwa.webm",
     },
   ],
   ctaTitle: "Planning a web app?",
@@ -385,32 +390,32 @@ export const DEFAULT_ANDROID_APPS = parseCustomAppsConfig({
   heroTitleAfter: "Play Store ready",
   heroLede:
     "Kotlin-forward Android builds for booking, logistics, and staff — Material motion, push notifications, and secure APIs to your Node backend.",
-  heroVideoSrc: "/brand/platform-apps/android/01-play-store-flow.mp4",
+  heroVideoSrc: "/brand/platform-apps/android/hero-main.mp4",
   appVideosEyebrow: "Android motion",
-  appVideosTitle: "Four Android surfaces",
-  appVideosTitleAccent: "we ship",
+  appVideosTitle: "Four Android builds",
+  appVideosTitleAccent: "on device",
   appVideosLede:
-    "Store listing flows, Material UI, API integration, and offline push — production motion from Global Orbit builds.",
+    "Play Store, Compose UI, FCM push, and offline queues — portrait-native motion with Material rhythm, separate from our web and iOS reels.",
   appVideos: [
     {
       title: "Play Store journey",
       body: "Onboarding, permissions, and deep links from your marketing site.",
-      videoSrc: "/brand/platform-apps/android/01-play-store-flow.mp4",
+      videoSrc: "/brand/platform-apps/android/01-playstore.mp4",
     },
     {
-      title: "Material product UI",
-      body: "Thumb zones, bottom sheets, and dark mode for long shifts.",
-      videoSrc: "/brand/platform-apps/android/02-material-ui.mp4",
+      title: "Jetpack Compose UI",
+      body: "Material motion, bottom sheets, and dark mode for long shifts.",
+      videoSrc: "/brand/platform-apps/android/02-compose.mp4",
     },
     {
-      title: "API integration",
-      body: "Retrofit/Ktor clients against your Node.js services with auth refresh.",
-      videoSrc: "/brand/platform-apps/android/03-kotlin-api.mp4",
+      title: "FCM & booking",
+      body: "Thumb-first booking with push alerts tied to your Node APIs.",
+      videoSrc: "/brand/platform-apps/android/03-fcm.mp4",
     },
     {
-      title: "Push & offline",
-      body: "FCM alerts, cached queues, and sync when connectivity returns.",
-      videoSrc: "/brand/platform-apps/android/04-push-offline.mp4",
+      title: "Offline queue",
+      body: "Cached actions and background sync when connectivity drops.",
+      videoSrc: "/brand/platform-apps/android/04-offline.mp4",
     },
   ],
   platformsTitle: "Android delivery",
@@ -435,17 +440,17 @@ export const DEFAULT_IOS_APPS = parseCustomAppsConfig({
   heroTitleAfter: "TestFlight to App Store",
   heroLede:
     "SwiftUI and UIKit builds for premium brands — smooth motion, Sign in with Apple, in-app purchases, and Node.js backends your web team already runs.",
-  heroVideoSrc: "/brand/platform-apps/ios/01-app-store-flow.mp4",
+  heroVideoSrc: "/brand/platform-apps/ios/hero-main.webm",
   appVideosEyebrow: "iOS motion",
-  appVideosTitle: "Four iOS experiences",
-  appVideosTitleAccent: "we ship",
+  appVideosTitle: "Four Apple builds",
+  appVideosTitleAccent: "native feel",
   appVideosLede:
-    "App Store flows, SwiftUI screens, TestFlight betas, and widget sync — the same premium bar as our web studio.",
+    "App Store, SwiftUI, TestFlight, and widgets — clips tuned for iPhone aspect and Apple motion, not shared with Android or web folders.",
   appVideos: [
     {
       title: "App Store flow",
       body: "Privacy labels, onboarding, and universal links from campaigns.",
-      videoSrc: "/brand/platform-apps/ios/01-app-store-flow.mp4",
+      videoSrc: "/brand/platform-apps/ios/01-store.mp4",
     },
     {
       title: "SwiftUI product",
@@ -460,7 +465,7 @@ export const DEFAULT_IOS_APPS = parseCustomAppsConfig({
     {
       title: "Widgets & sync",
       body: "Home-screen widgets and background refresh against your APIs.",
-      videoSrc: "/brand/platform-apps/ios/04-widget-sync.webm",
+      videoSrc: "/brand/platform-apps/ios/04-widgets.mp4",
     },
   ],
   platformsTitle: "Apple platforms",

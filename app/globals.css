@@ -6661,6 +6661,224 @@ li.orbit-card:hover {
   color: rgba(255, 255, 255, 0.48);
 }
 
+.orbit-platform--web {
+  --platform-accent: #818cf8;
+  --platform-accent-soft: rgba(129, 140, 248, 0.35);
+  --platform-glow: rgba(99, 102, 241, 0.22);
+}
+
+.orbit-platform--android {
+  --platform-accent: #3ddc84;
+  --platform-accent-soft: rgba(61, 220, 132, 0.35);
+  --platform-glow: rgba(61, 220, 132, 0.16);
+}
+
+.orbit-platform--ios {
+  --platform-accent: #f5f5f7;
+  --platform-accent-soft: rgba(245, 245, 247, 0.4);
+  --platform-glow: rgba(255, 255, 255, 0.12);
+}
+
+.orbit-platform--web .orbit-about-hero-glow {
+  background:
+    radial-gradient(circle at 50% 0%, var(--platform-glow), transparent 55%),
+    radial-gradient(circle at 80% 30%, rgba(240, 196, 58, 0.06), transparent 40%);
+}
+
+.orbit-platform--android .orbit-about-hero-glow {
+  background:
+    radial-gradient(circle at 40% 0%, var(--platform-glow), transparent 52%),
+    radial-gradient(circle at 70% 40%, rgba(61, 220, 132, 0.08), transparent 45%);
+}
+
+.orbit-platform--ios .orbit-about-hero-glow {
+  background:
+    radial-gradient(circle at 50% 0%, var(--platform-glow), transparent 50%),
+    radial-gradient(circle at 20% 35%, rgba(147, 197, 253, 0.08), transparent 42%);
+}
+
+.orbit-platform-badge {
+  border-color: var(--platform-accent-soft);
+  color: var(--platform-accent);
+}
+
+.orbit-platform-accent-text {
+  background-image: linear-gradient(120deg, var(--platform-accent) 0%, #f0c43a 55%, #fff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.orbit-platform--android .orbit-platform-accent-text {
+  background-image: linear-gradient(120deg, #3ddc84 0%, #a7f3d0 45%, #fff 100%);
+}
+
+.orbit-platform--ios .orbit-platform-accent-text {
+  background-image: linear-gradient(120deg, #f5f5f7 0%, #d4d4d8 40%, #fafafa 100%);
+}
+
+.orbit-platform-title span {
+  background-image: linear-gradient(90deg, var(--platform-accent) 0%, #f0c43a 50%, #fff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.orbit-platform--web .orbit-projects-stat-value {
+  color: #818cf8;
+}
+
+.orbit-platform--android .orbit-projects-stat-value {
+  color: #3ddc84;
+}
+
+.orbit-platform--ios .orbit-projects-stat-value {
+  color: #f5f5f7;
+}
+
+.orbit-platform--web .orbit-custom-apps-process-fill {
+  background: linear-gradient(90deg, #818cf8, #f0c43a);
+}
+
+.orbit-platform--android .orbit-custom-apps-process-fill {
+  background: linear-gradient(90deg, #3ddc84, #818cf8);
+}
+
+.orbit-platform--ios .orbit-custom-apps-process-fill {
+  background: linear-gradient(90deg, #f5f5f7, #818cf8);
+}
+
+.orbit-platform-hero.is-web .orbit-custom-apps-hero-video-glow {
+  background: radial-gradient(circle at 50% 40%, var(--platform-glow), transparent 62%);
+}
+
+.orbit-platform-browser {
+  width: min(100%, 560px);
+  margin-inline: auto;
+  border-radius: clamp(14px, 1.4vw, 20px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  overflow: hidden;
+  background: #0a0a10;
+  box-shadow:
+    0 32px 80px rgba(0, 0, 0, 0.55),
+    0 0 60px var(--platform-glow);
+}
+
+.orbit-platform-browser-chrome {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.5rem 0.75rem;
+  background: rgba(12, 12, 18, 0.98);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.orbit-platform-browser-url {
+  flex: 1;
+  font-size: 0.68rem;
+  color: rgba(255, 255, 255, 0.45);
+  border-radius: 0.4rem;
+  background: rgba(0, 0, 0, 0.35);
+  padding: 0.3rem 0.55rem;
+}
+
+.orbit-platform-browser-video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  object-position: top center;
+}
+
+.orbit-platform-hero.is-android .orbit-custom-apps-hero-device,
+.orbit-platform-hero.is-ios .orbit-custom-apps-hero-device {
+  position: relative;
+}
+
+.orbit-custom-apps-hero-device.is-android-device {
+  border-color: rgba(61, 220, 132, 0.35);
+  box-shadow:
+    0 32px 80px rgba(0, 0, 0, 0.55),
+    0 0 50px rgba(61, 220, 132, 0.12);
+}
+
+.orbit-custom-apps-hero-device.is-ios-device {
+  border-radius: clamp(22px, 2.5vw, 32px);
+  border-color: rgba(245, 245, 247, 0.25);
+  box-shadow:
+    0 32px 80px rgba(0, 0, 0, 0.55),
+    0 0 40px rgba(255, 255, 255, 0.08);
+}
+
+.orbit-platform-dynamic-island {
+  position: absolute;
+  left: 50%;
+  top: 10px;
+  z-index: 3;
+  height: 22px;
+  width: 28%;
+  transform: translateX(-50%);
+  border-radius: 999px;
+  background: #000;
+}
+
+.orbit-platform-dynamic-island.is-small {
+  height: 14px;
+  width: 32%;
+  top: 8px;
+}
+
+.orbit-platform-android-punch {
+  position: absolute;
+  right: 14%;
+  top: 10px;
+  z-index: 3;
+  height: 10px;
+  width: 10px;
+  border-radius: 999px;
+  background: #111;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+.orbit-custom-apps-phone.is-android-phone {
+  border-color: rgba(61, 220, 132, 0.28);
+}
+
+.orbit-custom-apps-phone.is-ios-phone {
+  border-radius: 26px;
+  border-color: rgba(245, 245, 247, 0.22);
+}
+
+.orbit-platform-mini-browser {
+  margin-inline: auto;
+  width: min(100%, 220px);
+  overflow: hidden;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: #0a0a10;
+}
+
+.orbit-platform-mini-browser-bar {
+  height: 6px;
+  background: linear-gradient(90deg, #818cf8, #6366f1);
+}
+
+.orbit-platform-mini-browser-video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 11;
+  object-fit: cover;
+}
+
+.orbit-custom-apps-video-grid.is-web-grid {
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .orbit-custom-apps-video-grid.is-web-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 .orbit-offices-section {
   background: transparent;
 }

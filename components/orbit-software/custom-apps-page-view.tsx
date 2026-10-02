@@ -5,20 +5,36 @@ import { CustomAppsHeroVideo } from "@/components/orbit-software/custom-apps-her
 import { CustomAppsProcessTimeline } from "@/components/orbit-software/custom-apps-process";
 import { CustomAppsVideoShowcase } from "@/components/orbit-software/custom-apps-video-showcase";
 import type { CustomAppsConfig } from "@/lib/custom-apps-config";
+import type { PlatformPageSlug } from "@/lib/platform-page-slugs";
 
 function Badge({ children }: { children: ReactNode }) {
-  return <span className="orbit-about-badge">{children}</span>;
+  return <span className="orbit-about-badge orbit-platform-badge">{children}</span>;
 }
 
 function GoldGradient({ children }: { children: ReactNode }) {
-  return <span className="orbit-about-gold-text">{children}</span>;
+  return <span className="orbit-about-gold-text orbit-platform-accent-text">{children}</span>;
 }
 
 const CAP_ICONS = ["◆", "◎", "▣", "◈", "⬡", "✦"];
 
-export function CustomAppsPageView({ config }: { config: CustomAppsConfig }) {
+export function CustomAppsPageView({
+  config,
+  platform,
+}: {
+  config: CustomAppsConfig;
+  platform: PlatformPageSlug;
+}) {
+  const platformClass =
+    platform === "web-apps"
+      ? "orbit-platform--web"
+      : platform === "android-apps"
+        ? "orbit-platform--android"
+        : "orbit-platform--ios";
+
   return (
-    <div className="orbit-about-page orbit-custom-apps-page orbit-platform-detail-page text-white">
+    <div
+      className={`orbit-about-page orbit-custom-apps-page orbit-platform-detail-page ${platformClass} text-white`}
+    >
       <section className="orbit-custom-apps-hero relative isolate px-4 pb-10 pt-0 sm:px-6 lg:px-8">
         <div className="orbit-about-hero-glow pointer-events-none absolute inset-0 -z-10" aria-hidden="true" />
         <div className="orbit-about-hero-grid pointer-events-none absolute inset-0 -z-10 opacity-40" aria-hidden="true" />
@@ -42,7 +58,7 @@ export function CustomAppsPageView({ config }: { config: CustomAppsConfig }) {
               </Link>
             </div>
           </div>
-          <CustomAppsHeroVideo src={config.heroVideoSrc} />
+          <CustomAppsHeroVideo src={config.heroVideoSrc} platform={platform} />
         </div>
 
         <div className="orbit-projects-hero-stats mx-auto mt-10 grid max-w-[76rem] gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -57,6 +73,7 @@ export function CustomAppsPageView({ config }: { config: CustomAppsConfig }) {
 
       <CustomAppsVideoShowcase
         clips={config.appVideos}
+        platform={platform}
         header={{
           eyebrow: config.appVideosEyebrow,
           title: config.appVideosTitle,

@@ -99,7 +99,7 @@ async function renderPlatformPage(slug: PlatformPageSlug) {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
       <link rel="preload" href={config.heroVideoSrc} as="video" fetchPriority="high" />
-      <CustomAppsPageView config={config} />
+        <CustomAppsPageView config={config} platform={slug} />
     </>
   );
 }
