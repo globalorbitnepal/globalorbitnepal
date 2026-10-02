@@ -7910,289 +7910,494 @@ li.orbit-card:hover {
 
 .wd-browser-viewport {
   height: min(78vh, 720px);
-  overflow: hidden;
-  background: #050508;
+  overflow: auto;
+  background: #f7f7f5;
   position: relative;
+  scrollbar-width: none;
 }
 
-.wd-land {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+.wd-browser-viewport::-webkit-scrollbar {
+  display: none;
+}
+
+.wd-app {
   min-height: 100%;
-  color: #f7f7f8;
   font-family: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
-  overflow: hidden;
+  color: #111;
+  text-align: left;
 }
 
-.wd-land img {
+.wd-app img {
   display: block;
   width: 100%;
-  height: 100%;
   object-fit: cover;
 }
 
-.wd-land-bg {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  transform: scale(1.06);
-  animation: wd-land-ken 22s ease-in-out infinite alternate;
-}
-
-@keyframes wd-land-ken {
-  from { transform: scale(1.04); }
-  to { transform: scale(1.12) translate3d(-1.5%, -1%, 0); }
-}
-
-.wd-land-nav {
-  position: relative;
-  z-index: 3;
+.wd-app-bar {
   display: grid;
   grid-template-columns: auto 1fr auto;
   align-items: center;
-  gap: 1rem;
-  padding: 1rem 1.25rem;
+  gap: 0.75rem;
+  padding: 0.85rem 1.15rem;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
 }
 
-.wd-land-nav strong {
-  font-size: 0.72rem;
-  letter-spacing: 0.16em;
+.wd-app-bar strong {
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  font-weight: 700;
 }
 
-.wd-land-nav nav {
+.wd-app-bar nav {
   display: flex;
   justify-content: center;
-  gap: 1.15rem;
-  font-size: 0.72rem;
-  letter-spacing: 0.04em;
-  color: rgba(255,255,255,0.72);
+  gap: 1.1rem;
+  font-size: 0.78rem;
+  opacity: 0.62;
 }
 
-.wd-land-nav em {
-  font-style: normal;
-  font-size: 0.68rem;
-  font-weight: 650;
-  padding: 0.42rem 0.85rem;
-  border-radius: 999px;
-  background: #fff;
-  color: #0a0a0a;
-}
-
-.wd-land-copy {
-  position: relative;
-  z-index: 2;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 2.2rem 1.4rem 5.2rem;
-  max-width: 42rem;
-}
-
-.wd-land--center .wd-land-copy {
-  margin-inline: auto;
-  text-align: center;
-  align-items: center;
-  justify-content: center;
-  padding-bottom: 5.6rem;
-}
-
-.wd-land--left .wd-land-copy {
-  justify-content: center;
-  padding-bottom: 1.6rem;
-  max-width: 36rem;
-}
-
-.wd-land-copy p,
-.wd-land-split-copy p:first-child,
-.wd-land-pulse p:first-child {
-  font-size: 0.7rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.7);
-}
-
-.wd-land-copy h1,
-.wd-land-split-copy h1,
-.wd-land-pulse h1 {
-  margin: 0.45rem 0 1.05rem;
-  font-size: clamp(2.1rem, 4.6vw, 4.1rem);
-  font-weight: 720;
-  letter-spacing: -0.045em;
-  line-height: 0.92;
-}
-
-.wd-land--mega h1 {
-  text-transform: uppercase;
-  font-size: clamp(2.4rem, 5.4vw, 4.6rem);
-}
-
-.wd-land--serif h1 {
-  font-family: Georgia, "Times New Roman", serif;
-  font-weight: 500;
-}
-
-.wd-land-sub {
-  max-width: 22em;
-  margin: 0 0 1.1rem !important;
-  font-size: 0.92rem !important;
-  letter-spacing: 0 !important;
-  text-transform: none !important;
-  color: rgba(255,255,255,0.62) !important;
-  line-height: 1.45;
-}
-
-.wd-land-copy button,
-.wd-land-split-copy button,
-.wd-land-pulse button {
+.wd-app-bar button {
   border: 0;
-  border-radius: 999px;
-  padding: 0.7rem 1.15rem;
+  border-radius: 0.4rem;
+  padding: 0.45rem 0.8rem;
+  font-size: 0.72rem;
+  font-weight: 650;
+  background: #111;
+  color: #fff;
+}
+
+.wd-app-bar--ink {
+  background: #0b0b10;
+  color: #f4f4f5;
+  border-bottom-color: rgba(255,255,255,0.08);
+}
+
+.wd-app-bar--ink button {
+  background: #fff;
+  color: #111;
+}
+
+.wd-app-bar--light {
+  background: #fff;
+}
+
+.wd-app-bar--sage {
+  background: #e8f0ec;
+  color: #1a3329;
+}
+
+.wd-app-bar--sage button {
+  background: #1e3d32;
+}
+
+.wd-app-hero-row {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 1.1rem;
+  padding: 1.35rem 1.2rem 1.1rem;
+  align-items: start;
+}
+
+.wd-app-hero-row h1,
+.wd-app-shop-head h1,
+.wd-app-saas-head h1 {
+  margin: 0.35rem 0 0.55rem;
+  font-size: clamp(1.45rem, 2.6vw, 2.15rem);
+  letter-spacing: -0.035em;
+  line-height: 1.12;
+  font-weight: 650;
+}
+
+.wd-app-kicker {
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.55;
+}
+
+.wd-app-lede {
+  max-width: 28em;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  opacity: 0.62;
+}
+
+.wd-app-book,
+.wd-app-reserve {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr auto;
+  gap: 0.45rem;
+  margin-top: 1rem;
+  padding: 0.55rem;
+  border-radius: 0.7rem;
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.08);
+}
+
+.wd-app-book label {
+  display: grid;
+  gap: 0.2rem;
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.55;
+}
+
+.wd-app-book input,
+.wd-app-reserve input {
+  border: 0;
+  background: #f4f4f2;
+  border-radius: 0.35rem;
+  padding: 0.45rem 0.5rem;
+  font-size: 0.78rem;
+  color: #111;
+  width: 100%;
+}
+
+.wd-app-book button,
+.wd-app-reserve button,
+.wd-app-primary,
+.wd-app-products button {
+  border: 0;
+  border-radius: 0.4rem;
+  padding: 0.55rem 0.8rem;
+  font-size: 0.75rem;
+  font-weight: 650;
+  background: #1e3d32;
+  color: #fff;
+}
+
+.wd-app-gallery img {
+  height: 9.5rem;
+  border-radius: 0.7rem;
+}
+
+.wd-app-gallery div {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.4rem;
+  margin-top: 0.4rem;
+}
+
+.wd-app-gallery div img {
+  height: 4.4rem;
+}
+
+.wd-app-rooms,
+.wd-app-products {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.55rem;
+  padding: 0 1.2rem 1.2rem;
+}
+
+.wd-app-rooms article {
+  display: grid;
+  grid-template-columns: 4.4rem 1fr;
+  gap: 0.5rem;
+  align-items: center;
+  padding: 0.4rem;
+  border-radius: 0.55rem;
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.06);
+}
+
+.wd-app-rooms img {
+  height: 3.4rem;
+  border-radius: 0.4rem;
+}
+
+.wd-app-rooms h2,
+.wd-app-products h2,
+.wd-app-treats h2 {
   font-size: 0.78rem;
   font-weight: 650;
-  background: #fff;
-  color: #0a0a0a;
 }
 
-.wd-land-strip {
-  position: absolute;
-  left: 50%;
-  bottom: 1.1rem;
-  z-index: 2;
-  display: flex;
-  gap: 0.45rem;
-  transform: translateX(-50%);
-  width: min(72%, 34rem);
+.wd-app-rooms p,
+.wd-app-products p,
+.wd-app-treats p {
+  font-size: 0.68rem;
+  opacity: 0.55;
 }
 
-.wd-land-strip img {
-  height: 4.6rem;
-  border-radius: 0.45rem;
-  border: 1px solid rgba(255,255,255,0.2);
-  box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+.wd-app-rooms span {
+  font-size: 0.68rem;
+  font-weight: 650;
 }
 
-.wd-land--left::after,
-.wd-land--center::after,
-.wd-land--serif::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  background: linear-gradient(180deg, rgba(0,0,0,0.28) 0%, rgba(0,0,0,0.18) 38%, rgba(0,0,0,0.62) 100%);
+.wd-app--lodge {
+  background: #f3efe6;
+  color: #1a2e28;
 }
 
-.wd-land--left::after {
-  background: linear-gradient(90deg, rgba(0,0,0,0.62) 0%, rgba(0,0,0,0.18) 58%, rgba(0,0,0,0.35) 100%);
+.wd-app--trail {
+  background: #0c1016;
+  color: #f4f4f5;
 }
 
-.wd-land--split,
-.wd-land--pulse {
-  background: #07070b;
-}
-
-.wd-land-split {
-  display: grid;
-  grid-template-columns: 1.05fr 0.95fr;
-  height: calc(100% - 3.1rem);
-}
-
-.wd-land-split-copy {
-  padding: 2rem 1.5rem 1.5rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.wd-land-pulse {
-  display: grid;
-  grid-template-columns: 1.05fr 0.95fr;
-  gap: 1rem;
-  height: calc(100% - 3.1rem);
-  padding: 1.2rem 1.3rem 1.4rem;
-  align-items: center;
-  background:
-    radial-gradient(circle at 18% 20%, rgba(99,102,241,0.28), transparent 36%),
-    #080812;
-}
-
-.wd-land-board {
-  border-radius: 0.85rem;
-  border: 1px solid rgba(255,255,255,0.1);
-  background: rgba(10,10,18,0.78);
-  padding: 0.9rem;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.4);
-}
-
-.wd-land-board header {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.72rem;
-  color: rgba(255,255,255,0.5);
-}
-
-.wd-land-board header strong {
-  color: #4ade80;
-}
-
-.wd-land-board-nums {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0.45rem;
-  margin: 0.85rem 0 0.7rem;
-}
-
-.wd-land-board-nums div {
-  padding: 0.55rem;
-  border-radius: 0.45rem;
+.wd-app--trail .wd-app-book,
+.wd-app--trail .wd-app-table {
   background: rgba(255,255,255,0.04);
+  border-color: rgba(255,255,255,0.08);
+  color: #fff;
 }
 
-.wd-land-board-nums b {
-  display: block;
-  font-size: 1.05rem;
+.wd-app-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.78rem;
+  border-radius: 0.7rem;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.08);
 }
 
-.wd-land-board-nums i {
-  font-style: normal;
+.wd-app-table th,
+.wd-app-table td {
+  padding: 0.65rem 0.7rem;
+  text-align: left;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.wd-app-table th {
   font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
   opacity: 0.5;
 }
 
-.wd-land-bars {
-  display: flex;
-  align-items: flex-end;
-  gap: 0.28rem;
-  height: 5.4rem;
+.wd-app-primary {
+  margin-top: 0.9rem;
+  background: #a3e635;
+  color: #111;
 }
 
-.wd-land-bars i {
+.wd-app--ember {
+  background: #0c0a08;
+  color: #f3ece4;
+}
+
+.wd-app-hero-row--ember {
+  align-items: stretch;
+}
+
+.wd-app-reserve {
+  grid-template-columns: 1fr 1fr auto;
+  background: #16120e;
+  border-color: rgba(184,115,51,0.28);
+}
+
+.wd-app-reserve input {
+  background: #0c0a08;
+  color: #f3ece4;
+}
+
+.wd-app-reserve button {
+  background: #b87333;
+}
+
+.wd-app-menu {
+  display: grid;
+  align-content: center;
+  gap: 0.7rem;
+  padding: 0.4rem 0.2rem;
+}
+
+.wd-app-menu li {
+  padding-bottom: 0.55rem;
+  border-bottom: 1px solid rgba(184,115,51,0.25);
+  font-size: 0.92rem;
+}
+
+.wd-app-menu b {
+  color: #b87333;
+  margin-right: 0.4rem;
+}
+
+.wd-app--shop {
+  background: #fafafa;
+}
+
+.wd-app-shop-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: end;
+  padding: 1.1rem 1.2rem 0.7rem;
+}
+
+.wd-app-shop-head p:last-child {
+  max-width: 18em;
+  font-size: 0.8rem;
+  opacity: 0.55;
+}
+
+.wd-app-products {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.wd-app-products article {
+  background: #fff;
+  border: 1px solid #ececec;
+  border-radius: 0.55rem;
+  overflow: hidden;
+  padding-bottom: 0.55rem;
+}
+
+.wd-app-products img {
+  height: 7.2rem;
+}
+
+.wd-app-products h2,
+.wd-app-products p,
+.wd-app-products button {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+.wd-app-products h2 {
+  margin-top: 0.45rem;
+}
+
+.wd-app-products button {
+  margin-top: 0.35rem;
+  background: #111;
+}
+
+.wd-app--saas {
+  background: #080812;
+  color: #eef2ff;
+}
+
+.wd-app-saas {
+  display: grid;
+  grid-template-columns: 9.5rem 1fr;
+  min-height: 22rem;
+}
+
+.wd-app-saas aside {
+  padding: 1rem 0.85rem;
+  border-right: 1px solid rgba(255,255,255,0.08);
+  background: #0c0c16;
+}
+
+.wd-app-saas aside p {
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.45;
+}
+
+.wd-app-saas li {
+  margin-top: 0.45rem;
+  font-size: 0.78rem;
+  opacity: 0.6;
+  padding: 0.35rem 0.45rem;
+  border-radius: 0.35rem;
+}
+
+.wd-app-saas li.is-on {
+  background: rgba(99,102,241,0.22);
+  opacity: 1;
+}
+
+.wd-app-saas > div {
+  padding: 1rem 1.1rem 1.2rem;
+}
+
+.wd-app-saas-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.wd-app-saas-head span {
+  color: #4ade80;
+  font-size: 0.78rem;
+}
+
+.wd-app-kpis {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  margin: 0.9rem 0;
+}
+
+.wd-app-kpis article {
+  padding: 0.7rem;
+  border-radius: 0.55rem;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(129,140,248,0.22);
+}
+
+.wd-app-kpis p {
+  font-size: 0.65rem;
+  opacity: 0.5;
+}
+
+.wd-app-kpis b {
+  font-size: 1.25rem;
+}
+
+.wd-app-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.35rem;
+  height: 7rem;
+  padding: 0.6rem;
+  border-radius: 0.55rem;
+  background: rgba(0,0,0,0.28);
+}
+
+.wd-app-chart i {
   flex: 1;
   border-radius: 0.18rem 0.18rem 0 0;
   background: linear-gradient(180deg, #c4b5fd, #4f46e5);
 }
 
+.wd-app--spa {
+  background: #eef4f0;
+  color: #1a3329;
+}
+
+.wd-app-book--spa {
+  grid-template-columns: 1fr 1fr auto;
+}
+
+.wd-app-treats {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.wd-app-treats li {
+  display: grid;
+  grid-template-columns: 5.5rem 1fr;
+  gap: 0.6rem;
+  align-items: center;
+  background: #fff;
+  border-radius: 0.65rem;
+  overflow: hidden;
+}
+
+.wd-app-treats img {
+  height: 4.4rem;
+}
+
 @media (max-width: 700px) {
-  .wd-land-split,
-  .wd-land-pulse {
+  .wd-app-hero-row,
+  .wd-app-saas,
+  .wd-app-rooms,
+  .wd-app-products {
     grid-template-columns: 1fr;
   }
-  .wd-land-nav nav { display: none; }
-  .wd-land-copy h1,
-  .wd-land-split-copy h1,
-  .wd-land-pulse h1 {
-    font-size: 2rem;
+  .wd-app-bar nav { display: none; }
+  .wd-app-book,
+  .wd-app-reserve,
+  .wd-app-book--spa {
+    grid-template-columns: 1fr;
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .wd-land-bg { animation: none; transform: scale(1.05); }
-}
 
 .orbit-wd-process-step {
   border-radius: 1rem;
