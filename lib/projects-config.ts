@@ -117,11 +117,12 @@ export const DEFAULT_PROJECTS: ProjectsConfig = {
   heroTitleAccent: "built to ship",
   heroTitleAfter: "and scale in production",
   heroLede:
-    "Nine featured launches below — hospitality, travel, spa, interior, and SaaS — each engineered on Next.js with SEO, performance, and handover your team can run. Scroll to zoom through every delivery one by one.",
+    "Hospitality, travel, spa, interior, and SaaS — nine production launches with Next.js, Node, and SEO baked in. Browse the mosaic, then scroll each case study with live zoom on the preview.",
   zoomEyebrow: "Featured launches",
-  zoomTitle: "Scroll to explore",
-  zoomTitleAccent: "each build",
-  zoomLede: "Pinch-zoom scroll: every project fills the viewport, scales in, then hands off to the next — same motion language as our homepage studio wall.",
+  zoomTitle: "Case studies",
+  zoomTitleAccent: "with scroll zoom",
+  zoomLede:
+    "Tap a thumbnail to jump, or scroll the list — each browser frame scales and the screenshot zooms as it reaches center screen.",
   showcases: DEFAULT_PROJECT_SHOWCASES,
   stats: [
     { value: "250+", label: "Sites & apps delivered" },
