@@ -9,6 +9,7 @@ import {
 } from "@/components/layout/book-appointment-modal";
 import { StudioHeaderNav, StudioHeaderNavMobile } from "@/components/layout/studio-header-nav";
 import type { FallbackNavItem } from "@/lib/site";
+import { isOrbitAdminPath } from "@/lib/is-orbit-admin-route";
 
 type SiteHeaderProps = {
   companyName: string;
@@ -21,7 +22,7 @@ export function SiteHeader(_props: SiteHeaderProps) {
   const [open, setOpen] = useState(false);
   const [appointmentOpen, setAppointmentOpen] = useState(false);
   const pathname = usePathname();
-  if (pathname.startsWith("/orbit")) return null;
+  if (isOrbitAdminPath(pathname)) return null;
 
   return (
     <>

@@ -1,28 +1,43 @@
 import type { Metadata } from "next";
 import { FALLBACK_SITE } from "@/lib/site";
 
+const SITE_ORIGIN = process.env.NEXT_PUBLIC_SITE_URL ?? "https://arnav.theglobalorbit.com";
+
 type PageMetaInput = {
   title: string;
   description: string;
   path: string;
+  keywords?: string[];
 };
 
 export function buildPageMetadata({
   title,
   description,
   path,
+  keywords,
 }: PageMetaInput): Metadata {
+  const url = path.startsWith("http") ? path : `${SITE_ORIGIN}${path.startsWith("/") ? path : `/${path}`}`;
+  const trimmedDescription = description.trim().slice(0, 160);
+
   return {
+    metadataBase: new URL(SITE_ORIGIN),
     title,
-    description,
+    description: trimmedDescription,
+    keywords,
     alternates: {
-      canonical: path,
+      canonical: path.startsWith("/") ? path : `/${path}`,
     },
     openGraph: {
       title,
-      description,
+      description: trimmedDescription,
       locale: "en_NP",
       type: "website",
+      url,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description: trimmedDescription,
     },
     robots: {
       index: true,

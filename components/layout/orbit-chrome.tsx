@@ -2,11 +2,12 @@
 
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { isOrbitAdminPath } from "@/lib/is-orbit-admin-route";
 
 export function OrbitChrome() {
   const pathname = usePathname();
   const [splash, setSplash] = useState(false);
-  const hide = pathname.startsWith("/orbit");
+  const hide = isOrbitAdminPath(pathname);
   const home = pathname === "/";
 
   useEffect(() => {
