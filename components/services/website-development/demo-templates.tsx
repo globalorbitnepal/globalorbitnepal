@@ -2,214 +2,183 @@ import type { ComponentType } from "react";
 
 const IMG = "/brand/website-demos";
 
-function Nav({
+function OverlayNav({
   brand,
   links,
   cta,
-  dark,
 }: {
   brand: string;
   links: string[];
-  cta: string;
-  dark?: boolean;
+  cta?: string;
 }) {
   return (
-    <header className={`wd-nav ${dark ? "is-dark" : ""}`}>
+    <header className="wd-land-nav">
       <strong>{brand}</strong>
       <nav>
         {links.map((link) => (
           <span key={link}>{link}</span>
         ))}
       </nav>
-      <em>{cta}</em>
+      {cta ? <em>{cta}</em> : <span className="wd-land-nav-spacer" />}
     </header>
   );
 }
 
+/** Lodge — cinematic travel hero + room filmstrip */
 export function DemoSummitLodge() {
   return (
-    <article className="wd-real wd-real--lodge">
-      <Nav brand="Summit Lodge" links={["Rooms", "Dining", "Experiences"]} cta="Book stay" />
-      <section className="wd-real-hero">
-        <img src={`${IMG}/lodge-hero.jpg`} alt="" />
-        <div className="wd-real-hero-copy">
-          <p>Nagarkot · Nepal</p>
-          <h1>
-            Quiet rooms
-            <br />
-            above the clouds
-          </h1>
-          <span>See availability</span>
-        </div>
-      </section>
-      <section className="wd-real-grid">
-        {[
-          [`${IMG}/lodge-room-1.jpg`, "Forest deluxe", "NPR 12,500"],
-          [`${IMG}/lodge-room-2.jpg`, "Panorama suite", "NPR 18,900"],
-          [`${IMG}/lodge-room-3.jpg`, "Hill cottage", "NPR 15,200"],
-        ].map(([src, name, price]) => (
-          <figure key={name}>
-            <img src={src} alt="" />
-            <figcaption>
-              <b>{name}</b>
-              <i>{price}</i>
-            </figcaption>
-          </figure>
-        ))}
-      </section>
+    <article className="wd-land wd-land--center">
+      <img className="wd-land-bg" src={`${IMG}/lodge-hero.jpg`} alt="" />
+      <OverlayNav brand="Summit Lodge" links={["Rooms", "Dining", "Stay"]} cta="Book" />
+      <div className="wd-land-copy">
+        <p>Nagarkot · Nepal</p>
+        <h1>
+          The stay
+          <br />
+          begins here
+        </h1>
+        <button type="button">View rooms</button>
+      </div>
+      <div className="wd-land-strip">
+        <img src={`${IMG}/lodge-room-1.jpg`} alt="" />
+        <img src={`${IMG}/lodge-room-2.jpg`} alt="" />
+        <img src={`${IMG}/lodge-room-3.jpg`} alt="" />
+      </div>
     </article>
   );
 }
 
+/** Trek — oversized type on mountain */
 export function DemoTrailhead() {
   return (
-    <article className="wd-real wd-real--trail">
-      <Nav brand="Trailhead" links={["Trips", "Guides", "Safety"]} cta="Enquire" />
-      <section className="wd-real-hero">
-        <img src={`${IMG}/trek-hero.jpg`} alt="" />
-        <div className="wd-real-hero-copy is-bottom">
-          <p>Everest region · 14 days</p>
-          <h1>
-            Book
-            <br />
-            adventure.
-          </h1>
-          <span>Download itinerary</span>
-        </div>
-      </section>
-      <section className="wd-real-strip">
-        <img src={`${IMG}/trek-1.jpg`} alt="" />
-        <div>
-          <h2>Small groups. Certified guides.</h2>
-          <p>Day 03 Lukla · Day 05 Namche · Day 11 Base camp sunrise.</p>
-        </div>
-      </section>
+    <article className="wd-land wd-land--left wd-land--mega">
+      <img className="wd-land-bg" src={`${IMG}/trek-hero.jpg`} alt="" />
+      <OverlayNav brand="Trailhead" links={["Trips", "Guides", "Gear"]} />
+      <div className="wd-land-copy">
+        <p>Everest region</p>
+        <h1>
+          Ride the
+          <br />
+          ridgeline.
+        </h1>
+        <button type="button">See departures</button>
+      </div>
     </article>
   );
 }
 
+/** Dining — bold type left, photography right */
 export function DemoEmberSlate() {
   return (
-    <article className="wd-real wd-real--ember">
-      <Nav brand="Ember & Slate" links={["Menu", "Wine", "Private"]} cta="Reserve" />
-      <section className="wd-real-hero">
-        <img src={`${IMG}/dine-hero.jpg`} alt="" />
-        <div className="wd-real-hero-copy is-left">
-          <p>Kathmandu tasting room</p>
+    <article className="wd-land wd-land--split">
+      <OverlayNav brand="Ember & Slate" links={["Menu", "Wine", "Visit"]} cta="Reserve" />
+      <div className="wd-land-split">
+        <div className="wd-land-split-copy">
+          <p>Tasting room · Kathmandu</p>
           <h1>
-            Seven courses.
+            Fire, plate
             <br />
-            One slow evening.
+            and quiet light
           </h1>
-          <span>Hold a table</span>
+          <p className="wd-land-sub">Seven courses. Natural wines. Last seating 21:30.</p>
+          <button type="button">Hold a table</button>
         </div>
-      </section>
-      <section className="wd-real-menu">
-        <img src={`${IMG}/dine-1.jpg`} alt="" />
-        <ol>
-          <li>
-            <b>01</b> Charred leek, miso butter
-          </li>
-          <li>
-            <b>04</b> Line-caught trout, fennel
-          </li>
-          <li>
-            <b>07</b> Dark chocolate, smoked salt
-          </li>
-        </ol>
-      </section>
+        <img src={`${IMG}/dine-hero.jpg`} alt="" />
+      </div>
     </article>
   );
 }
 
+/** Fashion — dark editorial with lookbook thumbs */
 export function DemoNorwood() {
   return (
-    <article className="wd-real wd-real--norwood">
-      <Nav brand="Norwood" links={["Lookbook", "Craft", "Stores"]} cta="Shop" dark />
-      <section className="wd-real-split">
-        <div>
-          <p>Winter collection</p>
-          <h1>Layers for hill mornings.</h1>
-          <span>Explore drop</span>
-        </div>
-        <img src={`${IMG}/fashion-hero.jpg`} alt="" />
-      </section>
-      <section className="wd-real-grid is-light">
-        {[
-          [`${IMG}/fashion-1.jpg`, "Alpine coat", "NPR 18,900"],
-          [`${IMG}/fashion-2.jpg`, "Ridge scarf", "NPR 4,200"],
-          [`${IMG}/fashion-3.jpg`, "Summit boot", "NPR 12,400"],
-        ].map(([src, name, price]) => (
-          <figure key={name}>
-            <img src={src} alt="" />
-            <figcaption>
-              <b>{name}</b>
-              <i>{price}</i>
-            </figcaption>
-          </figure>
-        ))}
-      </section>
+    <article className="wd-land wd-land--left">
+      <img className="wd-land-bg" src={`${IMG}/fashion-hero.jpg`} alt="" />
+      <OverlayNav brand="Norwood" links={["Lookbook", "Craft", "Stores"]} cta="Shop" />
+      <div className="wd-land-copy">
+        <p>Winter drop</p>
+        <h1>
+          Cut for
+          <br />
+          hill mornings
+        </h1>
+        <button type="button">Shop the drop</button>
+      </div>
+      <div className="wd-land-strip">
+        <img src={`${IMG}/fashion-1.jpg`} alt="" />
+        <img src={`${IMG}/fashion-2.jpg`} alt="" />
+        <img src={`${IMG}/fashion-3.jpg`} alt="" />
+      </div>
     </article>
   );
 }
 
+/** SaaS — product hero + live metrics panel */
 export function DemoPulseMetrics() {
   return (
-    <article className="wd-real wd-real--pulse">
-      <Nav brand="PulseMetrics" links={["Product", "Pricing", "Docs"]} cta="Start trial" />
-      <section className="wd-real-saas">
+    <article className="wd-land wd-land--pulse">
+      <OverlayNav brand="PulseMetrics" links={["Product", "Pricing", "Login"]} cta="Start" />
+      <div className="wd-land-pulse">
         <div>
-          <p>Revenue cockpit</p>
-          <h1>See every rupee move.</h1>
-          <p className="wd-real-lede">Pipeline, churn, and expansion in one console.</p>
-          <span>Open console</span>
+          <p>Operator console</p>
+          <h1>
+            Revenue,
+            <br />
+            in one view
+          </h1>
+          <p className="wd-land-sub">Pipeline, NRR, and expansion without the spreadsheet stack.</p>
+          <button type="button">Open console</button>
         </div>
-        <img src={`${IMG}/saas-hero.jpg`} alt="" />
-      </section>
-      <section className="wd-real-kpis">
-        <div>
-          <b>$284k</b>
-          <i>MRR</i>
+        <div className="wd-land-board">
+          <header>
+            <span>Overview</span>
+            <strong>+18%</strong>
+          </header>
+          <div className="wd-land-board-nums">
+            <div>
+              <b>128</b>
+              <i>Accounts</i>
+            </div>
+            <div>
+              <b>$2.4M</b>
+              <i>Pipeline</i>
+            </div>
+            <div>
+              <b>312</b>
+              <i>Seats</i>
+            </div>
+          </div>
+          <div className="wd-land-bars">
+            <i style={{ height: "46%" }} />
+            <i style={{ height: "62%" }} />
+            <i style={{ height: "38%" }} />
+            <i style={{ height: "84%" }} />
+            <i style={{ height: "57%" }} />
+            <i style={{ height: "71%" }} />
+            <i style={{ height: "49%" }} />
+            <i style={{ height: "90%" }} />
+          </div>
         </div>
-        <div>
-          <b>118%</b>
-          <i>NRR</i>
-        </div>
-        <div>
-          <b>+18%</b>
-          <i>Expansion</i>
-        </div>
-      </section>
+      </div>
     </article>
   );
 }
 
+/** Spa — serif headline on photography */
 export function DemoHavenSpa() {
   return (
-    <article className="wd-real wd-real--haven">
-      <Nav brand="Haven Spa" links={["Rituals", "Therapists", "Gifts"]} cta="Book now" />
-      <section className="wd-real-hero">
-        <img src={`${IMG}/spa-hero.jpg`} alt="" />
-        <div className="wd-real-hero-copy">
-          <p>Thamel · Wellness</p>
-          <h1>Spaces that hold calm.</h1>
-          <span>View treatments</span>
-        </div>
-      </section>
-      <section className="wd-real-strip">
-        <img src={`${IMG}/spa-1.jpg`} alt="" />
-        <ul>
-          <li>
-            Deep tissue <em>60 min</em>
-          </li>
-          <li>
-            Couples ritual <em>120 min</em>
-          </li>
-          <li>
-            Abhyanga <em>75 min</em>
-          </li>
-        </ul>
-      </section>
+    <article className="wd-land wd-land--serif">
+      <img className="wd-land-bg" src={`${IMG}/spa-hero.jpg`} alt="" />
+      <OverlayNav brand="Haven" links={["Rituals", "Stay", "Gifts"]} cta="Book" />
+      <div className="wd-land-copy">
+        <p>Thamel wellness</p>
+        <h1>
+          Homes
+          <br />
+          that hold light
+        </h1>
+        <button type="button">Browse rituals</button>
+      </div>
     </article>
   );
 }

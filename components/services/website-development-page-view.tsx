@@ -67,7 +67,7 @@ export function WebsiteDevelopmentPageView() {
           title: "Six fictional brands,",
           titleAccent: "six distinct layouts",
           lede:
-            "Each frame is a coded website — nav, hero, inner sections, and footer — auto-scrolling so you see a real homepage, not a still image of ours.",
+            "Each frame is a full homepage hero — overlay header, photography, and type — coded as a real landing, not a screenshot of ours.",
         }}
       />
 
