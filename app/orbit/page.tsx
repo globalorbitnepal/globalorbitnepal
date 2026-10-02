@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { OrbitHeroEditor } from "@/components/orbit/orbit-hero-editor";
+import { getAboutConfig } from "@/lib/about-store";
 import { getHeroConfig } from "@/lib/hero-store";
 import { getNeedConfig } from "@/lib/need-store";
 import { getWorkConfig } from "@/lib/work-store";
@@ -12,11 +13,12 @@ export const metadata: Metadata = {
 };
 
 export default async function OrbitEditorPage() {
-  const [config, need, work, software, authed, setup] = await Promise.all([
+  const [config, need, work, software, about, authed, setup] = await Promise.all([
     getHeroConfig(),
     getNeedConfig(),
     getWorkConfig(),
     getSoftwareConfig(),
+    getAboutConfig(),
     isOrbitAuthed(),
     hasOrbitPassword(),
   ]);
@@ -27,6 +29,7 @@ export default async function OrbitEditorPage() {
       initialNeed={need}
       initialWork={work}
       initialSoftware={software}
+      initialAbout={about}
       authed={authed}
       needsSetup={!setup}
     />
