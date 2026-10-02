@@ -4,9 +4,11 @@ import Link from "next/link";
 import { useState, type ReactNode } from "react";
 import { OrbitAboutEditorForm } from "@/components/orbit/orbit-about-editor";
 import { OrbitCareersEditorForm } from "@/components/orbit/orbit-careers-editor";
+import { OrbitProjectsEditorForm } from "@/components/orbit/orbit-projects-editor";
 import { OrbitAppointmentsPanel } from "@/components/orbit/orbit-appointments-panel";
 import type { AboutConfig } from "@/lib/about-config";
 import type { CareersConfig } from "@/lib/careers-config";
+import type { ProjectsConfig } from "@/lib/projects-config";
 import type { HeroConfig } from "@/lib/hero-config";
 import type { NeedConfig, NeedSlide, NeedStat } from "@/lib/need-config";
 import type { WorkConfig, WorkTile } from "@/lib/work-config";
@@ -23,6 +25,7 @@ type Props = {
   initialSoftware: SoftwareConfig;
   initialAbout: AboutConfig;
   initialCareers: CareersConfig;
+  initialProjects: ProjectsConfig;
   needsSetup: boolean;
   authed: boolean;
 };
@@ -79,6 +82,7 @@ export function OrbitHeroEditor({
   initialSoftware,
   initialAbout,
   initialCareers,
+  initialProjects,
   needsSetup,
   authed,
 }: Props) {
@@ -88,11 +92,12 @@ export function OrbitHeroEditor({
   const [softwareConfig, setSoftwareConfig] = useState(initialSoftware);
   const [aboutConfig, setAboutConfig] = useState(initialAbout);
   const [careersConfig, setCareersConfig] = useState(initialCareers);
+  const [projectsConfig, setProjectsConfig] = useState(initialProjects);
   const [password, setPassword] = useState("");
   const [status, setStatus] = useState("");
   const [busy, setBusy] = useState(false);
   const [section, setSection] = useState<
-    "overview" | "hero" | "need" | "work" | "software" | "about" | "careers" | "appointments"
+    "overview" | "hero" | "need" | "work" | "software" | "about" | "careers" | "projects" | "appointments"
   >("overview");
 
   const set = (key: keyof HeroConfig) => (value: string | boolean) => {
@@ -114,6 +119,18 @@ export function OrbitHeroEditor({
       return;
     }
     window.location.assign("/orbit");
+  }
+
+  async function saveProjects(event: React.FormEvent) {
+    event.preventDefault();
+    setBusy(true);
+    const response = await fetch("/api/orbit/projects", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(projectsConfig),
+    });
+    setBusy(false);
+    setStatus(response.ok ? "Saved. Projects page updates in a few seconds — open /projects on the live site." : "Save failed");
   }
 
   async function saveCareers(event: React.FormEvent) {
@@ -419,7 +436,7 @@ export function OrbitHeroEditor({
   }
 
   const navItems: {
-    id: "overview" | "hero" | "need" | "work" | "software" | "about" | "careers" | "appointments";
+    id: "overview" | "hero" | "need" | "work" | "software" | "about" | "careers" | "projects" | "appointments";
     label: string;
     hint: string;
   }[] = [
@@ -430,6 +447,7 @@ export function OrbitHeroEditor({
     { id: "software", label: "Enterprise software", hint: "Product cards, copy, previews" },
     { id: "about", label: "About page", hint: "Full /about text — no images" },
     { id: "careers", label: "Careers page", hint: "Jobs, culture, hiring — text only" },
+    { id: "projects", label: "Projects page", hint: "Nine zoom demos — text only" },
     { id: "appointments", label: "Appointments", hint: "Book Appointment inbox" },
   ];
 
@@ -511,6 +529,7 @@ export function OrbitHeroEditor({
                   ["Enterprise software", `${softwareConfig.products.length} product cards`, "software"],
                   ["About page", "Hero, story, timeline, team, CTA", "about"],
                   ["Careers page", "Open roles, culture, apply flow", "careers"],
+                  ["Projects page", "Scroll zoom portfolio, stats, CTA", "projects"],
                 ] as const
               ).map(([title, hint, id]) => (
                 <button
@@ -529,6 +548,14 @@ export function OrbitHeroEditor({
               Passkey is stored only in the server environment. Appointments open from the sidebar.
             </p>
           </div>
+        ) : section === "projects" ? (
+          <OrbitProjectsEditorForm
+            config={projectsConfig}
+            setConfig={setProjectsConfig}
+            busy={busy}
+            status={status}
+            onSubmit={saveProjects}
+          />
         ) : section === "careers" ? (
           <OrbitCareersEditorForm
             config={careersConfig}
