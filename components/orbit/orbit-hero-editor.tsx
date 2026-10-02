@@ -4,10 +4,12 @@ import Link from "next/link";
 import { useState, type ReactNode } from "react";
 import { OrbitAboutEditorForm } from "@/components/orbit/orbit-about-editor";
 import { OrbitCareersEditorForm } from "@/components/orbit/orbit-careers-editor";
+import { OrbitCustomAppsEditorForm } from "@/components/orbit/orbit-custom-apps-editor";
 import { OrbitProjectsEditorForm } from "@/components/orbit/orbit-projects-editor";
 import { OrbitAppointmentsPanel } from "@/components/orbit/orbit-appointments-panel";
 import type { AboutConfig } from "@/lib/about-config";
 import type { CareersConfig } from "@/lib/careers-config";
+import type { CustomAppsConfig } from "@/lib/custom-apps-config";
 import type { ProjectsConfig } from "@/lib/projects-config";
 import type { HeroConfig } from "@/lib/hero-config";
 import type { NeedConfig, NeedSlide, NeedStat } from "@/lib/need-config";
@@ -26,6 +28,7 @@ type Props = {
   initialAbout: AboutConfig;
   initialCareers: CareersConfig;
   initialProjects: ProjectsConfig;
+  initialCustomApps: CustomAppsConfig;
   needsSetup: boolean;
   authed: boolean;
 };
@@ -83,6 +86,7 @@ export function OrbitHeroEditor({
   initialAbout,
   initialCareers,
   initialProjects,
+  initialCustomApps,
   needsSetup,
   authed,
 }: Props) {
@@ -93,11 +97,12 @@ export function OrbitHeroEditor({
   const [aboutConfig, setAboutConfig] = useState(initialAbout);
   const [careersConfig, setCareersConfig] = useState(initialCareers);
   const [projectsConfig, setProjectsConfig] = useState(initialProjects);
+  const [customAppsConfig, setCustomAppsConfig] = useState(initialCustomApps);
   const [password, setPassword] = useState("");
   const [status, setStatus] = useState("");
   const [busy, setBusy] = useState(false);
   const [section, setSection] = useState<
-    "overview" | "hero" | "need" | "work" | "software" | "about" | "careers" | "projects" | "appointments"
+    "overview" | "hero" | "need" | "work" | "software" | "about" | "careers" | "projects" | "customApps" | "appointments"
   >("overview");
 
   const set = (key: keyof HeroConfig) => (value: string | boolean) => {
@@ -119,6 +124,22 @@ export function OrbitHeroEditor({
       return;
     }
     window.location.assign("/orbit");
+  }
+
+  async function saveCustomApps(event: React.FormEvent) {
+    event.preventDefault();
+    setBusy(true);
+    const response = await fetch("/api/orbit/custom-apps", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(customAppsConfig),
+    });
+    setBusy(false);
+    setStatus(
+      response.ok
+        ? "Saved. Custom apps page updates in a few seconds — open /orbit-software/custom-apps."
+        : "Save failed",
+    );
   }
 
   async function saveProjects(event: React.FormEvent) {
@@ -436,7 +457,7 @@ export function OrbitHeroEditor({
   }
 
   const navItems: {
-    id: "overview" | "hero" | "need" | "work" | "software" | "about" | "careers" | "projects" | "appointments";
+    id: "overview" | "hero" | "need" | "work" | "software" | "about" | "careers" | "projects" | "customApps" | "appointments";
     label: string;
     hint: string;
   }[] = [
@@ -448,6 +469,7 @@ export function OrbitHeroEditor({
     { id: "about", label: "About page", hint: "Full /about text — no images" },
     { id: "careers", label: "Careers page", hint: "Jobs, culture, hiring — text only" },
     { id: "projects", label: "Projects page", hint: "Nine zoom demos — text only" },
+    { id: "customApps", label: "Custom apps page", hint: "/orbit-software/custom-apps" },
     { id: "appointments", label: "Appointments", hint: "Book Appointment inbox" },
   ];
 
@@ -530,6 +552,7 @@ export function OrbitHeroEditor({
                   ["About page", "Hero, story, timeline, team, CTA", "about"],
                   ["Careers page", "Open roles, culture, apply flow", "careers"],
                   ["Projects page", "Scroll zoom portfolio, stats, CTA", "projects"],
+                  ["Custom apps page", "Web & mobile product landing", "customApps"],
                 ] as const
               ).map(([title, hint, id]) => (
                 <button
@@ -548,6 +571,14 @@ export function OrbitHeroEditor({
               Passkey is stored only in the server environment. Appointments open from the sidebar.
             </p>
           </div>
+        ) : section === "customApps" ? (
+          <OrbitCustomAppsEditorForm
+            config={customAppsConfig}
+            setConfig={setCustomAppsConfig}
+            busy={busy}
+            status={status}
+            onSubmit={saveCustomApps}
+          />
         ) : section === "projects" ? (
           <OrbitProjectsEditorForm
             config={projectsConfig}
