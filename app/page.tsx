@@ -4,27 +4,20 @@ import { getHeroConfig } from "@/lib/hero-store";
 import { getNeedConfig } from "@/lib/need-store";
 import { getWorkConfig } from "@/lib/work-store";
 import { getSoftwareConfig } from "@/lib/software-store";
+import { applyPageSeo } from "@/lib/apply-page-seo";
 import { organizationJsonLd } from "@/lib/seo";
+import { getSiteChrome } from "@/lib/site-chrome-store";
 import { FALLBACK_SITE } from "@/lib/site";
 import type { Metadata } from "next";
 
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await getSiteSettings();
-  const title = settings?.defaultSeoTitle || FALLBACK_SITE.defaultSeoTitle;
+  const chrome = await getSiteChrome();
+  const title = chrome?.defaultSeoTitle || settings?.defaultSeoTitle || FALLBACK_SITE.defaultSeoTitle;
   const description =
-    settings?.defaultSeoDescription || FALLBACK_SITE.defaultSeoDescription;
-
-  return {
-    title: { absolute: title },
-    description,
-    alternates: { canonical: "/" },
-    openGraph: {
-      title,
-      description,
-      locale: "en_NP",
-      type: "website",
-    },
-  };
+    chrome?.defaultSeoDescription || settings?.defaultSeoDescription || FALLBACK_SITE.defaultSeoDescription;
+  const meta = await applyPageSeo("/", { title, description });
+  return { ...meta, title: { absolute: String(meta.title || title) } };
 }
 
 export default async function HomePage() {

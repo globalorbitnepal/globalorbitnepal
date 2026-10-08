@@ -2,6 +2,7 @@
 
 import type { ReactNode } from "react";
 import { usePathname } from "next/navigation";
+import { isOrbitAdminPath } from "@/lib/is-orbit-admin-route";
 import { isPlatformPageSlug } from "@/lib/platform-page-slugs";
 
 export function SiteMain({ children }: { children: ReactNode }) {
@@ -11,6 +12,10 @@ export function SiteMain({ children }: { children: ReactNode }) {
     pathname.startsWith("/orbit-software/") &&
     pathname !== "/orbit-software" &&
     isPlatformPageSlug(pathname.replace("/orbit-software/", ""));
+
+  if (isOrbitAdminPath(pathname)) {
+    return <main id="main-content">{children}</main>;
+  }
 
   const topPad = home
     ? ""

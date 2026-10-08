@@ -36,21 +36,21 @@ export function OrbitArticlePage({
   eyebrow,
   title,
   summary,
+  body,
 }: {
   eyebrow: string;
   title: string;
   summary: string;
+  body?: string;
 }) {
+  const paragraphs = (body?.trim() || summary).split(/\n{2,}/).filter(Boolean);
   return (
     <>
       <OrbitPageHero eyebrow={eyebrow} title={title} lede={summary} headingId="article-hero" />
       <section className="mx-auto max-w-3xl space-y-6 px-4 py-16 text-[15px] leading-8 text-white/75">
-        <p>
-          Global Orbit Pvt Ltd delivers this work from offices in Nepal, India, and the United States for
-          operators in 25 countries. Public websites, custom apps, ERP, web-based billing, SaaS products,
-          and SEO sit in one company so the marketing site and the back office do not drift apart.
-        </p>
-        <p>{summary}</p>
+        {paragraphs.map((paragraph) => (
+          <p key={paragraph.slice(0, 24)}>{paragraph}</p>
+        ))}
         <h2 className="pt-4 text-2xl font-semibold text-white">What we actually ship</h2>
         <ul className="list-disc space-y-2 pl-5">
           <li>Business, hotel, trek, restaurant, and ecommerce websites with SEO-first structure</li>

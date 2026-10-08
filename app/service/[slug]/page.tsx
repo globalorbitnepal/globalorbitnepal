@@ -5,7 +5,7 @@ import { AiAutomationPageView } from "@/components/services/ai-automation-page-v
 import { WebsiteDevelopmentPageView } from "@/components/services/website-development-page-view";
 import { AI_FAQ, AI_HERO, AI_KEYWORDS } from "@/lib/ai-automation-page";
 import { findBySlug, ORBIT_SERVICE_PAGES } from "@/lib/orbit/catalog";
-import { buildPageMetadata } from "@/lib/seo";
+import { applyPageSeo } from "@/lib/apply-page-seo";
 import { WEBSITE_DEV_FAQ, WEBSITE_DEV_HERO } from "@/lib/website-development-config";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -34,25 +34,23 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!item) return { title: "Service" };
 
   if (slug === WEBSITE_DEV_SLUG) {
-    return buildPageMetadata({
+    return applyPageSeo(item.href, {
       title: "Website Development Nepal · Custom Web Design",
       description:
         "Professional website development in Nepal — original designs, Next.js builds, scroll-polished demos, and SEO-ready launches from Global Orbit Kathmandu.",
-      path: item.href,
       keywords: WEBSITE_DEV_KEYWORDS,
     });
   }
 
   if (slug === AI_AUTOMATION_SLUG) {
-    return buildPageMetadata({
+    return applyPageSeo(item.href, {
       title: "AI Automation Nepal · Workflows, WhatsApp, Invoice Capture",
       description: AI_HERO.lede,
-      path: item.href,
       keywords: AI_KEYWORDS,
     });
   }
 
-  return buildPageMetadata({ title: item.title, description: item.summary, path: item.href });
+  return applyPageSeo(item.href, { title: item.title, description: item.summary });
 }
 
 function aiAutomationJsonLd() {

@@ -1,14 +1,13 @@
 import type { Metadata } from "next";
 import { OrbitSoftwarePageView } from "@/components/orbit-software/orbit-software-page-view";
 import { ERP_FAQ, ERP_HERO, ERP_KEYWORDS, ERP_SUITES } from "@/lib/orbit-software-page";
-import { buildPageMetadata } from "@/lib/seo";
+import { applyPageSeo } from "@/lib/apply-page-seo";
 
 export async function generateMetadata(): Promise<Metadata> {
-  return buildPageMetadata({
+  return applyPageSeo("/orbit-software", {
     title: "ERP Software Nepal · Orbit Software",
     description:
       "Orbit Software from Global Orbit: hotel PMS, billing, OTA, warehouse, manufacturing ERP, restaurant POS, CRM, and SaaS — operator systems built in Nepal.",
-    path: "/orbit-software",
     keywords: ERP_KEYWORDS,
   });
 }

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { PwaInstall } from "@/components/admin/pwa-install";
 import { BrandLogo } from "@/components/brand/brand-logo";
 import { FooterConnectBar } from "@/components/layout/footer-connect-bar";
 import {
@@ -134,6 +135,7 @@ export function SiteFooter({ companyName }: SiteFooterProps) {
                 <span className="orbit-footer-bottom-link-icon is-whatsapp" aria-hidden="true" />
                 WhatsApp
               </a>
+              <PwaInstall className="orbit-footer-chip" />
             </div>
           </div>
         </div>

@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { SiteShell } from "@/components/layout/site-shell";
 import { listVisibleNavItems } from "@/lib/db/nav-items";
 import { getSiteSettings } from "@/lib/db/site-settings";
+import { getSiteChrome } from "@/lib/site-chrome-store";
 import {
   FALLBACK_FOOTER_NAV,
   FALLBACK_HEADER_NAV,
@@ -56,10 +57,15 @@ export async function generateMetadata(): Promise<Metadata> {
       index: true,
       follow: true,
     },
+    manifest: "/manifest.webmanifest",
     appleWebApp: {
       capable: true,
       statusBarStyle: "black-translucent",
       title: settings?.companyName || FALLBACK_SITE.companyName,
+    },
+    icons: {
+      apple: "/brand/logo-official-gold.png",
+      icon: "/brand/logo-official-gold.png",
     },
     formatDetection: {
       telephone: false,
@@ -69,10 +75,11 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function RootLayout({ children }: LayoutProps<"/">) {
   const settings = await getSiteSettings();
+  const chrome = await getSiteChrome();
   const footerRows = await listVisibleNavItems("FOOTER");
 
-  const companyName = settings?.companyName || FALLBACK_SITE.companyName;
-  const tagline = settings?.tagline || FALLBACK_SITE.tagline;
+  const companyName = chrome?.companyName || settings?.companyName || FALLBACK_SITE.companyName;
+  const tagline = chrome?.tagline || settings?.tagline || FALLBACK_SITE.tagline;
 
   return (
     <html lang="en" className="orbit-font-root orbit-app-mode h-full antialiased">
@@ -90,9 +97,9 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
           tagline={tagline}
           headerItems={FALLBACK_HEADER_NAV}
           footerItems={toNavItems(footerRows, FALLBACK_FOOTER_NAV)}
-          email={settings?.email || FALLBACK_SITE.email}
-          phone={settings?.phone || FALLBACK_SITE.phone}
-          address={settings?.address || FALLBACK_SITE.address}
+          email={chrome?.email || settings?.email || FALLBACK_SITE.email}
+          phone={chrome?.phone || settings?.phone || FALLBACK_SITE.phone}
+          address={chrome?.address || settings?.address || FALLBACK_SITE.address}
         >
           {children}
         </SiteShell>

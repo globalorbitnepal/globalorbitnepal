@@ -1,29 +1,35 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { OrbitArticlePage } from "@/components/orbit/catalog-page";
-import { findBySlug, ORBIT_BLOGS } from "@/lib/orbit/catalog";
+import { getPostBySlug } from "@/lib/blog-store";
 import { buildPageMetadata } from "@/lib/seo";
 
 type Props = { params: Promise<{ slug: string }> };
 
-export function generateStaticParams() {
-  return ORBIT_BLOGS.map((item) => ({ slug: item.slug }));
-}
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const item = findBySlug(ORBIT_BLOGS, slug);
-  if (!item) return { title: "Article" };
+  const item = await getPostBySlug(slug);
+  if (!item || !item.isPublished) return { title: "Article" };
   return buildPageMetadata({
-    title: item.title,
-    description: item.summary,
+    title: item.seoTitle || item.title,
+    description: item.seoDescription || item.excerpt,
     path: `/blog/${item.slug}`,
+    keywords: item.keywords.split(",").map((value) => value.trim()).filter(Boolean),
   });
 }
 
 export default async function BlogDetailPage({ params }: Props) {
   const { slug } = await params;
-  const item = findBySlug(ORBIT_BLOGS, slug);
-  if (!item) notFound();
-  return <OrbitArticlePage eyebrow="Blog" title={item.title} summary={item.summary} />;
+  const item = await getPostBySlug(slug);
+  if (!item || !item.isPublished) notFound();
+  return (
+    <OrbitArticlePage
+      eyebrow="Blog"
+      title={item.title}
+      summary={item.excerpt || item.seoDescription}
+      body={item.body}
+    />
+  );
 }

@@ -18,6 +18,9 @@ export function MobileAppExperience() {
     if (touch) {
       root.classList.add("orbit-touch", "orbit-mobile-lite");
     }
+    if ("serviceWorker" in navigator) {
+      void navigator.serviceWorker.register("/sw.js");
+    }
 
     setAppViewportUnit();
     window.addEventListener("resize", setAppViewportUnit, { passive: true });

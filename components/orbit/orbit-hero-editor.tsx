@@ -22,6 +22,18 @@ import type { HeroStudioLocation } from "@/lib/hero-studios";
 import type { HeroTrustLogo } from "@/lib/hero-trust-logos";
 import { DEFAULT_HERO_TRUST_LOGOS } from "@/lib/hero-trust-logos";
 
+type EditorSection =
+  | "overview"
+  | "hero"
+  | "need"
+  | "work"
+  | "software"
+  | "about"
+  | "careers"
+  | "projects"
+  | "customApps"
+  | "appointments";
+
 type Props = {
   initial: HeroConfig;
   initialNeed: NeedConfig;
@@ -35,6 +47,9 @@ type Props = {
   initialIosApps: CustomAppsConfig;
   needsSetup: boolean;
   authed: boolean;
+  hideShell?: boolean;
+  activeSection?: EditorSection;
+  onActiveSection?: (section: EditorSection) => void;
 };
 
 function Field({
@@ -95,6 +110,9 @@ export function OrbitHeroEditor({
   initialIosApps,
   needsSetup,
   authed,
+  hideShell,
+  activeSection,
+  onActiveSection,
 }: Props) {
   const [config, setConfig] = useState(initial);
   const [needConfig, setNeedConfig] = useState(initialNeed);
@@ -107,12 +125,16 @@ export function OrbitHeroEditor({
   const [androidAppsConfig, setAndroidAppsConfig] = useState(initialAndroidApps);
   const [iosAppsConfig, setIosAppsConfig] = useState(initialIosApps);
   const [platformEditorSlug, setPlatformEditorSlug] = useState<PlatformPageSlug>("web-apps");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [status, setStatus] = useState("");
   const [busy, setBusy] = useState(false);
-  const [section, setSection] = useState<
-    "overview" | "hero" | "need" | "work" | "software" | "about" | "careers" | "projects" | "customApps" | "appointments"
-  >("overview");
+  const [internalSection, setInternalSection] = useState<EditorSection>("overview");
+  const section = activeSection ?? internalSection;
+  const setSection = (next: EditorSection) => {
+    onActiveSection?.(next);
+    setInternalSection(next);
+  };
 
   const set = (key: keyof HeroConfig) => (value: string | boolean) => {
     setConfig((current) => ({ ...current, [key]: value }));
@@ -124,7 +146,7 @@ export function OrbitHeroEditor({
     const response = await fetch("/api/orbit/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ password }),
+      body: JSON.stringify({ username, password }),
     });
     const data = (await response.json()) as { error?: string };
     setBusy(false);
@@ -419,6 +441,7 @@ export function OrbitHeroEditor({
   }
 
   if (!authed) {
+    if (hideShell) return null;
     return (
       <div className="orbit-login-stage">
         <div className="orbit-login-veil" />
@@ -439,18 +462,30 @@ export function OrbitHeroEditor({
           <div className="orbit-login-card">
             <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-white/40">Secure access</p>
             <h2 className="mt-2 font-[family-name:var(--font-jakarta)] text-2xl font-semibold text-white">Unlock dashboard</h2>
-            <form onSubmit={login} className="mt-7 space-y-4">
+            <form onSubmit={login} className="mt-7 space-y-4" autoComplete="off">
               <label className="block text-sm">
-                <span className="mb-2 block text-white/65">Passkey</span>
+                <span className="mb-2 block text-white/65">Username</span>
+                <input
+                  type="text"
+                  required
+                  autoComplete="off"
+                  value={username}
+                  onChange={(event) => setUsername(event.target.value)}
+                  className="w-full rounded-2xl border border-white/15 bg-black/40 px-4 py-3.5 text-white outline-none ring-[#818cf8]/30 focus:border-[#818cf8]/50 focus:ring-2"
+                  placeholder="Username"
+                />
+              </label>
+              <label className="block text-sm">
+                <span className="mb-2 block text-white/65">Password</span>
                 <input
                   type="password"
                   required
-                  autoComplete="current-password"
+                  autoComplete="new-password"
                   minLength={needsSetup ? 8 : 1}
                   value={password}
                   onChange={(event) => setPassword(event.target.value)}
                   className="w-full rounded-2xl border border-white/15 bg-black/40 px-4 py-3.5 text-white outline-none ring-[#818cf8]/30 focus:border-[#818cf8]/50 focus:ring-2"
-                  placeholder={needsSetup ? "Create passkey (8+ characters)" : "Enter passkey"}
+                  placeholder={needsSetup ? "Create password (8+ characters)" : "Password"}
                 />
               </label>
               <button
@@ -495,7 +530,8 @@ export function OrbitHeroEditor({
   }
 
   return (
-    <div className="orbit-dash-shell flex-col lg:flex-row">
+    <div className={`orbit-dash-shell flex-col lg:flex-row ${hideShell ? "admin-embed-editor" : ""}`}>
+      {hideShell ? null : (
       <aside className="lg:w-[19.5rem] lg:shrink-0">
         <div className="orbit-studio-glass sticky top-6 rounded-[28px] p-4 lg:top-8">
           <p className="px-2 text-[10px] font-semibold uppercase tracking-[0.28em] text-[#818cf8]/80">Orbit · Node.js</p>
@@ -532,8 +568,10 @@ export function OrbitHeroEditor({
           </button>
         </div>
       </aside>
+      )}
 
       <div className="min-w-0 flex-1 pb-12">
+        {hideShell ? null : (
         <div className="mb-6 flex flex-wrap gap-2 lg:hidden">
           {navItems.map((item) => (
             <button
@@ -548,6 +586,7 @@ export function OrbitHeroEditor({
             </button>
           ))}
         </div>
+        )}
 
         {section === "overview" ? (
           <div className="space-y-6">

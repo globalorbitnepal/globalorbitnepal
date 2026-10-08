@@ -20,6 +20,11 @@ function orbitPasswordFromEnv(): string | null {
   return value;
 }
 
+function orbitUsernameFromEnv(): string | null {
+  const value = process.env.ORBIT_EDITOR_USERNAME?.trim();
+  return value || null;
+}
+
 function safeStringEqual(a: string, b: string): boolean {
   const left = Buffer.from(a);
   const right = Buffer.from(b);
@@ -51,6 +56,15 @@ export async function setOrbitPassword(password: string) {
   const file = authFile();
   await mkdir(path.dirname(file), { recursive: true });
   await writeFile(file, `${JSON.stringify({ salt, hash })}\n`, "utf8");
+}
+
+export async function verifyOrbitLogin(username: string, password: string) {
+  const envUser = orbitUsernameFromEnv();
+  if (envUser) {
+    const userOk = safeStringEqual(username.trim(), envUser);
+    if (!userOk) return false;
+  }
+  return verifyOrbitPassword(password);
 }
 
 export async function verifyOrbitPassword(password: string) {

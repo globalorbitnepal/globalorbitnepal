@@ -4,12 +4,13 @@ import {
   isOrbitAuthed,
   setOrbitPassword,
   setOrbitSession,
-  verifyOrbitPassword,
+  verifyOrbitLogin,
 } from "@/lib/orbit-auth";
 
 export async function POST(request: Request) {
-  const body = (await request.json()) as { password?: string; mode?: string };
+  const body = (await request.json()) as { password?: string; username?: string; mode?: string };
   const password = String(body.password || "");
+  const username = String(body.username || "");
   const exists = await hasOrbitPassword();
 
   try {
@@ -18,9 +19,12 @@ export async function POST(request: Request) {
       await setOrbitSession();
       return NextResponse.json({ ok: true });
     }
-    const valid = await verifyOrbitPassword(password);
+    if (process.env.ORBIT_EDITOR_USERNAME?.trim() && !username.trim()) {
+      return NextResponse.json({ ok: false, error: "Invalid username or password" }, { status: 401 });
+    }
+    const valid = await verifyOrbitLogin(username, password);
     if (!valid) {
-      return NextResponse.json({ ok: false, error: "Invalid password" }, { status: 401 });
+      return NextResponse.json({ ok: false, error: "Invalid username or password" }, { status: 401 });
     }
     await setOrbitSession();
     return NextResponse.json({ ok: true });

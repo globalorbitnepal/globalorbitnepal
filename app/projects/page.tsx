@@ -1,14 +1,13 @@
 import type { Metadata } from "next";
 import { ProjectsPageView } from "@/components/projects/projects-page-view";
 import { getProjectsConfig } from "@/lib/projects-store";
-import { buildPageMetadata } from "@/lib/seo";
+import { applyPageSeo } from "@/lib/apply-page-seo";
 
 export async function generateMetadata(): Promise<Metadata> {
   const config = await getProjectsConfig();
-  return buildPageMetadata({
+  return applyPageSeo("/projects", {
     title: "Our Work · Projects",
     description: config.heroLede.slice(0, 155),
-    path: "/projects",
   });
 }
 

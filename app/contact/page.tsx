@@ -2,13 +2,12 @@ import type { Metadata } from "next";
 import { ContactForm } from "@/components/contact/contact-form";
 import { OrbitPageHero } from "@/components/orbit/page-hero";
 import { ORBIT_BRAND } from "@/lib/orbit/brand";
-import { buildPageMetadata } from "@/lib/seo";
+import { applyPageSeo } from "@/lib/apply-page-seo";
 
 export async function generateMetadata(): Promise<Metadata> {
-  return buildPageMetadata({
+  return applyPageSeo("/contact", {
     title: "Contact",
     description: "Free consultation with Global Orbit — offices in Nepal, India and the United States.",
-    path: "/contact",
   });
 }
 
