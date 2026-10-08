@@ -6309,7 +6309,7 @@ li.orbit-card:hover {
   position: relative;
   z-index: 6;
   flex-shrink: 0;
-  padding-top: clamp(5.75rem, 11vh, 7.25rem);
+  padding-top: clamp(6.5rem, 12.5vh, 8rem);
   padding-bottom: 0;
 }
 
@@ -6361,7 +6361,7 @@ li.orbit-card:hover {
 
 .orbit-work-earth-globe {
   position: absolute;
-  z-index: 2;
+  z-index: 30;
   inset: 18%;
   border-radius: 50%;
   overflow: hidden;
@@ -6423,7 +6423,7 @@ li.orbit-card:hover {
 
 .orbit-work-earth-floats {
   position: absolute;
-  z-index: 4;
+  z-index: auto;
   inset: 0;
   margin: 0;
   padding: 0;
@@ -6432,22 +6432,20 @@ li.orbit-card:hover {
 }
 
 .orbit-work-earth-card {
-  --card-x: 0%;
-  --card-y: 0%;
+  --card-left: 50%;
+  --card-top: 50%;
   --card-s: 1;
   position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 0;
-  height: 0;
-  transform: translate3d(var(--card-x), var(--card-y), 0) scale(var(--card-s));
-  transform-origin: 0 0;
+  left: var(--card-left);
+  top: var(--card-top);
+  width: clamp(8.4rem, 13vw, 11.5rem);
+  transform: translate3d(-50%, -50%, 0) scale(var(--card-s));
+  transform-origin: center center;
   will-change: transform, opacity;
 }
 
 .orbit-work-earth-float {
-  width: clamp(9.5rem, 16vw, 14.25rem);
-  transform: translate3d(-50%, -50%, 0);
+  width: 100%;
   border-radius: 0.65rem;
   overflow: hidden;
   border: 1px solid rgba(240, 196, 58, 0.55);
@@ -6558,8 +6556,8 @@ li.orbit-card:hover {
     inset: 20%;
   }
 
-  .orbit-work-earth-float {
-    width: clamp(7.6rem, 34vw, 10.4rem);
+  .orbit-work-earth-card {
+    width: clamp(7.2rem, 32vw, 9.6rem);
   }
 
   .orbit-work-earth-card-shot {
@@ -6580,8 +6578,8 @@ li.orbit-card:hover {
     height: min(76vmin, 1040px);
   }
 
-  .orbit-work-earth-float {
-    width: clamp(11rem, 12vw, 15.5rem);
+  .orbit-work-earth-card {
+    width: clamp(10rem, 11vw, 13.5rem);
   }
 }
 
