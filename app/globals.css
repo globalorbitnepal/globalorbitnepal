@@ -6355,7 +6355,7 @@ li.orbit-card:hover {
   pointer-events: none;
 }
 
-.orbit-work-earth-globe {
+.orbit-work-earth-rotator {
   --earth-spin: 0deg;
   --earth-scale: 1;
   --earth-lift: 0px;
@@ -6364,18 +6364,22 @@ li.orbit-card:hover {
   top: 50%;
   width: 100%;
   height: 100%;
-  margin: 0;
   transform: translate3d(-50%, -50%, 0) translate3d(0, var(--earth-lift), 0) rotateY(var(--earth-spin))
     scale(var(--earth-scale));
   transform-style: preserve-3d;
   transform-origin: center center;
   will-change: transform;
-  backface-visibility: hidden;
+}
+
+.orbit-work-earth-globe {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
   clip-path: circle(50% at 50% 50%);
   box-shadow:
-    0 0 0 2px rgba(240, 196, 58, 0.38),
-    0 48px 110px rgba(0, 0, 0, 0.72),
-    0 0 100px rgba(240, 196, 58, 0.18);
+    0 0 0 2px rgba(240, 196, 58, 0.42),
+    0 52px 120px rgba(0, 0, 0, 0.75),
+    0 0 120px rgba(240, 196, 58, 0.2);
 }
 
 .orbit-work-earth-shell {
@@ -6391,14 +6395,49 @@ li.orbit-card:hover {
   inset: 0;
   border-radius: 50%;
   background:
-    radial-gradient(circle at 38% 32%, rgba(253, 224, 138, 0.28), transparent 48%),
-    radial-gradient(circle at 62% 58%, rgba(212, 168, 52, 0.22), transparent 44%),
-    radial-gradient(circle at 22% 68%, rgba(240, 196, 58, 0.18), transparent 40%),
-    radial-gradient(circle at 78% 28%, rgba(180, 140, 50, 0.15), transparent 38%),
-    linear-gradient(155deg, #071018 0%, #0a1628 45%, #061220 100%);
+    radial-gradient(circle at 40% 35%, rgba(253, 224, 138, 0.12), transparent 55%),
+    radial-gradient(circle at 65% 60%, rgba(212, 168, 52, 0.08), transparent 50%),
+    linear-gradient(165deg, #030508 0%, #060a12 50%, #020306 100%);
 }
 
-.orbit-work-earth-tiles {
+.orbit-work-earth-rings {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  pointer-events: none;
+}
+
+.orbit-work-earth-ring {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 118%;
+  height: 118%;
+  margin: -59% 0 0 -59%;
+  border: 1px solid rgba(240, 196, 58, 0.22);
+  border-radius: 50%;
+  box-shadow: 0 0 24px rgba(240, 196, 58, 0.08);
+}
+
+.orbit-work-earth-ring.is-1 {
+  transform: rotateX(72deg);
+}
+
+.orbit-work-earth-ring.is-2 {
+  transform: rotateX(78deg) rotateZ(28deg);
+  opacity: 0.65;
+}
+
+.orbit-work-earth-ring.is-3 {
+  width: 132%;
+  height: 132%;
+  margin: -66% 0 0 -66%;
+  transform: rotateX(68deg) rotateZ(-18deg);
+  opacity: 0.4;
+}
+
+.orbit-work-earth-mosaic,
+.orbit-work-earth-floats {
   position: absolute;
   inset: 0;
   margin: 0;
@@ -6407,7 +6446,7 @@ li.orbit-card:hover {
   transform-style: preserve-3d;
 }
 
-.orbit-work-earth-tile-pin {
+.orbit-work-earth-mosaic-pin {
   position: absolute;
   left: 50%;
   top: 50%;
@@ -6415,9 +6454,123 @@ li.orbit-card:hover {
   height: 0;
   transform-style: preserve-3d;
   transform: rotateY(calc(var(--pin-lng, 0) * 1deg)) rotateX(calc(var(--pin-lat, 0) * -1deg))
-    translateZ(min(47vw, 48vmin, 460px));
-  animation: orbit-work-pin-in 0.75s cubic-bezier(0.22, 1, 0.36, 1) backwards;
-  animation-delay: calc(0.035s * var(--pin-i, 0));
+    translateZ(min(47vw, 48vmin, 480px));
+}
+
+.orbit-work-earth-mosaic-img {
+  display: block;
+  width: clamp(1rem, 2.15vw, 1.55rem);
+  height: clamp(0.62rem, 1.35vw, 0.95rem);
+  object-fit: cover;
+  object-position: top center;
+  border-radius: 1px;
+  border: 1px solid rgba(240, 196, 58, 0.35);
+  transform: rotateX(calc(var(--pin-lat, 0) * 1deg)) rotateY(calc(var(--pin-lng, 0) * -1deg))
+    translate3d(-50%, -50%, 0);
+  backface-visibility: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
+}
+
+.orbit-work-earth-float-pin {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0;
+  height: 0;
+  transform-style: preserve-3d;
+  transform: rotateY(calc(var(--pin-lng, 0) * 1deg)) rotateX(calc(var(--pin-lat, 0) * -1deg))
+    translateZ(min(58vw, 62vmin, 620px));
+  animation: orbit-work-pin-in 0.85s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+  animation-delay: calc(0.06s * var(--float-i, 0));
+}
+
+.orbit-work-earth-float {
+  width: clamp(10.5rem, 19vw, 15.5rem);
+  transform: rotateX(calc(var(--pin-lat, 0) * 1deg)) rotateY(calc(var(--pin-lng, 0) * -1deg))
+    translate3d(-50%, -50%, 0);
+  border-radius: 0.65rem;
+  overflow: hidden;
+  border: 1px solid rgba(240, 196, 58, 0.55);
+  background: #0a0c14;
+  box-shadow:
+    0 24px 56px rgba(0, 0, 0, 0.62),
+    0 0 32px rgba(240, 196, 58, 0.14);
+  backface-visibility: hidden;
+}
+
+.orbit-work-earth-browser-chrome {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  height: 1.35rem;
+  padding: 0 0.45rem;
+  background: linear-gradient(180deg, #1a1c26, #101218);
+  border-bottom: 1px solid rgba(240, 196, 58, 0.2);
+}
+
+.orbit-work-earth-browser-dots {
+  display: inline-flex;
+  gap: 0.22rem;
+}
+
+.orbit-work-earth-browser-dots i {
+  display: block;
+  width: 0.38rem;
+  height: 0.38rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.orbit-work-earth-browser-dots i:nth-child(1) {
+  background: #f87171;
+}
+
+.orbit-work-earth-browser-dots i:nth-child(2) {
+  background: #fbbf24;
+}
+
+.orbit-work-earth-browser-dots i:nth-child(3) {
+  background: #4ade80;
+}
+
+.orbit-work-earth-browser-url {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.52rem;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.orbit-work-earth-float .orbit-ds {
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.orbit-work-earth-float .orbit-ds-row {
+  display: none;
+}
+
+.orbit-work-earth-float .orbit-ds-shot {
+  min-height: 6.5rem;
+}
+
+.orbit-work-earth-float .orbit-ds-hero h3 {
+  font-size: 0.72rem;
+  line-height: 1.2;
+}
+
+.orbit-work-earth-float .orbit-ds-nav {
+  padding: 0.35rem 0.45rem;
+}
+
+.orbit-work-earth-float .orbit-ds-nav strong {
+  font-size: 0.58rem;
+}
+
+.orbit-work-earth-float .orbit-ds-nav nav {
+  display: none;
 }
 
 @keyframes orbit-work-pin-in {
@@ -6429,43 +6582,6 @@ li.orbit-card:hover {
     opacity: 1;
     filter: blur(0);
   }
-}
-
-.orbit-work-earth-tile {
-  position: relative;
-  width: clamp(4.25rem, 9.5vw, 6.75rem);
-  aspect-ratio: 16 / 10;
-  transform: rotateX(calc(var(--pin-lat, 0) * 1deg)) rotateY(calc(var(--pin-lng, 0) * -1deg))
-    translate3d(-50%, -50%, 0);
-  border-radius: 0.4rem;
-  overflow: hidden;
-  border: 1px solid rgba(240, 196, 58, 0.55);
-  box-shadow:
-    0 10px 28px rgba(0, 0, 0, 0.55),
-    0 0 16px rgba(240, 196, 58, 0.12);
-  backface-visibility: hidden;
-}
-
-.orbit-work-earth-tile-img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: top center;
-  filter: saturate(1.05) contrast(1.05);
-}
-
-.orbit-work-earth-tile-gold {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    145deg,
-    rgba(240, 196, 58, 0.38) 0%,
-    rgba(212, 168, 52, 0.12) 45%,
-    rgba(8, 12, 22, 0.35) 100%
-  );
-  mix-blend-mode: soft-light;
-  pointer-events: none;
 }
 
 .orbit-work-earth-gold-veil {
@@ -6500,7 +6616,7 @@ li.orbit-card:hover {
   text-align: center;
 }
 
-.orbit-work-track.is-work-scrolling .orbit-work-earth-globe {
+.orbit-work-track.is-work-scrolling .orbit-work-earth-rotator {
   will-change: transform;
 }
 
@@ -6517,16 +6633,25 @@ li.orbit-card:hover {
     max-height: calc(100dvh - 9.5rem);
   }
 
-  .orbit-work-earth-tile-pin {
+  .orbit-work-earth-mosaic-pin {
     transform: rotateY(calc(var(--pin-lng, 0) * 1deg)) rotateX(calc(var(--pin-lat, 0) * -1deg))
-      translateZ(min(44vw, 250px));
+      translateZ(min(42vw, 240px));
   }
 
-  .orbit-work-earth-tile {
-    width: clamp(3.5rem, 14vw, 5.5rem);
+  .orbit-work-earth-float-pin {
+    transform: rotateY(calc(var(--pin-lng, 0) * 1deg)) rotateX(calc(var(--pin-lat, 0) * -1deg))
+      translateZ(min(50vw, 280px));
   }
 
-  .orbit-work-earth-tile-pin:nth-child(n + 13) {
+  .orbit-work-earth-float {
+    width: clamp(9rem, 38vw, 12rem);
+  }
+
+  .orbit-work-earth-float-pin:nth-child(n + 5) {
+    display: none;
+  }
+
+  .orbit-work-earth-mosaic-pin:nth-child(n + 64) {
     display: none;
   }
 }
@@ -6537,20 +6662,25 @@ li.orbit-card:hover {
     height: min(82vmin, 980px);
   }
 
-  .orbit-work-earth-tile-pin {
+  .orbit-work-earth-mosaic-pin {
     transform: rotateY(calc(var(--pin-lng, 0) * 1deg)) rotateX(calc(var(--pin-lat, 0) * -1deg))
-      translateZ(min(48vmin, 500px));
+      translateZ(min(48vmin, 520px));
+  }
+
+  .orbit-work-earth-float-pin {
+    transform: rotateY(calc(var(--pin-lng, 0) * 1deg)) rotateX(calc(var(--pin-lat, 0) * -1deg))
+      translateZ(min(58vmin, 660px));
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .orbit-work-earth-globe {
+  .orbit-work-earth-rotator {
     --earth-spin: 0deg;
     --earth-scale: 1;
     --earth-lift: 0px;
   }
 
-  .orbit-work-earth-tile-pin {
+  .orbit-work-earth-float-pin {
     animation: none;
   }
 }
@@ -8961,18 +9091,18 @@ li.orbit-card:hover {
     perspective: none !important;
   }
 
-  html.orbit-mobile-lite .orbit-work-earth-globe {
+  html.orbit-mobile-lite .orbit-work-earth-rotator {
     transform-style: flat !important;
     will-change: auto !important;
   }
 
-  .orbit-work-track.is-work-scrolling .orbit-work-earth-globe {
+  .orbit-work-track.is-work-scrolling .orbit-work-earth-rotator {
     will-change: transform;
   }
 
   html.orbit-mobile-lite .orbit-made-slide,
   html.orbit-mobile-lite .orbit-soft-zoom,
-  html.orbit-mobile-lite .orbit-work-earth-globe {
+  html.orbit-mobile-lite .orbit-work-earth-rotator {
     will-change: auto !important;
   }
 

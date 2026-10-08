@@ -1,32 +1,14 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useMemo, useRef, type CSSProperties } from "react";
-import { DEMO_SITES } from "@/components/orbit/demo-sites";
+import { DemoWebsite, DEMO_SITES } from "@/components/orbit/demo-sites";
 import { bindOrbitScroll, isOrbitTouch } from "@/lib/orbit/scroll-performance";
+import {
+  EARTH_FLOATER_SLOTS,
+  EARTH_MOSAIC_TILE_COUNT,
+  fibonacciSpherePoints,
+} from "@/lib/work-earth-mosaic";
 import type { WorkConfig } from "@/lib/work-config";
-
-/** Even distribution of tiles on a sphere (lat/lng in degrees). */
-const EARTH_TILE_GRID: { lat: number; lng: number }[] = [
-  { lat: 0, lng: 0 },
-  { lat: 0, lng: 60 },
-  { lat: 0, lng: 120 },
-  { lat: 0, lng: 180 },
-  { lat: 0, lng: 240 },
-  { lat: 0, lng: 300 },
-  { lat: 28, lng: 30 },
-  { lat: 28, lng: 90 },
-  { lat: 28, lng: 150 },
-  { lat: 28, lng: 210 },
-  { lat: 28, lng: 270 },
-  { lat: 28, lng: 330 },
-  { lat: -28, lng: 45 },
-  { lat: -28, lng: 105 },
-  { lat: -28, lng: 165 },
-  { lat: -28, lng: 225 },
-  { lat: -28, lng: 285 },
-  { lat: -28, lng: 345 },
-];
 
 function clamp(n: number, min: number, max: number) {
   return Math.min(max, Math.max(min, n));
@@ -46,14 +28,26 @@ function madeLabelProgress(raw: number) {
 
 export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
   const trackRef = useRef<HTMLElement>(null);
-  const globeRef = useRef<HTMLDivElement>(null);
+  const rotatorRef = useRef<HTMLDivElement>(null);
   const haloRef = useRef<HTMLDivElement>(null);
   const madeRef = useRef<HTMLParagraphElement>(null);
   const frameRef = useRef(0);
 
-  const tiles = useMemo(
+  const mosaicPoints = useMemo(() => fibonacciSpherePoints(EARTH_MOSAIC_TILE_COUNT), []);
+
+  const mosaicTiles = useMemo(
     () =>
-      EARTH_TILE_GRID.map((pos, index) => ({
+      mosaicPoints.map((pos, index) => ({
+        pos,
+        image: DEMO_SITES[index % DEMO_SITES.length].image,
+        index,
+      })),
+    [mosaicPoints],
+  );
+
+  const floaters = useMemo(
+    () =>
+      EARTH_FLOATER_SLOTS.map((pos, index) => ({
         pos,
         site: DEMO_SITES[index % DEMO_SITES.length],
         index,
@@ -68,8 +62,8 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
 
     const touch = isOrbitTouch();
 
-    const setGlobeVars = (spin: number, scale: number, lift: number) => {
-      const node = globeRef.current;
+    const setEarthVars = (spin: number, scale: number, lift: number) => {
+      const node = rotatorRef.current;
       if (!node) return;
       node.style.setProperty("--earth-spin", `${spin.toFixed(2)}deg`);
       node.style.setProperty("--earth-scale", scale.toFixed(4));
@@ -82,21 +76,21 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
       track.classList.toggle("is-work-scrolling", raw > 0.02 && raw < 0.98);
 
       if (reduce) {
-        setGlobeVars(0, 1, 0);
+        setEarthVars(0, 1, 0);
         if (haloRef.current) haloRef.current.style.opacity = "0.5";
         if (madeRef.current) madeRef.current.style.opacity = "1";
         return;
       }
 
-      const spin = raw * (touch ? 120 : 165);
-      const scale = touch ? 0.96 + raw * 0.12 : 0.92 + raw * 0.16;
-      const lift = raw * (touch ? 4 : 10);
+      const spin = raw * (touch ? 145 : 210);
+      const scale = touch ? 0.88 + raw * 0.22 : 0.82 + raw * 0.28;
+      const lift = raw * (touch ? 6 : 14);
 
-      setGlobeVars(spin, scale, lift);
+      setEarthVars(spin, scale, lift);
 
       if (haloRef.current) {
-        haloRef.current.style.opacity = (0.28 + raw * 0.55).toFixed(3);
-        haloRef.current.style.setProperty("--halo-scale", (0.98 + raw * 0.2).toFixed(3));
+        haloRef.current.style.opacity = (0.22 + raw * 0.58).toFixed(3);
+        haloRef.current.style.setProperty("--halo-scale", (0.95 + raw * 0.28).toFixed(3));
       }
 
       if (madeRef.current) {
@@ -131,37 +125,62 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
           <div className="orbit-work-earth-arena">
             <div ref={haloRef} className="orbit-work-earth-halo" aria-hidden="true" />
 
-            <div ref={globeRef} className="orbit-work-earth-globe">
-              <div className="orbit-work-earth-shell">
-                <div className="orbit-work-earth-ocean" aria-hidden="true" />
-                <div className="orbit-work-earth-gold-veil" aria-hidden="true" />
-                <div className="orbit-work-earth-shine" aria-hidden="true" />
+            <div ref={rotatorRef} className="orbit-work-earth-rotator">
+              <div className="orbit-work-earth-rings" aria-hidden="true">
+                <span className="orbit-work-earth-ring is-1" />
+                <span className="orbit-work-earth-ring is-2" />
+                <span className="orbit-work-earth-ring is-3" />
               </div>
 
-              <ul className="orbit-work-earth-tiles">
-                {tiles.map(({ pos, site, index }) => (
+              <div className="orbit-work-earth-globe">
+                <div className="orbit-work-earth-shell">
+                  <div className="orbit-work-earth-ocean" aria-hidden="true" />
+                  <div className="orbit-work-earth-gold-veil" aria-hidden="true" />
+                  <div className="orbit-work-earth-shine" aria-hidden="true" />
+                </div>
+
+                <ul className="orbit-work-earth-mosaic">
+                  {mosaicTiles.map((tile) => (
+                    <li
+                      key={`m-${tile.index}`}
+                      className="orbit-work-earth-mosaic-pin"
+                      style={
+                        {
+                          "--pin-lat": tile.pos.lat,
+                          "--pin-lng": tile.pos.lng,
+                        } as CSSProperties
+                      }
+                    >
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={tile.image} alt="" className="orbit-work-earth-mosaic-img" loading="lazy" />
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <ul className="orbit-work-earth-floats">
+                {floaters.map(({ pos, site, index }) => (
                   <li
-                    key={`${site.id}-${index}`}
-                    className="orbit-work-earth-tile-pin"
+                    key={site.id}
+                    className="orbit-work-earth-float-pin"
                     style={
                       {
                         "--pin-lat": pos.lat,
                         "--pin-lng": pos.lng,
-                        "--pin-i": index,
+                        "--float-i": index,
                       } as CSSProperties
                     }
                   >
-                    <div className="orbit-work-earth-tile">
-                      <Image
-                        src={site.image}
-                        alt=""
-                        width={280}
-                        height={175}
-                        sizes="(max-width: 768px) 12vw, 6vw"
-                        className="orbit-work-earth-tile-img"
-                        priority={index < 4}
-                      />
-                      <span className="orbit-work-earth-tile-gold" aria-hidden="true" />
+                    <div className="orbit-work-earth-float">
+                      <div className="orbit-work-earth-browser-chrome">
+                        <span className="orbit-work-earth-browser-dots" aria-hidden="true">
+                          <i />
+                          <i />
+                          <i />
+                        </span>
+                        <span className="orbit-work-earth-browser-url">{site.host}</span>
+                      </div>
+                      <DemoWebsite site={site} />
                     </div>
                   </li>
                 ))}
