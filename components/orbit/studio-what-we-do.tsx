@@ -337,8 +337,16 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
         const lat = Number(el.dataset.lat);
         const lng = Number(el.dataset.lng);
         const p = projectOrbitCard(lat, lng, spin);
-        el.style.setProperty("--card-left", `${(50 + p.x * 38).toFixed(2)}%`);
-        el.style.setProperty("--card-top", `${(50 + p.y * 38).toFixed(2)}%`);
+        let sx = p.x * 38;
+        let sy = p.y * 38;
+        const mag = Math.hypot(sx, sy) || 0.001;
+        const minR = 44;
+        if (mag < minR) {
+          sx = (sx / mag) * minR;
+          sy = (sy / mag) * minR;
+        }
+        el.style.setProperty("--card-left", `${(50 + sx).toFixed(2)}%`);
+        el.style.setProperty("--card-top", `${(50 + sy).toFixed(2)}%`);
         el.style.setProperty("--card-s", p.scale.toFixed(3));
         el.style.zIndex = String(Math.round(30 + p.depth * 50));
         el.style.opacity = p.depth < -0.2 ? "0" : p.depth < 0.12 ? "0.55" : "1";
