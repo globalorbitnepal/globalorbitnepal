@@ -6,14 +6,27 @@ import { DEMO_SITES } from "@/components/orbit/demo-sites";
 import { bindOrbitScroll, isOrbitTouch } from "@/lib/orbit/scroll-performance";
 import type { WorkConfig } from "@/lib/work-config";
 
-const EARTH_PINS = [
-  { lat: 12, lng: -55 },
-  { lat: 22, lng: -12 },
-  { lat: 8, lng: 28 },
-  { lat: -18, lng: 55 },
-  { lat: 32, lng: 75 },
-  { lat: -8, lng: 115 },
-] as const;
+/** Even distribution of tiles on a sphere (lat/lng in degrees). */
+const EARTH_TILE_GRID: { lat: number; lng: number }[] = [
+  { lat: 0, lng: 0 },
+  { lat: 0, lng: 60 },
+  { lat: 0, lng: 120 },
+  { lat: 0, lng: 180 },
+  { lat: 0, lng: 240 },
+  { lat: 0, lng: 300 },
+  { lat: 28, lng: 30 },
+  { lat: 28, lng: 90 },
+  { lat: 28, lng: 150 },
+  { lat: 28, lng: 210 },
+  { lat: 28, lng: 270 },
+  { lat: 28, lng: 330 },
+  { lat: -28, lng: 45 },
+  { lat: -28, lng: 105 },
+  { lat: -28, lng: 165 },
+  { lat: -28, lng: 225 },
+  { lat: -28, lng: 285 },
+  { lat: -28, lng: 345 },
+];
 
 function clamp(n: number, min: number, max: number) {
   return Math.min(max, Math.max(min, n));
@@ -38,7 +51,15 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
   const madeRef = useRef<HTMLParagraphElement>(null);
   const frameRef = useRef(0);
 
-  const sites = useMemo(() => DEMO_SITES.slice(0, EARTH_PINS.length), []);
+  const tiles = useMemo(
+    () =>
+      EARTH_TILE_GRID.map((pos, index) => ({
+        pos,
+        site: DEMO_SITES[index % DEMO_SITES.length],
+        index,
+      })),
+    [],
+  );
 
   useEffect(() => {
     const track = trackRef.current;
@@ -68,20 +89,20 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
       }
 
       const spin = raw * (touch ? 120 : 165);
-      const scale = touch ? 0.94 + raw * 0.14 : 0.9 + raw * 0.2;
+      const scale = touch ? 0.96 + raw * 0.12 : 0.92 + raw * 0.16;
       const lift = raw * (touch ? 4 : 10);
 
       setGlobeVars(spin, scale, lift);
 
       if (haloRef.current) {
-        haloRef.current.style.opacity = (0.32 + raw * 0.5).toFixed(3);
-        haloRef.current.style.setProperty("--halo-scale", (0.96 + raw * 0.22).toFixed(3));
+        haloRef.current.style.opacity = (0.28 + raw * 0.55).toFixed(3);
+        haloRef.current.style.setProperty("--halo-scale", (0.98 + raw * 0.2).toFixed(3));
       }
 
       if (madeRef.current) {
         const m = madeLabelProgress(raw);
         madeRef.current.style.opacity = m.toFixed(3);
-        madeRef.current.style.transform = `translate3d(-50%, 0, 0) scale(${(0.94 + m * 0.06).toFixed(3)})`;
+        madeRef.current.style.transform = `scale(${(0.94 + m * 0.06).toFixed(3)})`;
       }
     };
 
@@ -111,51 +132,39 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
             <div ref={haloRef} className="orbit-work-earth-halo" aria-hidden="true" />
 
             <div ref={globeRef} className="orbit-work-earth-globe">
-              <div className="orbit-work-earth-sphere-wrap">
-                <Image
-                  src="/brand/hero-globe.png"
-                  alt=""
-                  width={1200}
-                  height={1200}
-                  priority
-                  sizes="(max-width: 768px) 88vmin, (max-width: 1400px) 72vmin, 840px"
-                  className="orbit-work-earth-sphere-img"
-                />
-                <div className="orbit-work-earth-atmosphere" aria-hidden="true" />
+              <div className="orbit-work-earth-shell">
+                <div className="orbit-work-earth-ocean" aria-hidden="true" />
+                <div className="orbit-work-earth-gold-veil" aria-hidden="true" />
+                <div className="orbit-work-earth-shine" aria-hidden="true" />
               </div>
 
-              <ul className="orbit-work-earth-pins">
-                {sites.map((site, index) => {
-                  const pin = EARTH_PINS[index];
-                  return (
-                    <li
-                      key={site.id}
-                      className="orbit-work-earth-pin"
-                      style={
-                        {
-                          "--pin-lat": pin.lat,
-                          "--pin-lng": pin.lng,
-                          "--pin-i": index,
-                        } as CSSProperties
-                      }
-                    >
-                      <div className="orbit-work-earth-pin-card">
-                        <Image
-                          src={site.image}
-                          alt=""
-                          width={320}
-                          height={200}
-                          sizes="(max-width: 768px) 34vw, 14vw"
-                          className="orbit-work-earth-pin-img"
-                        />
-                        <div className="orbit-work-earth-pin-meta">
-                          <span>{site.kicker}</span>
-                          <strong>{site.title}</strong>
-                        </div>
-                      </div>
-                    </li>
-                  );
-                })}
+              <ul className="orbit-work-earth-tiles">
+                {tiles.map(({ pos, site, index }) => (
+                  <li
+                    key={`${site.id}-${index}`}
+                    className="orbit-work-earth-tile-pin"
+                    style={
+                      {
+                        "--pin-lat": pos.lat,
+                        "--pin-lng": pos.lng,
+                        "--pin-i": index,
+                      } as CSSProperties
+                    }
+                  >
+                    <div className="orbit-work-earth-tile">
+                      <Image
+                        src={site.image}
+                        alt=""
+                        width={280}
+                        height={175}
+                        sizes="(max-width: 768px) 12vw, 6vw"
+                        className="orbit-work-earth-tile-img"
+                        priority={index < 4}
+                      />
+                      <span className="orbit-work-earth-tile-gold" aria-hidden="true" />
+                    </div>
+                  </li>
+                ))}
               </ul>
             </div>
           </div>
