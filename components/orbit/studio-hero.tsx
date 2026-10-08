@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef } from "react";
+import { OrbitHeroTechMarquee } from "@/components/orbit/hero-tech-marquee";
 import { bindOrbitAutoplay } from "@/lib/orbit/scroll-performance";
 import type { HeroConfig } from "@/lib/hero-config";
 
@@ -86,6 +87,7 @@ export function OrbitStudioHero({ config }: Props) {
               {config.primaryLabel}
             </Link>
           </div>
+          <OrbitHeroTechMarquee />
         </div>
       </div>
     </section>

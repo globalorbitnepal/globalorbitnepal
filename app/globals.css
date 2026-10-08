@@ -4318,7 +4318,9 @@ li.orbit-card:hover {
   grid-template-rows: 1fr;
   height: 100svh;
   height: 100dvh;
+  max-height: 100dvh;
   min-height: calc(var(--app-vh, 1vh) * 100);
+  overflow: hidden;
   background:
     radial-gradient(ellipse 85% 65% at 78% 42%, rgba(37, 99, 235, 0.38), transparent 58%),
     radial-gradient(ellipse 55% 45% at 8% 18%, rgba(129, 140, 248, 0.22), transparent 52%),
@@ -4364,8 +4366,12 @@ li.orbit-card:hover {
   }
 
   .orbit-studio-hero-shell {
-    padding-top: calc(4.85rem + env(safe-area-inset-top, 0px));
-    padding-bottom: clamp(0.65rem, 2vh, 1.1rem);
+    padding-top: calc(4.6rem + env(safe-area-inset-top, 0px));
+    padding-bottom: clamp(0.85rem, 2.4vh, 1.25rem);
+  }
+
+  .orbit-hero-tech-item span {
+    display: none;
   }
 
   .orbit-hero-trust-frame {
@@ -4382,11 +4388,12 @@ li.orbit-card:hover {
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  height: 100%;
   min-height: 0;
   padding:
-    clamp(6.6rem, 12.5vh, 8.6rem)
+    clamp(5.4rem, 10vh, 7.4rem)
     clamp(1.25rem, 3.6vw, 3.4rem)
-    clamp(2.4rem, 6vh, 4.2rem);
+    clamp(1.1rem, 2.8vh, 2rem);
 }
 
 .orbit-hero-trust-bleed {
@@ -4509,6 +4516,83 @@ li.orbit-card:hover {
 
 .orbit-hero-cta-btn:hover {
   background: #1d4ed8;
+}
+
+.orbit-hero-tech {
+  width: 100%;
+  max-width: min(36rem, 100%);
+  margin-top: clamp(1rem, 2.2vh, 1.65rem);
+  overflow: hidden;
+  mask-image: linear-gradient(90deg, #000 0%, #000 82%, transparent 100%);
+  -webkit-mask-image: linear-gradient(90deg, #000 0%, #000 82%, transparent 100%);
+}
+
+.orbit-hero-tech-track {
+  display: flex;
+  width: max-content;
+  align-items: center;
+  gap: 1.15rem;
+  animation: orbit-hero-tech-marquee 32s linear infinite;
+  will-change: transform;
+}
+
+.orbit-hero-tech-item {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 0.42rem;
+}
+
+.orbit-hero-tech-item img {
+  display: block;
+  width: 1.75rem;
+  height: 1.75rem;
+  object-fit: contain;
+}
+
+.orbit-hero-tech-item span {
+  font-size: 0.72rem;
+  font-weight: 650;
+  letter-spacing: 0.01em;
+  color: rgba(255, 255, 255, 0.72);
+  white-space: nowrap;
+}
+
+@keyframes orbit-hero-tech-marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@media (max-height: 720px) {
+  .orbit-hero-headline {
+    font-size: clamp(1.7rem, 5.6vh, 3.2rem);
+  }
+
+  .orbit-hero-lede {
+    margin-top: 0.5rem;
+    font-size: 0.92rem;
+    line-height: 1.45;
+  }
+}
+
+@media (max-height: 580px) {
+  .orbit-hero-lede {
+    display: none;
+  }
+
+  .orbit-hero-tech-item span {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orbit-hero-tech-track {
+    animation: none;
+  }
 }
 
 .orbit-hero-studios-kicker {

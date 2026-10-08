@@ -10,7 +10,6 @@ import { OrbitStudioNeed } from "@/components/orbit/studio-need";
 import { OrbitStudioServicesShowcase } from "@/components/orbit/studio-services-showcase";
 import { OrbitStudioWhatWeDo } from "@/components/orbit/studio-what-we-do";
 import { OrbitStudioWhy } from "@/components/orbit/studio-why";
-import { OrbitTechStackStrip } from "@/components/orbit/tech-stack-strip";
 import type { HeroConfig } from "@/lib/hero-config";
 import type { NeedConfig } from "@/lib/need-config";
 import type { WorkConfig } from "@/lib/work-config";
@@ -63,8 +62,6 @@ export function OrbitStudioHome({
       <OrbitStudioNeed config={need} />
 
       <OrbitStudioServicesShowcase />
-
-      <OrbitTechStackStrip />
 
       <OrbitStudioWhatWeDo config={work} />
 
