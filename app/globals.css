@@ -4523,8 +4523,8 @@ li.orbit-card:hover {
   max-width: min(36rem, 100%);
   margin-top: clamp(1rem, 2.2vh, 1.65rem);
   overflow: hidden;
-  mask-image: linear-gradient(90deg, #000 0%, #000 82%, transparent 100%);
-  -webkit-mask-image: linear-gradient(90deg, #000 0%, #000 82%, transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0%, #000 10%, #000 86%, transparent 100%);
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 10%, #000 86%, transparent 100%);
 }
 
 .orbit-hero-tech-track {
