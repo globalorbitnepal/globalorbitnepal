@@ -56,6 +56,14 @@ export async function generateMetadata(): Promise<Metadata> {
       index: true,
       follow: true,
     },
+    appleWebApp: {
+      capable: true,
+      statusBarStyle: "black-translucent",
+      title: settings?.companyName || FALLBACK_SITE.companyName,
+    },
+    formatDetection: {
+      telephone: false,
+    },
   };
 }
 
@@ -67,7 +75,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
   const tagline = settings?.tagline || FALLBACK_SITE.tagline;
 
   return (
-    <html lang="en" className="orbit-font-root h-full antialiased">
+    <html lang="en" className="orbit-font-root orbit-app-mode h-full antialiased">
       <head>
         <script
           dangerouslySetInnerHTML={{

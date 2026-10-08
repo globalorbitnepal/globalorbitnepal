@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { OrbitHeroTrustMarquee } from "@/components/orbit/hero-trust-marquee";
 import type { HeroConfig } from "@/lib/hero-config";
 
@@ -10,59 +10,10 @@ type Props = {
 };
 
 export function OrbitStudioHero({ config }: Props) {
-  const stageRef = useRef<HTMLDivElement>(null);
-  const mediaRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [showTrust, setShowTrust] = useState(false);
 
   const videoSrc = config.videoSrc || "/brand/hero-product.mp4";
   const showVideo = config.useVideo !== false;
-
-  useEffect(() => {
-    let cancelled = false;
-    const show = () => {
-      if (!cancelled) setShowTrust(true);
-    };
-
-    if (typeof requestIdleCallback === "function") {
-      const id = requestIdleCallback(show, { timeout: 900 });
-      return () => {
-        cancelled = true;
-        cancelIdleCallback(id);
-      };
-    }
-
-    const t = window.setTimeout(show, 400);
-    return () => {
-      cancelled = true;
-      window.clearTimeout(t);
-    };
-  }, []);
-
-  useEffect(() => {
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const mobile = window.matchMedia("(max-width: 767px)").matches;
-    if (reduce || mobile) return;
-    let frame = 0;
-    const onScroll = () => {
-      if (frame) return;
-      frame = window.requestAnimationFrame(() => {
-        frame = 0;
-        const stage = stageRef.current;
-        const media = mediaRef.current;
-        if (!stage || !media) return;
-        const rect = stage.getBoundingClientRect();
-        const progress = Math.min(1, Math.max(0, -rect.top / Math.max(rect.height * 0.85, 1)));
-        media.style.transform = `translate3d(${progress * 4}%, ${progress * 2}%, 0) scale(${1 + progress * 0.22})`;
-      });
-    };
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      if (frame) window.cancelAnimationFrame(frame);
-    };
-  }, []);
 
   useEffect(() => {
     if (!showVideo) return;
@@ -95,16 +46,8 @@ export function OrbitStudioHero({ config }: Props) {
   }, [showVideo, videoSrc]);
 
   return (
-    <section
-      ref={stageRef}
-      className="orbit-studio-hero relative z-[2] isolate overflow-hidden text-white"
-      aria-labelledby="home-hero-heading"
-    >
-      <div
-        ref={mediaRef}
-        className="orbit-studio-hero-media pointer-events-none absolute inset-0 z-0 origin-[82%_48%] will-change-transform"
-        aria-hidden="true"
-      >
+    <section className="orbit-studio-hero relative z-[2] isolate overflow-hidden text-white" aria-labelledby="home-hero-heading">
+      <div className="orbit-studio-hero-media pointer-events-none absolute inset-0 z-0" aria-hidden="true">
         {showVideo ? (
           <video
             ref={videoRef}
@@ -146,11 +89,7 @@ export function OrbitStudioHero({ config }: Props) {
       </div>
 
       <div className="orbit-hero-trust-bleed z-[3] w-full">
-        {showTrust ? (
-          <OrbitHeroTrustMarquee logos={config.trustLogos} label={config.trustMarqueeLabel} />
-        ) : (
-          <div className="orbit-hero-trust-skeleton" aria-hidden="true" />
-        )}
+        <OrbitHeroTrustMarquee logos={config.trustLogos} label={config.trustMarqueeLabel} />
       </div>
     </section>
   );

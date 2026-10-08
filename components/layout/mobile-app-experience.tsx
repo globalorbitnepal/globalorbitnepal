@@ -10,6 +10,7 @@ function setAppViewportUnit() {
 export function MobileAppExperience() {
   useEffect(() => {
     const root = document.documentElement;
+    root.classList.add("orbit-app-mode");
     const touch =
       window.matchMedia("(pointer: coarse)").matches ||
       window.matchMedia("(max-width: 767px)").matches;

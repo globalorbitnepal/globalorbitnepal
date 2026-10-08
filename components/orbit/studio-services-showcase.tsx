@@ -67,8 +67,6 @@ export function OrbitStudioServicesShowcase() {
     };
   }, []);
 
-  const row = [...SERVICES, ...SERVICES];
-
   return (
     <section className="orbit-services-showcase relative overflow-hidden bg-[#030308] text-white" aria-labelledby="services-showcase-heading">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_0%,rgba(59,130,246,0.12),transparent_55%)]" aria-hidden="true" />
@@ -103,22 +101,14 @@ export function OrbitStudioServicesShowcase() {
           </div>
         </div>
 
-        <div className="orbit-services-track-shell mt-[clamp(2rem,4vh,3rem)]">
-          <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-10 bg-gradient-to-r from-[#030308] to-transparent sm:w-16" />
-          <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-gradient-to-l from-[#030308] to-transparent sm:w-16" />
-          <div className="orbit-services-track flex w-max gap-4 sm:gap-5">
-            {row.map((item, index) => (
-              <Link
-                key={`${item.title}-${index}`}
-                href={item.href}
-                className={`orbit-services-card orbit-services-card-${item.tone}`}
-              >
-                <h3 className="orbit-services-card-title">{item.title}</h3>
-                <p className="orbit-services-card-body">{item.body}</p>
-                <span className="orbit-services-card-link">Explore →</span>
-              </Link>
-            ))}
-          </div>
+        <div className="orbit-services-grid mt-[clamp(2rem,4vh,3rem)]">
+          {SERVICES.map((item) => (
+            <Link key={item.title} href={item.href} className={`orbit-services-card orbit-services-card-${item.tone}`}>
+              <h3 className="orbit-services-card-title">{item.title}</h3>
+              <p className="orbit-services-card-body">{item.body}</p>
+              <span className="orbit-services-card-link">Explore →</span>
+            </Link>
+          ))}
         </div>
       </div>
     </section>
