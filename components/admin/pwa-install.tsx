@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { FooterInstallIcon } from "@/components/layout/footer-action-icons";
 
 type PromptEvent = Event & { prompt: () => Promise<void>; userChoice: Promise<{ outcome: string }> };
 
@@ -42,7 +43,8 @@ export function PwaInstall({ className }: { className?: string }) {
         window.alert("Use your browser menu → Add to Home Screen / Install app.");
       }}
     >
-      Install app
+      <FooterInstallIcon />
+      <span className="orbit-footer-chip-label">Install app</span>
     </button>
   );
 }

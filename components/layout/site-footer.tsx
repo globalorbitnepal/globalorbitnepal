@@ -1,6 +1,12 @@
 import Link from "next/link";
 import { PwaInstall } from "@/components/admin/pwa-install";
 import { BrandLogo } from "@/components/brand/brand-logo";
+import {
+  FooterInstallIcon,
+  FooterMailIcon,
+  FooterWebmailIcon,
+  FooterWhatsAppIcon,
+} from "@/components/layout/footer-action-icons";
 import { FooterConnectBar } from "@/components/layout/footer-connect-bar";
 import {
   FooterExploreIcon,
@@ -123,19 +129,29 @@ export function SiteFooter({ companyName }: SiteFooterProps) {
 
           <div className="orbit-footer-bottom-actions">
             <div className="orbit-footer-bottom-links">
-              <a href={`mailto:${ORBIT_BRAND.email}`} className="orbit-footer-chip">
-                <span className="orbit-footer-bottom-link-icon is-mail" aria-hidden="true" />
-                {ORBIT_BRAND.email}
+              <a href={`mailto:${ORBIT_BRAND.email}`} className="orbit-footer-chip orbit-footer-chip-premium">
+                <FooterMailIcon />
+                <span className="orbit-footer-chip-label">{ORBIT_BRAND.email}</span>
               </a>
-              <a href={ORBIT_BRAND.webmail} target="_blank" rel="noreferrer" className="orbit-footer-chip">
-                <span className="orbit-footer-bottom-link-icon is-building" aria-hidden="true" />
-                Webmail
+              <a
+                href={ORBIT_BRAND.webmail}
+                target="_blank"
+                rel="noreferrer"
+                className="orbit-footer-chip orbit-footer-chip-premium"
+              >
+                <FooterWebmailIcon />
+                <span className="orbit-footer-chip-label">Webmail</span>
               </a>
-              <a href={ORBIT_BRAND.whatsapp} target="_blank" rel="noreferrer" className="orbit-footer-chip is-whatsapp">
-                <span className="orbit-footer-bottom-link-icon is-whatsapp" aria-hidden="true" />
-                WhatsApp
+              <a
+                href={ORBIT_BRAND.whatsapp}
+                target="_blank"
+                rel="noreferrer"
+                className="orbit-footer-chip orbit-footer-chip-premium is-whatsapp"
+              >
+                <FooterWhatsAppIcon />
+                <span className="orbit-footer-chip-label">WhatsApp</span>
               </a>
-              <PwaInstall className="orbit-footer-chip" />
+              <PwaInstall className="orbit-footer-chip orbit-footer-chip-premium" />
             </div>
           </div>
         </div>

@@ -50,10 +50,12 @@ export function OrbitOfficesSection() {
   return (
     <section
       ref={sectionRef}
-      className="orbit-offices-section orbit-studio-surface relative isolate overflow-hidden px-4 py-[clamp(3rem,7vh,4.5rem)] sm:px-6 lg:px-8"
+      className="orbit-offices-section orbit-offices-premium orbit-studio-surface relative isolate overflow-hidden px-4 py-[clamp(3.25rem,8vh,5rem)] sm:px-6 lg:px-8"
       aria-labelledby="offices-heading"
     >
+      <div className="orbit-offices-world-bg pointer-events-none absolute inset-0" aria-hidden="true" />
       <div className="pointer-events-none absolute inset-0 orbit-studio-surface-glow" aria-hidden="true" />
+      <div className="orbit-offices-premium-ribbon pointer-events-none absolute inset-x-0 top-0 h-px" aria-hidden="true" />
 
       <div className="relative z-[1] mx-auto w-full max-w-[min(1180px,100%)] lg:max-w-[min(1480px,94vw)] xl:max-w-[min(1680px,92vw)]">
         <header className="orbit-offices-head mx-auto mb-10 max-w-2xl text-center sm:mb-12">
@@ -98,9 +100,10 @@ export function OrbitOfficesSection() {
                     src={office.image}
                     alt={`${office.city} sales office`}
                     fill
-                    unoptimized
-                    sizes="(max-width: 640px) 100vw, 33vw"
+                    quality={92}
+                    sizes="(max-width: 640px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     className="object-cover object-center transition-transform duration-700"
+                    priority={index === 1}
                   />
                   <div className="orbit-offices-visual-veil" />
                   <div className="orbit-offices-flag">

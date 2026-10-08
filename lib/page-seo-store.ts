@@ -19,6 +19,8 @@ export const DEFAULT_PAGE_SEO: PageSeo[] = [
   { path: "/projects", label: "Portfolio", seoTitle: "", seoDescription: "", keywords: "", tags: "", focusKeyword: "" },
   { path: "/careers", label: "Careers", seoTitle: "", seoDescription: "", keywords: "", tags: "", focusKeyword: "" },
   { path: "/orbit-software", label: "Orbit Software", seoTitle: "", seoDescription: "", keywords: "", tags: "", focusKeyword: "" },
+  { path: "/privacy-policy", label: "Privacy Policy", seoTitle: "", seoDescription: "", keywords: "", tags: "", focusKeyword: "" },
+  { path: "/terms-and-conditions", label: "Terms & Conditions", seoTitle: "", seoDescription: "", keywords: "", tags: "", focusKeyword: "" },
   { path: "/service/website-development-nepal", label: "Website Development", seoTitle: "", seoDescription: "", keywords: "", tags: "", focusKeyword: "" },
   { path: "/service/ai-automation", label: "AI Automation", seoTitle: "", seoDescription: "", keywords: "", tags: "", focusKeyword: "" },
   { path: "/blogs", label: "Blog index", seoTitle: "", seoDescription: "", keywords: "", tags: "", focusKeyword: "" },
