@@ -434,6 +434,32 @@ html.orbit-touch {
     #050508;
 }
 
+.orbit-about-cta-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  height: 2.9rem;
+  padding: 0 1.3rem;
+  border-radius: 999px;
+  background: #f0c43a;
+  color: #111;
+  font-size: 0.9rem;
+  font-weight: 650;
+}
+
+.orbit-about-cta-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  height: 2.9rem;
+  padding: 0 1.2rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 0.9rem;
+  font-weight: 650;
+}
+
 .orbit-career-role {
   padding: 1.35rem 1.5rem;
   color: inherit;
@@ -9490,4 +9516,295 @@ li.orbit-card:hover {
   .erp-app-body { grid-template-columns: 1fr; }
   .erp-app-nav { display: none; }
   .erp-pos { grid-template-columns: 1fr; }
+}
+
+.orbit-ai-page {
+  background: #07070b;
+}
+
+.orbit-ai-hero-glow {
+  background:
+    radial-gradient(ellipse 55% 45% at 18% 12%, rgba(167, 139, 250, 0.22), transparent 58%),
+    radial-gradient(ellipse 50% 40% at 82% 18%, rgba(240, 196, 58, 0.16), transparent 55%),
+    radial-gradient(ellipse 70% 50% at 50% 100%, rgba(56, 189, 248, 0.1), transparent 60%);
+}
+
+.orbit-ai-hero-grid {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse at 50% 30%, #000 20%, transparent 75%);
+  animation: orbit-ai-grid 22s linear infinite;
+}
+
+.orbit-ai-hero-orb {
+  width: min(42rem, 70vw);
+  height: min(42rem, 70vw);
+  left: 50%;
+  top: 8%;
+  transform: translateX(-50%);
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(240, 196, 58, 0.12), transparent 68%);
+  animation: orbit-ai-orb 10s ease-in-out infinite alternate;
+}
+
+@keyframes orbit-ai-grid {
+  from { background-position: 0 0, 0 0; }
+  to { background-position: 0 48px, 48px 0; }
+}
+
+@keyframes orbit-ai-orb {
+  from { opacity: 0.55; transform: translateX(-50%) scale(1); }
+  to { opacity: 1; transform: translateX(-50%) scale(1.08); }
+}
+
+.orbit-ai-pillars,
+.orbit-ai-cases,
+.orbit-ai-guard,
+.orbit-ai-connect {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.orbit-ai-pillar,
+.orbit-ai-case,
+.orbit-ai-guard li {
+  border-radius: 1.1rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+  padding: 1.15rem 1.15rem 1.2rem;
+}
+
+.orbit-ai-pillar h3,
+.orbit-ai-case h3,
+.orbit-ai-guard h3 {
+  font-family: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  font-size: 1.05rem;
+  font-weight: 650;
+}
+
+.orbit-ai-pillar p,
+.orbit-ai-case p,
+.orbit-ai-guard p {
+  margin-top: 0.45rem;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.52);
+}
+
+.orbit-ai-case span {
+  display: block;
+  margin-bottom: 0.45rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: #f0c43a;
+}
+
+.orbit-ai-connect {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.orbit-ai-connect li {
+  border-radius: 999px;
+  border: 1px solid rgba(240, 196, 58, 0.22);
+  background: rgba(240, 196, 58, 0.06);
+  padding: 0.45rem 0.85rem;
+  font-size: 0.82rem;
+  font-weight: 650;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.orbit-ai-board {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.orbit-ai-flow {
+  display: grid;
+  gap: 0.85rem;
+}
+
+@media (min-width: 900px) {
+  .orbit-ai-flow {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+  }
+}
+
+.orbit-ai-node {
+  position: relative;
+  border-radius: 1.1rem;
+  border: 1px solid rgba(167, 139, 250, 0.22);
+  background:
+    radial-gradient(120% 80% at 100% 0%, rgba(167, 139, 250, 0.12), transparent 50%),
+    rgba(12, 12, 18, 0.85);
+  padding: 1.1rem 1.05rem 1.15rem;
+}
+
+.orbit-ai-node span {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: #c4b5fd;
+}
+
+.orbit-ai-node strong {
+  display: block;
+  margin-top: 0.4rem;
+  font-size: 1.05rem;
+}
+
+.orbit-ai-node p {
+  margin-top: 0.4rem;
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.orbit-ai-wire {
+  display: none;
+}
+
+@media (min-width: 900px) {
+  .orbit-ai-wire {
+    display: block;
+    position: absolute;
+    top: 1.35rem;
+    right: -0.7rem;
+    width: 0.7rem;
+    height: 2px;
+    background: linear-gradient(90deg, #a78bfa, #f0c43a);
+    animation: orbit-ai-pulse 1.8s ease-in-out infinite;
+  }
+}
+
+@keyframes orbit-ai-pulse {
+  0%, 100% { opacity: 0.35; }
+  50% { opacity: 1; }
+}
+
+.orbit-ai-console {
+  overflow: hidden;
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: #101018;
+  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.45), 0 0 40px rgba(167, 139, 250, 0.08);
+}
+
+.orbit-ai-console-top {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.65rem 0.85rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  background: #16161f;
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.orbit-ai-console-dots {
+  display: flex;
+  gap: 0.32rem;
+}
+
+.orbit-ai-console-dots i {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #3f3f46;
+}
+
+.orbit-ai-console-dots i:nth-child(1) { background: #f87171; }
+.orbit-ai-console-dots i:nth-child(2) { background: #fbbf24; }
+.orbit-ai-console-dots i:nth-child(3) { background: #34d399; }
+
+.orbit-ai-console-top em {
+  margin-left: auto;
+  font-style: normal;
+  color: #86efac;
+}
+
+.orbit-ai-kpis {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.5rem;
+  padding: 0.75rem;
+}
+
+.orbit-ai-kpis article {
+  border-radius: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.03);
+  padding: 0.55rem 0.6rem;
+}
+
+.orbit-ai-kpis p {
+  font-size: 0.58rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.orbit-ai-kpis b {
+  display: block;
+  margin-top: 0.15rem;
+  font-size: 1.05rem;
+  color: #fff;
+}
+
+.orbit-ai-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.78rem;
+}
+
+.orbit-ai-table th,
+.orbit-ai-table td {
+  padding: 0.55rem 0.85rem;
+  text-align: left;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.orbit-ai-table th {
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.orbit-ai-table td {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.orbit-ai-pill {
+  display: inline-flex;
+  border-radius: 999px;
+  padding: 0.12rem 0.45rem;
+  font-size: 0.62rem;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.orbit-ai-pill.is-done { background: rgba(52, 211, 153, 0.16); color: #6ee7b7; }
+.orbit-ai-pill.is-review { background: rgba(251, 191, 36, 0.16); color: #fcd34d; }
+.orbit-ai-pill.is-queued { background: rgba(167, 139, 250, 0.18); color: #ddd6fe; }
+
+@media (max-width: 700px) {
+  .orbit-ai-table th:nth-child(2),
+  .orbit-ai-table td:nth-child(2) {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orbit-ai-hero-grid,
+  .orbit-ai-hero-orb,
+  .orbit-ai-wire {
+    animation: none;
+  }
 }

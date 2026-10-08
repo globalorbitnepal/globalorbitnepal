@@ -138,7 +138,8 @@ export const ORBIT_SOLUTIONS: OrbitCard[] = [
   {
     slug: "ai-automation",
     title: "AI Automation",
-    summary: "Chatbots, workflow automation, AI content generation, and intelligent business systems.",
+    summary:
+      "Workflows that ingest WhatsApp, invoices, and ERP events — then write back with human gates. Not a chatbot demo.",
     href: "/service/ai-automation",
   },
   {
@@ -202,7 +203,8 @@ export const ORBIT_SERVICE_PAGES: OrbitCard[] = [
   {
     slug: "ai-automation",
     title: "AI Automation",
-    summary: "Chatbots, workflow automation, AI content generation, and intelligent business systems.",
+    summary:
+      "Workflows that ingest WhatsApp, invoices, and ERP events — then write back with human gates. Not a chatbot demo.",
     href: "/service/ai-automation",
   },
 ];

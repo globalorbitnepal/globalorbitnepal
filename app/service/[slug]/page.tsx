@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { OrbitArticlePage } from "@/components/orbit/catalog-page";
+import { AiAutomationPageView } from "@/components/services/ai-automation-page-view";
 import { WebsiteDevelopmentPageView } from "@/components/services/website-development-page-view";
+import { AI_FAQ, AI_HERO, AI_KEYWORDS } from "@/lib/ai-automation-page";
 import { findBySlug, ORBIT_SERVICE_PAGES } from "@/lib/orbit/catalog";
 import { buildPageMetadata } from "@/lib/seo";
 import { WEBSITE_DEV_FAQ, WEBSITE_DEV_HERO } from "@/lib/website-development-config";
@@ -9,6 +11,7 @@ import { WEBSITE_DEV_FAQ, WEBSITE_DEV_HERO } from "@/lib/website-development-con
 type Props = { params: Promise<{ slug: string }> };
 
 const WEBSITE_DEV_SLUG = "website-development-nepal";
+const AI_AUTOMATION_SLUG = "ai-automation";
 
 const WEBSITE_DEV_KEYWORDS = [
   "website development nepal",
@@ -40,7 +43,44 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     });
   }
 
+  if (slug === AI_AUTOMATION_SLUG) {
+    return buildPageMetadata({
+      title: "AI Automation Nepal · Workflows, WhatsApp, Invoice Capture",
+      description: AI_HERO.lede,
+      path: item.href,
+      keywords: AI_KEYWORDS,
+    });
+  }
+
   return buildPageMetadata({ title: item.title, description: item.summary, path: item.href });
+}
+
+function aiAutomationJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Service",
+        name: "AI Automation Nepal",
+        description: AI_HERO.lede,
+        provider: {
+          "@type": "Organization",
+          name: "Global Orbit",
+          areaServed: { "@type": "Country", name: "Nepal" },
+        },
+        areaServed: "Nepal",
+        serviceType: "AI workflow automation",
+      },
+      {
+        "@type": "FAQPage",
+        mainEntity: AI_FAQ.map((item) => ({
+          "@type": "Question",
+          name: item.q,
+          acceptedAnswer: { "@type": "Answer", text: item.a },
+        })),
+      },
+    ],
+  };
 }
 
 function websiteDevJsonLd() {
@@ -84,6 +124,18 @@ export default async function ServiceDetailPage({ params }: Props) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteDevJsonLd()) }}
         />
         <WebsiteDevelopmentPageView />
+      </>
+    );
+  }
+
+  if (slug === AI_AUTOMATION_SLUG) {
+    return (
+      <>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(aiAutomationJsonLd()) }}
+        />
+        <AiAutomationPageView />
       </>
     );
   }
