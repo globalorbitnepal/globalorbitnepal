@@ -30,13 +30,13 @@ export type HeroConfig = {
 };
 
 export const DEFAULT_HERO: HeroConfig = {
-  eyebrow: "WEB · APPS · SEO",
-  headline: "Precise approach",
-  headlineSecond: "to your product.",
-  lede: "We specialize in guiding you from your original idea to a high-quality website, custom app, and SEO programme that fuels your growth.",
-  primaryLabel: "Start a project →",
+  eyebrow: "WEB · APPS · SOFTWARE · SEO",
+  headline: "We Build Digital",
+  headlineSecond: "Solutions",
+  lede: "Websites, web applications, custom software and SEO solutions for modern businesses.",
+  primaryLabel: "Start a Project →",
   primaryHref: "/contact",
-  secondaryLabel: "Know more",
+  secondaryLabel: "View Our Work",
   secondaryHref: "/projects",
   shipsOn: "Play store · App store",
   imageSrc: "/brand/studio-hero-phones.jpg",
@@ -56,16 +56,21 @@ export function parseHeroConfig(raw: unknown): HeroConfig {
     return typeof value === "string" && value.trim() ? value : fallback;
   };
   return {
-    eyebrow: str("eyebrow", DEFAULT_HERO.eyebrow) === "Web · Apps · SEO" ? DEFAULT_HERO.eyebrow : str("eyebrow", DEFAULT_HERO.eyebrow),
-    headline: str("headline", DEFAULT_HERO.headline),
-    headlineSecond: str("headlineSecond", DEFAULT_HERO.headlineSecond),
-    lede: str("lede", DEFAULT_HERO.lede),
-    primaryLabel:
-      str("primaryLabel", DEFAULT_HERO.primaryLabel) === "Start a project"
-        ? DEFAULT_HERO.primaryLabel
-        : str("primaryLabel", DEFAULT_HERO.primaryLabel),
+    eyebrow:
+      ["Web · Apps · SEO", "WEB · APPS · SEO"].includes(str("eyebrow", DEFAULT_HERO.eyebrow))
+        ? DEFAULT_HERO.eyebrow
+        : str("eyebrow", DEFAULT_HERO.eyebrow),
+    headline: str("headline", DEFAULT_HERO.headline) === "Precise approach" ? DEFAULT_HERO.headline : str("headline", DEFAULT_HERO.headline),
+    headlineSecond:
+      str("headlineSecond", DEFAULT_HERO.headlineSecond) === "to your product."
+        ? DEFAULT_HERO.headlineSecond
+        : str("headlineSecond", DEFAULT_HERO.headlineSecond),
+    lede: str("lede", DEFAULT_HERO.lede).includes("original idea") ? DEFAULT_HERO.lede : str("lede", DEFAULT_HERO.lede),
+    primaryLabel: ["Start a project", "Start a project →"].includes(str("primaryLabel", DEFAULT_HERO.primaryLabel))
+      ? DEFAULT_HERO.primaryLabel
+      : str("primaryLabel", DEFAULT_HERO.primaryLabel),
     primaryHref: str("primaryHref", DEFAULT_HERO.primaryHref),
-    secondaryLabel: str("secondaryLabel", DEFAULT_HERO.secondaryLabel),
+    secondaryLabel: str("secondaryLabel", DEFAULT_HERO.secondaryLabel) === "Know more" ? DEFAULT_HERO.secondaryLabel : str("secondaryLabel", DEFAULT_HERO.secondaryLabel),
     secondaryHref: str("secondaryHref", DEFAULT_HERO.secondaryHref),
     shipsOn: str("shipsOn", DEFAULT_HERO.shipsOn),
     imageSrc: str("imageSrc", DEFAULT_HERO.imageSrc),

@@ -33,8 +33,6 @@ export function navLinkTreeActive(pathname: string, link: HeaderNavLink): boolea
 export const STUDIO_HEADER_NAV: HeaderNavItem[] = [
   { label: "Home", href: "/" },
   { label: "About", href: "/about" },
-  { label: "Careers", href: "/careers" },
-  { label: "Portfolio", href: "/projects" },
   {
     label: "Services",
     children: [
@@ -51,5 +49,7 @@ export const STUDIO_HEADER_NAV: HeaderNavItem[] = [
       { label: "AI Automation", href: "/service/ai-automation" },
     ],
   },
+  { label: "Portfolio", href: "/projects" },
+  { label: "Careers", href: "/careers" },
   { label: "Contact", href: "/contact" },
 ];
