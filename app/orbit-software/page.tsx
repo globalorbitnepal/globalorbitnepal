@@ -1,23 +1,54 @@
 import type { Metadata } from "next";
-import { OrbitCatalogPage } from "@/components/orbit/catalog-page";
-import { ORBIT_SOFTWARE } from "@/lib/orbit/catalog";
+import { OrbitSoftwarePageView } from "@/components/orbit-software/orbit-software-page-view";
+import { ERP_FAQ, ERP_HERO, ERP_KEYWORDS, ERP_SUITES } from "@/lib/orbit-software-page";
 import { buildPageMetadata } from "@/lib/seo";
 
 export async function generateMetadata(): Promise<Metadata> {
   return buildPageMetadata({
-    title: "ERP Software",
-    description: "Ready-to-deploy software products from Global Orbit Nepal.",
+    title: "ERP Software Nepal · Orbit Software",
+    description:
+      "Orbit Software from Global Orbit: hotel PMS, billing, OTA, warehouse, manufacturing ERP, restaurant POS, CRM, and SaaS — operator systems built in Nepal.",
     path: "/orbit-software",
+    keywords: ERP_KEYWORDS,
   });
+}
+
+function jsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "CollectionPage",
+        name: "Orbit Software · ERP",
+        description: ERP_HERO.lede,
+        url: "https://arnav.theglobalorbit.com/orbit-software",
+      },
+      {
+        "@type": "ItemList",
+        itemListElement: ERP_SUITES.map((item, index) => ({
+          "@type": "ListItem",
+          position: index + 1,
+          name: item.title,
+          url: `https://arnav.theglobalorbit.com${item.href}`,
+        })),
+      },
+      {
+        "@type": "FAQPage",
+        mainEntity: ERP_FAQ.map((item) => ({
+          "@type": "Question",
+          name: item.q,
+          acceptedAnswer: { "@type": "Answer", text: item.a },
+        })),
+      },
+    ],
+  };
 }
 
 export default function OrbitSoftwarePage() {
   return (
-    <OrbitCatalogPage
-      eyebrow="ERP Software"
-      title="Enterprise software products"
-      lede="Powerful, ready-to-deploy software solutions built for every industry."
-      items={ORBIT_SOFTWARE}
-    />
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd()) }} />
+      <OrbitSoftwarePageView />
+    </>
   );
 }
