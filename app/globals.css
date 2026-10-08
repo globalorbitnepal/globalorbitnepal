@@ -10115,6 +10115,20 @@ body.admin-locked .orbit-app-shell {
   border-radius: 0.7rem;
   margin-bottom: 0.55rem;
 }
+.cms-sections strong,
+.cms-sections small {
+  display: block;
+}
+.cms-sections small {
+  margin-top: 0.2rem;
+  color: #64748b;
+  font-weight: 500;
+}
+.cms-updates li {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.6rem;
+}
 .cms-pad { margin-top: 0.4rem; }
 .cms-form, .cms-seo-list { display: grid; gap: 0.7rem; }
 .cms-form input, .cms-form textarea, .cms-seo-list input, .cms-seo-list textarea {

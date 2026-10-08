@@ -32,7 +32,7 @@ export function AdminLogin() {
     <div className="admin-login-stage">
       <div
         className="admin-login-photo"
-        style={{ backgroundImage: "url(/brand/admin-login-bg.jpg)" }}
+        style={{ backgroundImage: "url(/brand/admin-login-bg.jpg?v=2)" }}
       />
       <div className="admin-login-shade" />
       <div className="admin-login-grid">
