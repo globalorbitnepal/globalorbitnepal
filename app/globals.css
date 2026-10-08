@@ -4246,12 +4246,24 @@ li.orbit-card:hover {
 }
 
 .orbit-header-nav-link.is-active {
+  position: relative;
   color: #ffffff;
   font-weight: 600;
   background: transparent;
   text-decoration: none;
   text-shadow: none;
-  box-shadow: inset 0 -2px 0 #3b82f6;
+  box-shadow: none;
+}
+
+.orbit-header-nav-link.is-active::after {
+  content: "";
+  position: absolute;
+  left: 22%;
+  right: 22%;
+  bottom: 0.22rem;
+  height: 2px;
+  border-radius: 99px;
+  background: #3b82f6;
 }
 
 .orbit-book-appointment-btn {
