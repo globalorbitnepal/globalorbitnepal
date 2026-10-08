@@ -6309,7 +6309,7 @@ li.orbit-card:hover {
   position: relative;
   z-index: 6;
   flex-shrink: 0;
-  padding: clamp(5.8rem, 10vh, 6.8rem) 1.25rem 0;
+  padding: clamp(6.4rem, 11vh, 7.4rem) 1.25rem 0.15rem;
 }
 
 .orbit-work-earth-headline {
