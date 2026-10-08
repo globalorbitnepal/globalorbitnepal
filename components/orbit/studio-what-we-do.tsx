@@ -16,10 +16,10 @@ function smoothStep(t: number) {
 }
 
 function madeLabelProgress(raw: number) {
-  if (raw < 0.14) return 0;
-  if (raw < 0.36) return smoothStep((raw - 0.14) / 0.22);
-  if (raw < 0.88) return 1;
-  return 1 - smoothStep((raw - 0.88) / 0.1);
+  if (raw < 0.12) return 0;
+  if (raw < 0.32) return smoothStep((raw - 0.12) / 0.2);
+  if (raw < 0.9) return 1;
+  return 1 - smoothStep((raw - 0.9) / 0.08);
 }
 
 function loadImage(src: string): Promise<HTMLImageElement> {
@@ -32,6 +32,56 @@ function loadImage(src: string): Promise<HTMLImageElement> {
   });
 }
 
+function drawHeroTile(
+  ctx: CanvasRenderingContext2D,
+  img: HTMLImageElement,
+  dx: number,
+  dy: number,
+  tw: number,
+  th: number,
+) {
+  const gap = Math.max(1.2, tw * 0.028);
+  const x = dx + gap;
+  const y = dy + gap;
+  const w = tw - gap * 2;
+  const h = th - gap * 2;
+  const chrome = Math.max(5, h * 0.11);
+  ctx.fillStyle = "#12141c";
+  ctx.fillRect(x, y, w, chrome);
+  const dot = Math.max(1.6, chrome * 0.22);
+  const dyDot = y + chrome * 0.5 - dot / 2;
+  ctx.fillStyle = "#f87171";
+  ctx.beginPath();
+  ctx.arc(x + chrome * 0.45, dyDot + dot / 2, dot / 2, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.fillStyle = "#fbbf24";
+  ctx.beginPath();
+  ctx.arc(x + chrome * 0.85, dyDot + dot / 2, dot / 2, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.fillStyle = "#4ade80";
+  ctx.beginPath();
+  ctx.arc(x + chrome * 1.25, dyDot + dot / 2, dot / 2, 0, Math.PI * 2);
+  ctx.fill();
+
+  const iw = img.naturalWidth || img.width;
+  const ih = img.naturalHeight || img.height;
+  const destH = h - chrome;
+  const destW = w;
+  const srcRatio = destW / destH;
+  let sw = iw;
+  let sh = iw / srcRatio;
+  if (sh > ih) {
+    sh = ih;
+    sw = ih * srcRatio;
+  }
+  const sx = (iw - sw) / 2;
+  const sy = 0;
+  ctx.drawImage(img, sx, sy, sw, sh, x, y + chrome, destW, destH);
+  ctx.strokeStyle = "rgba(240, 196, 58, 0.42)";
+  ctx.lineWidth = Math.max(0.8, tw * 0.018);
+  ctx.strokeRect(x + 0.4, y + 0.4, w - 0.8, h - 0.8);
+}
+
 function paintMosaic(images: HTMLImageElement[], width: number, height: number) {
   const canvas = document.createElement("canvas");
   canvas.width = width;
@@ -40,37 +90,37 @@ function paintMosaic(images: HTMLImageElement[], width: number, height: number) 
   if (!ctx) return canvas;
 
   const ocean = ctx.createLinearGradient(0, 0, 0, height);
-  ocean.addColorStop(0, "#133a62");
-  ocean.addColorStop(0.18, "#0c4a78");
-  ocean.addColorStop(0.5, "#0a3d68");
-  ocean.addColorStop(0.82, "#082a4c");
-  ocean.addColorStop(1, "#071a32");
+  ocean.addColorStop(0, "#1a4e7a");
+  ocean.addColorStop(0.2, "#0e5a8c");
+  ocean.addColorStop(0.5, "#0c4a74");
+  ocean.addColorStop(0.82, "#0a3558");
+  ocean.addColorStop(1, "#08243c");
   ctx.fillStyle = ocean;
   ctx.fillRect(0, 0, width, height);
 
-  ctx.globalAlpha = 0.28;
-  for (let i = 0; i < 28; i++) {
-    const gx = ((i * 137) % width);
-    const gy = ((i * 89) % height);
-    const rad = 40 + ((i * 47) % 90);
+  ctx.globalAlpha = 0.22;
+  for (let i = 0; i < 18; i++) {
+    const gx = (i * 137) % width;
+    const gy = (i * 89) % height;
+    const rad = 50 + ((i * 47) % 110);
     const g = ctx.createRadialGradient(gx, gy, 0, gx, gy, rad);
-    g.addColorStop(0, "rgba(64, 160, 210, 0.45)");
-    g.addColorStop(1, "rgba(64, 160, 210, 0)");
+    g.addColorStop(0, "rgba(90, 180, 220, 0.5)");
+    g.addColorStop(1, "rgba(90, 180, 220, 0)");
     ctx.fillStyle = g;
     ctx.fillRect(gx - rad, gy - rad, rad * 2, rad * 2);
   }
   ctx.globalAlpha = 1;
 
   const ice = ctx.createLinearGradient(0, 0, 0, height);
-  ice.addColorStop(0, "rgba(226, 236, 248, 0.92)");
-  ice.addColorStop(0.08, "rgba(226, 236, 248, 0)");
-  ice.addColorStop(0.92, "rgba(226, 236, 248, 0)");
-  ice.addColorStop(1, "rgba(210, 224, 240, 0.88)");
+  ice.addColorStop(0, "rgba(226, 236, 248, 0.88)");
+  ice.addColorStop(0.07, "rgba(226, 236, 248, 0)");
+  ice.addColorStop(0.93, "rgba(226, 236, 248, 0)");
+  ice.addColorStop(1, "rgba(210, 224, 240, 0.82)");
   ctx.fillStyle = ice;
   ctx.fillRect(0, 0, width, height);
 
-  const cols = 72;
-  const rows = 36;
+  const cols = 22;
+  const rows = 11;
   const tw = width / cols;
   const th = height / rows;
 
@@ -80,29 +130,10 @@ function paintMosaic(images: HTMLImageElement[], width: number, height: number) 
       const lat = 90 - ((y + 0.5) / rows) * 180;
       if (!isLand(lat, lng)) continue;
       const img = images[(x * 7 + y * 13) % images.length];
-      const dx = x * tw;
-      const dy = y * th;
-      const inset = Math.max(0.6, tw * 0.04);
-      ctx.drawImage(img, dx + inset, dy + inset, tw - inset * 2, th - inset * 2);
-      ctx.strokeStyle = "rgba(240, 196, 58, 0.38)";
-      ctx.lineWidth = Math.max(0.45, tw * 0.025);
-      ctx.strokeRect(dx + inset * 0.5, dy + inset * 0.5, tw - inset, th - inset);
+      drawHeroTile(ctx, img, x * tw, y * th, tw, th);
     }
   }
 
-  ctx.globalAlpha = 0.22;
-  ctx.fillStyle = "#f4d56a";
-  for (let i = 0; i < 160; i++) {
-    const px = ((i * 97) % width) + 3;
-    const py = ((i * 53) % height) + 3;
-    const lng = (px / width) * 360 - 180;
-    const lat = 90 - (py / height) * 180;
-    if (!isLand(lat, lng)) continue;
-    ctx.beginPath();
-    ctx.arc(px, py, 1.15, 0, Math.PI * 2);
-    ctx.fill();
-  }
-  ctx.globalAlpha = 1;
   return canvas;
 }
 
@@ -127,7 +158,7 @@ void main() {
   vP = p;
   vUv = aUv;
   float zEye = uCam - p.z;
-  float f = 2.18;
+  float f = 2.28;
   gl_Position = vec4(p.x * f, p.y * f, -p.z * 0.35, zEye);
 }
 `;
@@ -141,20 +172,15 @@ varying vec3 vP;
 void main() {
   vec3 n = normalize(vN);
   vec3 col = texture2D(uMap, vUv).rgb;
-  vec3 light = normalize(vec3(-0.55, 0.42, 0.72));
-  vec3 view = normalize(vec3(0.0, 0.08, 2.45) - vP);
+  vec3 light = normalize(vec3(-0.42, 0.38, 0.82));
+  vec3 view = normalize(vec3(0.0, 0.06, 2.22) - vP);
   float ndl = max(dot(n, light), 0.0);
-  float rim = pow(1.0 - max(dot(n, view), 0.0), 2.2);
-  float spec = pow(max(dot(reflect(-light, n), view), 0.0), 32.0);
-  float luma = dot(col, vec3(0.28, 0.5, 0.22));
-  float ocean = smoothstep(0.24, 0.09, luma);
-  col *= 0.38 + ndl * 0.82;
-  col += vec3(0.75, 0.88, 1.0) * spec * (0.12 + ocean * 0.55);
-  col += vec3(0.95, 0.78, 0.38) * spec * 0.18;
-  col += vec3(0.45, 0.72, 1.0) * rim * 0.28;
-  col += vec3(0.95, 0.78, 0.32) * rim * 0.16;
-  float night = smoothstep(0.18, -0.05, ndl);
-  col += vec3(0.95, 0.72, 0.28) * night * ocean * 0.08;
+  float rim = pow(1.0 - max(dot(n, view), 0.0), 2.6);
+  float spec = pow(max(dot(reflect(-light, n), view), 0.0), 36.0);
+  col *= 0.72 + ndl * 0.42;
+  col += vec3(0.85, 0.92, 1.0) * spec * 0.12;
+  col += vec3(0.55, 0.78, 1.0) * rim * 0.16;
+  col += vec3(0.95, 0.8, 0.35) * rim * 0.1;
   gl_FragColor = vec4(col, 1.0);
 }
 `;
@@ -205,13 +231,13 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const cardsRef = useRef<HTMLUListElement>(null);
   const madeRef = useRef<HTMLParagraphElement>(null);
-  const yawRef = useRef(0);
+  const yawRef = useRef(12);
   const frameRef = useRef(0);
   const drawRef = useRef<((yaw: number) => void) | null>(null);
 
   const floaters = useMemo(() => {
     const touch = typeof window !== "undefined" && window.matchMedia("(max-width: 767px)").matches;
-    const slots = touch ? EARTH_FLOATER_SLOTS.slice(0, 5) : EARTH_FLOATER_SLOTS;
+    const slots = touch ? EARTH_FLOATER_SLOTS.slice(0, 8) : EARTH_FLOATER_SLOTS;
     return slots.map((pos, index) => ({
       pos,
       site: DEMO_SITES[index % DEMO_SITES.length],
@@ -244,7 +270,7 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
     if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) return;
     gl.useProgram(prog);
 
-    const mesh = createSphere(36, 64);
+    const mesh = createSphere(48, 80);
     const aPos = gl.getAttribLocation(prog, "aPos");
     const aUv = gl.getAttribLocation(prog, "aUv");
     const bufPos = gl.createBuffer();
@@ -266,28 +292,33 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
     const uCam = gl.getUniformLocation(prog, "uCam");
     const uMap = gl.getUniformLocation(prog, "uMap");
     gl.uniform1i(uMap, 0);
-    gl.uniform1f(uTilt, 0.28);
-    gl.uniform1f(uCam, 2.48);
+    gl.uniform1f(uTilt, 0.22);
+    gl.uniform1f(uCam, 2.22);
 
     const tex = gl.createTexture();
     gl.bindTexture(gl.TEXTURE_2D, tex);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, 1, 1, 0, gl.RGB, gl.UNSIGNED_BYTE, new Uint8Array([10, 48, 92]));
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, 1, 1, 0, gl.RGB, gl.UNSIGNED_BYTE, new Uint8Array([12, 64, 112]));
 
     let alive = true;
-    const uniqueSrc = [...new Set(DEMO_SITES.map((s) => s.image))];
+    const uniqueSrc = [
+      ...new Set(DEMO_SITES.flatMap((s) => [s.image, ...s.thumbs])),
+    ];
     void Promise.all(uniqueSrc.map((src) => loadImage(src).catch(() => null))).then((loaded) => {
       if (!alive) return;
       const imgs = loaded.filter((img): img is HTMLImageElement => img != null);
       if (!imgs.length) return;
       const mobile = window.matchMedia("(max-width: 767px)").matches;
-      const mosaic = paintMosaic(imgs, mobile ? 1536 : 2048, mobile ? 768 : 1024);
+      const maxTex = gl.getParameter(gl.MAX_TEXTURE_SIZE) as number;
+      const w = Math.min(maxTex, mobile ? 2048 : 4096);
+      const mosaic = paintMosaic(imgs, w, Math.floor(w / 2));
       gl.bindTexture(gl.TEXTURE_2D, tex);
       gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1);
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, mosaic);
+      gl.generateMipmap(gl.TEXTURE_2D);
       drawRef.current?.(yawRef.current);
     });
 
@@ -296,7 +327,7 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
       if (!parent) return;
       const size = Math.min(parent.clientWidth, parent.clientHeight);
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      const px = Math.max(320, Math.floor(size * dpr));
+      const px = Math.max(360, Math.floor(size * dpr));
       if (canvas.width !== px) {
         canvas.width = px;
         canvas.height = px;
@@ -315,7 +346,7 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
       gl.drawElements(gl.TRIANGLES, mesh.idx.length, gl.UNSIGNED_SHORT, 0);
     };
     drawRef.current = draw;
-    draw(0);
+    draw(12);
 
     return () => {
       alive = false;
@@ -337,10 +368,10 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
         const lat = Number(el.dataset.lat);
         const lng = Number(el.dataset.lng);
         const p = projectOrbitCard(lat, lng, spin);
-        let sx = p.x * 38;
-        let sy = p.y * 38;
+        let sx = p.x * 42;
+        let sy = p.y * 42;
         const mag = Math.hypot(sx, sy) || 0.001;
-        const minR = 44;
+        const minR = 48;
         if (mag < minR) {
           sx = (sx / mag) * minR;
           sy = (sy / mag) * minR;
@@ -349,7 +380,7 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
         el.style.setProperty("--card-top", `${(50 + sy).toFixed(2)}%`);
         el.style.setProperty("--card-s", p.scale.toFixed(3));
         el.style.zIndex = String(Math.round(30 + p.depth * 50));
-        el.style.opacity = p.depth < -0.2 ? "0" : p.depth < 0.12 ? "0.55" : "1";
+        el.style.opacity = p.depth < -0.15 ? "0" : p.depth < 0.18 ? "0.62" : "1";
       });
     };
 
@@ -358,14 +389,12 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
       const raw = clamp(-track.getBoundingClientRect().top / travel, 0, 1);
       track.classList.toggle("is-work-scrolling", raw > 0.02 && raw < 0.98);
 
-      const spin = reduce ? 22 : raw * (touch ? 160 : 240);
-      const scale = reduce ? 1 : touch ? 0.88 + raw * 0.2 : 0.82 + raw * 0.28;
+      const spin = reduce ? 16 : 10 + raw * (touch ? 38 : 52);
       yawRef.current = spin;
 
       const stage = stageRef.current;
       if (stage) {
         stage.style.setProperty("--earth-spin", `${spin.toFixed(2)}deg`);
-        stage.style.setProperty("--earth-scale", scale.toFixed(4));
       }
       drawRef.current?.(spin);
       placeCards(spin);
@@ -376,7 +405,7 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
       }
     };
 
-    placeCards(0);
+    placeCards(10);
     return bindOrbitScroll(track, apply, frameRef);
   }, []);
 
@@ -418,7 +447,7 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
             <ul ref={cardsRef} className="orbit-work-earth-floats">
               {floaters.map(({ pos, site, index }) => (
                 <li
-                  key={site.id}
+                  key={`${site.id}-${index}`}
                   className="orbit-work-earth-card"
                   data-lat={pos.lat}
                   data-lng={pos.lng}

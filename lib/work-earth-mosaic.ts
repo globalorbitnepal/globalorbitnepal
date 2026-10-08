@@ -1,13 +1,19 @@
-/** Orbiting browser cards in lat/lng. Positions are projected in JS around the globe. */
+/** Orbiting browser cards in lat/lng — clustered left/right of the globe. */
 export const EARTH_FLOATER_SLOTS = [
-  { lat: 18, lng: -40 },
-  { lat: -14, lng: 8 },
-  { lat: 22, lng: 58 },
-  { lat: -8, lng: 112 },
-  { lat: 12, lng: -102 },
-  { lat: -22, lng: -68 },
-  { lat: 8, lng: 28 },
-  { lat: -12, lng: 164 },
+  { lat: 28, lng: -78 },
+  { lat: 8, lng: -118 },
+  { lat: -12, lng: -88 },
+  { lat: 18, lng: -48 },
+  { lat: -24, lng: -62 },
+  { lat: 4, lng: -148 },
+  { lat: 32, lng: 52 },
+  { lat: 12, lng: 98 },
+  { lat: -10, lng: 128 },
+  { lat: 22, lng: 148 },
+  { lat: -22, lng: 72 },
+  { lat: 6, lng: 38 },
+  { lat: -16, lng: 168 },
+  { lat: 16, lng: -22 },
 ] as const;
 
 export type EarthFloaterSlot = (typeof EARTH_FLOATER_SLOTS)[number];
@@ -44,7 +50,7 @@ export function projectOrbitCard(
   lat: number,
   lng: number,
   yawDeg: number,
-  tilt = 0.28,
+  tilt = 0.22,
 ) {
   const yaw = (yawDeg * Math.PI) / 180;
   const phi = (lng * Math.PI) / 180 + yaw;
@@ -58,18 +64,18 @@ export function projectOrbitCard(
   const z2 = y * sx + z * cx;
   y = y2;
   z = z2;
-  const orbit = 1.36;
+  const orbit = 1.32;
   x *= orbit;
   y *= orbit;
   z *= orbit;
-  const cam = 2.48;
+  const cam = 2.22;
   const zEye = cam - z;
-  const persp = 2.18 / zEye;
+  const persp = 2.2 / zEye;
   return {
     x: x * persp,
     y: -y * persp,
     z,
-    scale: clamp(0.72 + persp * 0.28, 0.62, 1.18),
+    scale: clamp(0.78 + persp * 0.18, 0.72, 1.08),
     depth: z,
   };
 }
