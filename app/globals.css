@@ -8514,7 +8514,7 @@ li.orbit-card:hover {
 
 @media (min-width: 1024px) {
   .erp-suite-row {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 0.88fr) minmax(0, 1.12fr);
   }
 
   .erp-suite-row.is-flip {
@@ -8583,216 +8583,535 @@ li.orbit-card:hover {
   color: #f0c43a;
 }
 
-.erp-console {
-  border-radius: 1rem;
+.erp-suite-stage {
+  min-width: 0;
+}
+
+
+.erp-app {
+  border-radius: 14px;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.12);
-  background: #0c0c12;
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45), 0 0 40px color-mix(in srgb, var(--erp-accent) 18%, transparent);
+  background: #101018;
+  box-shadow:
+    0 28px 70px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(255, 255, 255, 0.04),
+    0 0 48px color-mix(in srgb, var(--erp-accent) 16%, transparent);
+  font-family: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  color: #e8e8ee;
 }
 
-.erp-console-top {
+.erp-app-top {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.55rem 0.75rem;
+  background: #16161f;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.erp-app-traffic {
+  display: flex;
+  gap: 0.32rem;
+}
+
+.erp-app-traffic i {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #3f3f46;
+}
+
+.erp-app-traffic i:nth-child(1) { background: #f87171; }
+.erp-app-traffic i:nth-child(2) { background: #fbbf24; }
+.erp-app-traffic i:nth-child(3) { background: #34d399; }
+
+.erp-app-search {
+  font-size: 0.68rem;
+  color: rgba(255, 255, 255, 0.35);
+  border-radius: 0.4rem;
+  background: rgba(0, 0, 0, 0.35);
+  padding: 0.35rem 0.65rem;
+}
+
+.erp-app-user {
   display: flex;
   align-items: center;
-  gap: 0.55rem;
-  padding: 0.5rem 0.75rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(8, 8, 14, 0.95);
-}
-
-.erp-console-dots {
-  display: flex;
-  gap: 0.28rem;
-}
-
-.erp-console-dots i {
-  width: 7px;
-  height: 7px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.22);
-}
-
-.erp-console-dots i:first-child {
-  background: #f87171;
-}
-
-.erp-console-title {
-  font-size: 0.68rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  gap: 0.4rem;
+  font-size: 0.62rem;
   color: rgba(255, 255, 255, 0.45);
 }
 
-.erp-console-body {
+.erp-app-user b {
   display: grid;
-  grid-template-columns: 6.5rem 1fr;
-  min-height: 11.5rem;
+  place-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 999px;
+  background: var(--erp-accent);
+  color: #111;
+  font-size: 0.58rem;
 }
 
-.erp-console-body aside {
+.erp-app-body {
+  display: grid;
+  grid-template-columns: 7.6rem 1fr;
+  min-height: 17.5rem;
+}
+
+.erp-app-nav {
   display: grid;
   align-content: start;
-  gap: 0.25rem;
-  padding: 0.65rem 0.5rem;
+  gap: 0.15rem;
+  padding: 0.7rem 0.45rem;
+  background: #0c0c14;
   border-right: 1px solid rgba(255, 255, 255, 0.06);
-  background: #09090f;
 }
 
-.erp-console-body aside span {
-  font-size: 0.65rem;
-  padding: 0.3rem 0.4rem;
-  border-radius: 0.3rem;
-  color: rgba(255, 255, 255, 0.4);
+.erp-app-nav strong {
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.32);
+  padding: 0 0.4rem 0.45rem;
 }
 
-.erp-console-body aside span.is-on {
+.erp-app-nav span {
+  font-size: 0.68rem;
+  padding: 0.32rem 0.45rem;
+  border-radius: 0.35rem;
+  color: rgba(255, 255, 255, 0.48);
+}
+
+.erp-app-nav span.is-on {
   background: color-mix(in srgb, var(--erp-accent) 22%, transparent);
   color: #fff;
 }
 
-.erp-console-main {
-  padding: 0.8rem;
+.erp-app-main {
+  padding: 0.65rem 0.7rem 0.8rem;
+  min-width: 0;
+  background: radial-gradient(ellipse at 100% 0%, color-mix(in srgb, var(--erp-accent) 8%, transparent), transparent 42%);
 }
 
-.erp-kpis {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0.4rem;
-  margin-bottom: 0.65rem;
+.erp-app-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem 0.6rem;
+  margin-bottom: 0.55rem;
 }
 
-.erp-kpis b {
-  display: block;
-  padding: 0.5rem;
-  border-radius: 0.4rem;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+.erp-app-toolbar h4 {
+  margin-right: auto;
   font-size: 0.78rem;
-  color: var(--erp-accent);
-}
-
-.erp-rows {
-  display: grid;
-  gap: 0.35rem;
-}
-
-.erp-rows span {
-  font-size: 0.75rem;
-  padding: 0.45rem 0.5rem;
-  border-radius: 0.35rem;
-  background: rgba(255, 255, 255, 0.04);
-  color: rgba(255, 255, 255, 0.7);
-}
-
-.erp-cal {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0.35rem;
-}
-
-.erp-cal i {
-  display: grid;
-  place-items: center;
-  min-height: 2.4rem;
-  border-radius: 0.35rem;
-  font-style: normal;
-  font-size: 0.72rem;
-  background: rgba(255, 255, 255, 0.05);
-  color: rgba(255, 255, 255, 0.55);
-}
-
-.erp-cal i.is-busy {
-  background: color-mix(in srgb, var(--erp-accent) 35%, transparent);
+  font-weight: 650;
   color: #fff;
 }
 
-.erp-cal i.is-hold {
-  outline: 1px dashed color-mix(in srgb, var(--erp-accent) 55%, transparent);
+.erp-app-filters {
+  display: flex;
+  gap: 0.25rem;
 }
 
-.erp-bars {
-  display: grid;
-  gap: 0.35rem;
-}
-
-.erp-bars i {
-  display: block;
-  height: 0.45rem;
+.erp-app-filters em {
+  font-style: normal;
+  font-size: 0.6rem;
+  padding: 0.22rem 0.45rem;
   border-radius: 999px;
-  background: color-mix(in srgb, var(--erp-accent) 75%, #fff);
-}
-
-.erp-pipe {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0.4rem;
-}
-
-.erp-pipe span {
-  padding: 1rem 0.4rem;
-  text-align: center;
-  font-size: 0.75rem;
-  border-radius: 0.4rem;
+  color: rgba(255, 255, 255, 0.45);
   background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-.erp-browser-mini {
-  padding: 1rem;
-  border-radius: 0.5rem;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(0, 0, 0, 0.25);
+.erp-app-filters em.is-on {
+  color: #111;
+  background: var(--erp-accent);
+  border-color: transparent;
+  font-weight: 650;
 }
 
-.erp-browser-mini b {
-  font-size: 0.72rem;
-  color: var(--erp-accent);
+.erp-app-btn {
+  font-size: 0.62rem;
+  font-weight: 700;
+  padding: 0.28rem 0.55rem;
+  border-radius: 0.35rem;
+  background: var(--erp-accent);
+  color: #111;
 }
 
-.erp-browser-mini p {
-  margin-top: 0.35rem;
-  font-size: 0.78rem;
-  color: rgba(255, 255, 255, 0.5);
+.erp-app-kpis {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.4rem;
+  margin-bottom: 0.6rem;
 }
 
-.erp-phone {
-  margin-inline: auto;
-  width: min(100%, 220px);
-  min-height: 280px;
-  padding: 1.4rem 1rem 1rem;
-  border-radius: 1.6rem;
-  border: 2px solid color-mix(in srgb, var(--erp-accent) 45%, #333);
-  background: #0a0a10;
-  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.5);
-  position: relative;
+.erp-app-kpis article {
+  padding: 0.45rem 0.5rem;
+  border-radius: 0.45rem;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-.erp-phone.is-ios {
-  border-radius: 2rem;
+.erp-app-kpis p {
+  font-size: 0.58rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.38);
 }
 
-.erp-phone-punch,
-.erp-phone-island {
+.erp-app-kpis b {
   display: block;
-  margin: 0 auto 1rem;
-  background: #000;
+  margin-top: 0.15rem;
+  font-size: 0.82rem;
+  color: #fff;
 }
 
-.erp-phone-punch {
-  width: 10px;
-  height: 10px;
+.erp-app-kpis em {
+  font-style: normal;
+  font-size: 0.58rem;
+  color: #4ade80;
+}
+
+.erp-app-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.68rem;
+}
+
+.erp-app-table th {
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.58rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.35);
+  padding: 0.35rem 0.4rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.erp-app-table td {
+  padding: 0.42rem 0.4rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.erp-app-table tbody tr:hover td {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.erp-pill {
+  display: inline-flex;
+  padding: 0.12rem 0.4rem;
   border-radius: 999px;
+  font-size: 0.58rem;
+  font-weight: 650;
+  background: rgba(255, 255, 255, 0.08);
 }
 
-.erp-phone-island {
-  width: 42%;
-  height: 12px;
-  border-radius: 999px;
+.erp-pill--paid,
+.erp-pill--live,
+.erp-pill--done,
+.erp-pill--run { background: rgba(52, 211, 153, 0.18); color: #6ee7b7; }
+.erp-pill--due,
+.erp-pill--trial { background: rgba(251, 191, 36, 0.16); color: #fcd34d; }
+.erp-pill--overdue,
+.erp-pill--hold { background: rgba(248, 113, 113, 0.16); color: #fca5a5; }
+
+.erp-room-grid {
+  display: grid;
+  gap: 0.28rem;
+  font-size: 0.65rem;
 }
 
-.erp-phone p {
-  font-size: 0.78rem;
-  margin-bottom: 0.85rem;
+.erp-room-grid header,
+.erp-room-row {
+  display: grid;
+  grid-template-columns: 5.6rem 1fr 1fr 1fr;
+  gap: 0.28rem;
+  align-items: center;
+}
+
+.erp-room-grid header {
+  color: rgba(255, 255, 255, 0.35);
+  font-size: 0.58rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.erp-room-row b {
+  font-size: 0.62rem;
+  font-weight: 600;
   color: rgba(255, 255, 255, 0.7);
 }
 
+.erp-room-row i {
+  display: block;
+  height: 1.35rem;
+  border-radius: 0.28rem;
+  background: rgba(255, 255, 255, 0.06);
+}
 
+.erp-room-row i[data-st="in"] {
+  background: color-mix(in srgb, var(--erp-accent) 55%, #1d4ed8);
+}
+.erp-room-row i[data-st="hold"] {
+  background: transparent;
+  outline: 1px dashed rgba(251, 191, 36, 0.7);
+}
+.erp-room-row i[data-st="ooo"] {
+  background: repeating-linear-gradient(-45deg, rgba(248,113,113,0.25) 0 4px, transparent 4px 8px);
+}
+
+.erp-stock {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.erp-stock li {
+  display: grid;
+  grid-template-columns: 5.4rem 1fr 2rem;
+  gap: 0.4rem;
+  align-items: center;
+  font-size: 0.68rem;
+}
+
+.erp-stock i {
+  display: block;
+  height: 0.42rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+
+.erp-stock b {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: #34d399;
+}
+
+.erp-stock li[data-tone="low"] b { background: #fbbf24; }
+.erp-stock li[data-tone="out"] b { background: #f87171; }
+
+.erp-pos {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 0.55rem;
+}
+
+.erp-floor {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.35rem;
+}
+
+.erp-floor button {
+  border: 0;
+  border-radius: 0.45rem;
+  padding: 0.45rem 0.2rem;
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 0.68rem;
+}
+
+.erp-floor button[data-busy="1"] {
+  background: color-mix(in srgb, var(--erp-accent) 28%, transparent);
+  color: #fff;
+}
+
+.erp-floor small {
+  display: block;
+  font-size: 0.52rem;
+  opacity: 0.7;
+}
+
+.erp-pos aside {
+  border-radius: 0.5rem;
+  background: rgba(0, 0, 0, 0.28);
+  padding: 0.55rem;
+  font-size: 0.68rem;
+}
+
+.erp-pos aside ul {
+  margin: 0.4rem 0;
+  display: grid;
+  gap: 0.25rem;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.erp-pos aside li {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.erp-pos-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding-top: 0.4rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.erp-pos aside b {
+  color: var(--erp-accent);
+  font-size: 0.9rem;
+}
+
+.erp-pos aside > button {
+  width: 100%;
+  margin-top: 0.55rem;
+  border: 0;
+  border-radius: 0.4rem;
+  padding: 0.45rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  background: var(--erp-accent);
+  color: #111;
+}
+
+.erp-pipe-board {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.4rem;
+}
+
+.erp-pipe-board > div {
+  border-radius: 0.45rem;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 0.4rem;
+  min-height: 7.5rem;
+}
+
+.erp-pipe-board p {
+  font-size: 0.58rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+  margin-bottom: 0.35rem;
+}
+
+.erp-pipe-board span {
+  display: block;
+  margin-top: 0.3rem;
+  padding: 0.4rem 0.4rem;
+  border-radius: 0.35rem;
+  background: #181824;
+  font-size: 0.65rem;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.erp-spark {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.22rem;
+  height: 5.2rem;
+  padding: 0.4rem 0.2rem 0;
+}
+
+.erp-spark i {
+  flex: 1;
+  border-radius: 0.12rem 0.12rem 0 0;
+  background: linear-gradient(180deg, var(--erp-accent), color-mix(in srgb, var(--erp-accent) 30%, #111));
+}
+
+.erp-portal header {
+  margin-bottom: 0.65rem;
+}
+
+.erp-portal p {
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.erp-portal h4 {
+  margin-top: 0.2rem;
+  font-size: 0.95rem;
+}
+
+.erp-device {
+  margin-inline: auto;
+  width: min(100%, 248px);
+  border-radius: 1.7rem;
+  border: 2px solid #2a2a32;
+  background: #0a0a10;
+  padding: 0.55rem 0.7rem 0.9rem;
+  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.5);
+}
+
+.erp-device-status {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.58rem;
+  color: rgba(255, 255, 255, 0.55);
+  padding: 0.15rem 0.35rem 0.35rem;
+}
+
+.erp-device.is-ios {
+  border-radius: 2rem;
+}
+
+.erp-device-notch {
+  display: block;
+  width: 38%;
+  height: 10px;
+  margin: 0 auto 0.7rem;
+  border-radius: 999px;
+  background: #000;
+}
+
+.erp-device-app h4 {
+  margin: 0.2rem 0 0.65rem;
+  font-size: 1rem;
+}
+
+.erp-device-app p {
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.erp-device-app ul {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.erp-device-app li {
+  padding: 0.5rem 0.55rem;
+  border-radius: 0.5rem;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.erp-device-app b {
+  display: block;
+  font-size: 0.75rem;
+}
+
+.erp-device-app span {
+  font-size: 0.62rem;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.erp-device-app button {
+  width: 100%;
+  margin-top: 0.7rem;
+  border: 0;
+  border-radius: 0.55rem;
+  padding: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 650;
+  background: var(--erp-accent);
+  color: #111;
+}
+
+@media (max-width: 700px) {
+  .erp-app-body { grid-template-columns: 1fr; }
+  .erp-app-nav { display: none; }
+  .erp-pos { grid-template-columns: 1fr; }
+}
