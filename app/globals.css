@@ -6269,9 +6269,14 @@ li.orbit-card:hover {
 
 /* What we do — earth scroll scene */
 .orbit-work-earth-track {
-  height: 220vh;
-  min-height: 220vh;
-  background: radial-gradient(ellipse 90% 70% at 50% 40%, #0a1028 0%, #050508 55%, #020204 100%);
+  height: 200vh;
+  min-height: 200vh;
+  background: radial-gradient(ellipse 100% 80% at 50% 42%, #0c1228 0%, #050508 52%, #020204 100%);
+}
+
+.orbit-work-earth-pin-view {
+  display: flex;
+  flex-direction: column;
 }
 
 .orbit-work-earth-bg {
@@ -6292,33 +6297,78 @@ li.orbit-card:hover {
   opacity: 0.85;
 }
 
-.orbit-work-earth-halo {
+.orbit-work-earth-vignette {
   position: absolute;
-  left: 50%;
-  top: 54%;
-  width: min(92vmin, 720px);
-  height: min(92vmin, 720px);
-  transform: translate3d(-50%, -50%, 0);
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(96, 165, 250, 0.22) 0%, rgba(99, 102, 241, 0.08) 42%, transparent 68%);
-  opacity: 0.4;
+  inset: 0;
+  background: radial-gradient(ellipse 70% 65% at 50% 48%, transparent 35%, rgba(2, 2, 6, 0.75) 100%);
   pointer-events: none;
 }
 
+.orbit-work-earth-head {
+  position: relative;
+  z-index: 6;
+  flex-shrink: 0;
+  padding-top: clamp(4.5rem, 8vh, 5.5rem);
+  padding-bottom: 0.35rem;
+}
+
+.orbit-work-earth-headline {
+  max-width: min(22ch, 92vw);
+}
+
 .orbit-work-earth-stage {
-  perspective: clamp(900px, 120vw, 1600px);
-  perspective-origin: 50% 48%;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+  width: 100%;
+  padding: 0 clamp(0.75rem, 2vw, 1.5rem) clamp(1.25rem, 3vh, 2rem);
+  perspective: clamp(800px, 110vw, 1800px);
+  perspective-origin: 50% 50%;
+}
+
+.orbit-work-earth-arena {
+  position: relative;
+  width: min(92vw, 88vmin, 840px);
+  height: min(92vw, 88vmin, 840px);
+  max-height: calc(100svh - 11rem);
+  max-height: calc(100dvh - 11rem);
+  margin-inline: auto;
+  flex-shrink: 0;
+}
+
+.orbit-work-earth-halo {
+  --halo-scale: 1;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 115%;
+  height: 115%;
+  transform: translate3d(-50%, -50%, 0) scale(var(--halo-scale, 1));
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(96, 165, 250, 0.26) 0%, rgba(99, 102, 241, 0.1) 40%, transparent 70%);
+  opacity: 0.42;
+  pointer-events: none;
 }
 
 .orbit-work-earth-globe {
+  --earth-spin: 0deg;
+  --earth-scale: 1;
+  --earth-lift: 0px;
   position: absolute;
   left: 50%;
-  top: 54%;
-  width: min(58vmin, 520px);
-  height: min(58vmin, 520px);
+  top: 50%;
+  width: 100%;
+  height: 100%;
   margin: 0;
-  transform: translate3d(-50%, -50%, 0);
+  transform: translate3d(-50%, -50%, 0) translate3d(0, var(--earth-lift), 0) rotateY(var(--earth-spin))
+    scale(var(--earth-scale));
   transform-style: preserve-3d;
+  transform-origin: center center;
   will-change: transform;
   backface-visibility: hidden;
 }
@@ -6338,6 +6388,7 @@ li.orbit-card:hover {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center 42%;
   border-radius: 50%;
 }
 
@@ -6367,7 +6418,7 @@ li.orbit-card:hover {
   height: 0;
   transform-style: preserve-3d;
   transform: rotateY(calc(var(--pin-lng, 0) * 1deg)) rotateX(calc(var(--pin-lat, 0) * -1deg))
-    translateZ(min(46vmin, 300px));
+    translateZ(min(44vw, 46vmin, 390px));
   animation: orbit-work-pin-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) backwards;
   animation-delay: calc(0.05s * var(--pin-i, 0));
 }
@@ -6430,9 +6481,18 @@ li.orbit-card:hover {
   color: rgba(255, 255, 255, 0.92);
 }
 
-.orbit-work-made-earth {
-  top: 58%;
+.orbit-work-made.orbit-work-made-earth {
+  position: relative;
+  top: auto;
+  left: auto;
+  width: auto;
+  max-width: min(94vw, 40rem);
+  margin: clamp(0.75rem, 2vh, 1.25rem) auto 0;
+  transform: translate3d(0, 0, 0);
+  opacity: 0;
   z-index: 12;
+  flex-shrink: 0;
+  text-align: center;
 }
 
 .orbit-work-track.is-work-scrolling .orbit-work-earth-globe {
@@ -6441,29 +6501,39 @@ li.orbit-card:hover {
 
 @media (max-width: 767px) {
   .orbit-work-earth-track {
-    height: 165vh;
-    min-height: 165vh;
+    height: 175vh;
+    min-height: 175vh;
   }
 
-  .orbit-work-earth-globe {
-    width: min(72vmin, 400px);
-    height: min(72vmin, 400px);
-    top: 56%;
+  .orbit-work-earth-arena {
+    width: min(94vw, 92vmin);
+    height: min(94vw, 92vmin);
+    max-height: calc(100svh - 10rem);
+    max-height: calc(100dvh - 10rem);
   }
 
   .orbit-work-earth-pin {
     transform: rotateY(calc(var(--pin-lng, 0) * 1deg)) rotateX(calc(var(--pin-lat, 0) * -1deg))
-      translateZ(min(38vmin, 220px));
+      translateZ(min(42vw, 240px));
   }
 
-  .orbit-work-earth-pin:nth-child(n + 7) {
-    display: none;
+  .orbit-work-earth-pin-card {
+    width: clamp(6.5rem, 22vw, 9rem);
+  }
+}
+
+@media (min-width: 1800px) {
+  .orbit-work-earth-arena {
+    width: min(78vmin, 920px);
+    height: min(78vmin, 920px);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .orbit-work-earth-globe {
-    transform: translate3d(-50%, -50%, 0) !important;
+    --earth-spin: 0deg;
+    --earth-scale: 1;
+    --earth-lift: 0px;
   }
 
   .orbit-work-earth-pin {
