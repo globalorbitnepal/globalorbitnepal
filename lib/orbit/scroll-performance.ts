@@ -42,3 +42,29 @@ export function bindOrbitScroll(
     if (frameRef.current) window.cancelAnimationFrame(frameRef.current);
   };
 }
+
+/** Pause looping hero/product videos when they leave the viewport. */
+export function bindOrbitAutoplay(video: HTMLVideoElement | null): () => void {
+  if (!video) return () => {};
+
+  const sync = (visible: boolean) => {
+    if (visible && !document.hidden) void video.play().catch(() => {});
+    else video.pause();
+  };
+
+  const io = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) sync(entry.isIntersecting);
+    },
+    { threshold: 0.12 },
+  );
+  io.observe(video);
+
+  const onVis = () => sync(!document.hidden && trackNearViewport(video, 40));
+  document.addEventListener("visibilitychange", onVis);
+
+  return () => {
+    io.disconnect();
+    document.removeEventListener("visibilitychange", onVis);
+  };
+}

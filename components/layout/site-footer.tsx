@@ -113,25 +113,24 @@ export function SiteFooter({ companyName }: SiteFooterProps) {
           </p>
 
           <nav className="orbit-footer-legal" aria-label="Legal">
-            {ORBIT_FOOTER_LEGAL.map((item, index) => (
-              <span key={item.href} className="orbit-footer-legal-item">
-                {index > 0 ? <span className="orbit-footer-legal-sep" aria-hidden="true">|</span> : null}
-                <Link href={item.href}>{item.label}</Link>
-              </span>
+            {ORBIT_FOOTER_LEGAL.map((item) => (
+              <Link key={item.href} href={item.href}>
+                {item.label}
+              </Link>
             ))}
           </nav>
 
           <div className="orbit-footer-bottom-actions">
             <div className="orbit-footer-bottom-links">
-              <a href={`mailto:${ORBIT_BRAND.email}`} className="orbit-footer-bottom-link">
+              <a href={`mailto:${ORBIT_BRAND.email}`} className="orbit-footer-chip">
                 <span className="orbit-footer-bottom-link-icon is-mail" aria-hidden="true" />
                 {ORBIT_BRAND.email}
               </a>
-              <a href={ORBIT_BRAND.webmail} target="_blank" rel="noreferrer" className="orbit-footer-bottom-link">
+              <a href={ORBIT_BRAND.webmail} target="_blank" rel="noreferrer" className="orbit-footer-chip">
                 <span className="orbit-footer-bottom-link-icon is-building" aria-hidden="true" />
-                Business mail
+                Webmail
               </a>
-              <a href={ORBIT_BRAND.whatsapp} target="_blank" rel="noreferrer" className="orbit-footer-bottom-link">
+              <a href={ORBIT_BRAND.whatsapp} target="_blank" rel="noreferrer" className="orbit-footer-chip is-whatsapp">
                 <span className="orbit-footer-bottom-link-icon is-whatsapp" aria-hidden="true" />
                 WhatsApp
               </a>

@@ -16,7 +16,7 @@ function smoothStep(t: number) {
 
 function mosaicScale(raw: number, touch: boolean) {
   const holdEnd = touch ? 0.16 : 0.22;
-  const start = touch ? 1.16 : 1.28;
+  const start = touch ? 1.08 : 1.12;
   if (raw <= holdEnd) return start;
   return start - (start - 1) * ((raw - holdEnd) / (1 - holdEnd));
 }

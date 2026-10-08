@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef } from "react";
-import { OrbitHeroTrustMarquee } from "@/components/orbit/hero-trust-marquee";
+import { bindOrbitAutoplay } from "@/lib/orbit/scroll-performance";
 import type { HeroConfig } from "@/lib/hero-config";
 
 type Props = {
@@ -35,13 +35,14 @@ export function OrbitStudioHero({ config }: Props) {
     video.addEventListener("ended", onEnded);
     video.addEventListener("canplay", play);
     document.addEventListener("visibilitychange", play);
-
+    const stopAutoplay = bindOrbitAutoplay(video);
     play();
 
     return () => {
       video.removeEventListener("ended", onEnded);
       video.removeEventListener("canplay", play);
       document.removeEventListener("visibilitychange", play);
+      stopAutoplay();
     };
   }, [showVideo, videoSrc]);
 
@@ -86,10 +87,6 @@ export function OrbitStudioHero({ config }: Props) {
             </Link>
           </div>
         </div>
-      </div>
-
-      <div className="orbit-hero-trust-bleed z-[3] w-full">
-        <OrbitHeroTrustMarquee logos={config.trustLogos} label={config.trustMarqueeLabel} />
       </div>
     </section>
   );

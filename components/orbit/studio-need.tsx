@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { OrbitCodeBackdrop } from "@/components/orbit/code-backdrop";
-import { bindOrbitScroll, isOrbitTouch } from "@/lib/orbit/scroll-performance";
+import { bindOrbitAutoplay, bindOrbitScroll } from "@/lib/orbit/scroll-performance";
 import type { NeedConfig } from "@/lib/need-config";
 import { DEFAULT_NEED } from "@/lib/need-config";
 
@@ -43,10 +43,12 @@ export function OrbitStudioNeed({ config }: { config: NeedConfig }) {
     };
     video.addEventListener("loadeddata", play);
     document.addEventListener("visibilitychange", play);
+    const stopAutoplay = bindOrbitAutoplay(video);
     play();
     return () => {
       video.removeEventListener("loadeddata", play);
       document.removeEventListener("visibilitychange", play);
+      stopAutoplay();
     };
   }, [videoSrc]);
 
@@ -61,59 +63,49 @@ export function OrbitStudioNeed({ config }: { config: NeedConfig }) {
       const copy = copyRef.current;
       if (!track || !pin || !slot || !box) return;
 
+      const pinRect = pin.getBoundingClientRect();
+      const slotRect = slot.getBoundingClientRect();
+      const startW = Math.max(slotRect.width, 48);
+      const startH = Math.max(slotRect.height, 32);
+      const startX = slotRect.left - pinRect.left;
+      const startY = slotRect.top - pinRect.top;
+      const endW = pinRect.width * 0.93;
+      const endH = pinRect.height * 0.86;
+      const endX = pinRect.width * 0.035;
+      const endY = pinRect.height * 0.05;
+      const startR = startH / 2;
+      const endR = Math.min(pinRect.width, pinRect.height) * 0.045;
+
+      box.style.width = `${startW}px`;
+      box.style.height = `${startH}px`;
+      box.style.left = "0px";
+      box.style.top = "0px";
+      box.style.transformOrigin = "top left";
+
       if (reduce) {
-        box.style.left = "4%";
-        box.style.top = "8%";
-        box.style.width = "92%";
-        box.style.height = "82%";
-        box.style.borderRadius = "2.4rem";
+        const sx = endW / startW;
+        const sy = endH / startH;
+        box.style.transform = `translate3d(${endX}px, ${endY}px, 0) scale(${sx}, ${sy})`;
+        box.style.borderRadius = `${endR / ((sx + sy) / 2)}px`;
         if (copy) copy.style.opacity = "1";
         box.classList.add("is-ready");
         return;
       }
 
       const trackRect = track.getBoundingClientRect();
-      const pinRect = pin.getBoundingClientRect();
       const travel = Math.max(trackRect.height - pinRect.height, 1);
       const raw = clamp(-trackRect.top / travel);
       const zoomProgress = clamp(raw / 0.68);
       const eased = 1 - (1 - zoomProgress) ** 1.45;
-      const touch = isOrbitTouch();
-
-      if (touch) {
-        const left = lerp(14, 3.5, eased);
-        const top = lerp(22, 5, eased);
-        const width = lerp(72, 93, eased);
-        const height = lerp(38, 86, eased);
-        const radius = lerp(48, 20, eased);
-        box.style.left = `${left}%`;
-        box.style.top = `${top}%`;
-        box.style.width = `${width}%`;
-        box.style.height = `${height}%`;
-        box.style.borderRadius = `${radius}px`;
-      } else {
-        const slotRect = slot.getBoundingClientRect();
-        const start = {
-          left: slotRect.left - pinRect.left,
-          top: slotRect.top - pinRect.top,
-          width: slotRect.width,
-          height: slotRect.height,
-          radius: slotRect.height / 2,
-        };
-        const end = {
-          left: pinRect.width * 0.035,
-          top: pinRect.height * 0.05,
-          width: pinRect.width * 0.93,
-          height: pinRect.height * 0.86,
-          radius: Math.min(pinRect.width, pinRect.height) * 0.045,
-        };
-
-        box.style.left = `${lerp(start.left, end.left, eased)}px`;
-        box.style.top = `${lerp(start.top, end.top, eased)}px`;
-        box.style.width = `${lerp(start.width, end.width, eased)}px`;
-        box.style.height = `${lerp(start.height, end.height, eased)}px`;
-        box.style.borderRadius = `${lerp(start.radius, end.radius, eased)}px`;
-      }
+      const w = lerp(startW, endW, eased);
+      const h = lerp(startH, endH, eased);
+      const x = lerp(startX, endX, eased);
+      const y = lerp(startY, endY, eased);
+      const r = lerp(startR, endR, eased);
+      const sx = w / startW;
+      const sy = h / startH;
+      box.style.transform = `translate3d(${x}px, ${y}px, 0) scale(${sx}, ${sy})`;
+      box.style.borderRadius = `${r / Math.max((sx + sy) / 2, 0.01)}px`;
 
       if (copy) {
         const fade = clamp((raw - 0.06) / 0.32);

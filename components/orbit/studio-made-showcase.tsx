@@ -56,54 +56,40 @@ export function OrbitStudioMadeShowcase() {
         }
 
         let opacity = 0;
-        let scale = 0.7;
-        let rotX = 22;
-        let tz = -420;
+        let scale = 0.94;
         let zIndex = 1;
 
         if (t < -0.2) {
           opacity = 0;
-          scale = 0.68;
-          rotX = 24;
-          tz = -460;
+          scale = 0.94;
         } else if (t < 0.34) {
           const p = easeOut((t + 0.2) / 0.54);
           opacity = p;
-          scale = 0.68 + p * 0.32;
-          rotX = 24 * (1 - p);
-          tz = -460 + p * 460;
+          scale = 0.94 + p * 0.06;
           zIndex = 2 + index;
         } else if (t < 0.66) {
           opacity = 1;
           scale = 1;
-          rotX = 0;
-          tz = 0;
           zIndex = 10 + index;
         } else if (t < 1.2) {
           const p = easeIn((t - 0.66) / 0.54);
           opacity = 1 - p * 0.92;
-          scale = 1 + p * 0.22;
-          rotX = -18 * p;
-          tz = -320 * p;
+          scale = 1 + p * 0.04;
           zIndex = 8 - index;
         } else {
           opacity = 0;
-          scale = 1.18;
-          rotX = -18;
-          tz = -320;
+          scale = 1.04;
         }
 
         if (slide) {
           const ty =
             t > 0.66
-              ? easeIn(clamp((t - 0.66) / 0.54, 0, 1)) * (touch ? -12 : -24)
+              ? easeIn(clamp((t - 0.66) / 0.54, 0, 1)) * (touch ? -8 : -16)
               : t < 0.34
-                ? (1 - easeOut((t + 0.2) / 0.54)) * (touch ? 16 : 32)
+                ? (1 - easeOut((t + 0.2) / 0.54)) * (touch ? 10 : 18)
                 : 0;
-          const rx = touch ? 0 : rotX;
-          const z = touch ? 0 : tz;
           slide.style.opacity = String(opacity);
-          slide.style.transform = `translate3d(0, ${ty}px, ${z}px) rotateX(${rx}deg) scale3d(${scale}, ${scale}, 1)`;
+          slide.style.transform = `translate3d(0, ${ty}px, 0) scale3d(${scale}, ${scale}, 1)`;
           slide.style.zIndex = String(zIndex);
           slide.style.pointerEvents = opacity > 0.35 ? "auto" : "none";
         }
