@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef } from "react";
 import { DEMO_SITES } from "@/components/orbit/demo-sites";
 import { bindOrbitScroll, isOrbitTouch } from "@/lib/orbit/scroll-performance";
-import { EARTH_FLOATER_SLOTS, isLand, projectOrbitCard } from "@/lib/work-earth-mosaic";
+import { EARTH_FLOATER_SLOTS, projectOrbitCard } from "@/lib/work-earth-mosaic";
 import type { WorkConfig } from "@/lib/work-config";
 
 function clamp(n: number, min: number, max: number) {
@@ -40,7 +40,7 @@ function drawHeroTile(
   tw: number,
   th: number,
 ) {
-  const gap = Math.max(1.2, tw * 0.028);
+  const gap = Math.max(0.6, tw * 0.012);
   const x = dx + gap;
   const y = dy + gap;
   const w = tw - gap * 2;
@@ -89,46 +89,16 @@ function paintMosaic(images: HTMLImageElement[], width: number, height: number) 
   const ctx = canvas.getContext("2d", { alpha: false });
   if (!ctx) return canvas;
 
-  const ocean = ctx.createLinearGradient(0, 0, 0, height);
-  ocean.addColorStop(0, "#1a4e7a");
-  ocean.addColorStop(0.2, "#0e5a8c");
-  ocean.addColorStop(0.5, "#0c4a74");
-  ocean.addColorStop(0.82, "#0a3558");
-  ocean.addColorStop(1, "#08243c");
-  ctx.fillStyle = ocean;
+  ctx.fillStyle = "#0a0c12";
   ctx.fillRect(0, 0, width, height);
 
-  ctx.globalAlpha = 0.22;
-  for (let i = 0; i < 18; i++) {
-    const gx = (i * 137) % width;
-    const gy = (i * 89) % height;
-    const rad = 50 + ((i * 47) % 110);
-    const g = ctx.createRadialGradient(gx, gy, 0, gx, gy, rad);
-    g.addColorStop(0, "rgba(90, 180, 220, 0.5)");
-    g.addColorStop(1, "rgba(90, 180, 220, 0)");
-    ctx.fillStyle = g;
-    ctx.fillRect(gx - rad, gy - rad, rad * 2, rad * 2);
-  }
-  ctx.globalAlpha = 1;
-
-  const ice = ctx.createLinearGradient(0, 0, 0, height);
-  ice.addColorStop(0, "rgba(226, 236, 248, 0.88)");
-  ice.addColorStop(0.07, "rgba(226, 236, 248, 0)");
-  ice.addColorStop(0.93, "rgba(226, 236, 248, 0)");
-  ice.addColorStop(1, "rgba(210, 224, 240, 0.82)");
-  ctx.fillStyle = ice;
-  ctx.fillRect(0, 0, width, height);
-
-  const cols = 22;
-  const rows = 11;
+  const cols = 36;
+  const rows = 18;
   const tw = width / cols;
   const th = height / rows;
 
   for (let y = 0; y < rows; y++) {
     for (let x = 0; x < cols; x++) {
-      const lng = (x / cols) * 360 - 180;
-      const lat = 90 - ((y + 0.5) / rows) * 180;
-      if (!isLand(lat, lng)) continue;
       const img = images[(x * 7 + y * 13) % images.length];
       drawHeroTile(ctx, img, x * tw, y * th, tw, th);
     }
@@ -177,10 +147,10 @@ void main() {
   float ndl = max(dot(n, light), 0.0);
   float rim = pow(1.0 - max(dot(n, view), 0.0), 2.6);
   float spec = pow(max(dot(reflect(-light, n), view), 0.0), 36.0);
-  col *= 0.72 + ndl * 0.42;
-  col += vec3(0.85, 0.92, 1.0) * spec * 0.12;
-  col += vec3(0.55, 0.78, 1.0) * rim * 0.16;
-  col += vec3(0.95, 0.8, 0.35) * rim * 0.1;
+  col *= 0.82 + ndl * 0.28;
+  col += vec3(0.85, 0.92, 1.0) * spec * 0.08;
+  col += vec3(0.55, 0.78, 1.0) * rim * 0.1;
+  col += vec3(0.95, 0.8, 0.35) * rim * 0.08;
   gl_FragColor = vec4(col, 1.0);
 }
 `;
@@ -237,7 +207,7 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
 
   const floaters = useMemo(() => {
     const touch = typeof window !== "undefined" && window.matchMedia("(max-width: 767px)").matches;
-    const slots = touch ? EARTH_FLOATER_SLOTS.slice(0, 8) : EARTH_FLOATER_SLOTS;
+    const slots = touch ? EARTH_FLOATER_SLOTS.slice(0, 4) : EARTH_FLOATER_SLOTS.slice(0, 8);
     return slots.map((pos, index) => ({
       pos,
       site: DEMO_SITES[index % DEMO_SITES.length],
@@ -270,7 +240,7 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
     if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) return;
     gl.useProgram(prog);
 
-    const mesh = createSphere(48, 80);
+    const mesh = createSphere(24, 40);
     const aPos = gl.getAttribLocation(prog, "aPos");
     const aUv = gl.getAttribLocation(prog, "aUv");
     const bufPos = gl.createBuffer();
@@ -297,28 +267,24 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
 
     const tex = gl.createTexture();
     gl.bindTexture(gl.TEXTURE_2D, tex);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, 1, 1, 0, gl.RGB, gl.UNSIGNED_BYTE, new Uint8Array([12, 64, 112]));
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, 1, 1, 0, gl.RGB, gl.UNSIGNED_BYTE, new Uint8Array([12, 14, 20]));
 
     let alive = true;
-    const uniqueSrc = [
-      ...new Set(DEMO_SITES.flatMap((s) => [s.image, ...s.thumbs])),
-    ];
+    const uniqueSrc = [...new Set(DEMO_SITES.map((s) => s.image))];
     void Promise.all(uniqueSrc.map((src) => loadImage(src).catch(() => null))).then((loaded) => {
       if (!alive) return;
       const imgs = loaded.filter((img): img is HTMLImageElement => img != null);
       if (!imgs.length) return;
       const mobile = window.matchMedia("(max-width: 767px)").matches;
-      const maxTex = gl.getParameter(gl.MAX_TEXTURE_SIZE) as number;
-      const w = Math.min(maxTex, mobile ? 2048 : 4096);
+      const w = mobile ? 1536 : 2048;
       const mosaic = paintMosaic(imgs, w, Math.floor(w / 2));
       gl.bindTexture(gl.TEXTURE_2D, tex);
       gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1);
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, mosaic);
-      gl.generateMipmap(gl.TEXTURE_2D);
       drawRef.current?.(yawRef.current);
     });
 
@@ -326,7 +292,7 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
       const parent = canvas.parentElement;
       if (!parent) return;
       const size = Math.min(parent.clientWidth, parent.clientHeight);
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
       const px = Math.max(360, Math.floor(size * dpr));
       if (canvas.width !== px) {
         canvas.width = px;
