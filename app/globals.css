@@ -1457,6 +1457,227 @@ li.orbit-card:hover {
   }
 }
 
+/* Homepage software — laptop mockups with UHD screenshots */
+.orbit-soft-laptop {
+  margin: 0;
+  width: 100%;
+  perspective: 1200px;
+}
+
+.orbit-soft-laptop-bezel {
+  position: relative;
+  padding: clamp(0.45rem, 0.35rem + 0.35vw, 0.65rem);
+  border-radius: clamp(0.75rem, 0.5rem + 0.5vw, 1rem) clamp(0.75rem, 0.5rem + 0.5vw, 1rem)
+    clamp(0.35rem, 0.25rem + 0.25vw, 0.5rem) clamp(0.35rem, 0.25rem + 0.25vw, 0.5rem);
+  background: linear-gradient(165deg, #3a3a44 0%, #1a1a22 42%, #0e0e14 100%);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.1),
+    0 28px 60px rgba(0, 0, 0, 0.55),
+    0 0 72px color-mix(in srgb, var(--soft-accent, #6366f1) 18%, transparent);
+  transition:
+    transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.45s ease;
+}
+
+.orbit-soft-laptop.is-hero .orbit-soft-laptop-bezel {
+  transform: rotateX(2deg);
+}
+
+.orbit-soft-catalog-shot-card:hover .orbit-soft-laptop-bezel {
+  transform: translateY(-4px) rotateX(1deg);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.14),
+    0 36px 72px rgba(0, 0, 0, 0.58),
+    0 0 88px color-mix(in srgb, var(--soft-accent, #6366f1) 26%, transparent);
+}
+
+.orbit-soft-laptop-cam {
+  display: block;
+  width: 0.42rem;
+  height: 0.42rem;
+  margin: 0 auto clamp(0.35rem, 0.25rem + 0.2vw, 0.5rem);
+  border-radius: 999px;
+  background: #1c1c24;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.15),
+    0 0 6px rgba(0, 0, 0, 0.6);
+}
+
+.orbit-soft-laptop-screen {
+  overflow: hidden;
+  border-radius: 0.35rem;
+  background: #0a0a10;
+  aspect-ratio: 1024 / 535;
+  line-height: 0;
+}
+
+.orbit-soft-laptop-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  image-rendering: -webkit-optimize-contrast;
+}
+
+.orbit-soft-laptop-base {
+  position: relative;
+  height: clamp(0.5rem, 0.35rem + 0.35vw, 0.72rem);
+  width: 112%;
+  margin: 0 -6%;
+  border-radius: 0 0 clamp(0.65rem, 0.45rem + 0.4vw, 0.9rem) clamp(0.65rem, 0.45rem + 0.4vw, 0.9rem);
+  background: linear-gradient(180deg, #2e2e38, #121218 72%, #0a0a0e);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.45);
+}
+
+.orbit-soft-laptop-notch {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 18%;
+  height: 0.18rem;
+  transform: translateX(-50%);
+  border-radius: 0 0 0.25rem 0.25rem;
+  background: #3a3a44;
+}
+
+.orbit-soft-catalog-hero {
+  margin: clamp(1.25rem, 2.5vw, 2rem) auto clamp(1.75rem, 3vw, 2.75rem);
+  max-width: min(920px, 96vw);
+  text-align: center;
+}
+
+.orbit-soft-catalog-hero-stage {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+  transition:
+    opacity 0.38s ease,
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.orbit-soft-catalog-hero-stage:not(.is-visible) {
+  opacity: 0;
+  transform: translate3d(0, 8px, 0) scale(0.992);
+}
+
+.orbit-soft-catalog-hero-meta {
+  margin-top: clamp(1rem, 2vw, 1.35rem);
+}
+
+.orbit-soft-catalog-hero-kicker {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.42);
+}
+
+.orbit-soft-catalog-hero-title {
+  margin-top: 0.35rem;
+  font-family: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  font-size: clamp(1.15rem, 0.95rem + 0.8vw, 1.55rem);
+  font-weight: 700;
+  color: #fff;
+}
+
+.orbit-soft-catalog-hero-tag {
+  margin-top: 0.35rem;
+  font-size: clamp(0.88rem, 0.82rem + 0.2vw, 0.98rem);
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.orbit-soft-catalog-hero-dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.45rem;
+  margin-top: 0.85rem;
+}
+
+.orbit-soft-catalog-hero-dots button {
+  width: 0.55rem;
+  height: 0.55rem;
+  padding: 0;
+  border: none;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.18);
+  cursor: pointer;
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.orbit-soft-catalog-hero-dots button.is-active {
+  transform: scale(1.2);
+  background: var(--dot, #f0c43a);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--dot, #f0c43a) 55%, transparent);
+}
+
+.orbit-soft-catalog-shot-card {
+  min-height: 0 !important;
+  text-decoration: none;
+  color: inherit;
+}
+
+.orbit-soft-shot-card-inner {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 1.1rem;
+  background: linear-gradient(180deg, rgba(12, 14, 22, 0.95) 0%, rgba(6, 8, 12, 0.98) 100%);
+}
+
+.orbit-soft-shot-card-inner .orbit-soft-laptop {
+  padding: clamp(0.65rem, 0.5rem + 0.4vw, 0.85rem) clamp(0.65rem, 0.5rem + 0.4vw, 0.85rem) 0;
+}
+
+.orbit-soft-shot-card-foot {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.85rem 1rem 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  text-align: left;
+}
+
+.orbit-soft-shot-card-foot strong {
+  display: block;
+  font-size: clamp(0.92rem, 0.86rem + 0.2vw, 1.02rem);
+  font-weight: 750;
+  color: #fff;
+}
+
+.orbit-soft-shot-card-foot p {
+  margin: 0.25rem 0 0;
+  font-size: clamp(0.72rem, 0.68rem + 0.15vw, 0.82rem);
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.48);
+}
+
+.orbit-soft-shot-card-arrow {
+  display: grid;
+  flex-shrink: 0;
+  height: 2rem;
+  width: 2rem;
+  place-items: center;
+  border-radius: 999px;
+  color: rgba(255, 255, 255, 0.75);
+  background: rgba(255, 255, 255, 0.06);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  transition: transform 0.25s ease;
+}
+
+.orbit-soft-catalog-shot-card:hover .orbit-soft-shot-card-arrow {
+  transform: translate(2px, -2px);
+}
+
+.orbit-soft-shot-card-arrow svg {
+  height: 0.9rem;
+  width: 0.9rem;
+}
+
 .orbit-soft-catalog-grid {
   display: grid;
   gap: clamp(0.9rem, 1.4vw, 1.25rem);
@@ -9243,11 +9464,15 @@ li.orbit-card:hover {
   background: #0b0b12;
 }
 
+.erp-device-screen {
+  aspect-ratio: 1024 / 535;
+}
+
 .erp-device-screen img {
   display: block;
   width: 100%;
-  height: auto;
-  object-fit: contain;
+  height: 100%;
+  object-fit: cover;
   object-position: top center;
 }
 
@@ -10129,6 +10354,139 @@ li.orbit-card:hover {
   .orbit-ai-wire {
     animation: none;
   }
+}
+
+/* —— Contact page (premium long form) —— */
+.orbit-contact-page {
+  background:
+    radial-gradient(ellipse 90% 55% at 50% -5%, rgba(99, 102, 241, 0.16), transparent 58%),
+    radial-gradient(ellipse 35% 28% at 8% 35%, rgba(240, 196, 58, 0.07), transparent 50%),
+    radial-gradient(ellipse 30% 22% at 95% 60%, rgba(56, 189, 248, 0.06), transparent 45%),
+    #050508;
+}
+
+.orbit-contact-hero-orb {
+  position: absolute;
+  top: 12%;
+  right: -8%;
+  width: min(42vw, 520px);
+  height: min(42vw, 520px);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(240, 196, 58, 0.12), transparent 68%);
+  filter: blur(2px);
+  animation: orbit-about-orb 14s ease-in-out infinite;
+}
+
+.orbit-contact-stat {
+  border-color: rgba(240, 196, 58, 0.12);
+}
+
+.orbit-contact-channel {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.35rem;
+  height: 100%;
+  padding: 1.35rem 1.25rem;
+  border-radius: 1.15rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.06), rgba(6, 8, 16, 0.85));
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.28);
+  text-decoration: none;
+  color: inherit;
+  transition:
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.3s ease,
+    box-shadow 0.35s ease;
+}
+
+.orbit-contact-channel:hover {
+  transform: translateY(-4px);
+  border-color: rgba(240, 196, 58, 0.35);
+  box-shadow:
+    0 22px 48px rgba(0, 0, 0, 0.38),
+    0 0 0 1px rgba(240, 196, 58, 0.08);
+}
+
+.orbit-contact-channel-icon {
+  font-size: 1.35rem;
+  line-height: 1;
+}
+
+.orbit-contact-channel strong {
+  font-size: 1.05rem;
+  color: #fff;
+}
+
+.orbit-contact-channel small {
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.orbit-contact-channel-value {
+  margin-top: 0.35rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #f0c43a;
+}
+
+.orbit-contact-brief,
+.orbit-contact-form-shell {
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.orbit-contact-checklist {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.orbit-contact-checklist li {
+  position: relative;
+  padding-left: 1.65rem;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.62);
+}
+
+.orbit-contact-checklist li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.45rem;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 2px;
+  background: linear-gradient(135deg, #fde68a, #f0c43a);
+  box-shadow: 0 0 10px rgba(240, 196, 58, 0.45);
+}
+
+.orbit-contact-field::placeholder {
+  color: rgba(255, 255, 255, 0.28);
+}
+
+.orbit-contact-step-num {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  color: #f0c43a;
+  margin-bottom: 0.65rem;
+}
+
+.orbit-contact-topic:hover {
+  border-color: rgba(129, 140, 248, 0.28);
+}
+
+.orbit-contact-faq .orbit-faq-item {
+  border-color: rgba(255, 255, 255, 0.1);
+  background: rgba(8, 10, 18, 0.55);
+}
+
+.orbit-contact-cta-band {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  background:
+    radial-gradient(ellipse 70% 80% at 50% 100%, rgba(240, 196, 58, 0.08), transparent 55%),
+    linear-gradient(180deg, transparent, rgba(6, 8, 14, 0.9));
 }
 
 body.admin-locked,
