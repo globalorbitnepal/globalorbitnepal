@@ -1,17 +1,32 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import { submitInquiry } from "@/app/contact/actions";
 import { OrbitFooterSocial } from "@/components/layout/footer-social";
 import { FooterEnvelopeHero } from "@/components/layout/footer-icons";
 
 export function FooterConnectBar() {
   const [email, setEmail] = useState("");
+  const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
+  const [busy, setBusy] = useState(false);
 
-  const onSubmit = (event: FormEvent) => {
+  const onSubmit = async (event: FormEvent) => {
     event.preventDefault();
     const value = email.trim();
     if (!value) return;
-    window.location.href = `mailto:support@theglobalorbit.com?subject=Newsletter&body=Subscribe%20${encodeURIComponent(value)}`;
+    setBusy(true);
+    const form = new FormData();
+    form.set("name", "Newsletter");
+    form.set("email", value);
+    form.set("message", "Please add this address to product and studio updates.");
+    form.set("source", "newsletter");
+    form.set("pagePath", "/");
+    const result = await submitInquiry(
+      { status: "idle", message: "", errors: {} },
+      form,
+    );
+    setBusy(false);
+    setStatus(result.status === "success" ? "success" : "error");
   };
 
   return (
@@ -26,7 +41,12 @@ export function FooterConnectBar() {
         </div>
       </div>
 
-      <form className="orbit-footer-subscribe" onSubmit={onSubmit}>
+      {status === "success" ? (
+        <p className="orbit-footer-connect-lede" role="status">
+          Thanks. We recorded your email.
+        </p>
+      ) : (
+      <form className="orbit-footer-subscribe" onSubmit={(event) => void onSubmit(event)}>
         <label className="sr-only" htmlFor="footer-email">
           Email address
         </label>
@@ -50,11 +70,17 @@ export function FooterConnectBar() {
             onChange={(event) => setEmail(event.target.value)}
           />
         </span>
-        <button type="submit" className="orbit-footer-subscribe-btn">
-          Subscribe
+        <button type="submit" className="orbit-footer-subscribe-btn" disabled={busy}>
+          {busy ? "Saving…" : "Subscribe"}
           <span aria-hidden="true">→</span>
         </button>
+        {status === "error" ? (
+          <p className="orbit-footer-connect-lede" role="alert">
+            Could not save just now. Try again, or email support@theglobalorbit.com.
+          </p>
+        ) : null}
       </form>
+      )}
 
       <OrbitFooterSocial className="orbit-footer-social-premium" />
     </div>

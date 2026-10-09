@@ -10,6 +10,7 @@ import { getHeroConfig } from "@/lib/hero-store";
 import { getNeedConfig } from "@/lib/need-store";
 import { getWorkConfig } from "@/lib/work-store";
 import { getSoftwareConfig } from "@/lib/software-store";
+import { countInquiries } from "@/lib/db/inquiries";
 import { isOrbitAuthed } from "@/lib/orbit-auth";
 import { getPageSeoList } from "@/lib/page-seo-store";
 import { DEFAULT_SITE_CHROME, getSiteChrome } from "@/lib/site-chrome-store";
@@ -23,7 +24,7 @@ export default async function AdminPage() {
   const authed = await isOrbitAuthed();
   if (!authed) return <AdminLogin />;
 
-  const [config, need, work, software, about, careers, projects, webApps, androidApps, iosApps, posts, pages, chrome] =
+  const [config, need, work, software, about, careers, projects, webApps, androidApps, iosApps, posts, pages, chrome, inquiryNew, inquiryTotal] =
     await Promise.all([
       getHeroConfig(),
       getNeedConfig(),
@@ -38,6 +39,8 @@ export default async function AdminPage() {
       getBlogPosts(),
       getPageSeoList(),
       getSiteChrome(),
+      countInquiries("NEW"),
+      countInquiries(),
     ]);
 
   return (
@@ -55,6 +58,8 @@ export default async function AdminPage() {
       posts={posts}
       pages={pages}
       chrome={chrome ?? DEFAULT_SITE_CHROME}
+      inquiryNew={inquiryNew}
+      inquiryTotal={inquiryTotal}
     />
   );
 }

@@ -80,23 +80,33 @@ export async function verifyOrbitPassword(password: string) {
   return timingSafeEqual(next, prev);
 }
 
+function hmacMatches(value: string, mac: string) {
+  const expected = sign(value);
+  const left = Buffer.from(expected);
+  const right = Buffer.from(mac);
+  if (left.length !== right.length) return false;
+  return timingSafeEqual(left, right);
+}
+
 export async function isOrbitAuthed() {
   const jar = await cookies();
   const token = jar.get(COOKIE)?.value;
   if (!token) return false;
   const [value, mac] = token.split(".");
   if (!value || !mac) return false;
-  return sign(value) === mac && value.startsWith("ok:");
+  return hmacMatches(value, mac) && value.startsWith("ok:");
 }
 
-export async function setOrbitSession() {
+export async function setOrbitSession(options?: { remember?: boolean }) {
   const jar = await cookies();
   const value = `ok:${Date.now()}`;
+  const remember = options?.remember !== false;
   jar.set(COOKIE, `${value}.${sign(value)}`, {
     httpOnly: true,
     sameSite: "lax",
     path: "/",
-    maxAge: 60 * 60 * 24 * 7,
+    secure: process.env.NODE_ENV === "production",
+    ...(remember ? { maxAge: 60 * 60 * 24 * 7 } : {}),
   });
 }
 

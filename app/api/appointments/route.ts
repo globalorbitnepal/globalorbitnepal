@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import { addAppointment, parseAppointmentInput } from "@/lib/appointments/store";
+import { createInquiry } from "@/lib/db/inquiries";
+import { clientKey, rateLimit } from "@/lib/rate-limit";
 
 export async function POST(request: Request) {
   let body: unknown;
@@ -7,6 +9,10 @@ export async function POST(request: Request) {
     body = await request.json();
   } catch {
     return NextResponse.json({ error: "Invalid JSON." }, { status: 400 });
+  }
+
+  if (!rateLimit(clientKey(request, "appointment"), 6, 10 * 60 * 1000).ok) {
+    return NextResponse.json({ error: "Too many requests. Please wait a few minutes." }, { status: 429 });
   }
 
   const raw = body as Record<string, unknown>;
@@ -20,5 +26,22 @@ export async function POST(request: Request) {
   }
 
   const record = await addAppointment(parsed.data);
+  await createInquiry({
+    name: parsed.data.fullName,
+    email: parsed.data.officeEmail,
+    phone: parsed.data.whatsapp || parsed.data.mobile,
+    subject: `appointment · / · ${parsed.data.studio}`,
+    message: [
+      `Studio: ${parsed.data.studio}`,
+      `Services: ${parsed.data.services.join(", ")}`,
+      `Country: ${parsed.data.country}`,
+      `City: ${parsed.data.city}`,
+      `Mobile: ${parsed.data.mobile}`,
+      `WhatsApp: ${parsed.data.whatsapp}`,
+      parsed.data.specialRequest ? `Request: ${parsed.data.specialRequest}` : "",
+    ]
+      .filter(Boolean)
+      .join("\n"),
+  });
   return NextResponse.json({ ok: true, id: record.id });
 }

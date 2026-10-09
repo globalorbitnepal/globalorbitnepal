@@ -37,77 +37,70 @@ export function AdminLogin() {
       <div className="admin-login-shade" />
       <div className="admin-login-grid">
         <div className="admin-login-copy">
-          <img src="/brand/logo-official-gold.png" alt="Global Orbit" className="admin-login-mark" />
-          <h1>
-            Welcome <span>Back</span>
-          </h1>
-          <p>Access your admin panel and manage your business with confidence.</p>
-          <div className="admin-login-pills">
-            {[
-              ["Total Control", "📊"],
-              ["Secure Access", "🛡️"],
-              ["Easy Management", "⚙️"],
-              ["All in One Place", "☁️"],
-            ].map(([label, icon]) => (
-              <div key={label} className="admin-login-pill">
-                <span>{icon}</span>
-                {label}
-              </div>
-            ))}
+          <div className="admin-login-mark-wrap">
+            <img src="/brand/logo-official-gold.png" alt="Global Orbit" className="admin-login-mark" />
           </div>
+          <p className="admin-login-kicker">Studio console</p>
+          <h1>
+            Sign in to <span>Global Orbit</span>
+          </h1>
+          <p>Manage published pages, media, and inbound enquiries from one authenticated workspace.</p>
         </div>
         <div className="admin-login-card">
-          <img src="/brand/logo-official-gold.png" alt="" className="admin-login-card-mark" />
-          <h2>Admin Login</h2>
-          <p className="admin-login-sub">Sign in to access your dashboard</p>
-          <form onSubmit={onSubmit} autoComplete="off">
+          <div className="admin-login-card-mark-wrap">
+            <img src="/brand/logo-official-gold.png" alt="" className="admin-login-card-mark" />
+          </div>
+          <h2>Admin access</h2>
+          <p className="admin-login-sub">Use your studio credentials. Sessions are httpOnly and signed.</p>
+          <form onSubmit={onSubmit}>
             <label>
-              <span className="sr-only">Email or Username</span>
-              <span className="admin-login-icon">✉</span>
+              Username
               <input
-                name="admin-user"
+                name="username"
                 type="text"
                 required
-                autoComplete="off"
-                placeholder="Email or Username"
+                autoComplete="username"
                 value={username}
                 onChange={(event) => setUsername(event.target.value)}
               />
             </label>
             <label>
-              <span className="sr-only">Password</span>
-              <span className="admin-login-icon">🔒</span>
+              Password
               <input
-                name="admin-pass"
+                name="password"
                 type={show ? "text" : "password"}
                 required
-                autoComplete="new-password"
-                placeholder="Password"
+                autoComplete="current-password"
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
               />
-              <button type="button" className="admin-login-eye" onClick={() => setShow((v) => !v)} aria-label="Toggle password">
-                {show ? "🙈" : "👁"}
+              <button
+                type="button"
+                className="admin-login-eye"
+                onClick={() => setShow((value) => !value)}
+                aria-pressed={show}
+                aria-label={show ? "Hide password" : "Show password"}
+              >
+                {show ? "Hide" : "Show"}
               </button>
             </label>
-            <div className="admin-login-row">
-              <label className="admin-login-remember">
-                <input type="checkbox" checked={remember} onChange={(event) => setRemember(event.target.checked)} />
-                Remember me
-              </label>
-              <span className="admin-login-forgot">Forgot password?</span>
-            </div>
+            <label className="admin-login-remember">
+              <input
+                type="checkbox"
+                checked={remember}
+                onChange={(event) => setRemember(event.target.checked)}
+              />
+              Keep me signed in for 7 days
+            </label>
             <button type="submit" className="admin-login-submit" disabled={busy}>
-              {busy ? "Signing in…" : "Sign In"}
-              <span>→</span>
+              {busy ? "Signing in…" : "Sign in"}
             </button>
-            {error ? <p className="admin-login-error">{error}</p> : null}
+            {error ? (
+              <p className="admin-login-error" role="alert">
+                {error}
+              </p>
+            ) : null}
           </form>
-          <div className="admin-login-or">OR</div>
-          <p className="admin-login-secure">
-            <span>🛡️</span> Secure & Protected
-            <small>Your data is encrypted and safe with us.</small>
-          </p>
         </div>
       </div>
     </div>

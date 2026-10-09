@@ -1,7 +1,10 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
+import { AdminInquiriesPanel } from "@/components/admin/admin-inquiries-panel";
 import { OrbitHeroEditor } from "@/components/orbit/orbit-hero-editor";
+import { OrbitAppointmentsPanel } from "@/components/orbit/orbit-appointments-panel";
 import { PwaInstall } from "@/components/admin/pwa-install";
 import type { AboutConfig } from "@/lib/about-config";
 import type { CareersConfig } from "@/lib/careers-config";
@@ -33,7 +36,8 @@ type View =
   | "blogs"
   | "seo"
   | "chrome"
-  | "pages";
+  | "pages"
+  | "leads";
 
 type NavKey =
   | "dashboard"
@@ -64,10 +68,10 @@ const NAV: { id: NavKey; label: string; view?: View; section?: EditorSection }[]
   { id: "media", label: "Media Library", view: "editor", section: "work" },
   { id: "testimonials", label: "Testimonials", view: "editor", section: "about" },
   { id: "team", label: "Team Management", view: "editor", section: "about" },
-  { id: "enquiries", label: "Enquiries / Leads", view: "editor", section: "appointments" },
-  { id: "messages", label: "Contact Messages", view: "editor", section: "appointments" },
+  { id: "enquiries", label: "Enquiries / Leads", view: "leads" },
+  { id: "messages", label: "Contact Messages", view: "leads" },
   { id: "seo", label: "SEO & Analytics", view: "seo" },
-  { id: "forms", label: "Forms & Integrations", view: "editor", section: "appointments" },
+  { id: "forms", label: "Forms & Integrations", view: "leads" },
   { id: "appearance", label: "Appearance", view: "chrome" },
   { id: "menus", label: "Menus & Navigation", view: "chrome" },
   { id: "users", label: "Users & Roles", view: "chrome" },
@@ -100,6 +104,8 @@ type Props = {
   posts: BlogPost[];
   pages: PageSeo[];
   chrome: SiteChrome;
+  inquiryNew: number;
+  inquiryTotal: number;
 };
 
 function emptyPost(): BlogPost {
@@ -246,11 +252,11 @@ export function AdminApp(props: Props) {
           <div className="cms-home">
             <div className="cms-kpis">
               {[
-                ["Total Pages", String(pages.length), "↑ 12%", "#3b82f6"],
-                ["Blog Posts", String(posts.length), "↑ 8%", "#8b5cf6"],
-                ["Services", "12", "↑ 20%", "#22c55e"],
-                ["Portfolio Projects", "24", "↑ 18%", "#f97316"],
-              ].map(([label, value, delta, color]) => (
+                ["SEO pages", String(pages.length), "From page SEO store", "#3b82f6"],
+                ["Blog posts", String(posts.length), "Saved articles", "#8b5cf6"],
+                ["New enquiries", String(props.inquiryNew), "Awaiting follow-up", "#22c55e"],
+                ["All enquiries", String(props.inquiryTotal), "Stored in the database", "#f97316"],
+              ].map(([label, value, hint, color]) => (
                 <article key={label} className="cms-kpi">
                   <span className="cms-kpi-icon" style={{ background: color }}>
                     ▢
@@ -258,7 +264,7 @@ export function AdminApp(props: Props) {
                   <div>
                     <p>{label}</p>
                     <strong>{value}</strong>
-                    <small>{delta}</small>
+                    <small>{hint}</small>
                   </div>
                 </article>
               ))}
@@ -279,7 +285,7 @@ export function AdminApp(props: Props) {
                   <button type="button" onClick={() => open("portfolio", "editor", "projects")}>
                     Manage Portfolio
                   </button>
-                  <button type="button" onClick={() => open("enquiries", "editor", "appointments")}>
+                  <button type="button" onClick={() => open("enquiries", "leads")}>
                     View Enquiries
                   </button>
                 </div>
@@ -292,7 +298,7 @@ export function AdminApp(props: Props) {
                   <li>
                     Domain <a href="https://arnav.theglobalorbit.com">arnav.theglobalorbit.com</a>
                   </li>
-                  <li>Last Backup {new Date().toLocaleString("en-GB")}</li>
+                  <li>Hosted via GitHub Actions deploy</li>
                   <li>Node / Next.js 16</li>
                   <li>
                     Database <b>Connected</b>
@@ -349,15 +355,22 @@ export function AdminApp(props: Props) {
                     Clear Cache
                   </button>
                   <PwaInstall className="cms-tool" />
-                  <a href="/orbit" className="cms-tool">
-                    View Logs
-                  </a>
+                  <Link href="/orbit" className="cms-tool">
+                    Classic editor
+                  </Link>
                   <button type="button" onClick={() => open("settings", "chrome")}>
                     Manage Users
                   </button>
                 </div>
               </section>
             </div>
+          </div>
+        ) : null}
+
+        {view === "leads" ? (
+          <div className="cms-card cms-pad cms-leads-wrap">
+            <AdminInquiriesPanel />
+            <OrbitAppointmentsPanel />
           </div>
         ) : null}
 

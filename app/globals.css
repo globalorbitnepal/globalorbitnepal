@@ -10935,9 +10935,25 @@ body.admin-locked .orbit-app-shell {
   align-items: center;
   padding: 4vw 6vw;
 }
+.admin-login-mark-wrap,
+.admin-login-card-mark-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.7rem 0.9rem;
+  border-radius: 1rem;
+  background: #0b1020;
+}
 .admin-login-mark {
-  width: min(280px, 70vw);
+  width: min(220px, 64vw);
   height: auto;
+}
+.admin-login-kicker {
+  margin: 1.2rem 0 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #f0c43a;
 }
 .admin-login-copy h1 {
   margin: 1.4rem 0 0.7rem;
@@ -10979,10 +10995,14 @@ body.admin-locked .orbit-app-shell {
   box-shadow: 0 30px 80px rgba(0,0,0,0.28);
   backdrop-filter: blur(18px);
 }
+.admin-login-card-mark-wrap {
+  display: flex;
+  width: fit-content;
+  margin: 0 auto 0.8rem;
+}
 .admin-login-card-mark {
   display: block;
-  width: 180px;
-  margin: 0 auto 0.6rem;
+  width: 148px;
 }
 .admin-login-card h2 {
   text-align: center;
@@ -11005,47 +11025,46 @@ body.admin-locked .orbit-app-shell {
   width: 100%;
   border: 1px solid #dbe3ef;
   border-radius: 0.85rem;
-  padding: 0.9rem 2.6rem;
+  padding: 0.85rem 4.2rem 0.85rem 0.9rem;
+  margin-top: 0.35rem;
   background: #fff;
   outline: none;
 }
-.admin-login-icon {
-  position: absolute;
-  left: 0.85rem;
-  top: 50%;
-  transform: translateY(-50%);
-  opacity: 0.55;
+.admin-login-card input:focus {
+  border-color: #1d4ed8;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.18);
 }
 .admin-login-eye {
   position: absolute;
-  right: 0.7rem;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
+  right: 0.55rem;
+  bottom: 0.55rem;
+  background: #f1f5f9;
   border: 0;
+  border-radius: 0.5rem;
+  padding: 0.28rem 0.55rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #334155;
   cursor: pointer;
 }
-.admin-login-row {
+.admin-login-remember {
   display: flex;
-  justify-content: space-between;
+  gap: 0.4rem;
   align-items: center;
   font-size: 0.86rem;
 }
-.admin-login-remember { display: flex; gap: 0.4rem; align-items: center; }
-.admin-login-forgot { color: #2563eb; font-weight: 600; }
 .admin-login-submit {
   width: 100%;
+  min-height: 2.75rem;
   border: 0;
   border-radius: 0.9rem;
   padding: 0.95rem;
-  background: linear-gradient(90deg, #2563eb, #1d4ed8);
+  background: #1d4ed8;
   color: #fff;
   font-weight: 700;
-  display: flex;
-  justify-content: center;
-  gap: 0.6rem;
   cursor: pointer;
 }
+.admin-login-submit:disabled { opacity: 0.65; }
 .admin-login-error { color: #b91c1c; font-size: 0.86rem; text-align: center; }
 .admin-login-or {
   text-align: center;
@@ -11168,7 +11187,62 @@ body.admin-locked .orbit-app-shell {
   place-items: center;
 }
 .cms-kpi strong { display: block; font-size: 1.6rem; }
-.cms-kpi small { color: #16a34a; font-weight: 700; }
+.cms-kpi small { color: #64748b; font-weight: 600; }
+.cms-leads-wrap { display: grid; gap: 1.4rem; }
+.cms-leads-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: space-between;
+  align-items: end;
+}
+.cms-leads-filters {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.cms-leads-filters input,
+.cms-leads-filters select,
+.cms-leads-detail select {
+  border: 1px solid #dbe3ef;
+  border-radius: 0.7rem;
+  padding: 0.55rem 0.7rem;
+  min-width: 12rem;
+}
+.cms-leads-empty { color: #64748b; margin: 1rem 0; }
+.cms-leads-list { list-style: none; margin: 1rem 0 0; padding: 0; display: grid; gap: 0.45rem; }
+.cms-leads-row {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1.1fr 1.2fr 1fr auto auto;
+  gap: 0.6rem;
+  text-align: left;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.8rem;
+  padding: 0.75rem 0.85rem;
+  cursor: pointer;
+}
+.cms-leads-row em {
+  font-style: normal;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #1d4ed8;
+}
+.cms-leads-detail {
+  padding: 0.8rem 0.9rem 1rem;
+  color: #334155;
+  white-space: pre-wrap;
+}
+.cms-leads-pager {
+  display: flex;
+  gap: 0.7rem;
+  align-items: center;
+  margin-top: 0.9rem;
+}
+@media (max-width: 900px) {
+  .cms-leads-row { grid-template-columns: 1fr; }
+}
 .cms-quick, .cms-tools { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
 .cms-quick button, .cms-tools button, .cms-tool {
   background: #eff6ff;

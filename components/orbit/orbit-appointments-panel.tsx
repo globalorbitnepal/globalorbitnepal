@@ -34,7 +34,7 @@ export function OrbitAppointmentsPanel() {
 
   useEffect(() => {
     void load();
-    const timer = window.setInterval(() => void load(), 20000);
+    const timer = window.setInterval(() => void load(), 60000);
     return () => window.clearInterval(timer);
   }, [load]);
 

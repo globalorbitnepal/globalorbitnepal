@@ -36,6 +36,8 @@ export function ContactForm({ premium }: { premium?: boolean }) {
         <label htmlFor="company_website">Company website</label>
         <input id="company_website" name="company_website" tabIndex={-1} autoComplete="off" />
       </div>
+      <input type="hidden" name="source" value="contact" />
+      <input type="hidden" name="pagePath" value="/contact" />
       <div>
         <label htmlFor="name" className="text-sm font-medium">
           Name

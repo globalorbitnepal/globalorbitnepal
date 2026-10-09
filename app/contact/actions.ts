@@ -1,6 +1,8 @@
 "use server";
 
+import { headers } from "next/headers";
 import { createInquiry } from "@/lib/db/inquiries";
+import { rateLimit } from "@/lib/rate-limit";
 
 export type InquiryFormState = {
   status: "idle" | "success" | "error";
@@ -23,6 +25,16 @@ export async function submitInquiry(
   _previous: InquiryFormState,
   formData: FormData,
 ): Promise<InquiryFormState> {
+  const forwarded = (await headers()).get("x-forwarded-for") || "unknown";
+  const ip = forwarded.split(",")[0]?.trim() || "unknown";
+  if (!rateLimit(`inquiry:${ip}`, 6, 10 * 60 * 1000).ok) {
+    return {
+      status: "error",
+      message: "Too many messages from this network. Please wait a few minutes.",
+      errors: {},
+    };
+  }
+
   const honeypot = read(formData, "company_website");
   if (honeypot) {
     return {
@@ -36,6 +48,8 @@ export async function submitInquiry(
   const email = read(formData, "email");
   const phone = read(formData, "phone");
   const subject = read(formData, "subject");
+  const source = read(formData, "source") || "contact";
+  const pagePath = read(formData, "pagePath") || "/contact";
   const message = read(formData, "message");
 
   const errors: InquiryFormState["errors"] = {};
@@ -62,7 +76,7 @@ export async function submitInquiry(
     email,
     message,
     phone: phone || undefined,
-    subject: subject || undefined,
+    subject: `${source} · ${pagePath}${subject ? ` · ${subject}` : ""}`.slice(0, 180),
   });
 
   if (!saved) {
