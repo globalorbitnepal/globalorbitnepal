@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, type CSSProperties } from "react";
 import { DEMO_SITES } from "@/components/orbit/demo-sites";
 import { bindOrbitScroll, isOrbitTouch } from "@/lib/orbit/scroll-performance";
-import { EARTH_FLOATER_SLOTS, projectOrbitCard } from "@/lib/work-earth-mosaic";
+import { EARTH_ORBIT_SITES, EARTH_SIDE_LAYOUT } from "@/lib/work-earth-mosaic";
 import type { WorkConfig } from "@/lib/work-config";
 
 function clamp(n: number, min: number, max: number) {
@@ -207,10 +207,10 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
 
   const floaters = useMemo(() => {
     const touch = typeof window !== "undefined" && window.matchMedia("(max-width: 767px)").matches;
-    const slots = touch ? EARTH_FLOATER_SLOTS.slice(0, 4) : EARTH_FLOATER_SLOTS.slice(0, 8);
-    return slots.map((pos, index) => ({
-      pos,
-      site: DEMO_SITES[index % DEMO_SITES.length],
+    const sites = touch ? EARTH_ORBIT_SITES.slice(0, 6) : EARTH_ORBIT_SITES;
+    return sites.map((site, index) => ({
+      site,
+      layout: EARTH_SIDE_LAYOUT[index] ?? EARTH_SIDE_LAYOUT[0],
       index,
     }));
   }, []);
@@ -274,7 +274,9 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, 1, 1, 0, gl.RGB, gl.UNSIGNED_BYTE, new Uint8Array([12, 14, 20]));
 
     let alive = true;
-    const uniqueSrc = [...new Set(DEMO_SITES.map((s) => s.image))];
+    const uniqueSrc = [
+      ...new Set([...EARTH_ORBIT_SITES.map((s) => s.image), ...DEMO_SITES.map((s) => s.image)]),
+    ];
     void Promise.all(uniqueSrc.map((src) => loadImage(src).catch(() => null))).then((loaded) => {
       if (!alive) return;
       const imgs = loaded.filter((img): img is HTMLImageElement => img != null);
@@ -329,26 +331,17 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
     const placeCards = (spin: number) => {
       const root = cardsRef.current;
       if (!root) return;
-      const nodes = root.querySelectorAll<HTMLElement>("[data-lat]");
+      const nodes = root.querySelectorAll<HTMLElement>("[data-side-i]");
       nodes.forEach((el) => {
-        const lat = Number(el.dataset.lat);
-        const lng = Number(el.dataset.lng);
-        const p = projectOrbitCard(lat, lng, spin);
-        let sx = p.x * 44;
-        let sy = p.y * 36;
-        const mag = Math.hypot(sx, sy) || 0.001;
-        const minR = 50;
-        if (mag < minR) {
-          sx = (sx / mag) * minR;
-          sy = (sy / mag) * minR;
-        }
-        const left = clamp(50 + sx, 8, 92);
-        const top = clamp(50 + sy, 24, 78);
-        el.style.setProperty("--card-left", `${left.toFixed(2)}%`);
-        el.style.setProperty("--card-top", `${top.toFixed(2)}%`);
-        el.style.setProperty("--card-s", p.scale.toFixed(3));
-        el.style.zIndex = String(Math.round(30 + p.depth * 50));
-        el.style.opacity = p.depth < -0.15 ? "0" : p.depth < 0.18 ? "0.62" : "1";
+        const i = Number(el.dataset.sideI);
+        const layout = EARTH_SIDE_LAYOUT[i];
+        if (!layout) return;
+        const wobble = Math.sin(((spin + i * 32) * Math.PI) / 180) * 1.4;
+        el.style.setProperty("--card-left", `${(layout.left + wobble).toFixed(2)}%`);
+        el.style.setProperty("--card-top", `${layout.top.toFixed(2)}%`);
+        el.style.setProperty("--card-s", "1");
+        el.style.zIndex = String(40 + i);
+        el.style.opacity = "1";
       });
     };
 
@@ -413,13 +406,18 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
             </div>
 
             <ul ref={cardsRef} className="orbit-work-earth-floats">
-              {floaters.map(({ pos, site, index }) => (
+              {floaters.map(({ site, layout, index }) => (
                 <li
-                  key={`${site.id}-${index}`}
+                  key={site.id}
                   className="orbit-work-earth-card"
-                  data-lat={pos.lat}
-                  data-lng={pos.lng}
-                  style={{ zIndex: 24 + index }}
+                  data-side-i={index}
+                  style={
+                    {
+                      zIndex: 40 + index,
+                      "--card-left": `${layout.left}%`,
+                      "--card-top": `${layout.top}%`,
+                    } as CSSProperties
+                  }
                 >
                   <article className="orbit-work-earth-float">
                     <div className="orbit-work-earth-browser-chrome">

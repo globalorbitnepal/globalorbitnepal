@@ -6432,7 +6432,7 @@ li.orbit-card:hover {
   position: absolute;
   left: var(--card-left);
   top: var(--card-top);
-  width: clamp(12rem, 14vw, 15rem);
+  width: clamp(10.5rem, 12.5vw, 13.5rem);
   transform: translate3d(-50%, -50%, 0) scale(var(--card-s));
   transform-origin: center center;
 }

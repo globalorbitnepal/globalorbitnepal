@@ -1,22 +1,28 @@
-/** Orbiting browser cards in lat/lng — clustered left/right of the globe. */
-export const EARTH_FLOATER_SLOTS = [
-  { lat: 28, lng: -78 },
-  { lat: 8, lng: -118 },
-  { lat: -12, lng: -88 },
-  { lat: 18, lng: -48 },
-  { lat: -24, lng: -62 },
-  { lat: 4, lng: -148 },
-  { lat: 32, lng: 52 },
-  { lat: 12, lng: 98 },
-  { lat: -10, lng: 128 },
-  { lat: 22, lng: 148 },
-  { lat: -22, lng: 72 },
-  { lat: 6, lng: 38 },
-  { lat: -16, lng: 168 },
-  { lat: 16, lng: -22 },
+/** Browser cards parked left/right of the globe — always visible. */
+export const EARTH_ORBIT_SITES = [
+  { id: "earth-first-choice", host: "firstchoiceinterior.com", image: "/brand/projects/demo-first-choice-interior.webp" },
+  { id: "earth-kaya", host: "kayahealing.spa", image: "/brand/projects/demo-kaya-spa.webp" },
+  { id: "earth-marlo", host: "marlohotels.com", image: "/brand/projects/demo-marlo-hotels.webp" },
+  { id: "earth-zen", host: "zenspa.com", image: "/brand/projects/demo-zen-spa.webp" },
+  { id: "earth-thamel", host: "thamelpark.com", image: "/brand/projects/demo-thamel-park-hotel.webp" },
+  { id: "earth-ambition", host: "ambitionholidays.com", image: "/brand/projects/demo-ambition-holidays.webp" },
+  { id: "earth-summit", host: "summitseek.com", image: "/brand/projects/demo-summit-seek.webp" },
+  { id: "earth-wildline", host: "wildline.co", image: "/brand/work/work-adventure-mobile.jpg" },
+  { id: "earth-pulse", host: "orbitpulse.ai", image: "/brand/work/work-ai-saas.jpg" },
 ] as const;
 
-export type EarthFloaterSlot = (typeof EARTH_FLOATER_SLOTS)[number];
+/** Percent positions inside the arena: 5 left, 4 right. */
+export const EARTH_SIDE_LAYOUT = [
+  { left: 8, top: 18 },
+  { left: 4, top: 36 },
+  { left: 9, top: 54 },
+  { left: 5, top: 72 },
+  { left: 11, top: 88 },
+  { left: 92, top: 16 },
+  { left: 96, top: 34 },
+  { left: 91, top: 52 },
+  { left: 95, top: 70 },
+] as const;
 
 /** Coarse land test in lat/lng — mosaic tiles only paint on continents. */
 export function isLand(lat: number, lng: number): boolean {
