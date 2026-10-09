@@ -3,6 +3,7 @@ export type OrbitCard = {
   title: string;
   summary: string;
   href: string;
+  image?: string;
 };
 
 export const ORBIT_SOFTWARE: OrbitCard[] = [

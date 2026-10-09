@@ -24,6 +24,7 @@ export default async function BlogsPage() {
         title: item.title,
         summary: item.excerpt || item.seoDescription,
         href: `/blog/${item.slug}`,
+        image: item.featuredImage,
       }))}
     />
   );

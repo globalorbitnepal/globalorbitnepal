@@ -20,6 +20,10 @@ export function OrbitCatalogPage({
         <div className="mx-auto grid max-w-[1280px] gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {items.map((item) => (
             <Link key={item.slug} href={item.href} className="orbit-card rounded-2xl p-6">
+              {item.image ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={item.image} alt="" className="mb-4 h-36 w-full rounded-xl object-cover" />
+              ) : null}
               <h2 className="text-xl font-semibold text-white">{item.title}</h2>
               <p className="mt-3 text-sm leading-6 text-white/65">{item.summary}</p>
               <span className="mt-4 inline-block text-sm font-semibold text-[#f0c43a]">Learn more</span>

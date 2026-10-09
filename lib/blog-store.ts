@@ -2,60 +2,77 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { getAppEnv } from "@/lib/env";
 import { ORBIT_BLOGS } from "@/lib/orbit/catalog";
+import {
+  DEFAULT_CATEGORIES,
+  normalizePost,
+  type BlogCategory,
+  type BlogPost,
+  type BlogStore,
+  type BlogTag,
+} from "@/lib/blog-types";
 
-export type BlogPost = {
-  slug: string;
-  title: string;
-  excerpt: string;
-  body: string;
-  seoTitle: string;
-  seoDescription: string;
-  keywords: string;
-  tags: string;
-  focusKeyword: string;
-  isPublished: boolean;
-  publishedAt: string;
-};
+export type { BlogCategory, BlogPost, BlogStore, BlogTag };
+export { DEFAULT_CATEGORIES, emptyPost, normalizePost } from "@/lib/blog-types";
 
 function blogPath() {
   return path.join(path.dirname(getAppEnv().uploadDir), "blogs.json");
 }
 
-function seedPosts(): BlogPost[] {
-  return ORBIT_BLOGS.map((item) => ({
-    slug: item.slug,
-    title: item.title,
-    excerpt: item.summary,
-    body: item.summary,
-    seoTitle: item.title,
-    seoDescription: item.summary,
-    keywords: "",
-    tags: "",
-    focusKeyword: "",
-    isPublished: true,
-    publishedAt: new Date().toISOString(),
-  }));
+function seedStore(): BlogStore {
+  return {
+    categories: DEFAULT_CATEGORIES,
+    tags: [
+      { slug: "nepal", name: "Nepal" },
+      { slug: "core-web-vitals", name: "Core Web Vitals" },
+    ],
+    posts: ORBIT_BLOGS.map((item) =>
+      normalizePost({
+        slug: item.slug,
+        title: item.title,
+        excerpt: item.summary,
+        body: `<p>${item.summary}</p>`,
+        seoTitle: item.title,
+        seoDescription: item.summary,
+        isPublished: true,
+        category: "seo",
+      }),
+    ),
+  };
+}
+
+export async function getBlogStore(): Promise<BlogStore> {
+  try {
+    const raw = await readFile(blogPath(), "utf8");
+    const data = JSON.parse(raw) as Partial<BlogStore> & { posts?: Partial<BlogPost>[] };
+    const seed = seedStore();
+    const posts = Array.isArray(data.posts) && data.posts.length ? data.posts.map((item) => normalizePost(item)) : seed.posts;
+    return {
+      posts,
+      categories: Array.isArray(data.categories) && data.categories.length ? data.categories : seed.categories,
+      tags: Array.isArray(data.tags) && data.tags.length ? data.tags : seed.tags,
+    };
+  } catch {
+    return seedStore();
+  }
+}
+
+export async function saveBlogStore(store: BlogStore) {
+  const file = blogPath();
+  await mkdir(path.dirname(file), { recursive: true });
+  await writeFile(file, `${JSON.stringify(store, null, 2)}\n`, "utf8");
 }
 
 export async function getBlogPosts(): Promise<BlogPost[]> {
-  try {
-    const raw = await readFile(blogPath(), "utf8");
-    const data = JSON.parse(raw) as { posts?: BlogPost[] };
-    if (Array.isArray(data.posts) && data.posts.length) return data.posts;
-  } catch {
-    /* seed */
-  }
-  return seedPosts();
+  return (await getBlogStore()).posts;
 }
 
 export async function saveBlogPosts(posts: BlogPost[]) {
-  const file = blogPath();
-  await mkdir(path.dirname(file), { recursive: true });
-  await writeFile(file, `${JSON.stringify({ posts }, null, 2)}\n`, "utf8");
+  const store = await getBlogStore();
+  await saveBlogStore({ ...store, posts });
 }
 
 export async function getPublishedPosts() {
-  return (await getBlogPosts()).filter((post) => post.isPublished);
+  return (await getBlogPosts()).filter((post) => post.isPublished && post.robotsIndex !== false);
 }
 
 export async function getPostBySlug(slug: string) {

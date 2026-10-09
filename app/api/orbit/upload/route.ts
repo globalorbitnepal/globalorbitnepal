@@ -31,6 +31,7 @@ export async function POST(request: Request) {
   const isWorkImage = kind === "workImage";
   const isSoftwareVideo = kind === "softwareVideo";
   const isSoftwarePreview = kind === "softwarePreview";
+  const isBlogImage = kind === "blogImage";
   const logoId = String(form.get("logoId") || "")
     .trim()
     .replace(/[^a-zA-Z0-9_-]/g, "");
@@ -89,6 +90,9 @@ export async function POST(request: Request) {
     const rawExt = file.type === "image/png" ? "png" : file.type === "image/webp" ? "webp" : "jpg";
     ext = rawExt;
     name = `software-${productSlug}.${ext}`;
+  } else if (isBlogImage) {
+    ext = file.type === "image/png" ? "png" : file.type === "image/webp" ? "webp" : "jpg";
+    name = `blog-${Date.now()}.${ext}`;
   } else {
     name = `hero-image.${ext}`;
   }
@@ -107,6 +111,9 @@ export async function POST(request: Request) {
 
   const config = await getHeroConfig();
   const stamp = Date.now();
+  if (isBlogImage) {
+    return NextResponse.json({ ok: true, url: `/api/media/hero/${name}?v=${stamp}` });
+  }
   if (isVideo) {
     config.videoSrc = `/api/media/hero/${name}?v=${stamp}`;
     config.useVideo = true;

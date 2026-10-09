@@ -3,16 +3,15 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { AdminBlogStudio } from "@/components/admin/admin-blog-studio";
 import { AdminInquiriesPanel } from "@/components/admin/admin-inquiries-panel";
 import { OrbitHeroEditor } from "@/components/orbit/orbit-hero-editor";
 import { OrbitAppointmentsPanel } from "@/components/orbit/orbit-appointments-panel";
-import { PwaInstall } from "@/components/admin/pwa-install";
 import {
   ADMIN_PAGES,
   adminPageById,
   type AdminPage,
   type AdminPageId,
-  type AdminView,
   type EditorSection,
 } from "@/lib/admin-nav";
 import type { AboutConfig } from "@/lib/about-config";
@@ -23,9 +22,33 @@ import type { HeroConfig } from "@/lib/hero-config";
 import type { NeedConfig } from "@/lib/need-config";
 import type { WorkConfig } from "@/lib/work-config";
 import type { SoftwareConfig } from "@/lib/software-config";
-import type { BlogPost } from "@/lib/blog-store";
+import type { BlogCategory, BlogPost, BlogTag } from "@/lib/blog-types";
 import type { PageSeo } from "@/lib/page-seo-store";
 import type { SiteChrome } from "@/lib/site-chrome-store";
+import { scoreSeo } from "@/lib/seo-score";
+
+type AdminView =
+  | "overview"
+  | "page"
+  | "blogs"
+  | "compose"
+  | "categories"
+  | "tags"
+  | "media"
+  | "seo"
+  | "chrome"
+  | "inquiries";
+
+type InquiryPreview = {
+  id: string;
+  name: string;
+  email: string;
+  subject: string | null;
+  createdAt: string;
+  status: string;
+};
+
+type MediaItem = { name: string; url: string; size: number; kind: string; updatedAt: string };
 
 type Props = {
   initial: HeroConfig;
@@ -39,37 +62,25 @@ type Props = {
   initialAndroidApps: CustomAppsConfig;
   initialIosApps: CustomAppsConfig;
   posts: BlogPost[];
+  categories: BlogCategory[];
+  tags: BlogTag[];
   pages: PageSeo[];
   chrome: SiteChrome;
   inquiryNew: number;
   inquiryTotal: number;
+  recentInquiries: InquiryPreview[];
 };
 
-function emptyPost(): BlogPost {
-  return {
-    slug: "",
-    title: "",
-    excerpt: "",
-    body: "",
-    seoTitle: "",
-    seoDescription: "",
-    keywords: "",
-    tags: "",
-    focusKeyword: "",
-    isPublished: true,
-    publishedAt: new Date().toISOString(),
-  };
-}
-
-function readHash(): { view: AdminView; pageId: AdminPageId; section: EditorSection | "seo" } {
+function readHash() {
   if (typeof window === "undefined") {
-    return { view: "overview", pageId: "home", section: "hero" };
+    return { view: "overview" as AdminView, pageId: "home" as AdminPageId, section: "hero" as EditorSection | "seo" };
   }
   const hash = new URLSearchParams(window.location.hash.replace(/^#/, ""));
-  const view = (hash.get("view") || "overview") as AdminView;
-  const pageId = (hash.get("page") || "home") as AdminPageId;
-  const section = (hash.get("section") || "hero") as EditorSection | "seo";
-  return { view, pageId, section };
+  return {
+    view: (hash.get("view") || "overview") as AdminView,
+    pageId: (hash.get("page") || "home") as AdminPageId,
+    section: (hash.get("section") || "hero") as EditorSection | "seo",
+  };
 }
 
 function writeHash(view: AdminView, pageId?: string, section?: string) {
@@ -82,34 +93,39 @@ function writeHash(view: AdminView, pageId?: string, section?: string) {
 
 export function AdminApp(props: Props) {
   const router = useRouter();
-  const initialHash = readHash();
+  const start = readHash();
+  const [collapsed, setCollapsed] = useState(false);
   const [navOpen, setNavOpen] = useState(false);
-  const [view, setView] = useState<AdminView>(initialHash.view);
-  const [pageId, setPageId] = useState<AdminPageId>(initialHash.pageId);
-  const [section, setSection] = useState<EditorSection | "seo">(initialHash.section);
-  const [expanded, setExpanded] = useState<AdminPageId | null>(initialHash.pageId);
+  const [view, setView] = useState<AdminView>(start.view);
+  const [pageId, setPageId] = useState<AdminPageId>(start.pageId);
+  const [section, setSection] = useState<EditorSection | "seo">(start.section);
+  const [expanded, setExpanded] = useState<AdminPageId | null>(start.pageId);
   const [posts, setPosts] = useState(props.posts);
-  const [draft, setDraft] = useState<BlogPost>(emptyPost());
+  const [categories, setCategories] = useState(props.categories);
+  const [tags, setTags] = useState(props.tags);
   const [pages, setPages] = useState(props.pages);
   const [chrome, setChrome] = useState(props.chrome);
   const [status, setStatus] = useState("");
   const [busy, setBusy] = useState(false);
   const [query, setQuery] = useState("");
-  const [dirty, setDirty] = useState(false);
+  const [media, setMedia] = useState<MediaItem[]>([]);
+  const [accountOpen, setAccountOpen] = useState(false);
 
   const page = adminPageById(pageId) ?? ADMIN_PAGES[0];
+  const publishedPosts = posts.filter((item) => item.isPublished);
+  const draftPosts = posts.filter((item) => !item.isPublished);
+  const missingSeo = pages.filter((item) => !item.seoTitle.trim() || !item.seoDescription.trim());
+
   const filteredPages = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (!q) return ADMIN_PAGES;
-    return ADMIN_PAGES.filter(
-      (item) => item.label.toLowerCase().includes(q) || item.path.toLowerCase().includes(q),
-    );
+    return ADMIN_PAGES.filter((item) => `${item.label} ${item.path}`.toLowerCase().includes(q));
   }, [query]);
 
   useEffect(() => {
-    document.body.classList.add("go-dash-open");
-    document.body.classList.remove("admin-locked");
-    return () => document.body.classList.remove("go-dash-open");
+    document.body.classList.add("go-cms-open");
+    document.body.classList.remove("admin-locked", "go-dash-open");
+    return () => document.body.classList.remove("go-cms-open");
   }, []);
 
   useEffect(() => {
@@ -127,27 +143,24 @@ export function AdminApp(props: Props) {
   }, []);
 
   useEffect(() => {
-    const warn = (event: BeforeUnloadEvent) => {
-      if (!dirty) return;
-      event.preventDefault();
-      event.returnValue = "";
-    };
-    window.addEventListener("beforeunload", warn);
-    return () => window.removeEventListener("beforeunload", warn);
-  }, [dirty]);
+    if (view !== "media") return;
+    void fetch("/api/orbit/media")
+      .then((response) => response.json())
+      .then((data: { items?: MediaItem[] }) => setMedia(data.items || []));
+  }, [view]);
 
-  function go(nextView: AdminView, nextPage?: AdminPage, nextSection?: EditorSection | "seo") {
-    setView(nextView);
+  function go(next: AdminView, nextPage?: AdminPage, nextSection?: EditorSection | "seo") {
+    setView(next);
     setNavOpen(false);
     if (nextPage) {
       setPageId(nextPage.id);
       setExpanded(nextPage.id);
       const sectionId = nextSection || nextPage.sections[0]?.id || "seo";
       setSection(sectionId);
-      writeHash(nextView, nextPage.id, sectionId);
+      writeHash(next, nextPage.id, sectionId);
       return;
     }
-    writeHash(nextView);
+    writeHash(next);
   }
 
   async function logout() {
@@ -161,11 +174,10 @@ export function AdminApp(props: Props) {
     const response = await fetch("/api/orbit/blogs", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ posts }),
+      body: JSON.stringify({ posts, categories, tags }),
     });
     setBusy(false);
-    setDirty(false);
-    setStatus(response.ok ? "Blog posts published." : "Could not save posts.");
+    setStatus(response.ok ? "Blog saved and public pages revalidated." : "Could not save blog.");
   }
 
   async function saveSeo() {
@@ -176,8 +188,7 @@ export function AdminApp(props: Props) {
       body: JSON.stringify({ pages }),
     });
     setBusy(false);
-    setDirty(false);
-    setStatus(response.ok ? "SEO published. Public metadata and sitemap will refresh." : "Could not save SEO.");
+    setStatus(response.ok ? "Page SEO published." : "Could not save SEO.");
   }
 
   async function saveChrome() {
@@ -188,27 +199,7 @@ export function AdminApp(props: Props) {
       body: JSON.stringify(chrome),
     });
     setBusy(false);
-    setDirty(false);
-    setStatus(response.ok ? "Header, footer and identity published." : "Could not save chrome.");
-  }
-
-  function addPost() {
-    if (!draft.title.trim() || !draft.slug.trim()) {
-      setStatus("Title and slug are required.");
-      return;
-    }
-    setPosts((current) => {
-      const next = current.filter((item) => item.slug !== draft.slug);
-      return [{ ...draft, publishedAt: draft.publishedAt || new Date().toISOString() }, ...next];
-    });
-    setDraft(emptyPost());
-    setDirty(true);
-    setStatus("Post added to the list. Click Save posts to publish.");
-  }
-
-  function updatePageSeo(path: string, patch: Partial<PageSeo>) {
-    setDirty(true);
-    setPages((current) => current.map((item) => (item.path === path ? { ...item, ...patch } : item)));
+    setStatus(response.ok ? "Header and footer identity published." : "Could not save settings.");
   }
 
   const title =
@@ -218,49 +209,43 @@ export function AdminApp(props: Props) {
         ? "Inquiries"
         : view === "chrome"
           ? "Header & footer"
-          : view === "blogs"
+          : view === "blogs" || view === "compose"
             ? "Blog"
-            : view === "seo"
-              ? `SEO · ${page.label}`
-              : page.label;
+            : view === "categories"
+              ? "Categories"
+              : view === "tags"
+                ? "Tags"
+                : view === "media"
+                  ? "Media library"
+                  : view === "seo"
+                    ? `SEO · ${page.label}`
+                    : page.label;
 
-  const crumb =
-    view === "page" || view === "seo"
-      ? `Website · ${page.label}${section === "seo" ? " · SEO" : ""}`
-      : view === "chrome"
-        ? "Global sections"
-        : view === "inquiries"
-          ? "Inquiries"
-          : view === "blogs"
-            ? "Content"
-            : "Overview";
-
-  const seoPage = pages.find((item) => item.path === page.path);
-  const editorSection: EditorSection = section === "seo" ? (page.editor ?? "hero") : section;
   const showEditor = view === "page" && section !== "seo" && Boolean(page.editor);
-  const showSeo = (view === "page" && section === "seo") || view === "seo" || (view === "page" && page.seoOnly);
-
-  const missingSeo = pages.filter((item) => !item.seoTitle.trim() || !item.seoDescription.trim());
+  const showSeo = (view === "page" && (section === "seo" || page.seoOnly)) || view === "seo";
+  const seoPage = pages.find((item) => item.path === page.path);
 
   return (
-    <div className="go-dash">
-      <button type="button" className="go-dash-menu" aria-expanded={navOpen} onClick={() => setNavOpen((v) => !v)}>
-        {navOpen ? "Close menu" : "Menu"}
+    <div className={`go-cms ${collapsed ? "is-collapsed" : ""}`}>
+      <button type="button" className="go-cms-burger" onClick={() => setNavOpen((v) => !v)}>
+        {navOpen ? "Close" : "Menu"}
       </button>
-      <aside className={`go-dash-side ${navOpen ? "is-open" : ""}`}>
-        <div className="go-dash-brand">
-          <span className="go-dash-mark" aria-hidden="true" />
-          <strong>GLOBAL ORBIT</strong>
-        </div>
-        <nav aria-label="Administration">
-          <p className="go-dash-group">Overview</p>
-          <button type="button" className={view === "overview" ? "is-active" : ""} onClick={() => go("overview")}>
-            Dashboard
+      <aside className={`go-cms-side ${navOpen ? "is-open" : ""}`}>
+        <div className="go-cms-brand">
+          <span className="go-cms-mark" />
+          {collapsed ? null : <strong>GLOBAL ORBIT</strong>}
+          <button type="button" className="go-cms-collapse" onClick={() => setCollapsed((v) => !v)} aria-label="Collapse sidebar">
+            ‹
           </button>
-
-          <p className="go-dash-group">Website</p>
+        </div>
+        <nav>
+          <p>Overview</p>
+          <button type="button" className={view === "overview" ? "is-active" : ""} onClick={() => go("overview")}>
+            <i /> Dashboard
+          </button>
+          <p>Website</p>
           {filteredPages.map((item) => (
-            <div key={item.id} className="go-dash-page">
+            <div key={item.id}>
               <button
                 type="button"
                 className={view === "page" && pageId === item.id ? "is-active" : ""}
@@ -269,162 +254,215 @@ export function AdminApp(props: Props) {
                   go("page", item, item.sections[0]?.id);
                 }}
               >
-                {item.label}
+                <i /> {item.label}
               </button>
-              {expanded === item.id ? (
-                <div className="go-dash-subs">
-                  {item.sections.map((sub) => (
+              {expanded === item.id && !collapsed
+                ? item.sections.map((sub) => (
                     <button
                       key={sub.id}
                       type="button"
-                      className={view === "page" && pageId === item.id && section === sub.id ? "is-active" : ""}
+                      className={`is-sub ${view === "page" && pageId === item.id && section === sub.id ? "is-active" : ""}`}
                       onClick={() => go("page", item, sub.id)}
                     >
                       {sub.label}
                     </button>
-                  ))}
-                </div>
-              ) : null}
+                  ))
+                : null}
             </div>
           ))}
-
-          <p className="go-dash-group">Global</p>
-          <button type="button" className={view === "chrome" ? "is-active" : ""} onClick={() => go("chrome")}>
-            Header & footer
-          </button>
+          <p>Blog & content</p>
           <button type="button" className={view === "blogs" ? "is-active" : ""} onClick={() => go("blogs")}>
-            Blog
+            <i /> All posts
           </button>
+          <button type="button" className={view === "compose" ? "is-active" : ""} onClick={() => go("compose")}>
+            <i /> Add new post
+          </button>
+          <button type="button" className={view === "categories" ? "is-active" : ""} onClick={() => go("categories")}>
+            <i /> Categories
+          </button>
+          <button type="button" className={view === "tags" ? "is-active" : ""} onClick={() => go("tags")}>
+            <i /> Tags
+          </button>
+          <button type="button" className={view === "media" ? "is-active" : ""} onClick={() => go("media")}>
+            <i /> Media library
+          </button>
+          <p>SEO</p>
+          <button type="button" className={view === "seo" ? "is-active" : ""} onClick={() => go("seo")}>
+            <i /> Page metadata
+          </button>
+          <p>Global</p>
+          <button type="button" className={view === "chrome" ? "is-active" : ""} onClick={() => go("chrome")}>
+            <i /> Header & footer
+          </button>
+          <p>Business</p>
           <button type="button" className={view === "inquiries" ? "is-active" : ""} onClick={() => go("inquiries")}>
-            Inquiries
-            {props.inquiryNew ? <em>{props.inquiryNew}</em> : null}
+            <i /> All inquiries {props.inquiryNew ? <em>{props.inquiryNew}</em> : null}
           </button>
         </nav>
       </aside>
 
-      <div className="go-dash-main">
-        <header className="go-dash-top">
+      <div className="go-cms-main">
+        <header className="go-cms-top">
           <div>
-            <p className="go-dash-crumb">{crumb}</p>
+            <p className="go-cms-crumb">{view === "overview" ? "Overview" : title}</p>
             <h1>{title}</h1>
+            {view === "overview" ? <p className="go-cms-lede">Manage your website, content and business from one place.</p> : null}
           </div>
-          <div className="go-dash-tools">
-            <input
-              value={query}
-              onChange={(event) => setQuery(event.target.value)}
-              placeholder="Filter pages…"
-              aria-label="Filter pages"
-            />
+          <div className="go-cms-tools">
+            <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search pages, posts, media, inquiries…" />
             <Link href={page.path} target="_blank" rel="noreferrer">
               Preview
             </Link>
-            <PwaInstall className="go-dash-install" />
-            <button type="button" onClick={() => void logout()}>
-              Log out
-            </button>
+            <div className="go-cms-account">
+              <button type="button" onClick={() => setAccountOpen((v) => !v)}>
+                Admin
+              </button>
+              {accountOpen ? (
+                <div className="go-cms-menu">
+                  <button type="button" onClick={() => void logout()}>
+                    Log out
+                  </button>
+                </div>
+              ) : null}
+            </div>
           </div>
         </header>
 
-        {status ? (
-          <p className="go-dash-toast" role="status">
-            {status}
-          </p>
-        ) : null}
+        {status ? <p className="go-cms-toast">{status}</p> : null}
 
         {view === "overview" ? (
-          <div className="go-dash-home">
-            <div className="go-dash-kpis">
-              <article>
-                <p>SEO pages</p>
+          <div className="go-cms-home">
+            <div className="go-cms-kpis">
+              <button type="button" onClick={() => go("page", ADMIN_PAGES[0], "hero")}>
+                <span className="is-blue" />
+                <p>Total pages</p>
                 <strong>{pages.length}</strong>
-                <span>Indexed in the CMS store</span>
-              </article>
-              <article>
+                <small>{pages.filter((item) => item.robotsIndex !== false).length} indexed</small>
+              </button>
+              <button type="button" onClick={() => go("blogs")}>
+                <span className="is-green" />
                 <p>Blog posts</p>
                 <strong>{posts.length}</strong>
-                <span>{posts.filter((item) => item.isPublished).length} published</span>
-              </article>
-              <article>
+                <small>
+                  Published {publishedPosts.length} · Draft {draftPosts.length}
+                </small>
+              </button>
+              <button type="button" onClick={() => go("inquiries")}>
+                <span className="is-orange" />
                 <p>New inquiries</p>
                 <strong>{props.inquiryNew}</strong>
-                <span>Awaiting follow-up</span>
-              </article>
-              <article>
+                <small>Awaiting follow-up</small>
+              </button>
+              <button type="button" onClick={() => go("inquiries")}>
+                <span className="is-purple" />
                 <p>All inquiries</p>
                 <strong>{props.inquiryTotal}</strong>
-                <span>Stored in PostgreSQL</span>
-              </article>
+                <small>Total inquiries stored</small>
+              </button>
             </div>
-            <div className="go-dash-split">
-              <section className="go-dash-panel">
-                <h2>Recently updated posts</h2>
-                {posts.length ? (
-                  <ul>
-                    {posts.slice(0, 6).map((post) => (
+            <div className="go-cms-split">
+              <section className="go-cms-card">
+                <header>
+                  <h2>Recent website pages</h2>
+                  <button type="button" onClick={() => go("page", ADMIN_PAGES[0])}>
+                    View all
+                  </button>
+                </header>
+                <ul className="go-cms-rows">
+                  {ADMIN_PAGES.slice(0, 5).map((item) => (
+                    <li key={item.id}>
+                      <button type="button" onClick={() => go("page", item)}>
+                        <strong>{item.label}</strong>
+                        <span>{item.path}</span>
+                      </button>
+                      <em>Published</em>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+              <section className="go-cms-card">
+                <header>
+                  <h2>Recent blog posts</h2>
+                  <button type="button" onClick={() => go("blogs")}>
+                    View all
+                  </button>
+                </header>
+                {publishedPosts.length ? (
+                  <ul className="go-cms-rows">
+                    {publishedPosts.slice(0, 4).map((post) => (
                       <li key={post.slug}>
-                        <span>{post.title}</span>
+                        <button type="button" onClick={() => go("compose")}>
+                          <strong>{post.title}</strong>
+                          <span>{new Date(post.publishedAt).toLocaleDateString()}</span>
+                        </button>
                         <em>{post.isPublished ? "Published" : "Draft"}</em>
                       </li>
                     ))}
                   </ul>
                 ) : (
-                  <p className="go-dash-empty">No blog posts yet.</p>
+                  <p className="go-cms-empty">No published posts yet.</p>
                 )}
               </section>
-              <section className="go-dash-panel">
-                <h2>SEO checklist</h2>
-                {missingSeo.length ? (
-                  <ul>
-                    {missingSeo.slice(0, 8).map((item) => (
-                      <li key={item.path}>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            const target = ADMIN_PAGES.find((pageItem) => pageItem.path === item.path);
-                            if (target) go("page", target, "seo");
-                          }}
-                        >
-                          {item.label}
-                        </button>
-                        <em>Missing title or description</em>
+              <section className="go-cms-card">
+                <header>
+                  <h2>Latest inquiries</h2>
+                  <button type="button" onClick={() => go("inquiries")}>
+                    View all
+                  </button>
+                </header>
+                {props.recentInquiries.length ? (
+                  <ul className="go-cms-rows">
+                    {props.recentInquiries.map((item) => (
+                      <li key={item.id}>
+                        <strong>{item.name}</strong>
+                        <span>{item.subject || item.email}</span>
                       </li>
                     ))}
                   </ul>
                 ) : (
-                  <p className="go-dash-empty">Every tracked page has a title and description.</p>
+                  <p className="go-cms-empty">No new inquiries yet. When customers submit inquiries, they will appear here.</p>
                 )}
-                <p className="go-dash-note">This is a content checklist, not a Google ranking score.</p>
+              </section>
+              <section className="go-cms-card">
+                <h2>Quick actions</h2>
+                <div className="go-cms-quick">
+                  <button type="button" onClick={() => go("page", ADMIN_PAGES[0], "hero")}>
+                    Edit homepage
+                  </button>
+                  <button type="button" onClick={() => go("compose")}>
+                    Add new blog post
+                  </button>
+                  <button type="button" onClick={() => go("media")}>
+                    Manage media
+                  </button>
+                  <button type="button" onClick={() => go("inquiries")}>
+                    View inquiries
+                  </button>
+                  <button type="button" onClick={() => go("chrome")}>
+                    Edit header
+                  </button>
+                  <button type="button" onClick={() => go("chrome")}>
+                    Edit footer
+                  </button>
+                </div>
+                {missingSeo.length ? (
+                  <p className="go-cms-help">{missingSeo.length} pages still need a title or description.</p>
+                ) : (
+                  <p className="go-cms-help">Page metadata checklist is complete. This is not a ranking score.</p>
+                )}
               </section>
             </div>
-            <section className="go-dash-panel">
-              <h2>Open a page</h2>
-              <div className="go-dash-pagegrid">
-                {ADMIN_PAGES.map((item) => (
-                  <button key={item.id} type="button" onClick={() => go("page", item, item.sections[0]?.id)}>
-                    <strong>{item.label}</strong>
-                    <span>{item.path}</span>
-                  </button>
-                ))}
-              </div>
-            </section>
-          </div>
-        ) : null}
-
-        {view === "inquiries" ? (
-          <div className="go-dash-panel go-dash-leads">
-            <AdminInquiriesPanel />
-            <OrbitAppointmentsPanel />
           </div>
         ) : null}
 
         {showEditor ? (
-          <div className="go-dash-editor">
-            <p className="go-dash-context">
-              Editing {page.label} · {page.sections.find((item) => item.id === section)?.label || "Section"} · {page.path}
+          <div className="go-cms-editor">
+            <p className="go-cms-help">
+              Editing {page.label} · {page.sections.find((item) => item.id === section)?.label} · {page.path}
             </p>
             <OrbitHeroEditor
               hideShell
-              activeSection={editorSection}
+              activeSection={section as EditorSection}
               onActiveSection={(next) => {
                 if (next === "overview") {
                   go("overview");
@@ -450,80 +488,79 @@ export function AdminApp(props: Props) {
         ) : null}
 
         {showSeo && seoPage ? (
-          <SeoEditor
-            page={page}
+          <SeoPanel
+            label={page.label}
+            path={page.path}
             seo={seoPage}
             busy={busy}
-            onChange={(patch) => updatePageSeo(seoPage.path, patch)}
+            onChange={(patch) => setPages((current) => current.map((item) => (item.path === seoPage.path ? { ...item, ...patch } : item)))}
             onSave={() => void saveSeo()}
           />
         ) : null}
 
-        {view === "blogs" ? (
-          <div className="go-dash-panel">
-            <h2>Blog posts</h2>
-            <p>Published posts appear on /blogs. Drafts stay off the public index until saved as published.</p>
-            <div className="go-dash-form">
-              <input placeholder="Title" value={draft.title} onChange={(e) => setDraft({ ...draft, title: e.target.value })} />
+        {view === "blogs" || view === "compose" || view === "categories" || view === "tags" ? (
+          <AdminBlogStudio
+            posts={posts}
+            categories={categories}
+            tags={tags}
+            mode={view === "compose" ? "compose" : view === "categories" ? "categories" : view === "tags" ? "tags" : "list"}
+            busy={busy}
+            onPosts={setPosts}
+            onCategories={setCategories}
+            onTags={setTags}
+            onSave={() => void savePosts()}
+            onMode={(mode) => go(mode === "list" ? "blogs" : mode)}
+          />
+        ) : null}
+
+        {view === "media" ? (
+          <section className="go-cms-card">
+            <h2>Media library</h2>
+            <p className="go-cms-help">Files stored in production upload storage and served from /api/media/hero.</p>
+            <label className="go-cms-upload">
+              Upload image
               <input
-                placeholder="slug-for-url"
-                value={draft.slug}
-                onChange={(e) => setDraft({ ...draft, slug: e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, "-") })}
+                type="file"
+                accept="image/*"
+                onChange={async (event) => {
+                  const file = event.target.files?.[0];
+                  if (!file) return;
+                  const form = new FormData();
+                  form.set("kind", "blogImage");
+                  form.set("file", file);
+                  const response = await fetch("/api/orbit/upload", { method: "POST", body: form });
+                  if (response.ok) {
+                    const data = (await fetch("/api/orbit/media").then((item) => item.json())) as { items?: MediaItem[] };
+                    setMedia(data.items || []);
+                    setStatus("Image uploaded.");
+                  }
+                }}
               />
-              <textarea placeholder="Excerpt" value={draft.excerpt} onChange={(e) => setDraft({ ...draft, excerpt: e.target.value })} />
-              <textarea
-                className="go-dash-body"
-                placeholder="Full article body"
-                value={draft.body}
-                onChange={(e) => setDraft({ ...draft, body: e.target.value })}
-              />
-              <input placeholder="SEO title" value={draft.seoTitle} onChange={(e) => setDraft({ ...draft, seoTitle: e.target.value })} />
-              <textarea
-                placeholder="Meta description"
-                value={draft.seoDescription}
-                onChange={(e) => setDraft({ ...draft, seoDescription: e.target.value })}
-              />
-              <label className="go-dash-check">
-                <input
-                  type="checkbox"
-                  checked={draft.isPublished}
-                  onChange={(e) => setDraft({ ...draft, isPublished: e.target.checked })}
-                />
-                Publish immediately
-              </label>
-              <div className="go-dash-row">
-                <button type="button" onClick={addPost}>
-                  Add article
-                </button>
-                <button type="button" disabled={busy} onClick={() => void savePosts()}>
-                  Save posts
-                </button>
-              </div>
-            </div>
-            <ul className="go-dash-list">
-              {posts.map((post) => (
-                <li key={post.slug}>
-                  <button type="button" onClick={() => setDraft(post)}>
-                    {post.title}
-                  </button>
-                  <em>{post.isPublished ? "Live" : "Draft"}</em>
-                  <button type="button" onClick={() => setPosts((current) => current.filter((item) => item.slug !== post.slug))}>
-                    Remove
-                  </button>
-                </li>
+            </label>
+            <div className="go-cms-media">
+              {media.map((item) => (
+                <figure key={item.name}>
+                  {item.kind === "image" ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={item.url} alt={item.name} />
+                  ) : (
+                    <span>Video</span>
+                  )}
+                  <figcaption>
+                    {item.name}
+                    <small>{Math.round(item.size / 1024)} KB</small>
+                  </figcaption>
+                </figure>
               ))}
-            </ul>
-          </div>
+            </div>
+            {!media.length ? <p className="go-cms-empty">No uploaded assets yet.</p> : null}
+          </section>
         ) : null}
 
         {view === "chrome" ? (
-          <div className="go-dash-panel">
+          <section className="go-cms-card">
             <h2>Header, footer & identity</h2>
-            <p>
-              Company name, contact details, default SEO, and footer tagline publish to every public page. Main navigation
-              remains the studio header (Home, About, Services, Portfolio, Careers, Contact) so the live IA stays intact.
-            </p>
-            <div className="go-dash-form">
+            <div className="go-cms-form">
               {(
                 [
                   ["companyName", "Company name"],
@@ -535,81 +572,83 @@ export function AdminApp(props: Props) {
                   ["defaultSeoTitle", "Default SEO title"],
                   ["defaultSeoDescription", "Default SEO description"],
                 ] as const
-              ).map(([key, label]) =>
-                key === "defaultSeoDescription" || key.endsWith("tagline") || key === "footerTagline" || key === "address" ? (
-                  <label key={key}>
-                    {label}
-                    <textarea
-                      value={chrome[key]}
-                      onChange={(e) => {
-                        setDirty(true);
-                        setChrome({ ...chrome, [key]: e.target.value });
-                      }}
-                    />
-                  </label>
-                ) : (
-                  <label key={key}>
-                    {label}
-                    <input
-                      value={chrome[key]}
-                      onChange={(e) => {
-                        setDirty(true);
-                        setChrome({ ...chrome, [key]: e.target.value });
-                      }}
-                    />
-                  </label>
-                ),
-              )}
+              ).map(([key, label]) => (
+                <label key={key}>
+                  {label}
+                  {key.includes("tagline") || key === "address" || key === "defaultSeoDescription" ? (
+                    <textarea value={chrome[key]} onChange={(e) => setChrome({ ...chrome, [key]: e.target.value })} />
+                  ) : (
+                    <input value={chrome[key]} onChange={(e) => setChrome({ ...chrome, [key]: e.target.value })} />
+                  )}
+                </label>
+              ))}
               <button type="button" disabled={busy} onClick={() => void saveChrome()}>
-                Publish chrome
+                Publish
               </button>
             </div>
-          </div>
+          </section>
+        ) : null}
+
+        {view === "inquiries" ? (
+          <section className="go-cms-card go-cms-leads">
+            <AdminInquiriesPanel />
+            <OrbitAppointmentsPanel />
+          </section>
         ) : null}
       </div>
     </div>
   );
 }
 
-function SeoEditor({
-  page,
+function SeoPanel({
+  label,
+  path,
   seo,
   busy,
   onChange,
   onSave,
 }: {
-  page: AdminPage;
+  label: string;
+  path: string;
   seo: PageSeo;
   busy: boolean;
   onChange: (patch: Partial<PageSeo>) => void;
   onSave: () => void;
 }) {
-  const titleLen = seo.seoTitle.length;
-  const descLen = seo.seoDescription.length;
+  const score = scoreSeo({
+    title: label,
+    seoTitle: seo.seoTitle,
+    seoDescription: seo.seoDescription,
+    focusKeyword: seo.focusKeyword,
+    body: seo.seoDescription,
+    slug: path.replace(/^\//, "") || "home",
+    canonical: seo.canonical,
+    featuredImage: seo.ogImage,
+    featuredImageAlt: seo.ogTitle,
+    excerpt: seo.seoDescription,
+  });
   return (
-    <div className="go-dash-panel">
-      <h2>SEO · {page.label}</h2>
-      <p>
-        These fields render in the public HTML for <code>{page.path}</code> after publish. They do not change another page.
-      </p>
-      <div className="go-dash-form">
+    <section className="go-cms-card">
+      <h2>
+        SEO · {label} <small>{path}</small>
+      </h2>
+      <p className="go-cms-help">Checklist {score.score}/100 from these fields. Not a Google ranking.</p>
+      <div className="go-cms-form">
         <label>
           Meta title
           <input value={seo.seoTitle} onChange={(e) => onChange({ seoTitle: e.target.value })} />
-          <small className={titleLen > 60 ? "is-warn" : ""}>{titleLen}/60 recommended</small>
         </label>
         <label>
           Meta description
           <textarea value={seo.seoDescription} onChange={(e) => onChange({ seoDescription: e.target.value })} />
-          <small className={descLen > 160 ? "is-warn" : ""}>{descLen}/160 recommended</small>
         </label>
         <label>
-          Canonical URL
-          <input value={seo.canonical} onChange={(e) => onChange({ canonical: e.target.value })} placeholder={page.path} />
+          Canonical
+          <input value={seo.canonical} onChange={(e) => onChange({ canonical: e.target.value })} />
         </label>
-        <label className="go-dash-check">
+        <label className="go-cms-check">
           <input type="checkbox" checked={seo.robotsIndex} onChange={(e) => onChange({ robotsIndex: e.target.checked })} />
-          Allow search indexing (uncheck for noindex)
+          Allow indexing
         </label>
         <label>
           Keywords
@@ -624,23 +663,13 @@ function SeoEditor({
           <textarea value={seo.ogDescription} onChange={(e) => onChange({ ogDescription: e.target.value })} />
         </label>
         <label>
-          Open Graph image URL
+          Open Graph image
           <input value={seo.ogImage} onChange={(e) => onChange({ ogImage: e.target.value })} />
         </label>
-        <label>
-          Focus keyword
-          <input value={seo.focusKeyword} onChange={(e) => onChange({ focusKeyword: e.target.value })} />
-        </label>
-        <div className="go-dash-serp">
-          <p>Search preview</p>
-          <strong>{seo.seoTitle || page.label}</strong>
-          <em>https://arnav.theglobalorbit.com{page.path}</em>
-          <span>{seo.seoDescription || "Add a meta description to control this snippet."}</span>
-        </div>
         <button type="button" disabled={busy} onClick={onSave}>
           Publish SEO
         </button>
       </div>
-    </div>
+    </section>
   );
 }
