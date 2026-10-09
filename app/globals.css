@@ -11876,7 +11876,7 @@ body.go-dash-open .orbit-gold-fab {
 
 body.go-cms-open,
 body.go-cms-open .orbit-app-shell {
-  background: #eef2f7 !important;
+  background: #f4f1eb !important;
   color: #0f172a;
 }
 body.go-cms-open header,
@@ -11891,7 +11891,7 @@ body.go-cms-open .orbit-gold-fab {
   z-index: 80;
   display: grid;
   grid-template-columns: 250px 1fr;
-  background: #eef2f7;
+  background: #f4f1eb;
   color: #0f172a;
   font-size: 15px;
 }
@@ -11919,10 +11919,18 @@ body.go-cms-open .orbit-gold-fab {
   border-radius: 99px;
   background: #3b82f6;
 }
+.go-cms-brand-text { display: flex; flex-direction: column; gap: 0.15rem; }
 .go-cms-brand strong {
   letter-spacing: 0.14em;
   font-size: 0.78rem;
   font-weight: 800;
+}
+.go-cms-brand-text span {
+  font-size: 0.65rem;
+  letter-spacing: 0.06em;
+  color: #94a3b8;
+  font-weight: 600;
+  text-transform: uppercase;
 }
 .go-cms-collapse {
   margin-left: auto;
@@ -11987,9 +11995,11 @@ body.go-cms-open .orbit-gold-fab {
 }
 .go-cms-top h1 {
   margin: 0.2rem 0 0;
-  font-size: 2rem;
-  font-weight: 800;
-  letter-spacing: -0.03em;
+  font-size: 2.15rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  font-family: Georgia, "Times New Roman", Times, serif;
+  color: #1c1917;
 }
 .go-cms-lede { margin: 0.35rem 0 0; color: #64748b; }
 .go-cms-tools { display: flex; gap: 0.5rem; align-items: flex-start; }
@@ -12116,9 +12126,177 @@ body.go-cms-open .orbit-gold-fab {
 .go-cms-rows span, .go-cms-posts span, .go-cms-help, .go-cms-empty { color: #64748b; font-size: 0.88rem; }
 .go-cms-rows em { font-style: normal; color: #16a34a; font-size: 0.78rem; font-weight: 700; }
 .go-cms-editor {
-  background: #0b1020;
+  background: #faf8f5;
+  border: 1px solid #e8e0d4;
   border-radius: 1.1rem;
-  padding: 0.8rem;
+  padding: 1rem 1.1rem 1.4rem;
+  box-shadow: 0 10px 32px rgba(28, 25, 23, 0.06);
+}
+.go-cms-editor-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #e8e0d4;
+}
+.go-cms-editor-bar .go-cms-help { margin: 0; color: #57534e; }
+.go-cms-back {
+  border: 1px solid #d6d3d1;
+  background: #fff;
+  color: #1c1917;
+  border-radius: 999px;
+  padding: 0.45rem 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.go-cms-hub-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1.1rem;
+}
+.go-cms-hub-head h2 {
+  margin: 0.25rem 0 0;
+  font-size: 1.65rem;
+  font-family: Georgia, "Times New Roman", Times, serif;
+  font-weight: 700;
+  color: #1c1917;
+}
+.go-cms-hub-preview {
+  flex-shrink: 0;
+  background: #fff;
+  border: 1px solid #e8e0d4;
+  border-radius: 999px;
+  padding: 0.55rem 1rem;
+  text-decoration: none;
+  color: #1d4ed8;
+  font-weight: 700;
+  font-size: 0.88rem;
+}
+.go-cms-metric-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(168px, 1fr));
+  gap: 0.85rem;
+}
+.go-cms-metric-grid.is-compact { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+.go-cms-site-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(168px, 1fr));
+  gap: 0.85rem;
+}
+.go-cms-dashboard-sections { margin-top: 1rem; }
+.go-cms-dashboard-sections header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.85rem;
+}
+.go-cms-metric-card {
+  background: #fff;
+  border: 1px solid #e8e0d4;
+  border-radius: 1rem;
+  padding: 1rem 1.05rem 0.95rem;
+  text-align: left;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(28, 25, 23, 0.05);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+}
+.go-cms-metric-card:hover {
+  border-color: #c4a574;
+  box-shadow: 0 12px 28px rgba(28, 25, 23, 0.08);
+  transform: translateY(-1px);
+}
+.go-cms-metric-card.is-page { min-height: 7.5rem; }
+.go-cms-metric-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2rem;
+  height: 1.65rem;
+  padding: 0 0.35rem;
+  border-radius: 0.45rem;
+  background: #f5f0e8;
+  color: #78716c;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  margin-bottom: 0.55rem;
+}
+.go-cms-metric-label {
+  margin: 0;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #a8a29e;
+}
+.go-cms-metric-title {
+  display: block;
+  margin: 0.2rem 0 0.25rem;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #1c1917;
+  line-height: 1.25;
+}
+.go-cms-metric-card small {
+  display: block;
+  color: #78716c;
+  font-size: 0.8rem;
+  line-height: 1.35;
+}
+.go-cms-metric-card em {
+  display: block;
+  margin-top: 0.65rem;
+  font-style: normal;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #b45309;
+}
+.go-cms-editor--light .orbit-dash-shell {
+  min-height: auto;
+  padding: 0;
+  max-width: none;
+}
+.go-cms-editor--light .orbit-studio-glass {
+  background: #fff !important;
+  border: 1px solid #e8e0d4 !important;
+  box-shadow: 0 8px 24px rgba(28, 25, 23, 0.05) !important;
+  backdrop-filter: none !important;
+  color: #1c1917 !important;
+}
+.go-cms-editor--light [class*="text-white"] {
+  color: #334155 !important;
+}
+.go-cms-editor--light h1,
+.go-cms-editor--light h2,
+.go-cms-editor--light h3,
+.go-cms-editor--light h4 {
+  color: #1c1917 !important;
+}
+.go-cms-editor--light input,
+.go-cms-editor--light textarea,
+.go-cms-editor--light select {
+  background: #fff !important;
+  color: #0f172a !important;
+  border-color: #d6d3d1 !important;
+}
+.go-cms-editor--light input:focus,
+.go-cms-editor--light textarea:focus,
+.go-cms-editor--light select:focus {
+  border-color: #2563eb !important;
+  outline: 2px solid rgba(37, 99, 235, 0.2);
+}
+.go-cms-editor--light [class*="bg-black"] {
+  background-color: #fff !important;
+}
+.go-cms-editor--light [class*="border-white"] {
+  border-color: #e7e5e4 !important;
+}
+.go-cms-editor--light .bg-\[\#f0c43a\] {
+  color: #14120a !important;
 }
 .go-cms-form, .go-cms-toolbar, .go-cms-inline { display: grid; gap: 0.7rem; }
 .go-cms-form input, .go-cms-form textarea, .go-cms-form select,

@@ -6,14 +6,17 @@ import { useRouter } from "next/navigation";
 import { AdminBlogStudio, type BlogMode } from "@/components/admin/admin-blog-studio";
 import { AdminMediaLibrary } from "@/components/admin/admin-media-library";
 import { AdminInquiriesPanel } from "@/components/admin/admin-inquiries-panel";
+import { AdminPageHub, AdminSitePagesGrid } from "@/components/admin/admin-page-hub";
 import { OrbitHeroEditor } from "@/components/orbit/orbit-hero-editor";
 import { OrbitAppointmentsPanel } from "@/components/orbit/orbit-appointments-panel";
 import {
+  ADMIN_NAV_GROUPS,
   ADMIN_PAGES,
   adminPageById,
   type AdminPage,
   type AdminPageId,
   type EditorSection,
+  type SectionId,
 } from "@/lib/admin-nav";
 import type { AboutConfig } from "@/lib/about-config";
 import type { CareersConfig } from "@/lib/careers-config";
@@ -74,13 +77,17 @@ type Props = {
 
 function readHash() {
   if (typeof window === "undefined") {
-    return { view: "overview" as AdminView, pageId: "home" as AdminPageId, section: "hero" as EditorSection | "seo", slug: "" };
+    return { view: "overview" as AdminView, pageId: "home" as AdminPageId, section: "hub" as SectionId, slug: "" };
   }
   const hash = new URLSearchParams(window.location.hash.replace(/^#/, ""));
+  const view = (hash.get("view") || "overview") as AdminView;
+  const pageId = (hash.get("page") || "home") as AdminPageId;
+  const sectionRaw = hash.get("section");
+  const section = (sectionRaw || (view === "page" ? "hub" : "hero")) as SectionId;
   return {
-    view: (hash.get("view") || "overview") as AdminView,
-    pageId: (hash.get("page") || "home") as AdminPageId,
-    section: (hash.get("section") || "hero") as EditorSection | "seo",
+    view,
+    pageId,
+    section,
     slug: hash.get("slug") || "",
   };
 }
@@ -101,7 +108,7 @@ export function AdminApp(props: Props) {
   const [navOpen, setNavOpen] = useState(false);
   const [view, setView] = useState<AdminView>(start.view);
   const [pageId, setPageId] = useState<AdminPageId>(start.pageId);
-  const [section, setSection] = useState<EditorSection | "seo">(start.section);
+  const [section, setSection] = useState<SectionId>(start.section);
   const [composeSlug, setComposeSlug] = useState(start.slug);
   const [expanded, setExpanded] = useState<AdminPageId | null>(start.pageId);
   const [posts, setPosts] = useState(props.posts);
@@ -146,14 +153,15 @@ export function AdminApp(props: Props) {
     return () => window.removeEventListener("hashchange", onHash);
   }, []);
 
-  function go(next: AdminView, nextPage?: AdminPage, nextSection?: EditorSection | "seo", slug?: string) {
+  function go(next: AdminView, nextPage?: AdminPage, nextSection?: SectionId, slug?: string) {
     setView(next);
     setNavOpen(false);
     setComposeSlug(slug || "");
     if (nextPage) {
       setPageId(nextPage.id);
       setExpanded(nextPage.id);
-      const sectionId = nextSection || nextPage.sections[0]?.id || "seo";
+      const sectionId =
+        nextSection ?? (nextPage.seoOnly ? "seo" : nextPage.editor ? "hub" : nextPage.sections[0]?.id ?? "seo");
       setSection(sectionId);
       writeHash(next, nextPage.id, sectionId, slug);
       return;
@@ -212,10 +220,13 @@ export function AdminApp(props: Props) {
                   ? "Media library"
                   : view === "seo"
                     ? `SEO · ${page.label}`
-                    : page.label;
+                    : view === "page" && section === "hub"
+                      ? `${page.label} · Sections`
+                      : page.label;
 
-  const showEditor = view === "page" && section !== "seo" && Boolean(page.editor);
-  const showSeo = (view === "page" && (section === "seo" || page.seoOnly)) || view === "seo";
+  const showPageHub = view === "page" && section === "hub" && !page.seoOnly;
+  const showEditor = view === "page" && section !== "seo" && section !== "hub" && Boolean(page.editor);
+  const showSeo = (view === "page" && (section === "seo" || (page.seoOnly && section !== "hub"))) || view === "seo";
   const seoPage = pages.find((item) => item.path === page.path);
 
   return (
@@ -226,7 +237,12 @@ export function AdminApp(props: Props) {
       <aside className={`go-cms-side ${navOpen ? "is-open" : ""}`}>
         <div className="go-cms-brand">
           <span className="go-cms-mark" />
-          {collapsed ? null : <strong>GLOBAL ORBIT</strong>}
+          {collapsed ? null : (
+            <div className="go-cms-brand-text">
+              <strong>GLOBAL ORBIT</strong>
+              <span>Management console</span>
+            </div>
+          )}
           <button type="button" className="go-cms-collapse" onClick={() => setCollapsed((v) => !v)} aria-label="Collapse sidebar">
             ‹
           </button>
@@ -236,33 +252,57 @@ export function AdminApp(props: Props) {
           <button type="button" className={view === "overview" ? "is-active" : ""} onClick={() => go("overview")}>
             <i /> Dashboard
           </button>
-          <p>Website</p>
-          {filteredPages.map((item) => (
-            <div key={item.id}>
-              <button
-                type="button"
-                className={view === "page" && pageId === item.id ? "is-active" : ""}
-                onClick={() => {
-                  setExpanded((current) => (current === item.id ? null : item.id));
-                  go("page", item, item.sections[0]?.id);
-                }}
-              >
-                <i /> {item.label}
-              </button>
-              {expanded === item.id && !collapsed
-                ? item.sections.map((sub) => (
+          {ADMIN_NAV_GROUPS.map((group) => {
+            const groupPages = group.pageIds
+              .map((id) => ADMIN_PAGES.find((p) => p.id === id))
+              .filter((item): item is AdminPage => Boolean(item))
+              .filter((item) => filteredPages.some((fp) => fp.id === item.id));
+            if (!groupPages.length) return null;
+            return (
+              <div key={group.id}>
+                <p>{group.label}</p>
+                {groupPages.map((item) => (
+                  <div key={item.id}>
                     <button
-                      key={sub.id}
                       type="button"
-                      className={`is-sub ${view === "page" && pageId === item.id && section === sub.id ? "is-active" : ""}`}
-                      onClick={() => go("page", item, sub.id)}
+                      className={view === "page" && pageId === item.id ? "is-active" : ""}
+                      onClick={() => {
+                        setExpanded((current) => (current === item.id ? null : item.id));
+                        go("page", item);
+                      }}
                     >
-                      {sub.label}
+                      <i /> {item.label}
                     </button>
-                  ))
-                : null}
-            </div>
-          ))}
+                    {expanded === item.id && !collapsed
+                      ? (
+                          <>
+                            {!item.seoOnly ? (
+                              <button
+                                type="button"
+                                className={`is-sub ${view === "page" && pageId === item.id && section === "hub" ? "is-active" : ""}`}
+                                onClick={() => go("page", item, "hub")}
+                              >
+                                All sections
+                              </button>
+                            ) : null}
+                            {item.sections.map((sub) => (
+                              <button
+                                key={sub.id}
+                                type="button"
+                                className={`is-sub ${view === "page" && pageId === item.id && section === sub.id ? "is-active" : ""}`}
+                                onClick={() => go("page", item, sub.id)}
+                              >
+                                {sub.label}
+                              </button>
+                            ))}
+                          </>
+                        )
+                      : null}
+                  </div>
+                ))}
+              </div>
+            );
+          })}
           <p>Blog & content</p>
           <button type="button" className={view === "blogs" ? "is-active" : ""} onClick={() => go("blogs")}>
             <i /> All Posts
@@ -305,7 +345,11 @@ export function AdminApp(props: Props) {
           <div>
             <p className="go-cms-crumb">{view === "overview" ? "Overview" : title}</p>
             <h1>{title}</h1>
-            {view === "overview" ? <p className="go-cms-lede">Manage your website, content and business from one place.</p> : null}
+            {view === "overview" ? (
+              <p className="go-cms-lede">
+                Edit every live page and homepage section from one console. All changes use the same production content stores.
+              </p>
+            ) : null}
           </div>
           <div className="go-cms-tools">
             <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search pages, posts, media, inquiries…" />
@@ -332,7 +376,7 @@ export function AdminApp(props: Props) {
         {view === "overview" ? (
           <div className="go-cms-home">
             <div className="go-cms-kpis">
-              <button type="button" onClick={() => go("page", ADMIN_PAGES[0], "hero")}>
+              <button type="button" onClick={() => go("page", ADMIN_PAGES[0], "hub")}>
                 <span className="is-blue" />
                 <p>Total pages</p>
                 <strong>{pages.length}</strong>
@@ -425,9 +469,9 @@ export function AdminApp(props: Props) {
               <section className="go-cms-card">
                 <h2>Quick actions</h2>
                 <div className="go-cms-quick">
-                  <button type="button" onClick={() => go("page", ADMIN_PAGES[0], "hero")}>
-                    Edit homepage
-                  </button>
+              <button type="button" onClick={() => go("page", ADMIN_PAGES[0], "hub")}>
+                Edit homepage
+              </button>
                   <button type="button" onClick={() => go("compose")}>
                     Add new blog post
                   </button>
@@ -451,14 +495,73 @@ export function AdminApp(props: Props) {
                 )}
               </section>
             </div>
+            <section className="go-cms-card go-cms-dashboard-sections">
+              <header>
+                <h2>Homepage sections</h2>
+                <button type="button" onClick={() => go("page", ADMIN_PAGES[0], "hub")}>
+                  Open homepage hub
+                </button>
+              </header>
+              <div className="go-cms-metric-grid is-compact">
+                {ADMIN_PAGES[0].sections
+                  .filter((item) => item.id !== "seo")
+                  .map((item) => (
+                    <button
+                      key={item.id}
+                      type="button"
+                      className="go-cms-metric-card"
+                      onClick={() => go("page", ADMIN_PAGES[0], item.id)}
+                    >
+                      <p className="go-cms-metric-label">Homepage</p>
+                      <strong className="go-cms-metric-title">{item.label}</strong>
+                      <small>{item.hint}</small>
+                      <em>Edit →</em>
+                    </button>
+                  ))}
+              </div>
+            </section>
+            {ADMIN_NAV_GROUPS.map((group) => {
+              const groupPages = group.pageIds
+                .map((id) => ADMIN_PAGES.find((p) => p.id === id))
+                .filter((item): item is AdminPage => Boolean(item));
+              return (
+                <section key={group.id} className="go-cms-card go-cms-dashboard-sections">
+                  <header>
+                    <h2>{group.label}</h2>
+                  </header>
+                  <AdminSitePagesGrid
+                    pages={groupPages}
+                    onOpen={(item, sect) => go("page", item, sect ?? (item.seoOnly ? "seo" : "hub"))}
+                  />
+                </section>
+              );
+            })}
           </div>
         ) : null}
 
+        {showPageHub ? (
+          <AdminPageHub
+            page={page}
+            onOpen={(next) => {
+              if (next === "seo") {
+                go("page", page, "seo");
+                return;
+              }
+              go("page", page, next);
+            }}
+          />
+        ) : null}
+
         {showEditor ? (
-          <div className="go-cms-editor">
-            <p className="go-cms-help">
-              Editing {page.label} · {page.sections.find((item) => item.id === section)?.label} · {page.path}
-            </p>
+          <div className="go-cms-editor go-cms-editor--light">
+            <div className="go-cms-editor-bar">
+              <button type="button" className="go-cms-back" onClick={() => go("page", page, "hub")}>
+                ← All sections
+              </button>
+              <p className="go-cms-help">
+                {page.label} · {page.sections.find((item) => item.id === section)?.label} · {page.path}
+              </p>
+            </div>
             <OrbitHeroEditor
               hideShell
               activeSection={section as EditorSection}

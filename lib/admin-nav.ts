@@ -33,10 +33,18 @@ export type AdminView =
   | "inquiries"
   | "blogs";
 
+export type SectionId = EditorSection | "seo" | "hub";
+
 export type AdminSection = {
-  id: EditorSection | "seo";
+  id: SectionId;
   label: string;
   hint: string;
+};
+
+export type AdminNavGroup = {
+  id: string;
+  label: string;
+  pageIds: AdminPageId[];
 };
 
 export type AdminPage = {
@@ -170,6 +178,25 @@ export const ADMIN_PAGES: AdminPage[] = [
     path: "/terms-and-conditions",
     seoOnly: true,
     sections: [{ id: "seo", label: "SEO", hint: "Metadata only" }],
+  },
+];
+
+/** Sidebar groups — matches live site structure. */
+export const ADMIN_NAV_GROUPS: AdminNavGroup[] = [
+  {
+    id: "main",
+    label: "Main website",
+    pageIds: ["home", "about", "software", "projects", "careers", "contact"],
+  },
+  {
+    id: "platforms",
+    label: "App platforms",
+    pageIds: ["web-apps", "android-apps", "ios-apps"],
+  },
+  {
+    id: "catalog",
+    label: "Catalog & legal",
+    pageIds: ["packages", "services", "blogs", "privacy", "terms"],
   },
 ];
 
