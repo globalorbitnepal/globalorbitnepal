@@ -1,6 +1,7 @@
 import { readdir, stat } from "node:fs/promises";
 import path from "node:path";
 import { NextResponse } from "next/server";
+import { getBlogPosts } from "@/lib/blog-store";
 import { heroUploadDir } from "@/lib/hero-store";
 import { isOrbitAuthed } from "@/lib/orbit-auth";
 
@@ -13,15 +14,21 @@ export async function GET() {
   const dir = heroUploadDir();
   try {
     const names = await readdir(dir);
+    const posts = await getBlogPosts();
     const items = await Promise.all(
       names.map(async (name) => {
         const info = await stat(path.join(dir, name));
+        const url = `/api/media/hero/${name}`;
+        const usedBy = posts
+          .filter((post) => post.featuredImage.includes(name) || post.body.includes(name) || post.ogImage.includes(name))
+          .map((post) => post.title);
         return {
           name,
-          url: `/api/media/hero/${name}`,
+          url,
           size: info.size,
           updatedAt: info.mtime.toISOString(),
           kind: name.endsWith(".mp4") ? "video" : "image",
+          usedBy,
         };
       }),
     );

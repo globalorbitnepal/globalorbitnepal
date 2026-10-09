@@ -2,6 +2,7 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { getAppEnv } from "@/lib/env";
 import { ORBIT_BLOGS } from "@/lib/orbit/catalog";
+import { isPublicPost } from "@/lib/blog-status";
 import {
   DEFAULT_CATEGORIES,
   normalizePost,
@@ -72,7 +73,7 @@ export async function saveBlogPosts(posts: BlogPost[]) {
 }
 
 export async function getPublishedPosts() {
-  return (await getBlogPosts()).filter((post) => post.isPublished && post.robotsIndex !== false);
+  return (await getBlogPosts()).filter(isPublicPost);
 }
 
 export async function getPostBySlug(slug: string) {

@@ -12180,6 +12180,50 @@ body.go-cms-open .orbit-gold-fab {
 .go-article-body table { width: 100%; display: block; overflow-x: auto; }
 .go-article-related { max-width: 44rem; margin: 0 auto 3rem; padding: 0 1rem; color: #fff; }
 .go-article-related a { color: #93c5fd; }
+.go-cms-error { color: #b91c1c; font-weight: 700; }
+.go-cms-headrow { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+.go-cms-tablewrap { overflow-x: auto; }
+.go-cms-grid { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+.go-cms-grid th, .go-cms-grid td { text-align: left; padding: 0.65rem 0.5rem; border-bottom: 1px solid #e8eef6; vertical-align: middle; }
+.go-cms-thumb { width: 44px; height: 32px; object-fit: cover; border-radius: 0.35rem; display: block; background: #e2e8f0; }
+.go-cms-thumb.is-empty { width: 44px; height: 32px; }
+.go-cms-actions { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+.go-cms-actions a, .go-cms-pager button { font-size: 0.8rem; }
+.go-cms-pager { display: flex; gap: 0.7rem; align-items: center; margin-top: 0.9rem; }
+.go-cms-composer-top { display: grid; gap: 0.6rem; margin-bottom: 0.8rem; }
+.go-cms-tabs { display: flex; gap: 0.3rem; margin-bottom: 0.6rem; }
+.go-cms-tabs button { flex: 1; }
+.go-cms-tabs .is-active, .go-cms-compose-side .is-primary { background: #2563eb; color: #fff; }
+.go-cms-score { font-size: 1.6rem; font-weight: 800; margin: 0 0 0.3rem; }
+.go-cms-picker {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  background: rgba(15, 23, 42, 0.55);
+  overflow: auto;
+  padding: 2rem 1rem;
+}
+.go-cms-picker > .go-cms-card { max-width: 920px; margin: 0 auto; }
+.go-cms-rte.is-full {
+  position: fixed;
+  inset: 0.6rem;
+  z-index: 95;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+}
+.go-cms-rte.is-full .go-cms-rte-body,
+.go-cms-rte-preview { flex: 1; min-height: 60vh; overflow: auto; padding: 1rem; }
+.go-cms-media-list figure {
+  display: grid;
+  grid-template-columns: 72px 1fr auto;
+  gap: 0.7rem;
+  align-items: center;
+  margin: 0 0 0.6rem;
+}
+.go-cms-media-list img { width: 72px; height: 48px; object-fit: cover; border-radius: 0.4rem; }
+.go-cms-upload { display: inline-flex; align-items: center; gap: 0.4rem; }
+.go-cms-upload input[type="file"] { max-width: 14rem; }
 
 @media (max-width: 1100px) {
   .go-cms { grid-template-columns: 1fr; }

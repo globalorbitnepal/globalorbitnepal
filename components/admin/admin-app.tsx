@@ -3,7 +3,8 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { AdminBlogStudio } from "@/components/admin/admin-blog-studio";
+import { AdminBlogStudio, type BlogMode } from "@/components/admin/admin-blog-studio";
+import { AdminMediaLibrary } from "@/components/admin/admin-media-library";
 import { AdminInquiriesPanel } from "@/components/admin/admin-inquiries-panel";
 import { OrbitHeroEditor } from "@/components/orbit/orbit-hero-editor";
 import { OrbitAppointmentsPanel } from "@/components/orbit/orbit-appointments-panel";
@@ -35,6 +36,8 @@ type AdminView =
   | "categories"
   | "tags"
   | "media"
+  | "drafts"
+  | "blog-seo"
   | "seo"
   | "chrome"
   | "inquiries";
@@ -47,8 +50,6 @@ type InquiryPreview = {
   createdAt: string;
   status: string;
 };
-
-type MediaItem = { name: string; url: string; size: number; kind: string; updatedAt: string };
 
 type Props = {
   initial: HeroConfig;
@@ -73,21 +74,23 @@ type Props = {
 
 function readHash() {
   if (typeof window === "undefined") {
-    return { view: "overview" as AdminView, pageId: "home" as AdminPageId, section: "hero" as EditorSection | "seo" };
+    return { view: "overview" as AdminView, pageId: "home" as AdminPageId, section: "hero" as EditorSection | "seo", slug: "" };
   }
   const hash = new URLSearchParams(window.location.hash.replace(/^#/, ""));
   return {
     view: (hash.get("view") || "overview") as AdminView,
     pageId: (hash.get("page") || "home") as AdminPageId,
     section: (hash.get("section") || "hero") as EditorSection | "seo",
+    slug: hash.get("slug") || "",
   };
 }
 
-function writeHash(view: AdminView, pageId?: string, section?: string) {
+function writeHash(view: AdminView, pageId?: string, section?: string, slug?: string) {
   const params = new URLSearchParams();
   params.set("view", view);
   if (pageId) params.set("page", pageId);
   if (section) params.set("section", section);
+  if (slug) params.set("slug", slug);
   window.location.hash = params.toString();
 }
 
@@ -99,6 +102,7 @@ export function AdminApp(props: Props) {
   const [view, setView] = useState<AdminView>(start.view);
   const [pageId, setPageId] = useState<AdminPageId>(start.pageId);
   const [section, setSection] = useState<EditorSection | "seo">(start.section);
+  const [composeSlug, setComposeSlug] = useState(start.slug);
   const [expanded, setExpanded] = useState<AdminPageId | null>(start.pageId);
   const [posts, setPosts] = useState(props.posts);
   const [categories, setCategories] = useState(props.categories);
@@ -108,7 +112,6 @@ export function AdminApp(props: Props) {
   const [status, setStatus] = useState("");
   const [busy, setBusy] = useState(false);
   const [query, setQuery] = useState("");
-  const [media, setMedia] = useState<MediaItem[]>([]);
   const [accountOpen, setAccountOpen] = useState(false);
 
   const page = adminPageById(pageId) ?? ADMIN_PAGES[0];
@@ -137,47 +140,31 @@ export function AdminApp(props: Props) {
         setExpanded(next.pageId);
       }
       setSection(next.section);
+      setComposeSlug(next.slug);
     };
     window.addEventListener("hashchange", onHash);
     return () => window.removeEventListener("hashchange", onHash);
   }, []);
 
-  useEffect(() => {
-    if (view !== "media") return;
-    void fetch("/api/orbit/media")
-      .then((response) => response.json())
-      .then((data: { items?: MediaItem[] }) => setMedia(data.items || []));
-  }, [view]);
-
-  function go(next: AdminView, nextPage?: AdminPage, nextSection?: EditorSection | "seo") {
+  function go(next: AdminView, nextPage?: AdminPage, nextSection?: EditorSection | "seo", slug?: string) {
     setView(next);
     setNavOpen(false);
+    setComposeSlug(slug || "");
     if (nextPage) {
       setPageId(nextPage.id);
       setExpanded(nextPage.id);
       const sectionId = nextSection || nextPage.sections[0]?.id || "seo";
       setSection(sectionId);
-      writeHash(next, nextPage.id, sectionId);
+      writeHash(next, nextPage.id, sectionId, slug);
       return;
     }
-    writeHash(next);
+    writeHash(next, undefined, undefined, slug);
   }
 
   async function logout() {
     await fetch("/api/orbit/logout", { method: "POST" });
     router.push("/admin");
     router.refresh();
-  }
-
-  async function savePosts() {
-    setBusy(true);
-    const response = await fetch("/api/orbit/blogs", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ posts, categories, tags }),
-    });
-    setBusy(false);
-    setStatus(response.ok ? "Blog saved and public pages revalidated." : "Could not save blog.");
   }
 
   async function saveSeo() {
@@ -209,8 +196,14 @@ export function AdminApp(props: Props) {
         ? "Inquiries"
         : view === "chrome"
           ? "Header & footer"
-          : view === "blogs" || view === "compose"
-            ? "Blog"
+          : view === "blogs"
+            ? "Blog Posts"
+            : view === "compose"
+              ? "Add New Post"
+              : view === "drafts"
+                ? "Drafts"
+                : view === "blog-seo"
+                  ? "SEO Overview"
             : view === "categories"
               ? "Categories"
               : view === "tags"
@@ -272,10 +265,10 @@ export function AdminApp(props: Props) {
           ))}
           <p>Blog & content</p>
           <button type="button" className={view === "blogs" ? "is-active" : ""} onClick={() => go("blogs")}>
-            <i /> All posts
+            <i /> All Posts
           </button>
-          <button type="button" className={view === "compose" ? "is-active" : ""} onClick={() => go("compose")}>
-            <i /> Add new post
+          <button type="button" className={view === "compose" && !composeSlug ? "is-active" : ""} onClick={() => go("compose")}>
+            <i /> Add New Post
           </button>
           <button type="button" className={view === "categories" ? "is-active" : ""} onClick={() => go("categories")}>
             <i /> Categories
@@ -284,7 +277,13 @@ export function AdminApp(props: Props) {
             <i /> Tags
           </button>
           <button type="button" className={view === "media" ? "is-active" : ""} onClick={() => go("media")}>
-            <i /> Media library
+            <i /> Media Library
+          </button>
+          <button type="button" className={view === "drafts" ? "is-active" : ""} onClick={() => go("drafts")}>
+            <i /> Drafts
+          </button>
+          <button type="button" className={view === "blog-seo" ? "is-active" : ""} onClick={() => go("blog-seo")}>
+            <i /> SEO Overview
           </button>
           <p>SEO</p>
           <button type="button" className={view === "seo" ? "is-active" : ""} onClick={() => go("seo")}>
@@ -498,64 +497,22 @@ export function AdminApp(props: Props) {
           />
         ) : null}
 
-        {view === "blogs" || view === "compose" || view === "categories" || view === "tags" ? (
+        {view === "blogs" || view === "compose" || view === "categories" || view === "tags" || view === "drafts" || view === "blog-seo" ? (
           <AdminBlogStudio
+            key={`${view}-${composeSlug}`}
             posts={posts}
             categories={categories}
             tags={tags}
-            mode={view === "compose" ? "compose" : view === "categories" ? "categories" : view === "tags" ? "tags" : "list"}
-            busy={busy}
+            mode={(view === "blog-seo" ? "seo-overview" : view === "blogs" ? "list" : view) as BlogMode}
+            composeSlug={composeSlug}
             onPosts={setPosts}
             onCategories={setCategories}
             onTags={setTags}
-            onSave={() => void savePosts()}
-            onMode={(mode) => go(mode === "list" ? "blogs" : mode)}
+            onMode={(mode, slug) => go(mode === "list" ? "blogs" : mode === "seo-overview" ? "blog-seo" : mode, undefined, undefined, slug)}
           />
         ) : null}
 
-        {view === "media" ? (
-          <section className="go-cms-card">
-            <h2>Media library</h2>
-            <p className="go-cms-help">Files stored in production upload storage and served from /api/media/hero.</p>
-            <label className="go-cms-upload">
-              Upload image
-              <input
-                type="file"
-                accept="image/*"
-                onChange={async (event) => {
-                  const file = event.target.files?.[0];
-                  if (!file) return;
-                  const form = new FormData();
-                  form.set("kind", "blogImage");
-                  form.set("file", file);
-                  const response = await fetch("/api/orbit/upload", { method: "POST", body: form });
-                  if (response.ok) {
-                    const data = (await fetch("/api/orbit/media").then((item) => item.json())) as { items?: MediaItem[] };
-                    setMedia(data.items || []);
-                    setStatus("Image uploaded.");
-                  }
-                }}
-              />
-            </label>
-            <div className="go-cms-media">
-              {media.map((item) => (
-                <figure key={item.name}>
-                  {item.kind === "image" ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img src={item.url} alt={item.name} />
-                  ) : (
-                    <span>Video</span>
-                  )}
-                  <figcaption>
-                    {item.name}
-                    <small>{Math.round(item.size / 1024)} KB</small>
-                  </figcaption>
-                </figure>
-              ))}
-            </div>
-            {!media.length ? <p className="go-cms-empty">No uploaded assets yet.</p> : null}
-          </section>
-        ) : null}
+        {view === "media" ? <AdminMediaLibrary /> : null}
 
         {view === "chrome" ? (
           <section className="go-cms-card">
