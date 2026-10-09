@@ -15,6 +15,7 @@ import {
   ORBIT_FOOTER_STATS,
 } from "@/lib/orbit/brand";
 import type { FallbackNavItem } from "@/lib/site";
+import { DEFAULT_SITE_CHROME } from "@/lib/site-chrome-store";
 
 type SiteFooterProps = {
   companyName: string;
@@ -25,7 +26,7 @@ type SiteFooterProps = {
   address?: string;
 };
 
-export function SiteFooter({ companyName }: SiteFooterProps) {
+export function SiteFooter({ companyName, tagline }: SiteFooterProps) {
   const year = new Date().getFullYear();
 
   return (
@@ -42,7 +43,7 @@ export function SiteFooter({ companyName }: SiteFooterProps) {
           <div className="orbit-footer-brand">
             <BrandLogo variant="footer" />
             <p className="orbit-footer-tagline">
-              World-class websites, apps, ERP, billing, and SEO — engineered in Nepal, India, and the United States.
+              {tagline?.trim() || DEFAULT_SITE_CHROME.footerTagline}
             </p>
             <div className="orbit-footer-stats">
               {ORBIT_FOOTER_STATS.map((stat) => (

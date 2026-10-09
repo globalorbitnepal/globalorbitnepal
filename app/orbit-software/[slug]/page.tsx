@@ -10,6 +10,7 @@ import {
   platformPagePath,
   type PlatformPageSlug,
 } from "@/lib/platform-page-slugs";
+import { applyPageSeo } from "@/lib/apply-page-seo";
 import { buildPageMetadata } from "@/lib/seo";
 import { FALLBACK_SITE } from "@/lib/site";
 
@@ -56,10 +57,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const config = await getPlatformPageConfig(slug);
     const meta = PLATFORM_SEO[slug];
     const description = `${config.heroTitleBefore} ${config.heroTitleAccent}. ${config.heroLede}`.trim().slice(0, 160);
-    return buildPageMetadata({
+    return applyPageSeo(platformPagePath(slug), {
       title: meta.title,
       description,
-      path: platformPagePath(slug),
       keywords: meta.keywords,
     });
   }

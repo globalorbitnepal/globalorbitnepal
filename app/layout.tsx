@@ -53,10 +53,6 @@ export async function generateMetadata(): Promise<Metadata> {
       locale: "en_NP",
       type: "website",
     },
-    robots: {
-      index: true,
-      follow: true,
-    },
     manifest: "/manifest.webmanifest",
     appleWebApp: {
       capable: true,
@@ -79,7 +75,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
   const footerRows = await listVisibleNavItems("FOOTER");
 
   const companyName = chrome?.companyName || settings?.companyName || FALLBACK_SITE.companyName;
-  const tagline = chrome?.tagline || settings?.tagline || FALLBACK_SITE.tagline;
+  const tagline = chrome?.footerTagline || chrome?.tagline || settings?.tagline || FALLBACK_SITE.tagline;
 
   return (
     <html lang="en" className="orbit-font-root orbit-app-mode h-full antialiased">

@@ -11,6 +11,7 @@ export type SiteChrome = {
   address: string;
   defaultSeoTitle: string;
   defaultSeoDescription: string;
+  footerTagline: string;
 };
 
 export const DEFAULT_SITE_CHROME: SiteChrome = {
@@ -21,6 +22,8 @@ export const DEFAULT_SITE_CHROME: SiteChrome = {
   address: FALLBACK_SITE.address,
   defaultSeoTitle: FALLBACK_SITE.defaultSeoTitle,
   defaultSeoDescription: FALLBACK_SITE.defaultSeoDescription,
+  footerTagline:
+    "World-class websites, apps, ERP, billing, and SEO — engineered in Nepal, India, and the United States.",
 };
 
 function chromePath() {

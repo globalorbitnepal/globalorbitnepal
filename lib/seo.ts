@@ -8,6 +8,11 @@ type PageMetaInput = {
   description: string;
   path: string;
   keywords?: string[];
+  canonical?: string;
+  robotsIndex?: boolean;
+  ogTitle?: string;
+  ogDescription?: string;
+  ogImage?: string;
 };
 
 export function buildPageMetadata({
@@ -15,9 +20,16 @@ export function buildPageMetadata({
   description,
   path,
   keywords,
+  canonical,
+  robotsIndex = true,
+  ogTitle,
+  ogDescription,
+  ogImage,
 }: PageMetaInput): Metadata {
   const url = path.startsWith("http") ? path : `${SITE_ORIGIN}${path.startsWith("/") ? path : `/${path}`}`;
   const trimmedDescription = description.trim().slice(0, 160);
+  const ogDesc = (ogDescription || trimmedDescription).slice(0, 200);
+  const canonicalPath = canonical?.trim() || (path.startsWith("/") ? path : `/${path}`);
 
   return {
     metadataBase: new URL(SITE_ORIGIN),
@@ -25,23 +37,25 @@ export function buildPageMetadata({
     description: trimmedDescription,
     keywords,
     alternates: {
-      canonical: path.startsWith("/") ? path : `/${path}`,
+      canonical: canonicalPath.startsWith("http") ? canonicalPath : canonicalPath,
     },
     openGraph: {
-      title,
-      description: trimmedDescription,
+      title: ogTitle?.trim() || title,
+      description: ogDesc,
       locale: "en_NP",
       type: "website",
       url,
+      ...(ogImage?.trim() ? { images: [{ url: ogImage.trim() }] } : {}),
     },
     twitter: {
       card: "summary_large_image",
-      title,
-      description: trimmedDescription,
+      title: ogTitle?.trim() || title,
+      description: ogDesc,
+      ...(ogImage?.trim() ? { images: [ogImage.trim()] } : {}),
     },
     robots: {
-      index: true,
-      follow: true,
+      index: robotsIndex,
+      follow: robotsIndex,
     },
   };
 }

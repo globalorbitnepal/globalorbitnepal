@@ -1,13 +1,12 @@
 import type { Metadata } from "next";
 import { OrbitCatalogPage } from "@/components/orbit/catalog-page";
 import { ORBIT_SOLUTIONS } from "@/lib/orbit/catalog";
-import { buildPageMetadata } from "@/lib/seo";
+import { applyPageSeo } from "@/lib/apply-page-seo";
 
 export async function generateMetadata(): Promise<Metadata> {
-  return buildPageMetadata({
+  return applyPageSeo("/services", {
     title: "Solutions",
     description: "Web development, ecommerce, SEO, ads, and automation from Global Orbit Nepal.",
-    path: "/services",
   });
 }
 

@@ -50,6 +50,7 @@ type Props = {
   hideShell?: boolean;
   activeSection?: EditorSection;
   onActiveSection?: (section: EditorSection) => void;
+  platformSlug?: PlatformPageSlug;
 };
 
 function Field({
@@ -113,6 +114,7 @@ export function OrbitHeroEditor({
   hideShell,
   activeSection,
   onActiveSection,
+  platformSlug,
 }: Props) {
   const [config, setConfig] = useState(initial);
   const [needConfig, setNeedConfig] = useState(initialNeed);
@@ -124,7 +126,8 @@ export function OrbitHeroEditor({
   const [webAppsConfig, setWebAppsConfig] = useState(initialWebApps);
   const [androidAppsConfig, setAndroidAppsConfig] = useState(initialAndroidApps);
   const [iosAppsConfig, setIosAppsConfig] = useState(initialIosApps);
-  const [platformEditorSlug, setPlatformEditorSlug] = useState<PlatformPageSlug>("web-apps");
+  const [platformEditorSlug, setPlatformEditorSlug] = useState<PlatformPageSlug>(platformSlug ?? "web-apps");
+  const activePlatform = platformSlug ?? platformEditorSlug;
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [status, setStatus] = useState("");
@@ -160,7 +163,7 @@ export function OrbitHeroEditor({
   async function savePlatformPage(event: React.FormEvent) {
     event.preventDefault();
     setBusy(true);
-    const slug = platformEditorSlug;
+    const slug = activePlatform;
     const payload =
       slug === "web-apps" ? webAppsConfig : slug === "android-apps" ? androidAppsConfig : iosAppsConfig;
     const response = await fetch("/api/orbit/platform-page", {
@@ -641,7 +644,7 @@ export function OrbitHeroEditor({
                   type="button"
                   onClick={() => setPlatformEditorSlug(slug)}
                   className={`rounded-full px-4 py-2 text-sm font-medium ${
-                    platformEditorSlug === slug ? "bg-[#f0c43a] text-[#14120a]" : "bg-white/10 text-white/80"
+                    activePlatform === slug ? "bg-[#f0c43a] text-[#14120a]" : "bg-white/10 text-white/80"
                   }`}
                 >
                   {label}
@@ -650,27 +653,27 @@ export function OrbitHeroEditor({
             </div>
             <OrbitCustomAppsEditorForm
               config={
-                platformEditorSlug === "web-apps"
+                activePlatform === "web-apps"
                   ? webAppsConfig
-                  : platformEditorSlug === "android-apps"
+                  : activePlatform === "android-apps"
                     ? androidAppsConfig
                     : iosAppsConfig
               }
               setConfig={
-                platformEditorSlug === "web-apps"
+                activePlatform === "web-apps"
                   ? setWebAppsConfig
-                  : platformEditorSlug === "android-apps"
+                  : activePlatform === "android-apps"
                     ? setAndroidAppsConfig
                     : setIosAppsConfig
               }
               pageTitle={
-                platformEditorSlug === "web-apps"
+                activePlatform === "web-apps"
                   ? "Web Apps page"
-                  : platformEditorSlug === "android-apps"
+                  : activePlatform === "android-apps"
                     ? "Android Apps page"
                     : "iOS Apps page"
               }
-              livePath={platformPagePath(platformEditorSlug)}
+              livePath={platformPagePath(activePlatform)}
               busy={busy}
               status={status}
               onSubmit={savePlatformPage}

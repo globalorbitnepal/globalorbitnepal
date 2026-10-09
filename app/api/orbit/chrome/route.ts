@@ -23,6 +23,7 @@ export async function POST(request: Request) {
     address: String(body.address || "").trim(),
     defaultSeoTitle: String(body.defaultSeoTitle || "").trim(),
     defaultSeoDescription: String(body.defaultSeoDescription || "").trim(),
+    footerTagline: String(body.footerTagline || DEFAULT_SITE_CHROME.footerTagline).trim(),
   };
   await saveSiteChrome(chrome);
   revalidatePath("/", "layout");

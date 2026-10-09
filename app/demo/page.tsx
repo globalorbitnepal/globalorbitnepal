@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
 import { OrbitCtaBand, OrbitPageHero } from "@/components/orbit/page-hero";
-import { buildPageMetadata } from "@/lib/seo";
+import { applyPageSeo } from "@/lib/apply-page-seo";
 
 export async function generateMetadata(): Promise<Metadata> {
-  return buildPageMetadata({
+  return applyPageSeo("/demo", {
     title: "Demo",
     description: "Request a live demo of Global Orbit software products.",
-    path: "/demo",
   });
 }
 

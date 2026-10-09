@@ -17,6 +17,11 @@ export async function applyPageSeo(
     description,
     path: pathname,
     keywords,
+    canonical: seo?.canonical,
+    robotsIndex: seo?.robotsIndex,
+    ogTitle: seo?.ogTitle,
+    ogDescription: seo?.ogDescription,
+    ogImage: seo?.ogImage,
   });
   if (seo?.focusKeyword?.trim() || seo?.tags?.trim()) {
     return {
