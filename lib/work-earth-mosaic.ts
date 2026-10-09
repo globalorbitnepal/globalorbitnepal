@@ -7,21 +7,17 @@ export const EARTH_ORBIT_SITES = [
   { id: "earth-thamel", host: "thamelpark.com", image: "/brand/projects/demo-thamel-park-hotel.webp" },
   { id: "earth-ambition", host: "ambitionholidays.com", image: "/brand/projects/demo-ambition-holidays.webp" },
   { id: "earth-summit", host: "summitseek.com", image: "/brand/projects/demo-summit-seek.webp" },
-  { id: "earth-wildline", host: "wildline.co", image: "/brand/work/work-adventure-mobile.jpg" },
-  { id: "earth-pulse", host: "orbitpulse.ai", image: "/brand/work/work-ai-saas.jpg" },
 ] as const;
 
-/** Percent positions inside the arena: 5 left, 4 right. */
+/** Percent positions: 4 left, 3 right, all inside the globe band. */
 export const EARTH_SIDE_LAYOUT = [
-  { left: 8, top: 18 },
-  { left: 4, top: 36 },
-  { left: 9, top: 54 },
-  { left: 5, top: 72 },
-  { left: 11, top: 88 },
-  { left: 92, top: 16 },
-  { left: 96, top: 34 },
-  { left: 91, top: 52 },
-  { left: 95, top: 70 },
+  { left: 7, top: 20 },
+  { left: 3, top: 40 },
+  { left: 8, top: 60 },
+  { left: 4, top: 78 },
+  { left: 93, top: 22 },
+  { left: 97, top: 44 },
+  { left: 92, top: 66 },
 ] as const;
 
 /** Coarse land test in lat/lng — mosaic tiles only paint on continents. */
