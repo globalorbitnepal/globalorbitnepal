@@ -11890,13 +11890,13 @@ body.go-cms-open .orbit-gold-fab {
   inset: 0;
   z-index: 80;
   display: grid;
-  grid-template-columns: minmax(300px, 300px) minmax(0, 1fr);
+  grid-template-columns: 308px minmax(0, 1fr);
   background: #f4f1eb;
   color: #0f172a;
   font-size: 15px;
   -webkit-font-smoothing: antialiased;
 }
-.go-cms.is-collapsed { grid-template-columns: 92px minmax(0, 1fr); }
+.go-cms-collapse { display: none !important; }
 .go-cms-backdrop {
   display: none;
   border: 0;
@@ -11949,11 +11949,7 @@ body.go-cms-open .orbit-gold-fab {
   height: 100%;
   max-height: 100dvh;
   width: 100%;
-  min-width: 280px;
-}
-.go-cms.is-collapsed .go-cms-side-inner {
   min-width: 0;
-  align-items: stretch;
 }
 .go-cms-side-inner > nav {
   flex: 1;
@@ -11961,9 +11957,11 @@ body.go-cms-open .orbit-gold-fab {
   padding: 1rem 0.65rem 0.5rem;
 }
 .go-cms-side-foot {
-  padding: 0.65rem 0.75rem 1rem;
-  border-top: 1px solid rgba(148, 163, 184, 0.15);
-  background: rgba(6, 16, 42, 0.85);
+  flex-shrink: 0;
+  padding: 0.75rem 0.75rem 1rem;
+  border-top: 1px solid rgba(148, 163, 184, 0.2);
+  background: linear-gradient(180deg, rgba(6, 16, 42, 0.92), #06102a);
+  box-shadow: 0 -12px 24px rgba(0, 0, 0, 0.2);
 }
 .go-cms-logout {
   width: 100%;
@@ -11988,11 +11986,10 @@ body.go-cms-open .orbit-gold-fab {
   display: flex;
   align-items: center;
   gap: 0.55rem;
-  padding: 0.2rem 0.45rem 1rem;
-  position: sticky;
-  top: 0;
-  background: #071433;
-  z-index: 1;
+  padding: 1rem 0.85rem 0.95rem;
+  flex-shrink: 0;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.14);
+  background: rgba(6, 16, 42, 0.6);
 }
 .go-cms-mark {
   width: 10px;
@@ -12070,20 +12067,43 @@ body.go-cms-open .orbit-gold-fab {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.go-cms.is-collapsed .go-cms-nav-label,
-.go-cms.is-collapsed .go-cms-side nav p,
-.go-cms.is-collapsed .go-cms-brand-text,
-.go-cms.is-collapsed .go-cms-side nav button.is-sub {
-  display: none;
+.go-cms-main-strip {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.65rem;
+  padding-bottom: 0.75rem;
+  margin-bottom: 0.15rem;
+  border-bottom: 1px solid #e8e0d4;
 }
-.go-cms.is-collapsed .go-cms-side nav button {
-  justify-content: center;
-  padding-left: 0.35rem;
-  padding-right: 0.35rem;
+.go-cms-strip-link {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #1d4ed8;
+  text-decoration: none;
+  padding: 0.4rem 0.75rem;
+  border-radius: 999px;
+  background: #fff;
+  border: 1px solid #e8e0d4;
 }
-.go-cms.is-collapsed .go-cms-side-foot .go-cms-logout {
-  font-size: 0.72rem;
-  padding: 0.55rem 0.35rem;
+.go-cms-logout.is-strip {
+  width: auto;
+  background: #fff;
+  border: 1px solid #fca5a5;
+  color: #b91c1c;
+  border-radius: 999px;
+  padding: 0.45rem 1.05rem;
+  font-size: 0.84rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+.go-cms-home,
+.go-cms-split,
+.go-cms-card,
+.go-cms-hub {
+  isolation: isolate;
+  position: relative;
+  z-index: 0;
 }
 .go-cms-side nav button:hover {
   border-color: rgba(148, 163, 184, 0.22);
@@ -12408,6 +12428,29 @@ body.go-cms-open .orbit-gold-fab {
   background: #1c1917;
   border-bottom: 1px solid #e8e0d4;
   overflow: hidden;
+  position: relative;
+  isolation: isolate;
+}
+.go-cms-metric-visual.is-video {
+  background-color: #0f172a;
+  background-size: cover;
+  background-position: center;
+}
+.go-cms-metric-visual.is-empty {
+  background: linear-gradient(145deg, #f5f0e8, #e7e5e4);
+}
+.go-cms-video-badge {
+  position: absolute;
+  right: 0.45rem;
+  bottom: 0.45rem;
+  padding: 0.22rem 0.5rem;
+  border-radius: 0.35rem;
+  background: rgba(15, 23, 42, 0.82);
+  color: #f8fafc;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 .go-cms-metric-thumb {
   width: 100%;
@@ -12663,9 +12706,11 @@ body.go-cms-open .orbit-gold-fab {
 .go-cms-upload input[type="file"] { max-width: 14rem; }
 
 @media (max-width: 1100px) {
-  .go-cms,
-  .go-cms.is-collapsed {
+  .go-cms {
     grid-template-columns: 1fr;
+  }
+  .go-cms-main-strip {
+    display: none;
   }
   .go-cms-mobile-bar {
     display: flex;
@@ -12692,9 +12737,6 @@ body.go-cms-open .orbit-gold-fab {
     z-index: 84;
     background: rgba(15, 23, 42, 0.55);
   }
-  .go-cms-collapse {
-    display: none;
-  }
   .go-cms-side {
     position: fixed;
     inset: 0 auto 0 0;
@@ -12710,19 +12752,6 @@ body.go-cms-open .orbit-gold-fab {
   }
   .go-cms-side-inner {
     min-width: 0;
-  }
-  .go-cms.is-collapsed .go-cms-nav-label,
-  .go-cms.is-collapsed .go-cms-side nav p,
-  .go-cms.is-collapsed .go-cms-brand-text {
-    display: block;
-  }
-  .go-cms.is-collapsed .go-cms-side nav button.is-sub {
-    display: flex;
-  }
-  .go-cms.is-collapsed .go-cms-side nav button {
-    justify-content: flex-start;
-    padding-left: 0.72rem;
-    padding-right: 0.72rem;
   }
   .go-cms-main {
     padding-top: 3.35rem;

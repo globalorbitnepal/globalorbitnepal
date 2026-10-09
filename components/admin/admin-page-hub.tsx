@@ -3,22 +3,13 @@
 import Link from "next/link";
 import type { AdminPage, SectionId } from "@/lib/admin-nav";
 import type { SectionPreview } from "@/lib/admin-section-previews";
+import { AdminSectionThumb } from "@/components/admin/admin-section-thumb";
 
 type Props = {
   page: AdminPage;
   previewFor: (sectionId: SectionId) => SectionPreview;
   onOpen: (section: SectionId) => void;
 };
-
-function SectionThumb({ preview }: { preview: SectionPreview }) {
-  if (preview.mediaSrc && preview.mediaKind === "video") {
-    return <video src={preview.mediaSrc} muted playsInline className="go-cms-metric-thumb" />;
-  }
-  if (preview.mediaSrc && preview.mediaKind === "image") {
-    return <img src={preview.mediaSrc} alt="" className="go-cms-metric-thumb" />;
-  }
-  return <span className="go-cms-metric-thumb is-text">TXT</span>;
-}
 
 export function AdminPageHub({ page, previewFor, onOpen }: Props) {
   const editable = page.sections.filter((item) => item.id !== "hub");
@@ -47,9 +38,7 @@ export function AdminPageHub({ page, previewFor, onOpen }: Props) {
               className="go-cms-metric-card is-rich"
               onClick={() => onOpen(item.id)}
             >
-              <div className="go-cms-metric-visual">
-                <SectionThumb preview={preview} />
-              </div>
+              <AdminSectionThumb preview={preview} />
               <p className="go-cms-metric-label">{item.label}</p>
               <strong className="go-cms-metric-title">{item.label}</strong>
               <small>{preview.excerpt || item.hint}</small>
@@ -78,17 +67,13 @@ export function AdminSitePagesGrid({
         const preview = previewForPage?.(item);
         return (
           <button key={item.id} type="button" className="go-cms-metric-card is-page is-rich" onClick={() => onOpen(item)}>
-            <div className="go-cms-metric-visual">
-              {preview?.mediaSrc ? (
-                preview.mediaKind === "video" ? (
-                  <video src={preview.mediaSrc} muted playsInline className="go-cms-metric-thumb" />
-                ) : (
-                  <img src={preview.mediaSrc} alt="" className="go-cms-metric-thumb" />
-                )
-              ) : (
+            {preview ? (
+              <AdminSectionThumb preview={preview} />
+            ) : (
+              <div className="go-cms-metric-visual is-empty">
                 <span className="go-cms-metric-thumb is-text">{item.label.slice(0, 2).toUpperCase()}</span>
-              )}
-            </div>
+              </div>
+            )}
             <p className="go-cms-metric-label">Page</p>
             <strong className="go-cms-metric-title">{item.label}</strong>
             <small>{preview?.excerpt || item.path}</small>

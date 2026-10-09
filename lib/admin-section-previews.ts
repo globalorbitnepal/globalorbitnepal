@@ -11,6 +11,7 @@ import type { AdminPage, SectionId } from "@/lib/admin-nav";
 export type SectionPreview = {
   mediaKind?: "image" | "video";
   mediaSrc?: string;
+  posterSrc?: string;
   excerpt: string;
   mediaCount?: number;
 };
@@ -50,6 +51,7 @@ export function sectionPreviewForPage(
       return {
         mediaKind: content.hero.useVideo ? "video" : "image",
         mediaSrc: content.hero.useVideo ? content.hero.videoSrc : content.hero.imageSrc,
+        posterSrc: content.hero.imageSrc,
         excerpt: clip(`${content.hero.headline} ${content.hero.headlineSecond}`),
         mediaCount: content.hero.trustLogos.length,
       };
@@ -57,6 +59,7 @@ export function sectionPreviewForPage(
       return {
         mediaKind: "video",
         mediaSrc: content.need.videoSrc,
+        posterSrc: content.hero.imageSrc,
         excerpt: clip(content.need.slides[0]?.title || content.need.kicker),
         mediaCount: content.need.stats.length,
       };
@@ -106,6 +109,7 @@ export function sectionPreviewForPage(
       return {
         mediaKind: "video",
         mediaSrc: cfg.heroVideoSrc,
+        posterSrc: content.hero.imageSrc,
         excerpt: clip(`${cfg.heroTitleBefore} ${cfg.heroTitleAccent}`),
         mediaCount: cfg.appVideos.length + 1,
       };

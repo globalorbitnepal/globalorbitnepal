@@ -8,6 +8,7 @@ import { AdminMediaLibrary } from "@/components/admin/admin-media-library";
 import { AdminInquiriesPanel } from "@/components/admin/admin-inquiries-panel";
 import { AdminMediaField } from "@/components/admin/admin-media-field";
 import { AdminPageHub, AdminSitePagesGrid } from "@/components/admin/admin-page-hub";
+import { AdminSectionThumb } from "@/components/admin/admin-section-thumb";
 import { sectionPreviewForPage } from "@/lib/admin-section-previews";
 import { OrbitHeroEditor } from "@/components/orbit/orbit-hero-editor";
 import { OrbitAppointmentsPanel } from "@/components/orbit/orbit-appointments-panel";
@@ -106,7 +107,6 @@ function writeHash(view: AdminView, pageId?: string, section?: string, slug?: st
 export function AdminApp(props: Props) {
   const router = useRouter();
   const start = readHash();
-  const [collapsed, setCollapsed] = useState(false);
   const [navOpen, setNavOpen] = useState(false);
   const [view, setView] = useState<AdminView>(start.view);
   const [pageId, setPageId] = useState<AdminPageId>(start.pageId);
@@ -185,16 +185,6 @@ export function AdminApp(props: Props) {
     document.body.classList.add("go-cms-open");
     document.body.classList.remove("admin-locked", "go-dash-open");
     return () => document.body.classList.remove("go-cms-open");
-  }, []);
-
-  useEffect(() => {
-    const mq = window.matchMedia("(max-width: 1100px)");
-    const onChange = () => {
-      if (mq.matches) setCollapsed(false);
-    };
-    onChange();
-    mq.addEventListener("change", onChange);
-    return () => mq.removeEventListener("change", onChange);
   }, []);
 
   useEffect(() => {
@@ -289,7 +279,7 @@ export function AdminApp(props: Props) {
   const seoPage = pages.find((item) => item.path === page.path);
 
   return (
-    <div className={`go-cms ${collapsed ? "is-collapsed" : ""}`}>
+    <div className="go-cms">
       {navOpen ? (
         <button type="button" className="go-cms-backdrop" aria-label="Close menu" onClick={() => setNavOpen(false)} />
       ) : null}
@@ -305,22 +295,11 @@ export function AdminApp(props: Props) {
       <aside className={`go-cms-side ${navOpen ? "is-open" : ""}`}>
         <div className="go-cms-side-inner">
         <div className="go-cms-brand">
-          <span className="go-cms-mark" />
-          {collapsed ? null : (
-            <div className="go-cms-brand-text">
-              <strong>GLOBAL ORBIT</strong>
-              <span>Management console</span>
-            </div>
-          )}
-          <button
-            type="button"
-            className="go-cms-collapse"
-            onClick={() => setCollapsed((v) => !v)}
-            aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-            title={collapsed ? "Expand" : "Collapse"}
-          >
-            {collapsed ? "›" : "‹"}
-          </button>
+          <span className="go-cms-mark" aria-hidden="true" />
+          <div className="go-cms-brand-text">
+            <strong>GLOBAL ORBIT</strong>
+            <span>Management console</span>
+          </div>
         </div>
         <nav>
           <p>Overview</p>
@@ -350,7 +329,7 @@ export function AdminApp(props: Props) {
                       <span className="go-cms-nav-icon" aria-hidden="true">{item.label.slice(0, 1)}</span>
                       <span className="go-cms-nav-label">{item.label}</span>
                     </button>
-                    {expanded === item.id && !collapsed
+                    {expanded === item.id
                       ? (
                           <>
                             {!item.seoOnly ? (
@@ -436,6 +415,14 @@ export function AdminApp(props: Props) {
       </aside>
 
       <div className="go-cms-main">
+        <div className="go-cms-main-strip">
+          <Link href="/" target="_blank" rel="noreferrer" className="go-cms-strip-link">
+            View public site
+          </Link>
+          <button type="button" className="go-cms-logout is-strip" onClick={() => void logout()}>
+            Log out
+          </button>
+        </div>
         <header className="go-cms-top">
           <div>
             <p className="go-cms-crumb">{view === "overview" ? "Overview" : title}</p>
@@ -606,19 +593,23 @@ export function AdminApp(props: Props) {
               <div className="go-cms-metric-grid is-compact">
                 {ADMIN_PAGES[0].sections
                   .filter((item) => item.id !== "seo")
-                  .map((item) => (
-                    <button
-                      key={item.id}
-                      type="button"
-                      className="go-cms-metric-card"
-                      onClick={() => go("page", ADMIN_PAGES[0], item.id)}
-                    >
-                      <p className="go-cms-metric-label">Homepage</p>
-                      <strong className="go-cms-metric-title">{item.label}</strong>
-                      <small>{item.hint}</small>
-                      <em>Edit →</em>
-                    </button>
-                  ))}
+                  .map((item) => {
+                    const preview = previewFor(ADMIN_PAGES[0], item.id);
+                    return (
+                      <button
+                        key={item.id}
+                        type="button"
+                        className="go-cms-metric-card is-rich"
+                        onClick={() => go("page", ADMIN_PAGES[0], item.id)}
+                      >
+                        <AdminSectionThumb preview={preview} />
+                        <p className="go-cms-metric-label">Homepage</p>
+                        <strong className="go-cms-metric-title">{item.label}</strong>
+                        <small>{preview.excerpt || item.hint}</small>
+                        <em>Edit →</em>
+                      </button>
+                    );
+                  })}
               </div>
             </section>
             {ADMIN_NAV_GROUPS.map((group) => {
