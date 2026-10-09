@@ -85,7 +85,7 @@ export function AdminLogin() {
       <div className="go-login-sky" aria-hidden="true">
         <picture>
           <source srcSet="/brand/admin-login-earth.webp" type="image/webp" />
-          <img src="/brand/admin-login-earth.jpg" alt="" />
+                  <img src="/brand/admin-login-earth.jpg" alt="" decoding="async" />
         </picture>
       </div>
       <div className="go-login-veil" aria-hidden="true" />
@@ -98,6 +98,7 @@ export function AdminLogin() {
             className="go-login-logo"
             width={522}
             height={116}
+            decoding="async"
           />
           <p className="go-login-kicker">Administration portal</p>
           <h1 className="go-login-title">
@@ -178,7 +179,18 @@ export function AdminLogin() {
                   aria-pressed={show}
                   aria-label={show ? "Hide password" : "Show password"}
                 >
-                  {show ? "Hide" : "Show"}
+                  {show ? (
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M4 12s3.2-6 8-6 8 6 8 6-3.2 6-8 6-8-6-8-6Z" fill="none" stroke="currentColor" strokeWidth="1.7" />
+                      <circle cx="12" cy="12" r="2.3" fill="none" stroke="currentColor" strokeWidth="1.7" />
+                      <path d="m5 19 14-14" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
+                    </svg>
+                  ) : (
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M4 12s3.2-6 8-6 8 6 8 6-3.2 6-8 6-8-6-8-6Z" fill="none" stroke="currentColor" strokeWidth="1.7" />
+                      <circle cx="12" cy="12" r="2.3" fill="none" stroke="currentColor" strokeWidth="1.7" />
+                    </svg>
+                  )}
                 </button>
               </div>
             </div>

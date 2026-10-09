@@ -10913,6 +10913,13 @@ body.go-login-open .orbit-app-shell {
   overflow: hidden;
 }
 
+body.go-login-open header,
+body.go-login-open footer,
+body.go-login-open .orbit-wa-fab,
+body.go-login-open .orbit-gold-fab {
+  display: none !important;
+}
+
 .go-login {
   position: fixed;
   inset: 0;
@@ -10934,7 +10941,7 @@ body.go-login-open .orbit-app-shell {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 72% 70%;
+  object-position: 88% 82%;
 }
 
 .go-login-veil {
@@ -10949,11 +10956,12 @@ body.go-login-open .orbit-app-shell {
   min-height: 100dvh;
   min-height: 100svh;
   display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(320px, 440px);
-  gap: clamp(1.5rem, 4vw, 4.5rem);
+  grid-template-columns: minmax(0, 1.2fr) minmax(340px, 430px);
+  gap: clamp(1.6rem, 5vw, 6rem);
   align-items: center;
-  padding: max(2.2rem, env(safe-area-inset-top)) max(1.4rem, env(safe-area-inset-right)) max(2.2rem, env(safe-area-inset-bottom)) max(1.6rem, env(safe-area-inset-left));
-  width: min(1180px, 100%);
+  padding: max(2.4rem, env(safe-area-inset-top)) max(5vw, env(safe-area-inset-right)) max(2.4rem, env(safe-area-inset-bottom)) max(5vw, env(safe-area-inset-left));
+  width: 100%;
+  max-width: 1320px;
   margin: 0 auto;
 }
 
@@ -11002,8 +11010,8 @@ body.go-login-open .orbit-app-shell {
   margin: 0;
   font-size: 1.05rem;
   line-height: 1.65;
-  color: rgba(214, 226, 247, 0.82);
-  font-weight: 450;
+  color: rgba(214, 226, 247, 0.86);
+  font-weight: 500;
 }
 
 .go-login-features {
@@ -11162,18 +11170,23 @@ body.go-login-open .orbit-app-shell {
 
 .go-login-eye {
   position: absolute;
-  right: 0.45rem;
+  right: 0.35rem;
   top: 50%;
   transform: translateY(-50%);
-  min-height: 2.2rem;
-  padding: 0 0.65rem;
+  width: 2.4rem;
+  height: 2.4rem;
+  display: grid;
+  place-items: center;
   border: 0;
-  border-radius: 0.6rem;
+  border-radius: 0.65rem;
   background: transparent;
   color: #9ec4ef;
-  font-size: 0.78rem;
-  font-weight: 700;
   cursor: pointer;
+}
+
+.go-login-eye svg {
+  width: 1.15rem;
+  height: 1.15rem;
 }
 
 .go-login-eye:focus-visible,
@@ -11259,7 +11272,7 @@ body.go-login-open .orbit-app-shell {
     padding-top: max(1.2rem, env(safe-area-inset-top));
   }
   .go-login-sky img {
-    object-position: 80% 85%;
+    object-position: 90% 92%;
   }
   .go-login-veil {
     background:
