@@ -188,6 +188,16 @@ export function AdminApp(props: Props) {
   }, []);
 
   useEffect(() => {
+    const mq = window.matchMedia("(max-width: 1100px)");
+    const onChange = () => {
+      if (mq.matches) setCollapsed(false);
+    };
+    onChange();
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
+
+  useEffect(() => {
     const onHash = () => {
       const next = readHash();
       setView(next.view);
@@ -280,9 +290,18 @@ export function AdminApp(props: Props) {
 
   return (
     <div className={`go-cms ${collapsed ? "is-collapsed" : ""}`}>
-      <button type="button" className="go-cms-burger" onClick={() => setNavOpen((v) => !v)}>
-        {navOpen ? "Close" : "Menu"}
-      </button>
+      {navOpen ? (
+        <button type="button" className="go-cms-backdrop" aria-label="Close menu" onClick={() => setNavOpen(false)} />
+      ) : null}
+      <div className="go-cms-mobile-bar">
+        <button type="button" className="go-cms-burger" onClick={() => setNavOpen((v) => !v)}>
+          {navOpen ? "Close" : "Menu"}
+        </button>
+        <span className="go-cms-mobile-title">Global Orbit Admin</span>
+        <button type="button" className="go-cms-logout is-mobile" onClick={() => void logout()}>
+          Log out
+        </button>
+      </div>
       <aside className={`go-cms-side ${navOpen ? "is-open" : ""}`}>
         <div className="go-cms-side-inner">
         <div className="go-cms-brand">
@@ -293,14 +312,21 @@ export function AdminApp(props: Props) {
               <span>Management console</span>
             </div>
           )}
-          <button type="button" className="go-cms-collapse" onClick={() => setCollapsed((v) => !v)} aria-label="Collapse sidebar">
-            ‹
+          <button
+            type="button"
+            className="go-cms-collapse"
+            onClick={() => setCollapsed((v) => !v)}
+            aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+            title={collapsed ? "Expand" : "Collapse"}
+          >
+            {collapsed ? "›" : "‹"}
           </button>
         </div>
         <nav>
           <p>Overview</p>
           <button type="button" className={view === "overview" ? "is-active" : ""} onClick={() => go("overview")}>
-            <i /> Dashboard
+            <span className="go-cms-nav-icon" aria-hidden="true">◆</span>
+            <span className="go-cms-nav-label">Dashboard</span>
           </button>
           {ADMIN_NAV_GROUPS.map((group) => {
             const groupPages = group.pageIds
@@ -321,7 +347,8 @@ export function AdminApp(props: Props) {
                         go("page", item);
                       }}
                     >
-                      <i /> {item.label}
+                      <span className="go-cms-nav-icon" aria-hidden="true">{item.label.slice(0, 1)}</span>
+                      <span className="go-cms-nav-label">{item.label}</span>
                     </button>
                     {expanded === item.id && !collapsed
                       ? (
@@ -355,37 +382,49 @@ export function AdminApp(props: Props) {
           })}
           <p>Blog & content</p>
           <button type="button" className={view === "blogs" ? "is-active" : ""} onClick={() => go("blogs")}>
-            <i /> All Posts
+            <span className="go-cms-nav-icon" aria-hidden="true">B</span>
+            <span className="go-cms-nav-label">All Posts</span>
           </button>
           <button type="button" className={view === "compose" && !composeSlug ? "is-active" : ""} onClick={() => go("compose")}>
-            <i /> Add New Post
+            <span className="go-cms-nav-icon" aria-hidden="true">+</span>
+            <span className="go-cms-nav-label">Add New Post</span>
           </button>
           <button type="button" className={view === "categories" ? "is-active" : ""} onClick={() => go("categories")}>
-            <i /> Categories
+            <span className="go-cms-nav-icon" aria-hidden="true">C</span>
+            <span className="go-cms-nav-label">Categories</span>
           </button>
           <button type="button" className={view === "tags" ? "is-active" : ""} onClick={() => go("tags")}>
-            <i /> Tags
+            <span className="go-cms-nav-icon" aria-hidden="true">T</span>
+            <span className="go-cms-nav-label">Tags</span>
           </button>
           <button type="button" className={view === "media" ? "is-active" : ""} onClick={() => go("media")}>
-            <i /> Media Library
+            <span className="go-cms-nav-icon" aria-hidden="true">M</span>
+            <span className="go-cms-nav-label">Media Library</span>
           </button>
           <button type="button" className={view === "drafts" ? "is-active" : ""} onClick={() => go("drafts")}>
-            <i /> Drafts
+            <span className="go-cms-nav-icon" aria-hidden="true">D</span>
+            <span className="go-cms-nav-label">Drafts</span>
           </button>
           <button type="button" className={view === "blog-seo" ? "is-active" : ""} onClick={() => go("blog-seo")}>
-            <i /> SEO Overview
+            <span className="go-cms-nav-icon" aria-hidden="true">S</span>
+            <span className="go-cms-nav-label">SEO Overview</span>
           </button>
           <p>SEO</p>
           <button type="button" className={view === "seo" ? "is-active" : ""} onClick={() => go("seo")}>
-            <i /> Page metadata
+            <span className="go-cms-nav-icon" aria-hidden="true">P</span>
+            <span className="go-cms-nav-label">Page metadata</span>
           </button>
           <p>Global</p>
           <button type="button" className={view === "chrome" ? "is-active" : ""} onClick={() => go("chrome")}>
-            <i /> Header & footer
+            <span className="go-cms-nav-icon" aria-hidden="true">H</span>
+            <span className="go-cms-nav-label">Header & footer</span>
           </button>
           <p>Business</p>
           <button type="button" className={view === "inquiries" ? "is-active" : ""} onClick={() => go("inquiries")}>
-            <i /> All inquiries {props.inquiryNew ? <em>{props.inquiryNew}</em> : null}
+            <span className="go-cms-nav-icon" aria-hidden="true">!</span>
+            <span className="go-cms-nav-label">
+              All inquiries {props.inquiryNew ? <em>{props.inquiryNew}</em> : null}
+            </span>
           </button>
         </nav>
         <footer className="go-cms-side-foot">

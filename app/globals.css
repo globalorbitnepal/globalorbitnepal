@@ -11890,25 +11890,70 @@ body.go-cms-open .orbit-gold-fab {
   inset: 0;
   z-index: 80;
   display: grid;
-  grid-template-columns: 268px 1fr;
+  grid-template-columns: minmax(300px, 300px) minmax(0, 1fr);
   background: #f4f1eb;
   color: #0f172a;
   font-size: 15px;
+  -webkit-font-smoothing: antialiased;
 }
-.go-cms.is-collapsed { grid-template-columns: 72px 1fr; }
-.go-cms-burger { display: none; }
+.go-cms.is-collapsed { grid-template-columns: 92px minmax(0, 1fr); }
+.go-cms-backdrop {
+  display: none;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+}
+.go-cms-mobile-bar {
+  display: none;
+}
+.go-cms-burger {
+  display: none;
+  border: 0;
+  background: #2563eb;
+  color: #fff;
+  border-radius: 0.55rem;
+  padding: 0.45rem 0.75rem;
+  font-weight: 700;
+  font-size: 0.82rem;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.go-cms-mobile-title {
+  flex: 1;
+  min-width: 0;
+  font-weight: 700;
+  font-size: 0.88rem;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.go-cms-logout.is-mobile {
+  width: auto;
+  flex-shrink: 0;
+  padding: 0.45rem 0.8rem;
+  font-size: 0.78rem;
+}
 .go-cms-side {
   background: linear-gradient(180deg, #06102a 0%, #071433 55%, #0a1a3d 100%);
   color: #dbe7ff;
   overflow: hidden;
   padding: 0;
   border-right: 1px solid rgba(148, 163, 184, 0.12);
+  min-width: 0;
 }
 .go-cms-side-inner {
   display: flex;
   flex-direction: column;
   height: 100%;
   max-height: 100dvh;
+  width: 100%;
+  min-width: 280px;
+}
+.go-cms.is-collapsed .go-cms-side-inner {
+  min-width: 0;
+  align-items: stretch;
 }
 .go-cms-side-inner > nav {
   flex: 1;
@@ -11985,6 +12030,9 @@ body.go-cms-open .orbit-gold-fab {
 }
 .go-cms-side nav button {
   width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
   text-align: left;
   border: 1px solid transparent;
   background: rgba(15, 23, 42, 0.35);
@@ -11997,6 +12045,45 @@ body.go-cms-open .orbit-gold-fab {
   cursor: pointer;
   margin-bottom: 0.28rem;
   line-height: 1.35;
+}
+.go-cms-nav-icon {
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 0.55rem;
+  background: rgba(255, 255, 255, 0.08);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
+  font-weight: 800;
+  flex-shrink: 0;
+  color: #bfdbfe;
+}
+.go-cms-side nav button.is-active .go-cms-nav-icon {
+  background: rgba(255, 255, 255, 0.22);
+  color: #fff;
+}
+.go-cms-nav-label {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.go-cms.is-collapsed .go-cms-nav-label,
+.go-cms.is-collapsed .go-cms-side nav p,
+.go-cms.is-collapsed .go-cms-brand-text,
+.go-cms.is-collapsed .go-cms-side nav button.is-sub {
+  display: none;
+}
+.go-cms.is-collapsed .go-cms-side nav button {
+  justify-content: center;
+  padding-left: 0.35rem;
+  padding-right: 0.35rem;
+}
+.go-cms.is-collapsed .go-cms-side-foot .go-cms-logout {
+  font-size: 0.72rem;
+  padding: 0.55rem 0.35rem;
 }
 .go-cms-side nav button:hover {
   border-color: rgba(148, 163, 184, 0.22);
@@ -12576,28 +12663,73 @@ body.go-cms-open .orbit-gold-fab {
 .go-cms-upload input[type="file"] { max-width: 14rem; }
 
 @media (max-width: 1100px) {
-  .go-cms { grid-template-columns: 1fr; }
-  .go-cms-burger {
+  .go-cms,
+  .go-cms.is-collapsed {
+    grid-template-columns: 1fr;
+  }
+  .go-cms-mobile-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 86;
+    padding: 0.55rem 0.65rem;
+    background: linear-gradient(180deg, #06102a, #071433);
+    color: #e2e8f7;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+    box-shadow: 0 8px 24px rgba(6, 16, 42, 0.35);
+  }
+  .go-cms-mobile-bar .go-cms-burger {
+    display: block;
+  }
+  .go-cms-backdrop {
     display: block;
     position: fixed;
-    z-index: 82;
-    top: 0.7rem;
-    left: 0.7rem;
-    border: 0;
-    background: #2563eb;
-    color: #fff;
-    border-radius: 0.55rem;
-    padding: 0.45rem 0.7rem;
+    inset: 0;
+    z-index: 84;
+    background: rgba(15, 23, 42, 0.55);
+  }
+  .go-cms-collapse {
+    display: none;
   }
   .go-cms-side {
     position: fixed;
     inset: 0 auto 0 0;
-    width: min(88vw, 280px);
-    z-index: 81;
-    transform: translateX(-110%);
+    width: min(92vw, 320px);
+    max-width: 320px;
+    z-index: 85;
+    transform: translateX(-105%);
+    transition: transform 0.22s ease;
+    box-shadow: 8px 0 32px rgba(0, 0, 0, 0.25);
   }
-  .go-cms-side.is-open { transform: none; }
-  .go-cms-main { padding-top: 3.4rem; }
+  .go-cms-side.is-open {
+    transform: none;
+  }
+  .go-cms-side-inner {
+    min-width: 0;
+  }
+  .go-cms.is-collapsed .go-cms-nav-label,
+  .go-cms.is-collapsed .go-cms-side nav p,
+  .go-cms.is-collapsed .go-cms-brand-text {
+    display: block;
+  }
+  .go-cms.is-collapsed .go-cms-side nav button.is-sub {
+    display: flex;
+  }
+  .go-cms.is-collapsed .go-cms-side nav button {
+    justify-content: flex-start;
+    padding-left: 0.72rem;
+    padding-right: 0.72rem;
+  }
+  .go-cms-main {
+    padding-top: 3.35rem;
+  }
+  .go-cms-tools .go-cms-logout.is-top {
+    display: none;
+  }
   .go-cms-kpis, .go-cms-split, .go-cms-compose, .go-cms-quick { grid-template-columns: 1fr; }
   .go-cms-tools { flex-wrap: wrap; }
   .go-cms-tools input { min-width: 0; width: 100%; }
