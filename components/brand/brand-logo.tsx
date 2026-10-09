@@ -4,9 +4,11 @@ import Link from "next/link";
 type BrandLogoProps = {
   priority?: boolean;
   variant?: "default" | "hero" | "bar" | "footer";
+  src?: string;
 };
 
-export function BrandLogo({ priority = false, variant = "default" }: BrandLogoProps) {
+export function BrandLogo({ priority = false, variant = "default", src }: BrandLogoProps) {
+  const imageSrc = src?.trim() || "/brand/logo-official-gold.png";
   const bar = variant === "bar";
   const hero = variant === "hero";
   const footer = variant === "footer";
@@ -26,7 +28,7 @@ export function BrandLogo({ priority = false, variant = "default" }: BrandLogoPr
       aria-label="Global Orbit Pvt Ltd"
     >
       <Image
-        src="/brand/logo-official-gold.png"
+        src={imageSrc}
         alt="Global Orbit Pvt Ltd"
         width={600}
         height={400}

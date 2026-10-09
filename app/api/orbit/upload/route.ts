@@ -6,6 +6,10 @@ import { getHeroConfig, heroUploadDir, saveHeroConfig } from "@/lib/hero-store";
 import { getNeedConfig, saveNeedConfig } from "@/lib/need-store";
 import { getWorkConfig, saveWorkConfig } from "@/lib/work-store";
 import { getSoftwareConfig, saveSoftwareConfig } from "@/lib/software-store";
+import { getProjectsConfig, saveProjectsConfig } from "@/lib/projects-store";
+import { getPlatformPageConfig, savePlatformPageConfig } from "@/lib/platform-page-store";
+import { isPlatformPageSlug, type PlatformPageSlug } from "@/lib/platform-page-slugs";
+import { getSiteChrome, saveSiteChrome, DEFAULT_SITE_CHROME } from "@/lib/site-chrome-store";
 import { isOrbitAuthed } from "@/lib/orbit-auth";
 
 export const runtime = "nodejs";
@@ -32,6 +36,10 @@ export async function POST(request: Request) {
   const isSoftwareVideo = kind === "softwareVideo";
   const isSoftwarePreview = kind === "softwarePreview";
   const isBlogImage = kind === "blogImage";
+  const isProjectImage = kind === "projectImage";
+  const isPlatformHeroVideo = kind === "platformHeroVideo";
+  const isPlatformClipVideo = kind === "platformClipVideo";
+  const isChromeLogo = kind === "chromeLogo";
   const logoId = String(form.get("logoId") || "")
     .trim()
     .replace(/[^a-zA-Z0-9_-]/g, "");
@@ -43,6 +51,13 @@ export async function POST(request: Request) {
     .trim()
     .replace(/[^a-zA-Z0-9_-]/g, "");
 
+  const projectSlug = String(form.get("projectSlug") || "")
+    .trim()
+    .replace(/[^a-zA-Z0-9_-]/g, "");
+
+  const platformSlug = String(form.get("platformSlug") || "").trim();
+  const clipIndex = Number(form.get("clipIndex") ?? -1);
+
   if (isTrustLogo && !logoId) {
     return NextResponse.json({ error: "Missing logo id" }, { status: 400 });
   }
@@ -51,6 +66,15 @@ export async function POST(request: Request) {
   }
   if (isSoftwarePreview && !productSlug) {
     return NextResponse.json({ error: "Missing product slug" }, { status: 400 });
+  }
+  if (isProjectImage && !projectSlug) {
+    return NextResponse.json({ error: "Missing project slug" }, { status: 400 });
+  }
+  if ((isPlatformHeroVideo || isPlatformClipVideo) && !isPlatformPageSlug(platformSlug)) {
+    return NextResponse.json({ error: "Missing platform slug" }, { status: 400 });
+  }
+  if (isPlatformClipVideo && (clipIndex < 0 || clipIndex > 8)) {
+    return NextResponse.json({ error: "Missing clip index" }, { status: 400 });
   }
 
   let ext = "jpg";
@@ -93,14 +117,33 @@ export async function POST(request: Request) {
   } else if (isBlogImage) {
     ext = file.type === "image/png" ? "png" : file.type === "image/webp" ? "webp" : "jpg";
     name = `blog-${Date.now()}.${ext}`;
+  } else if (isProjectImage) {
+    ext = file.type === "image/png" ? "png" : file.type === "image/webp" ? "webp" : "jpg";
+    name = `project-${projectSlug}.${ext}`;
+  } else if (isPlatformHeroVideo) {
+    ext = "mp4";
+    name = `platform-${platformSlug}-hero.${ext}`;
+  } else if (isPlatformClipVideo) {
+    ext = "mp4";
+    name = `platform-${platformSlug}-clip-${clipIndex}.${ext}`;
+  } else if (isChromeLogo) {
+    ext = file.type === "image/png" ? "png" : file.type === "image/webp" ? "webp" : "jpg";
+    name = `site-logo.${ext}`;
   } else {
     name = `hero-image.${ext}`;
   }
 
-  if ((isVideo || isNeedVideo || isSoftwareVideo) && !file.type.startsWith("video/")) {
+  if ((isVideo || isNeedVideo || isSoftwareVideo || isPlatformHeroVideo || isPlatformClipVideo) && !file.type.startsWith("video/")) {
     return NextResponse.json({ error: "Upload an MP4 video" }, { status: 400 });
   }
-  if (!isVideo && !isNeedVideo && !isSoftwareVideo && !file.type.startsWith("image/")) {
+  if (
+    !isVideo &&
+    !isNeedVideo &&
+    !isSoftwareVideo &&
+    !isPlatformHeroVideo &&
+    !isPlatformClipVideo &&
+    !file.type.startsWith("image/")
+  ) {
     return NextResponse.json({ error: "Upload an image" }, { status: 400 });
   }
 
@@ -153,6 +196,38 @@ export async function POST(request: Request) {
     await saveSoftwareConfig(software);
     revalidatePath("/");
     return NextResponse.json({ ok: true, softwareConfig: software });
+  }
+  if (isProjectImage) {
+    const projects = await getProjectsConfig();
+    const src = `/api/media/hero/${name}?v=${stamp}`;
+    projects.showcases = projects.showcases.map((item) =>
+      item.slug === projectSlug ? { ...item, imageSrc: src } : item,
+    );
+    await saveProjectsConfig(projects);
+    revalidatePath("/projects");
+    return NextResponse.json({ ok: true, projectsConfig: projects });
+  }
+  if (isPlatformHeroVideo || isPlatformClipVideo) {
+    const slug = platformSlug as PlatformPageSlug;
+    const platform = await getPlatformPageConfig(slug);
+    const src = `/api/media/hero/${name}?v=${stamp}`;
+    if (isPlatformHeroVideo) {
+      platform.heroVideoSrc = src;
+    } else {
+      platform.appVideos = platform.appVideos.map((clip, i) =>
+        i === clipIndex ? { ...clip, videoSrc: src } : clip,
+      );
+    }
+    await savePlatformPageConfig(slug, platform);
+    revalidatePath(`/orbit-software/${slug}`);
+    return NextResponse.json({ ok: true, platformConfig: platform });
+  }
+  if (isChromeLogo) {
+    const src = `/api/media/hero/${name}?v=${stamp}`;
+    const chrome = { ...(await getSiteChrome()) ?? DEFAULT_SITE_CHROME, headerLogoSrc: src };
+    await saveSiteChrome(chrome);
+    revalidatePath("/", "layout");
+    return NextResponse.json({ ok: true, chrome, url: src });
   }
   if (isTrustLogo) {
     const src = `/api/media/hero/${name}?v=${stamp}`;

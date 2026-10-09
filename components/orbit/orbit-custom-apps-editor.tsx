@@ -1,7 +1,9 @@
 "use client";
 
 import type { FormEvent, ReactNode } from "react";
+import { AdminMediaField } from "@/components/admin/admin-media-field";
 import type { CustomAppsConfig } from "@/lib/custom-apps-config";
+import type { PlatformPageSlug } from "@/lib/platform-page-slugs";
 
 function Field({
   label,
@@ -56,6 +58,8 @@ type Props = {
   busy: boolean;
   status: string;
   onSubmit: (event: FormEvent) => void;
+  adminEmbed?: boolean;
+  platformSlug?: PlatformPageSlug;
 };
 
 export function OrbitCustomAppsEditorForm({
@@ -66,10 +70,23 @@ export function OrbitCustomAppsEditorForm({
   busy,
   status,
   onSubmit,
+  adminEmbed,
+  platformSlug = "web-apps",
 }: Props) {
   const set = <K extends keyof CustomAppsConfig>(key: K) => (value: CustomAppsConfig[K]) => {
     setConfig((current) => ({ ...current, [key]: value }));
   };
+
+  async function uploadPlatformVideo(kind: "platformHeroVideo" | "platformClipVideo", file: File, clipIndex?: number) {
+    const form = new FormData();
+    form.set("kind", kind);
+    form.set("platformSlug", platformSlug);
+    form.set("file", file);
+    if (clipIndex !== undefined) form.set("clipIndex", String(clipIndex));
+    const response = await fetch("/api/orbit/upload", { method: "POST", body: form });
+    const data = await response.json();
+    if (data.platformConfig) setConfig(data.platformConfig);
+  }
 
   const mapCards = (
     key: "capabilities" | "platforms" | "useCases" | "stackItems",
@@ -87,7 +104,7 @@ export function OrbitCustomAppsEditorForm({
       <div className="mb-6 hidden lg:block">
         <h1 className="font-[family-name:var(--font-jakarta)] text-2xl font-semibold text-white">{pageTitle}</h1>
         <p className="mt-1 text-sm text-white/55">
-          Full text for {livePath} — hero, four videos, sections. No image uploads.
+          Full text and video assets for {livePath} — hero reel plus four product clips.
         </p>
       </div>
 
@@ -100,12 +117,22 @@ export function OrbitCustomAppsEditorForm({
           <Field label="Intro" value={config.heroLede} onChange={(v) => set("heroLede")(v)} multiline />
         </Panel>
 
-        <Panel title="Hero video" description="Path under /public — no upload">
+        <Panel title="Hero video" description="MP4 played in the page hero.">
+          {adminEmbed ? (
+            <AdminMediaField
+              label="Hero video"
+              src={config.heroVideoSrc}
+              kind="video"
+              accept="video/mp4,video/*"
+              disabled={busy}
+              onPick={(file) => uploadPlatformVideo("platformHeroVideo", file)}
+            />
+          ) : null}
           <Field
             label="Hero video URL"
             value={config.heroVideoSrc}
             onChange={(v) => set("heroVideoSrc")(v)}
-            hint="e.g. /brand/custom-apps/01-customer-portal.mp4"
+            hint="e.g. /brand/custom-apps/01-customer-portal.mp4 or uploaded /api/media/hero/…"
           />
         </Panel>
 
@@ -137,6 +164,16 @@ export function OrbitCustomAppsEditorForm({
                 }
                 multiline
               />
+              {adminEmbed ? (
+                <AdminMediaField
+                  label={`Video file · clip ${index + 1}`}
+                  src={clip.videoSrc}
+                  kind="video"
+                  accept="video/mp4,video/*"
+                  disabled={busy}
+                  onPick={(file) => uploadPlatformVideo("platformClipVideo", file, index)}
+                />
+              ) : null}
               <Field
                 label="Video path"
                 value={clip.videoSrc}

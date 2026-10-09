@@ -97,7 +97,10 @@ export const ADMIN_PAGES: AdminPage[] = [
     path: "/orbit-software/web-apps",
     editor: "customApps",
     platformSlug: "web-apps",
-    sections: [{ id: "customApps", label: "Page content", hint: "Web apps landing" }],
+    sections: [
+      { id: "customApps", label: "Page content", hint: "Hero video, four clips, all copy" },
+      { id: "seo", label: "SEO", hint: "Metadata for web apps page" },
+    ],
   },
   {
     id: "android-apps",
@@ -105,7 +108,10 @@ export const ADMIN_PAGES: AdminPage[] = [
     path: "/orbit-software/android-apps",
     editor: "customApps",
     platformSlug: "android-apps",
-    sections: [{ id: "customApps", label: "Page content", hint: "Android landing" }],
+    sections: [
+      { id: "customApps", label: "Page content", hint: "Hero video, four clips, all copy" },
+      { id: "seo", label: "SEO", hint: "Metadata for Android page" },
+    ],
   },
   {
     id: "ios-apps",
@@ -113,7 +119,10 @@ export const ADMIN_PAGES: AdminPage[] = [
     path: "/orbit-software/ios-apps",
     editor: "customApps",
     platformSlug: "ios-apps",
-    sections: [{ id: "customApps", label: "Page content", hint: "iOS landing" }],
+    sections: [
+      { id: "customApps", label: "Page content", hint: "Hero video, four clips, all copy" },
+      { id: "seo", label: "SEO", hint: "Metadata for iOS page" },
+    ],
   },
   {
     id: "projects",
@@ -149,7 +158,8 @@ export const ADMIN_PAGES: AdminPage[] = [
     id: "blogs",
     label: "Blog",
     path: "/blogs",
-    sections: [{ id: "seo", label: "SEO", hint: "Metadata for /blogs" }],
+    seoOnly: true,
+    sections: [{ id: "seo", label: "SEO", hint: "Posts: Blog & content → All Posts" }],
   },
   {
     id: "packages",

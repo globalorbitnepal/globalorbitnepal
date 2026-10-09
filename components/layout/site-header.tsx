@@ -13,12 +13,13 @@ import { isOrbitAdminPath } from "@/lib/is-orbit-admin-route";
 
 type SiteHeaderProps = {
   companyName: string;
+  headerLogoSrc?: string;
   items: FallbackNavItem[];
   email?: string;
   phone?: string;
 };
 
-export function SiteHeader(_props: SiteHeaderProps) {
+export function SiteHeader({ headerLogoSrc }: SiteHeaderProps) {
   const [open, setOpen] = useState(false);
   const [appointmentOpen, setAppointmentOpen] = useState(false);
   const pathname = usePathname();
@@ -31,7 +32,7 @@ export function SiteHeader(_props: SiteHeaderProps) {
       >
         <div className="orbit-header-inner pointer-events-auto mx-auto w-full max-w-[1680px]">
           <div className="orbit-header-side is-left">
-            <BrandLogo variant="bar" />
+            <BrandLogo variant="bar" src={headerLogoSrc} />
           </div>
 
           <nav aria-label="Main navigation" className="orbit-header-center">

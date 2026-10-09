@@ -12,6 +12,8 @@ export type SiteChrome = {
   defaultSeoTitle: string;
   defaultSeoDescription: string;
   footerTagline: string;
+  /** Optional header/footer logo override (uploaded via admin). */
+  headerLogoSrc?: string;
 };
 
 export const DEFAULT_SITE_CHROME: SiteChrome = {

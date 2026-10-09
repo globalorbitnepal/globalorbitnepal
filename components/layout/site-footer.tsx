@@ -20,13 +20,14 @@ import { DEFAULT_SITE_CHROME } from "@/lib/site-chrome-store";
 type SiteFooterProps = {
   companyName: string;
   tagline: string;
+  headerLogoSrc?: string;
   items: FallbackNavItem[];
   email?: string;
   phone?: string;
   address?: string;
 };
 
-export function SiteFooter({ companyName, tagline }: SiteFooterProps) {
+export function SiteFooter({ companyName, tagline, headerLogoSrc }: SiteFooterProps) {
   const year = new Date().getFullYear();
 
   return (
@@ -41,7 +42,7 @@ export function SiteFooter({ companyName, tagline }: SiteFooterProps) {
       <div className="orbit-footer-shell">
         <div className="orbit-footer-grid">
           <div className="orbit-footer-brand">
-            <BrandLogo variant="footer" />
+            <BrandLogo variant="footer" src={headerLogoSrc} />
             <p className="orbit-footer-tagline">
               {tagline?.trim() || DEFAULT_SITE_CHROME.footerTagline}
             </p>

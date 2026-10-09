@@ -91,6 +91,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
         <SiteShell
           companyName={companyName}
           tagline={tagline}
+          headerLogoSrc={chrome?.headerLogoSrc}
           headerItems={FALLBACK_HEADER_NAV}
           footerItems={toNavItems(footerRows, FALLBACK_FOOTER_NAV)}
           email={chrome?.email || settings?.email || FALLBACK_SITE.email}

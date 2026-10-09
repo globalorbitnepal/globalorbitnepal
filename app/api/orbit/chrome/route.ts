@@ -24,6 +24,10 @@ export async function POST(request: Request) {
     defaultSeoTitle: String(body.defaultSeoTitle || "").trim(),
     defaultSeoDescription: String(body.defaultSeoDescription || "").trim(),
     footerTagline: String(body.footerTagline || DEFAULT_SITE_CHROME.footerTagline).trim(),
+    headerLogoSrc:
+      typeof body.headerLogoSrc === "string" && body.headerLogoSrc.trim()
+        ? String(body.headerLogoSrc).trim()
+        : undefined,
   };
   await saveSiteChrome(chrome);
   revalidatePath("/", "layout");

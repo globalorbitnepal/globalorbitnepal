@@ -21,6 +21,7 @@ import type { SoftwareConfig, SoftwareProduct } from "@/lib/software-config";
 import type { HeroStudioLocation } from "@/lib/hero-studios";
 import type { HeroTrustLogo } from "@/lib/hero-trust-logos";
 import { DEFAULT_HERO_TRUST_LOGOS } from "@/lib/hero-trust-logos";
+import { AdminMediaField } from "@/components/admin/admin-media-field";
 
 type EditorSection =
   | "overview"
@@ -652,6 +653,8 @@ export function OrbitHeroEditor({
               ))}
             </div>
             <OrbitCustomAppsEditorForm
+              adminEmbed={hideShell}
+              platformSlug={activePlatform}
               config={
                 activePlatform === "web-apps"
                   ? webAppsConfig
@@ -681,6 +684,7 @@ export function OrbitHeroEditor({
           </>
         ) : section === "projects" ? (
           <OrbitProjectsEditorForm
+            adminEmbed={hideShell}
             config={projectsConfig}
             setConfig={setProjectsConfig}
             busy={busy}
@@ -727,19 +731,32 @@ export function OrbitHeroEditor({
                   <Field label="Title" value={product.title} onChange={(value) => updateSoftwareProduct(product.slug, { title: value })} />
                   <Field label="Summary" value={product.summary} onChange={(value) => updateSoftwareProduct(product.slug, { summary: value })} multiline />
                   <Field label="Link" value={product.href} onChange={(value) => updateSoftwareProduct(product.slug, { href: value })} />
-                  <label className="block rounded-2xl border border-white/10 bg-black/25 p-4 text-sm">
-                    <span className="font-semibold">Replace preview image</span>
-                    <input
-                      type="file"
+                  {hideShell ? (
+                    <AdminMediaField
+                      label="Product preview image"
+                      src={product.previewSrc}
+                      kind="image"
                       accept="image/*"
-                      className="mt-3 block w-full text-white/70"
-                      onChange={(event) => uploadSoftwarePreview(product.slug, event.target.files?.[0])}
+                      disabled={busy}
+                      onPick={(file) => uploadSoftwarePreview(product.slug, file)}
                     />
-                    <p className="mt-2 break-all text-xs text-white/45">{product.previewSrc}</p>
-                  </label>
-                  {product.previewSrc ? (
-                    <img src={product.previewSrc} alt="" className="max-h-24 w-auto object-contain" />
-                  ) : null}
+                  ) : (
+                    <>
+                      <label className="block rounded-2xl border border-white/10 bg-black/25 p-4 text-sm">
+                        <span className="font-semibold">Replace preview image</span>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          className="mt-3 block w-full text-white/70"
+                          onChange={(event) => uploadSoftwarePreview(product.slug, event.target.files?.[0])}
+                        />
+                        <p className="mt-2 break-all text-xs text-white/45">{product.previewSrc}</p>
+                      </label>
+                      {product.previewSrc ? (
+                        <img src={product.previewSrc} alt="" className="max-h-24 w-auto object-contain" />
+                      ) : null}
+                    </>
+                  )}
                 </Panel>
               ))}
               <button disabled={busy} className="w-full rounded-full bg-white py-3.5 text-sm font-semibold text-[#0b0b10] sm:w-auto sm:px-10">
@@ -822,28 +839,42 @@ export function OrbitHeroEditor({
                       value={tile.phoneTime || ""}
                       onChange={(value) => updateWorkTile(slot, { phoneTime: value })}
                     />
-                    <label className="block rounded-2xl border border-white/10 bg-black/25 p-4 text-sm">
-                      <span className="font-semibold">Replace project screenshot (JPG, PNG, WebP)</span>
-                      <input
-                        type="file"
+                    {hideShell ? (
+                      <AdminMediaField
+                        label={`Mosaic screenshot · ${label}`}
+                        description="Full-width website or app capture for this tile."
+                        src={tile.imageSrc || ""}
+                        kind="image"
                         accept="image/png,image/jpeg,image/webp,image/*"
-                        className="mt-3 block w-full text-white/70"
-                        onChange={(event) => uploadWorkImage(slot, event.target.files?.[0])}
+                        disabled={busy}
+                        onPick={(file) => uploadWorkImage(slot, file)}
                       />
-                      <p className="mt-2 break-all text-xs text-white/45">{tile.imageSrc}</p>
-                      {tile.imageSrc && initialTile?.imageSrc && tile.imageSrc !== initialTile.imageSrc ? (
-                        <button
-                          type="button"
-                          className="mt-2 text-xs text-white/50 hover:text-white"
-                          onClick={() => resetWorkImage(slot, initialTile.imageSrc || "")}
-                        >
-                          Reset to default screenshot
-                        </button>
-                      ) : null}
-                    </label>
-                    {tile.imageSrc ? (
-                      <img src={tile.imageSrc} alt="" className="mt-2 max-h-40 w-auto rounded-lg border border-white/10 object-cover object-top" />
-                    ) : null}
+                    ) : (
+                      <>
+                        <label className="block rounded-2xl border border-white/10 bg-black/25 p-4 text-sm">
+                          <span className="font-semibold">Replace project screenshot (JPG, PNG, WebP)</span>
+                          <input
+                            type="file"
+                            accept="image/png,image/jpeg,image/webp,image/*"
+                            className="mt-3 block w-full text-white/70"
+                            onChange={(event) => uploadWorkImage(slot, event.target.files?.[0])}
+                          />
+                          <p className="mt-2 break-all text-xs text-white/45">{tile.imageSrc}</p>
+                          {tile.imageSrc && initialTile?.imageSrc && tile.imageSrc !== initialTile.imageSrc ? (
+                            <button
+                              type="button"
+                              className="mt-2 text-xs text-white/50 hover:text-white"
+                              onClick={() => resetWorkImage(slot, initialTile.imageSrc || "")}
+                            >
+                              Reset to default screenshot
+                            </button>
+                          ) : null}
+                        </label>
+                        {tile.imageSrc ? (
+                          <img src={tile.imageSrc} alt="" className="mt-2 max-h-40 w-auto rounded-lg border border-white/10 object-cover object-top" />
+                        ) : null}
+                      </>
+                    )}
                     <Field label="Caption title" value={tile.title || ""} onChange={(value) => updateWorkTile(slot, { title: value })} />
                     <Field
                       label="Caption subtitle"
@@ -882,16 +913,28 @@ export function OrbitHeroEditor({
               </Panel>
 
               <Panel title="Zoom reel video" description="Plays in the pill, then zooms full width on scroll.">
-                <label className="block rounded-2xl border border-white/10 bg-black/25 p-4 text-sm">
-                  <span className="font-semibold">Replace video (MP4)</span>
-                  <input
-                    type="file"
+                {hideShell ? (
+                  <AdminMediaField
+                    label="Section video (live)"
+                    description="MP4 — replaces the Why you need us reel on the homepage."
+                    src={needConfig.videoSrc}
+                    kind="video"
                     accept="video/mp4,video/*"
-                    className="mt-3 block w-full text-white/70"
-                    onChange={(event) => uploadNeedVideo(event.target.files?.[0])}
+                    disabled={busy}
+                    onPick={(file) => uploadNeedVideo(file)}
                   />
-                  <p className="mt-2 break-all text-xs text-white/45">{needConfig.videoSrc}</p>
-                </label>
+                ) : (
+                  <label className="block rounded-2xl border border-white/10 bg-black/25 p-4 text-sm">
+                    <span className="font-semibold">Replace video (MP4)</span>
+                    <input
+                      type="file"
+                      accept="video/mp4,video/*"
+                      className="mt-3 block w-full text-white/70"
+                      onChange={(event) => uploadNeedVideo(event.target.files?.[0])}
+                    />
+                    <p className="mt-2 break-all text-xs text-white/45">{needConfig.videoSrc}</p>
+                  </label>
+                )}
               </Panel>
 
               <Panel title="Statistics (left carousel)" description="Four stats — arrows on the site cycle these with the right slides.">
@@ -1046,28 +1089,51 @@ export function OrbitHeroEditor({
             />
             Play product video in hero
           </label>
-          <div className="grid gap-4 sm:grid-cols-2">
-            <label className="block rounded-2xl border border-white/10 bg-black/25 p-4 text-sm">
-              <span className="font-semibold">Replace video (MP4)</span>
-              <input
-                type="file"
+          {hideShell ? (
+            <div className="grid gap-4 lg:grid-cols-2">
+              <AdminMediaField
+                label="Hero product video"
+                description="Main MP4 on the homepage hero."
+                src={config.videoSrc}
+                kind="video"
                 accept="video/mp4,video/*"
-                className="mt-3 block w-full text-white/70"
-                onChange={(event) => upload("video", event.target.files?.[0])}
+                disabled={busy}
+                onPick={(file) => upload("video", file)}
               />
-              <p className="mt-2 break-all text-xs text-white/45">{config.videoSrc}</p>
-            </label>
-            <label className="block rounded-2xl border border-white/10 bg-black/25 p-4 text-sm">
-              <span className="font-semibold">Replace poster image</span>
-              <input
-                type="file"
+              <AdminMediaField
+                label="Hero poster image"
+                description="Shown while the video loads."
+                src={config.imageSrc}
+                kind="image"
                 accept="image/*"
-                className="mt-3 block w-full text-white/70"
-                onChange={(event) => upload("image", event.target.files?.[0])}
+                disabled={busy}
+                onPick={(file) => upload("image", file)}
               />
-              <p className="mt-2 break-all text-xs text-white/45">{config.imageSrc}</p>
-            </label>
-          </div>
+            </div>
+          ) : (
+            <div className="grid gap-4 sm:grid-cols-2">
+              <label className="block rounded-2xl border border-white/10 bg-black/25 p-4 text-sm">
+                <span className="font-semibold">Replace video (MP4)</span>
+                <input
+                  type="file"
+                  accept="video/mp4,video/*"
+                  className="mt-3 block w-full text-white/70"
+                  onChange={(event) => upload("video", event.target.files?.[0])}
+                />
+                <p className="mt-2 break-all text-xs text-white/45">{config.videoSrc}</p>
+              </label>
+              <label className="block rounded-2xl border border-white/10 bg-black/25 p-4 text-sm">
+                <span className="font-semibold">Replace poster image</span>
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="mt-3 block w-full text-white/70"
+                  onChange={(event) => upload("image", event.target.files?.[0])}
+                />
+                <p className="mt-2 break-all text-xs text-white/45">{config.imageSrc}</p>
+              </label>
+            </div>
+          )}
         </Panel>
       </div>
 

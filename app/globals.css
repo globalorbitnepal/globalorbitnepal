@@ -11890,7 +11890,7 @@ body.go-cms-open .orbit-gold-fab {
   inset: 0;
   z-index: 80;
   display: grid;
-  grid-template-columns: 250px 1fr;
+  grid-template-columns: 268px 1fr;
   background: #f4f1eb;
   color: #0f172a;
   font-size: 15px;
@@ -11898,10 +11898,46 @@ body.go-cms-open .orbit-gold-fab {
 .go-cms.is-collapsed { grid-template-columns: 72px 1fr; }
 .go-cms-burger { display: none; }
 .go-cms-side {
-  background: #071433;
+  background: linear-gradient(180deg, #06102a 0%, #071433 55%, #0a1a3d 100%);
   color: #dbe7ff;
+  overflow: hidden;
+  padding: 0;
+  border-right: 1px solid rgba(148, 163, 184, 0.12);
+}
+.go-cms-side-inner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-height: 100dvh;
+}
+.go-cms-side-inner > nav {
+  flex: 1;
   overflow: auto;
-  padding: 1rem 0.7rem 1.5rem;
+  padding: 1rem 0.65rem 0.5rem;
+}
+.go-cms-side-foot {
+  padding: 0.65rem 0.75rem 1rem;
+  border-top: 1px solid rgba(148, 163, 184, 0.15);
+  background: rgba(6, 16, 42, 0.85);
+}
+.go-cms-logout {
+  width: 100%;
+  border: 1px solid rgba(248, 113, 113, 0.45);
+  background: rgba(127, 29, 29, 0.25);
+  color: #fecaca;
+  border-radius: 0.75rem;
+  padding: 0.62rem 0.85rem;
+  font-weight: 700;
+  font-size: 0.88rem;
+  cursor: pointer;
+}
+.go-cms-logout.is-top {
+  width: auto;
+  padding: 0.6rem 0.95rem;
+  border-radius: 999px;
+  background: #fff;
+  border-color: #fecaca;
+  color: #b91c1c;
 }
 .go-cms-brand {
   display: flex;
@@ -11950,18 +11986,27 @@ body.go-cms-open .orbit-gold-fab {
 .go-cms-side nav button {
   width: 100%;
   text-align: left;
-  border: 0;
-  background: transparent;
-  color: #c7d7f5;
-  padding: 0.55rem 0.7rem;
-  border-radius: 0.7rem;
-  font-size: 0.92rem;
+  border: 1px solid transparent;
+  background: rgba(15, 23, 42, 0.35);
+  color: #e2e8f7;
+  padding: 0.58rem 0.72rem;
+  border-radius: 0.75rem;
+  font-size: 0.9rem;
   font-weight: 600;
+  letter-spacing: 0.01em;
   cursor: pointer;
+  margin-bottom: 0.28rem;
+  line-height: 1.35;
+}
+.go-cms-side nav button:hover {
+  border-color: rgba(148, 163, 184, 0.22);
+  background: rgba(30, 41, 59, 0.55);
 }
 .go-cms-side nav button.is-active {
-  background: #2563eb;
+  background: linear-gradient(135deg, #1d4ed8, #2563eb);
+  border-color: rgba(147, 197, 253, 0.35);
   color: #fff;
+  box-shadow: 0 8px 24px rgba(37, 99, 235, 0.35);
 }
 .go-cms-side nav button.is-sub {
   padding-left: 1.4rem;
@@ -12254,6 +12299,133 @@ body.go-cms-open .orbit-gold-fab {
   font-size: 0.75rem;
   font-weight: 700;
   color: #b45309;
+}
+.go-cms-metric-card.is-rich {
+  padding: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 11.5rem;
+}
+.go-cms-metric-card.is-rich .go-cms-metric-label,
+.go-cms-metric-card.is-rich .go-cms-metric-title,
+.go-cms-metric-card.is-rich small,
+.go-cms-metric-card.is-rich em {
+  padding-left: 0.95rem;
+  padding-right: 0.95rem;
+}
+.go-cms-metric-card.is-rich .go-cms-metric-title { padding-top: 0.15rem; }
+.go-cms-metric-card.is-rich em { padding-bottom: 0.85rem; }
+.go-cms-metric-visual {
+  height: 7.25rem;
+  background: #1c1917;
+  border-bottom: 1px solid #e8e0d4;
+  overflow: hidden;
+}
+.go-cms-metric-thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.go-cms-metric-thumb.is-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: #a8a29e;
+  background: #f5f0e8;
+}
+.go-cms-metric-badge {
+  display: inline-block;
+  margin: 0.35rem 0.95rem 0;
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #78716c;
+}
+.go-admin-media {
+  border: 1px solid #e8e0d4;
+  border-radius: 1rem;
+  background: #fff;
+  padding: 1rem 1.05rem;
+  margin-bottom: 1rem;
+}
+.go-admin-media-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+.go-admin-media-head strong {
+  display: block;
+  font-size: 0.95rem;
+  color: #1c1917;
+}
+.go-admin-media-head p {
+  margin: 0.25rem 0 0;
+  font-size: 0.82rem;
+  color: #78716c;
+  line-height: 1.4;
+}
+.go-admin-media-upload {
+  flex-shrink: 0;
+  border: 1px solid #d6d3d1;
+  background: #faf8f5;
+  border-radius: 999px;
+  padding: 0.4rem 0.85rem;
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: #1d4ed8;
+  cursor: pointer;
+}
+.go-admin-media-stage {
+  border-radius: 0.75rem;
+  background: #0f172a;
+  min-height: 10rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.go-admin-media-video {
+  width: 100%;
+  max-height: 280px;
+  object-fit: contain;
+  background: #000;
+}
+.go-admin-media-img {
+  width: 100%;
+  max-height: 280px;
+  object-fit: contain;
+  background: #f5f0e8;
+}
+.go-admin-media-empty {
+  margin: 0;
+  padding: 1.5rem;
+  color: #94a3b8;
+  font-size: 0.88rem;
+  text-align: center;
+}
+.go-admin-media-url {
+  display: block;
+  margin-top: 0.55rem;
+  font-size: 0.72rem;
+  color: #78716c;
+  word-break: break-all;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
 }
 .go-cms-editor--light .orbit-dash-shell {
   min-height: auto;

@@ -6,7 +6,9 @@ import { useRouter } from "next/navigation";
 import { AdminBlogStudio, type BlogMode } from "@/components/admin/admin-blog-studio";
 import { AdminMediaLibrary } from "@/components/admin/admin-media-library";
 import { AdminInquiriesPanel } from "@/components/admin/admin-inquiries-panel";
+import { AdminMediaField } from "@/components/admin/admin-media-field";
 import { AdminPageHub, AdminSitePagesGrid } from "@/components/admin/admin-page-hub";
+import { sectionPreviewForPage } from "@/lib/admin-section-previews";
 import { OrbitHeroEditor } from "@/components/orbit/orbit-hero-editor";
 import { OrbitAppointmentsPanel } from "@/components/orbit/orbit-appointments-panel";
 import {
@@ -132,6 +134,53 @@ export function AdminApp(props: Props) {
     return ADMIN_PAGES.filter((item) => `${item.label} ${item.path}`.toLowerCase().includes(q));
   }, [query]);
 
+  const contentBundle = useMemo(
+    () => ({
+      hero: props.initial,
+      need: props.initialNeed,
+      work: props.initialWork,
+      software: props.initialSoftware,
+      about: props.initialAbout,
+      careers: props.initialCareers,
+      projects: props.initialProjects,
+      webApps: props.initialWebApps,
+      androidApps: props.initialAndroidApps,
+      iosApps: props.initialIosApps,
+    }),
+    [
+      props.initial,
+      props.initialNeed,
+      props.initialWork,
+      props.initialSoftware,
+      props.initialAbout,
+      props.initialCareers,
+      props.initialProjects,
+      props.initialWebApps,
+      props.initialAndroidApps,
+      props.initialIosApps,
+    ],
+  );
+
+  function previewFor(pageItem: AdminPage, sectionId: SectionId) {
+    return sectionPreviewForPage(pageItem, sectionId, contentBundle);
+  }
+
+  async function uploadHeaderLogo(file: File) {
+    setBusy(true);
+    const form = new FormData();
+    form.set("kind", "chromeLogo");
+    form.set("file", file);
+    const response = await fetch("/api/orbit/upload", { method: "POST", body: form });
+    const data = await response.json();
+    setBusy(false);
+    if (data.chrome) {
+      setChrome(data.chrome);
+      setStatus("Header logo updated on the live site.");
+    } else {
+      setStatus("Could not upload logo.");
+    }
+  }
+
   useEffect(() => {
     document.body.classList.add("go-cms-open");
     document.body.classList.remove("admin-locked", "go-dash-open");
@@ -235,6 +284,7 @@ export function AdminApp(props: Props) {
         {navOpen ? "Close" : "Menu"}
       </button>
       <aside className={`go-cms-side ${navOpen ? "is-open" : ""}`}>
+        <div className="go-cms-side-inner">
         <div className="go-cms-brand">
           <span className="go-cms-mark" />
           {collapsed ? null : (
@@ -338,6 +388,12 @@ export function AdminApp(props: Props) {
             <i /> All inquiries {props.inquiryNew ? <em>{props.inquiryNew}</em> : null}
           </button>
         </nav>
+        <footer className="go-cms-side-foot">
+          <button type="button" className="go-cms-logout" onClick={() => void logout()}>
+            Log out
+          </button>
+        </footer>
+        </div>
       </aside>
 
       <div className="go-cms-main">
@@ -354,14 +410,20 @@ export function AdminApp(props: Props) {
           <div className="go-cms-tools">
             <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search pages, posts, media, inquiries…" />
             <Link href={page.path} target="_blank" rel="noreferrer">
-              Preview
+              Preview live
             </Link>
+            <button type="button" className="go-cms-logout is-top" onClick={() => void logout()}>
+              Log out
+            </button>
             <div className="go-cms-account">
-              <button type="button" onClick={() => setAccountOpen((v) => !v)}>
-                Admin
+              <button type="button" onClick={() => setAccountOpen((v) => !v)} aria-expanded={accountOpen}>
+                Account
               </button>
               {accountOpen ? (
                 <div className="go-cms-menu">
+                  <button type="button" onClick={() => go("chrome")}>
+                    Site identity
+                  </button>
                   <button type="button" onClick={() => void logout()}>
                     Log out
                   </button>
@@ -531,7 +593,13 @@ export function AdminApp(props: Props) {
                   </header>
                   <AdminSitePagesGrid
                     pages={groupPages}
-                    onOpen={(item, sect) => go("page", item, sect ?? (item.seoOnly ? "seo" : "hub"))}
+                    previewForPage={(item) =>
+                      previewFor(
+                        item,
+                        item.seoOnly ? "seo" : (item.sections.find((s) => s.id !== "seo")?.id ?? "hub"),
+                      )
+                    }
+                    onOpen={(item) => go("page", item, item.seoOnly ? "seo" : "hub")}
                   />
                 </section>
               );
@@ -542,6 +610,7 @@ export function AdminApp(props: Props) {
         {showPageHub ? (
           <AdminPageHub
             page={page}
+            previewFor={(sectionId) => previewFor(page, sectionId)}
             onOpen={(next) => {
               if (next === "seo") {
                 go("page", page, "seo");
@@ -620,6 +689,15 @@ export function AdminApp(props: Props) {
         {view === "chrome" ? (
           <section className="go-cms-card">
             <h2>Header, footer & identity</h2>
+            <AdminMediaField
+              label="Header & footer logo"
+              description="Transparent PNG recommended. Replaces the gold Global Orbit mark in the site header and footer."
+              src={chrome.headerLogoSrc || "/brand/logo-official-gold.png"}
+              kind="image"
+              accept="image/png,image/webp,image/jpeg,image/svg+xml"
+              disabled={busy}
+              onPick={(file) => uploadHeaderLogo(file)}
+            />
             <div className="go-cms-form">
               {(
                 [

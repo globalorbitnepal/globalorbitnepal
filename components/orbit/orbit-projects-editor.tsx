@@ -1,6 +1,7 @@
 "use client";
 
 import type { FormEvent, ReactNode } from "react";
+import { AdminMediaField } from "@/components/admin/admin-media-field";
 import type { ProjectsConfig } from "@/lib/projects-config";
 
 function Field({
@@ -54,19 +55,30 @@ type Props = {
   busy: boolean;
   status: string;
   onSubmit: (event: FormEvent) => void;
+  adminEmbed?: boolean;
 };
 
-export function OrbitProjectsEditorForm({ config, setConfig, busy, status, onSubmit }: Props) {
+export function OrbitProjectsEditorForm({ config, setConfig, busy, status, onSubmit, adminEmbed }: Props) {
   const set = <K extends keyof ProjectsConfig>(key: K) => (value: ProjectsConfig[K]) => {
     setConfig((current) => ({ ...current, [key]: value }));
   };
+
+  async function uploadShowcaseImage(slug: string, file: File) {
+    const form = new FormData();
+    form.set("kind", "projectImage");
+    form.set("projectSlug", slug);
+    form.set("file", file);
+    const response = await fetch("/api/orbit/upload", { method: "POST", body: form });
+    const data = await response.json();
+    if (data.projectsConfig) setConfig(data.projectsConfig);
+  }
 
   return (
     <>
       <div className="mb-6 hidden lg:block">
         <h1 className="font-[family-name:var(--font-jakarta)] text-2xl font-semibold text-white">Projects page</h1>
         <p className="mt-1 text-sm text-white/55">
-          Full text for /projects — nine scroll-zoom demos use fixed images in the repo. Edit titles and copy only.
+          Full text and scroll-zoom screenshots for /projects — replace every project image from the admin console.
         </p>
       </div>
 
@@ -113,7 +125,7 @@ export function OrbitProjectsEditorForm({ config, setConfig, busy, status, onSub
           ))}
         </Panel>
 
-        <Panel title="Nine featured launches" description="One box per scroll step — images are not uploaded here">
+        <Panel title="Nine featured launches" description="One box per scroll step — image, titles, and browser bar URL.">
           {config.showcases.map((showcase, index) => (
             <div key={showcase.slug} className="rounded-2xl border border-white/10 bg-black/25 p-4">
               <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-[#818cf8]">
@@ -160,6 +172,17 @@ export function OrbitProjectsEditorForm({ config, setConfig, busy, status, onSub
                   }))
                 }
               />
+              {adminEmbed ? (
+                <AdminMediaField
+                  label="Scroll-zoom screenshot"
+                  description="Full-page capture used in the portfolio zoom sequence."
+                  src={showcase.imageSrc}
+                  kind="image"
+                  accept="image/png,image/jpeg,image/webp,image/*"
+                  disabled={busy}
+                  onPick={(file) => uploadShowcaseImage(showcase.slug, file)}
+                />
+              ) : null}
             </div>
           ))}
         </Panel>

@@ -11,6 +11,7 @@ import type { FallbackNavItem } from "@/lib/site";
 type SiteShellProps = {
   companyName: string;
   tagline: string;
+  headerLogoSrc?: string;
   headerItems: FallbackNavItem[];
   footerItems: FallbackNavItem[];
   email?: string;
@@ -22,6 +23,7 @@ type SiteShellProps = {
 export function SiteShell({
   companyName,
   tagline,
+  headerLogoSrc,
   headerItems,
   footerItems,
   email,
@@ -38,12 +40,13 @@ export function SiteShell({
       >
         Skip to content
       </a>
-      <SiteHeader companyName={companyName} items={headerItems} email={email} phone={phone} />
+      <SiteHeader companyName={companyName} headerLogoSrc={headerLogoSrc} items={headerItems} email={email} phone={phone} />
       <SiteMain>{children}</SiteMain>
       <HideOnOrbit>
         <SiteFooter
           companyName={companyName}
           tagline={tagline}
+          headerLogoSrc={headerLogoSrc}
           items={footerItems}
           email={email}
           phone={phone}
