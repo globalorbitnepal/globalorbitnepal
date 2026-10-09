@@ -10906,181 +10906,405 @@ body.admin-locked .orbit-app-shell {
   color: #1e293b;
 }
 
-.admin-login-stage {
+body.go-login-open,
+body.go-login-open .orbit-app-shell {
+  background: #02040a !important;
+  color: #f4f7ff;
+  overflow: hidden;
+}
+
+.go-login {
   position: fixed;
   inset: 0;
-  z-index: 80;
+  z-index: 90;
   overflow: auto;
-  color: #fff;
+  color: #f4f7ff;
+  font-family: inherit;
+  background: #02040a;
 }
-.admin-login-photo,
-.admin-login-shade {
+
+.go-login-sky,
+.go-login-veil {
   position: absolute;
   inset: 0;
+  pointer-events: none;
 }
-.admin-login-photo {
-  background-size: cover;
-  background-position: center;
+
+.go-login-sky img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 72% 70%;
 }
-.admin-login-shade {
-  background: linear-gradient(90deg, rgba(6, 12, 28, 0.55), rgba(6, 12, 28, 0.28) 48%, rgba(8, 16, 36, 0.55));
+
+.go-login-veil {
+  background:
+    linear-gradient(90deg, rgba(2, 5, 12, 0.72) 0%, rgba(2, 6, 16, 0.38) 46%, rgba(3, 8, 20, 0.55) 100%),
+    linear-gradient(180deg, rgba(2, 4, 10, 0.35) 0%, transparent 28%, rgba(2, 4, 10, 0.55) 100%);
 }
-.admin-login-grid {
+
+.go-login-shell {
   position: relative;
   z-index: 2;
   min-height: 100dvh;
+  min-height: 100svh;
   display: grid;
-  grid-template-columns: 1fr min(440px, 92vw);
-  gap: 2rem;
+  grid-template-columns: minmax(0, 1.15fr) minmax(320px, 440px);
+  gap: clamp(1.5rem, 4vw, 4.5rem);
   align-items: center;
-  padding: 4vw 6vw;
+  padding: max(2.2rem, env(safe-area-inset-top)) max(1.4rem, env(safe-area-inset-right)) max(2.2rem, env(safe-area-inset-bottom)) max(1.6rem, env(safe-area-inset-left));
+  width: min(1180px, 100%);
+  margin: 0 auto;
 }
-.admin-login-mark-wrap,
-.admin-login-card-mark-wrap {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.7rem 0.9rem;
-  border-radius: 1rem;
-  background: #0b1020;
-}
-.admin-login-mark {
-  width: min(220px, 64vw);
+
+.go-login-logo {
+  display: block;
+  width: min(360px, 86%);
   height: auto;
+  object-fit: contain;
+  background: transparent;
 }
-.admin-login-kicker {
-  margin: 1.2rem 0 0;
+
+.go-login-kicker {
+  margin: 1.55rem 0 0;
   font-size: 0.72rem;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: #f0c43a;
-}
-.admin-login-copy h1 {
-  margin: 1.4rem 0 0.7rem;
-  font-size: clamp(2.4rem, 5vw, 4.2rem);
   font-weight: 700;
-  letter-spacing: -0.04em;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: #8ec8ff;
 }
-.admin-login-copy h1 span { color: #f0c43a; }
-.admin-login-copy p {
-  max-width: 28rem;
-  color: rgba(255,255,255,0.78);
-  line-height: 1.6;
+
+.go-login-kicker::before {
+  content: "";
+  display: block;
+  width: 2.4rem;
+  height: 2px;
+  margin-bottom: 0.85rem;
+  background: #3ea2ff;
 }
-.admin-login-pills {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.8rem;
-  margin-top: 1.6rem;
+
+.go-login-title {
+  margin: 0.7rem 0 0.85rem;
+  font-size: clamp(2.5rem, 5.4vw, 4.35rem);
+  font-weight: 650;
+  letter-spacing: -0.045em;
+  line-height: 1.05;
+  color: #fff;
 }
-.admin-login-pill {
-  min-width: 7.5rem;
-  padding: 0.85rem 0.9rem;
-  border-radius: 1rem;
-  background: rgba(255,255,255,0.1);
-  border: 1px solid rgba(255,255,255,0.16);
-  backdrop-filter: blur(12px);
-  font-size: 0.78rem;
-  font-weight: 600;
+
+.go-login-title em {
+  font-style: normal;
+  color: #4da3ff;
+}
+
+.go-login-lede {
+  max-width: 34rem;
+  margin: 0;
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: rgba(214, 226, 247, 0.82);
+  font-weight: 450;
+}
+
+.go-login-features {
+  list-style: none;
+  margin: 2rem 0 0;
+  padding: 0;
   display: grid;
-  gap: 0.35rem;
-  justify-items: center;
-  text-align: center;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.15rem 1.4rem;
+  max-width: 34rem;
 }
-.admin-login-card {
-  background: rgba(255,255,255,0.86);
-  color: #0f172a;
-  border-radius: 1.6rem;
-  padding: 2rem 1.7rem 1.5rem;
-  box-shadow: 0 30px 80px rgba(0,0,0,0.28);
+
+.go-login-features li {
+  display: grid;
+  grid-template-columns: 2.5rem 1fr;
+  gap: 0.75rem;
+  align-items: start;
+}
+
+.go-login-feature-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  display: grid;
+  place-items: center;
+  border-radius: 0.85rem;
+  border: 1px solid rgba(90, 168, 255, 0.32);
+  background: rgba(16, 36, 72, 0.45);
+  color: #8ec8ff;
+}
+
+.go-login-feature-icon svg {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
+.go-login-features strong {
+  display: block;
+  font-size: 0.92rem;
+  font-weight: 650;
+  color: #fff;
+}
+
+.go-login-features span {
+  display: block;
+  margin-top: 0.18rem;
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: rgba(186, 204, 230, 0.78);
+}
+
+.go-login-panel {
+  position: relative;
+  padding: 1.7rem 1.55rem 1.35rem;
+  border-radius: 1.5rem;
+  border: 1px solid rgba(120, 178, 255, 0.22);
+  background: linear-gradient(180deg, rgba(10, 22, 44, 0.78), rgba(6, 12, 26, 0.82));
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.38);
   backdrop-filter: blur(18px);
 }
-.admin-login-card-mark-wrap {
-  display: flex;
-  width: fit-content;
-  margin: 0 auto 0.8rem;
+
+.go-login-badge {
+  position: absolute;
+  top: 1.05rem;
+  right: 1.05rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0;
+  padding: 0.32rem 0.65rem;
+  border-radius: 999px;
+  border: 1px solid rgba(120, 178, 255, 0.28);
+  background: rgba(8, 18, 38, 0.7);
+  color: #cfe4ff;
+  font-size: 0.68rem;
+  font-weight: 700;
 }
-.admin-login-card-mark {
+
+.go-login-badge svg {
+  width: 0.85rem;
+  height: 0.85rem;
+  color: #6eb6ff;
+}
+
+.go-login-eyebrow {
+  margin: 0.15rem 0 0;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #6eb6ff;
+}
+
+.go-login-panel h2 {
+  margin: 0.45rem 0 0.35rem;
+  font-size: 1.85rem;
+  font-weight: 650;
+  letter-spacing: -0.03em;
+  color: #fff;
+}
+
+.go-login-sub {
+  margin: 0 0 1.25rem;
+  color: rgba(196, 214, 240, 0.78);
+  font-size: 0.94rem;
+  line-height: 1.5;
+}
+
+.go-login-form {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.go-login-field label {
   display: block;
-  width: 148px;
+  margin-bottom: 0.4rem;
+  font-size: 0.82rem;
+  font-weight: 650;
+  color: #e8f1ff;
 }
-.admin-login-card h2 {
-  text-align: center;
-  font-size: 1.7rem;
-  font-weight: 800;
-}
-.admin-login-sub {
-  text-align: center;
-  color: #64748b;
-  margin: 0.2rem 0 1.2rem;
-  font-size: 0.92rem;
-}
-.admin-login-card form { display: grid; gap: 0.8rem; }
-.admin-login-card label {
+
+.go-login-control {
   position: relative;
-  display: block;
 }
-.admin-login-card input[type="text"],
-.admin-login-card input[type="password"] {
+
+.go-login-control > svg {
+  position: absolute;
+  left: 0.85rem;
+  top: 50%;
+  width: 1.05rem;
+  height: 1.05rem;
+  transform: translateY(-50%);
+  color: #7aa7d6;
+  pointer-events: none;
+}
+
+.go-login-control input {
   width: 100%;
-  border: 1px solid #dbe3ef;
-  border-radius: 0.85rem;
-  padding: 0.85rem 4.2rem 0.85rem 0.9rem;
-  margin-top: 0.35rem;
-  background: #fff;
+  min-height: 3rem;
+  border: 1px solid rgba(130, 176, 230, 0.28);
+  border-radius: 0.95rem;
+  padding: 0.75rem 3.4rem 0.75rem 2.5rem;
+  background: rgba(6, 12, 24, 0.55);
+  color: #fff;
+  font-size: 0.95rem;
   outline: none;
 }
-.admin-login-card input:focus {
-  border-color: #1d4ed8;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.18);
+
+.go-login-control input::placeholder {
+  color: rgba(170, 194, 224, 0.55);
 }
-.admin-login-eye {
+
+.go-login-control input:focus {
+  border-color: #4da3ff;
+  box-shadow: 0 0 0 3px rgba(77, 163, 255, 0.18);
+}
+
+.go-login-eye {
   position: absolute;
-  right: 0.55rem;
-  bottom: 0.55rem;
-  background: #f1f5f9;
+  right: 0.45rem;
+  top: 50%;
+  transform: translateY(-50%);
+  min-height: 2.2rem;
+  padding: 0 0.65rem;
   border: 0;
-  border-radius: 0.5rem;
-  padding: 0.28rem 0.55rem;
-  font-size: 0.75rem;
+  border-radius: 0.6rem;
+  background: transparent;
+  color: #9ec4ef;
+  font-size: 0.78rem;
   font-weight: 700;
-  color: #334155;
   cursor: pointer;
 }
-.admin-login-remember {
+
+.go-login-eye:focus-visible,
+.go-login-submit:focus-visible,
+.go-login-control input:focus-visible {
+  outline: 2px solid #7cbcff;
+  outline-offset: 2px;
+}
+
+.go-login-remember {
   display: flex;
-  gap: 0.4rem;
+  gap: 0.55rem;
   align-items: center;
   font-size: 0.86rem;
+  color: #d5e4f7;
 }
-.admin-login-submit {
+
+.go-login-remember input {
+  width: 1.05rem;
+  height: 1.05rem;
+  accent-color: #2f7fff;
+}
+
+.go-login-submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  min-height: 3rem;
   width: 100%;
-  min-height: 2.75rem;
   border: 0;
-  border-radius: 0.9rem;
-  padding: 0.95rem;
-  background: #1d4ed8;
+  border-radius: 0.95rem;
+  background: linear-gradient(180deg, #3d8dff, #1d63f0);
   color: #fff;
+  font-size: 0.98rem;
   font-weight: 700;
   cursor: pointer;
+  box-shadow: 0 10px 24px rgba(29, 99, 240, 0.28);
 }
-.admin-login-submit:disabled { opacity: 0.65; }
-.admin-login-error { color: #b91c1c; font-size: 0.86rem; text-align: center; }
-.admin-login-or {
+
+.go-login-submit:disabled {
+  opacity: 0.62;
+  cursor: wait;
+}
+
+.go-login-error {
+  margin: 0;
+  color: #ffb4b4;
+  font-size: 0.86rem;
   text-align: center;
-  color: #94a3b8;
-  margin: 1rem 0 0.6rem;
+}
+
+.go-login-foot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  margin: 1.15rem 0 0;
+  color: rgba(176, 198, 224, 0.72);
   font-size: 0.78rem;
 }
-.admin-login-secure {
-  display: grid;
-  justify-items: center;
-  text-align: center;
-  color: #2563eb;
-  font-weight: 700;
-  font-size: 0.9rem;
+
+.go-login-foot svg {
+  width: 0.9rem;
+  height: 0.9rem;
 }
-.admin-login-secure small { display: block; color: #64748b; font-weight: 500; }
+
+@media (max-width: 1024px) {
+  .go-login-shell {
+    grid-template-columns: 1fr minmax(300px, 400px);
+    width: min(980px, 100%);
+  }
+  .go-login-title {
+    font-size: clamp(2.2rem, 6vw, 3.4rem);
+  }
+}
+
+@media (max-width: 860px) {
+  .go-login-shell {
+    grid-template-columns: 1fr;
+    align-content: start;
+    gap: 1.4rem;
+    padding-top: max(1.2rem, env(safe-area-inset-top));
+  }
+  .go-login-sky img {
+    object-position: 80% 85%;
+  }
+  .go-login-veil {
+    background:
+      linear-gradient(180deg, rgba(2, 5, 12, 0.78) 0%, rgba(2, 6, 16, 0.58) 36%, rgba(2, 5, 12, 0.82) 100%);
+  }
+  .go-login-logo {
+    width: min(280px, 88%);
+  }
+  .go-login-features {
+    grid-template-columns: 1fr 1fr;
+  }
+  .go-login-badge {
+    position: static;
+    width: fit-content;
+    margin-bottom: 0.7rem;
+  }
+}
+
+@media (max-width: 560px) {
+  .go-login-features {
+    display: none;
+  }
+  .go-login-lede {
+    font-size: 0.95rem;
+  }
+  .go-login-panel {
+    padding: 1.3rem 1.1rem 1.15rem;
+  }
+}
+
+@media (max-height: 700px) and (min-width: 861px) {
+  .go-login-features {
+    margin-top: 1.2rem;
+  }
+  .go-login-title {
+    font-size: 2.6rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .go-login-submit,
+  .go-login-control input {
+    transition: none;
+  }
+}
 
 .cms-app {
   position: fixed;
@@ -11328,5 +11552,4 @@ body.admin-locked .orbit-app-shell {
   .cms-kpis, .cms-grid, .cms-sections { grid-template-columns: 1fr; }
   .cms-side { display: flex; gap: 0.4rem; overflow-x: auto; }
   .cms-side nav { display: flex; }
-  .admin-login-grid { grid-template-columns: 1fr; padding-top: 8vh; }
 }
