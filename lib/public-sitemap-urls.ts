@@ -55,7 +55,9 @@ export async function collectSitemapPaths(): Promise<SitemapEntry[]> {
   const entries: SitemapEntry[] = [];
 
   for (const path of paths) {
-    if (path.startsWith("/admin") || path.startsWith("/orbit") || path.startsWith("/api")) continue;
+    if (path.startsWith("/admin") || path === "/orbit" || path.startsWith("/orbit/") || path.startsWith("/api")) {
+      continue;
+    }
     const robots = indexed.get(path);
     if (robots === false) continue;
 

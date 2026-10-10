@@ -22,6 +22,10 @@ const checks = [
   ["seo defaults include ORBIT_LANDINGS", defaults.includes("ORBIT_LANDINGS")],
   ["seo defaults include ORBIT_SERVICE_PAGES", defaults.includes("ORBIT_SERVICE_PAGES")],
   ["redirects in next.config", read("next.config.ts").includes("/portfolio")],
+  [
+    "sitemap does not block /orbit-software",
+    !read("lib/public-sitemap-urls.ts").includes('path.startsWith("/orbit")'),
+  ],
 ];
 
 let failed = 0;
