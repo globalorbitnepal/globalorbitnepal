@@ -1682,6 +1682,7 @@ li.orbit-card:hover {
   display: grid;
   gap: clamp(0.9rem, 1.4vw, 1.25rem);
   grid-template-columns: minmax(0, 1fr);
+  margin-bottom: clamp(0.5rem, 2vh, 1.25rem);
 }
 
 @media (min-width: 720px) {
@@ -6961,6 +6962,27 @@ li.orbit-card:hover {
   contain: layout style;
 }
 
+/* Enterprise software block: natural height (hero + product grid), not a pinned 180vh stage */
+.orbit-soft-track.orbit-soft-catalog {
+  height: auto;
+  min-height: 0;
+  overflow: visible;
+  contain: none;
+}
+
+.orbit-soft-track.orbit-soft-catalog .orbit-soft-pin.orbit-soft-catalog-pin {
+  position: relative;
+  top: auto;
+  height: auto;
+  min-height: 0;
+  overflow: visible;
+}
+
+.orbit-soft-track.orbit-soft-catalog + .orbit-process-section {
+  margin-top: 0;
+  padding-top: clamp(3.5rem, 7vh, 5.5rem) !important;
+}
+
 .orbit-soft-track.is-soft-scrolling .orbit-soft-zoom {
   will-change: transform;
 }
@@ -8549,25 +8571,25 @@ li.orbit-card:hover {
 }
 
 @media (max-width: 900px) {
-  .orbit-soft-track {
+  .orbit-soft-track:not(.orbit-soft-catalog) {
     height: 125vh;
     min-height: 125vh;
     margin-bottom: 0;
   }
 
-  .orbit-soft-track + .orbit-process-section {
+  .orbit-soft-track:not(.orbit-soft-catalog) + .orbit-process-section {
     margin-top: 0;
   }
 }
 
 @media (max-width: 640px) {
-  .orbit-soft-track {
+  .orbit-soft-track:not(.orbit-soft-catalog) {
     height: 125vh;
     min-height: 125vh;
     margin-bottom: 0;
   }
 
-  .orbit-soft-track + .orbit-process-section {
+  .orbit-soft-track:not(.orbit-soft-catalog) + .orbit-process-section {
     margin-top: 0;
   }
 
@@ -9089,7 +9111,7 @@ li.orbit-card:hover {
     min-height: 145vh;
   }
 
-  .orbit-soft-track {
+  .orbit-soft-track:not(.orbit-soft-catalog) {
     height: 125vh;
     min-height: 125vh;
   }
