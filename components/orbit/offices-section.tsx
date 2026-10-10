@@ -85,14 +85,12 @@ export function OrbitOfficesSection() {
   return (
     <section
       ref={sectionRef}
-      className="orbit-offices-section orbit-offices-cinema relative isolate overflow-hidden"
+      className="orbit-offices-section orbit-studio-surface relative isolate overflow-hidden px-4 py-[clamp(3.75rem,9vh,5.75rem)] sm:px-8"
       aria-labelledby="offices-heading"
     >
-      <div className="orbit-offices-world-bg pointer-events-none absolute inset-0" aria-hidden="true" />
-      <div className="orbit-offices-world-glow pointer-events-none absolute inset-0" aria-hidden="true" />
-      <div className="orbit-offices-world-vignette pointer-events-none absolute inset-0" aria-hidden="true" />
+      <div className="pointer-events-none absolute inset-0 orbit-studio-surface-glow" aria-hidden="true" />
 
-      <div className="orbit-offices-inner relative z-[1] mx-auto w-full max-w-[min(1240px,94vw)] px-4 py-[clamp(3.5rem,9vh,5.5rem)] sm:px-6 lg:px-8">
+      <div className="orbit-offices-inner relative z-[1] mx-auto w-full max-w-[min(1480px,96vw)]">
         <header className="orbit-offices-head mx-auto max-w-3xl text-center">
           <p className="orbit-work-badge mx-auto">
             <span className="orbit-work-badge-num">7</span>
@@ -123,10 +121,10 @@ export function OrbitOfficesSection() {
                 <div className="orbit-offices-visual">
                   <Image
                     src={office.image}
-                    alt=""
+                    alt={`${office.city} — ${office.country} sales office`}
                     fill
-                    quality={index === 1 ? 88 : 82}
-                    sizes="(max-width: 640px) 100vw, (max-width: 1200px) 50vw, 380px"
+                    quality={90}
+                    sizes="(max-width: 640px) 100vw, (max-width: 1200px) 50vw, 460px"
                     className="orbit-offices-photo object-cover object-center"
                     loading={index === 1 ? "eager" : "lazy"}
                     priority={index === 1}

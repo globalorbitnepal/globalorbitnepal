@@ -8117,30 +8117,9 @@ li.orbit-card:hover {
 }
 
 .orbit-offices-section {
-  background: #04060e;
+  background: transparent;
   content-visibility: auto;
-  contain-intrinsic-size: auto 920px;
-}
-
-.orbit-offices-cinema {
-  border-top: 1px solid rgba(240, 196, 58, 0.1);
-}
-
-.orbit-offices-world-bg {
-  background: url("/brand/offices/world-bg.jpg") center 42% / cover no-repeat;
-  transform: translateZ(0);
-}
-
-.orbit-offices-world-glow {
-  background:
-    radial-gradient(ellipse 90% 42% at 50% 88%, rgba(56, 130, 220, 0.38) 0%, rgba(20, 60, 140, 0.12) 42%, transparent 72%),
-    radial-gradient(ellipse 70% 50% at 50% 0%, rgba(240, 196, 58, 0.08), transparent 55%);
-}
-
-.orbit-offices-world-vignette {
-  background:
-    linear-gradient(180deg, rgba(4, 6, 14, 0.55) 0%, rgba(4, 6, 14, 0.2) 38%, rgba(4, 6, 14, 0.72) 100%),
-    radial-gradient(ellipse 85% 70% at 50% 50%, transparent 35%, rgba(2, 4, 10, 0.55) 100%);
+  contain-intrinsic-size: auto 1020px;
 }
 
 .orbit-offices-head .orbit-offices-title {
@@ -8190,65 +8169,123 @@ li.orbit-card:hover {
 
 .orbit-offices-grid {
   display: grid;
-  gap: clamp(1rem, 2.2vw, 1.35rem);
+  gap: clamp(1.15rem, 2.4vw, 1.65rem);
   list-style: none;
   padding: 0;
-  margin: clamp(2.25rem, 5vh, 3rem) 0 0;
+  margin: clamp(2.5rem, 5.5vh, 3.25rem) 0 0;
 }
 
 @media (min-width: 768px) {
   .orbit-offices-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(1.25rem, 2vw, 1.75rem);
   }
 }
 
 .orbit-offices-item {
   opacity: 0;
-  transform: translate3d(0, 22px, 0);
+  transform: translate3d(0, 36px, 0) scale(0.97);
   transition:
-    opacity 0.65s ease,
-    transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
-  transition-delay: calc(80ms + var(--office-i, 0) * 90ms);
+    opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: calc(120ms + var(--office-i, 0) * 110ms);
 }
 
 .orbit-offices-section.is-visible .orbit-offices-item {
   opacity: 1;
-  transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0) scale(1);
 }
 
 .orbit-offices-card {
   position: relative;
   height: 100%;
   overflow: hidden;
-  border-radius: 18px;
+  border-radius: 22px;
   border: 1px solid rgba(255, 255, 255, 0.14);
-  background: rgba(8, 10, 18, 0.92);
+  background: linear-gradient(165deg, rgba(255, 255, 255, 0.09) 0%, rgba(10, 12, 22, 0.94) 48%, rgba(6, 8, 14, 0.98) 100%);
   box-shadow:
-    0 24px 56px rgba(0, 0, 0, 0.55),
-    0 0 0 1px rgba(255, 255, 255, 0.04) inset;
-  transition: border-color 0.25s ease, box-shadow 0.3s ease;
+    0 28px 64px rgba(0, 0, 0, 0.48),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 0 0 1px rgba(255, 255, 255, 0.04);
+  transition:
+    border-color 0.28s ease,
+    box-shadow 0.32s ease,
+    transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.orbit-offices-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 0%,
+    transparent 40%,
+    rgba(240, 196, 58, 0.14) 50%,
+    transparent 60%,
+    transparent 100%
+  );
+  background-size: 220% 100%;
+  transition: opacity 0.35s ease;
+}
+
+.orbit-offices-section.is-visible .orbit-offices-card::after {
+  opacity: 1;
+  animation: orbit-offices-shine 5.5s ease-in-out infinite;
+  animation-delay: calc(var(--office-i, 0) * 0.65s);
 }
 
 .orbit-offices-card:hover {
-  border-color: rgba(240, 196, 58, 0.38);
+  transform: translateY(-6px);
+  border-color: rgba(240, 196, 58, 0.42);
   box-shadow:
-    0 28px 64px rgba(0, 0, 0, 0.58),
-    0 0 36px rgba(240, 196, 58, 0.1);
+    0 34px 72px rgba(0, 0, 0, 0.52),
+    0 0 48px rgba(240, 196, 58, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.16);
+}
+
+@keyframes orbit-offices-shine {
+  0% {
+    background-position: 120% 0;
+  }
+  100% {
+    background-position: -120% 0;
+  }
 }
 
 .orbit-offices-visual {
   position: relative;
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 4 / 3;
   overflow: hidden;
   background: #0a0c14;
 }
 
 .orbit-offices-photo {
-  transition: transform 0.55s ease;
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  transform: scale(1.02);
+}
+
+.orbit-offices-section.is-visible .orbit-offices-photo {
+  animation: orbit-offices-photo-breathe 14s ease-in-out infinite;
+  animation-delay: calc(var(--office-i, 0) * 1.2s);
 }
 
 .orbit-offices-card:hover .orbit-offices-photo {
-  transform: scale(1.03);
+  transform: scale(1.06);
+  animation: none;
+}
+
+@keyframes orbit-offices-photo-breathe {
+  0%,
+  100% {
+    transform: scale(1.02);
+  }
+  50% {
+    transform: scale(1.055);
+  }
 }
 
 .orbit-offices-visual-shade {
@@ -8277,7 +8314,7 @@ li.orbit-card:hover {
 }
 
 .orbit-offices-body {
-  padding: 1rem 1.05rem 1.15rem;
+  padding: 1.2rem 1.3rem 1.35rem;
   background: linear-gradient(180deg, rgba(12, 14, 22, 0.98), rgba(6, 8, 14, 1));
 }
 
@@ -8297,18 +8334,18 @@ li.orbit-card:hover {
 }
 
 .orbit-offices-country {
-  margin-top: 0.35rem;
+  margin-top: 0.4rem;
   font-family: ui-serif, "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
-  font-size: clamp(1.15rem, 0.9rem + 0.5vw, 1.45rem);
+  font-size: clamp(1.28rem, 1rem + 0.55vw, 1.65rem);
   font-weight: 500;
   line-height: 1.15;
   color: #fff;
 }
 
 .orbit-offices-city {
-  margin-top: 0.2rem;
-  font-size: 0.8rem;
-  color: rgba(255, 255, 255, 0.48);
+  margin-top: 0.25rem;
+  font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.52);
 }
 
 .orbit-offices-cta {
@@ -8370,6 +8407,15 @@ li.orbit-card:hover {
 
   .orbit-offices-card {
     transform: none !important;
+  }
+
+  .orbit-offices-section.is-visible .orbit-offices-card::after,
+  .orbit-offices-section.is-visible .orbit-offices-photo {
+    animation: none !important;
+  }
+
+  .orbit-offices-photo {
+    transform: none;
   }
 }
 
@@ -8910,7 +8956,16 @@ li.orbit-card:hover {
   }
 
   .orbit-offices-visual {
-    aspect-ratio: 16 / 10;
+    aspect-ratio: 4 / 3;
+  }
+
+  html.orbit-mobile-lite .orbit-offices-section.is-visible .orbit-offices-photo,
+  html.orbit-mobile-lite .orbit-offices-section.is-visible .orbit-offices-card::after {
+    animation: none !important;
+  }
+
+  html.orbit-mobile-lite .orbit-offices-photo {
+    transform: scale(1.02);
   }
 
   .orbit-studio-hero video {
