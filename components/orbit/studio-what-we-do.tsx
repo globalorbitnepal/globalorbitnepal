@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { useEffect, useMemo, useRef, type CSSProperties } from "react";
 import { DEMO_SITES } from "@/components/orbit/demo-sites";
 import { bindOrbitScroll, isOrbitTouch } from "@/lib/orbit/scroll-performance";
 import { EARTH_ORBIT_SITES, EARTH_SIDE_LAYOUT } from "@/lib/work-earth-mosaic";
@@ -8,17 +8,6 @@ import type { WorkConfig } from "@/lib/work-config";
 
 function clamp(n: number, min: number, max: number) {
   return Math.min(max, Math.max(min, n));
-}
-
-function EarthHeadline({ text }: { text: string }) {
-  const match = text.match(/^(.*?)(\s*we\s+ship\.?\s*)$/i);
-  if (!match) return text;
-  return (
-    <>
-      {match[1]}
-      <span className="orbit-work-earth-headline-gold">{match[2].trim()}</span>
-    </>
-  );
 }
 
 function smoothStep(t: number) {
@@ -215,41 +204,18 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
   const yawRef = useRef(12);
   const frameRef = useRef(0);
   const drawRef = useRef<((yaw: number) => void) | null>(null);
-  const [globeReady, setGlobeReady] = useState(false);
-  const [mobileLayout, setMobileLayout] = useState(false);
 
-  const floaters = (mobileLayout ? EARTH_ORBIT_SITES.slice(0, 6) : EARTH_ORBIT_SITES).map((site, index) => ({
-    site,
-    layout: EARTH_SIDE_LAYOUT[index] ?? EARTH_SIDE_LAYOUT[0],
-    index,
-  }));
-
-  useEffect(() => {
-    const mq = window.matchMedia("(max-width: 767px)");
-    const sync = () => setMobileLayout(mq.matches);
-    sync();
-    mq.addEventListener("change", sync);
-    return () => mq.removeEventListener("change", sync);
+  const floaters = useMemo(() => {
+    const touch = typeof window !== "undefined" && window.matchMedia("(max-width: 767px)").matches;
+    const sites = touch ? EARTH_ORBIT_SITES.slice(0, 6) : EARTH_ORBIT_SITES;
+    return sites.map((site, index) => ({
+      site,
+      layout: EARTH_SIDE_LAYOUT[index] ?? EARTH_SIDE_LAYOUT[0],
+      index,
+    }));
   }, []);
 
   useEffect(() => {
-    const track = trackRef.current;
-    if (!track) return;
-    const io = new IntersectionObserver(
-      (entries) => {
-        if (entries.some((e) => e.isIntersecting)) {
-          setGlobeReady(true);
-          io.disconnect();
-        }
-      },
-      { rootMargin: "180px 0px", threshold: 0.01 },
-    );
-    io.observe(track);
-    return () => io.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (!globeReady) return;
     const canvas = canvasRef.current;
     const track = trackRef.current;
     if (!canvas || !track) return;
@@ -311,32 +277,24 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
     const uniqueSrc = [
       ...new Set([...EARTH_ORBIT_SITES.map((s) => s.image), ...DEMO_SITES.map((s) => s.image)]),
     ];
-    const buildTexture = () => {
-      void Promise.all(uniqueSrc.map((src) => loadImage(src).catch(() => null))).then((loaded) => {
-        if (!alive) return;
-        const imgs = loaded.filter((img): img is HTMLImageElement => img != null);
-        if (!imgs.length) return;
-        const mobile = window.matchMedia("(max-width: 767px)").matches;
-        const w = mobile ? 1024 : 2048;
-        const mosaic = paintMosaic(imgs, w, Math.floor(w / 2));
-        gl.bindTexture(gl.TEXTURE_2D, tex);
-        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1);
-        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, mosaic);
-        drawRef.current?.(yawRef.current);
-      });
-    };
-    if (typeof requestIdleCallback !== "undefined") {
-      requestIdleCallback(buildTexture, { timeout: 1200 });
-    } else {
-      window.setTimeout(buildTexture, 40);
-    }
+    void Promise.all(uniqueSrc.map((src) => loadImage(src).catch(() => null))).then((loaded) => {
+      if (!alive) return;
+      const imgs = loaded.filter((img): img is HTMLImageElement => img != null);
+      if (!imgs.length) return;
+      const mobile = window.matchMedia("(max-width: 767px)").matches;
+      const w = mobile ? 1536 : 2048;
+      const mosaic = paintMosaic(imgs, w, Math.floor(w / 2));
+      gl.bindTexture(gl.TEXTURE_2D, tex);
+      gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, mosaic);
+      drawRef.current?.(yawRef.current);
+    });
 
     const resize = () => {
       const parent = canvas.parentElement;
       if (!parent) return;
       const size = Math.min(parent.clientWidth, parent.clientHeight);
-      const mobile = window.matchMedia("(max-width: 767px)").matches;
-      const dpr = Math.min(window.devicePixelRatio || 1, mobile ? 1 : 1.5);
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
       const px = Math.max(360, Math.floor(size * dpr));
       if (canvas.width !== px) {
         canvas.width = px;
@@ -362,7 +320,7 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
       alive = false;
       drawRef.current = null;
     };
-  }, [globeReady]);
+  }, []);
 
   useEffect(() => {
     const track = trackRef.current;
@@ -370,7 +328,7 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
     if (!track) return;
     const touch = isOrbitTouch();
 
-    const placeCards = (spin: number, driftPhase = 0) => {
+    const placeCards = (spin: number) => {
       const root = cardsRef.current;
       if (!root) return;
       const nodes = root.querySelectorAll<HTMLElement>("[data-side-i]");
@@ -378,20 +336,16 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
         const i = Number(el.dataset.sideI);
         const layout = EARTH_SIDE_LAYOUT[i];
         if (!layout) return;
-        const wobbleX = Math.sin(((spin + i * 28) * Math.PI) / 180) * 0.8;
-        const wobbleY = Math.cos(((spin + i * 22) * Math.PI) / 180) * 0.5;
-        const isLeft = layout.left < 50;
-        const orbitDrift = Math.sin(driftPhase + i * 0.72) * (isLeft ? -2.4 : 2.4);
-        const orbitLift = Math.cos(driftPhase * 0.85 + i * 0.5) * 0.9;
-        el.style.setProperty("--card-left", `${(layout.left + wobbleX + orbitDrift).toFixed(2)}%`);
-        el.style.setProperty("--card-top", `${(layout.top + wobbleY + orbitLift).toFixed(2)}%`);
+        const wobble = Math.sin(((spin + i * 32) * Math.PI) / 180) * 1.4;
+        el.style.setProperty("--card-left", `${(layout.left + wobble).toFixed(2)}%`);
+        el.style.setProperty("--card-top", `${layout.top.toFixed(2)}%`);
         el.style.setProperty("--card-s", "1");
         el.style.zIndex = String(40 + i);
         el.style.opacity = "1";
       });
     };
 
-    const apply = (driftPhase = 0) => {
+    const apply = () => {
       const travel = Math.max(track.offsetHeight - window.innerHeight, 1);
       const raw = clamp(-track.getBoundingClientRect().top / travel, 0, 1);
       track.classList.toggle("is-work-scrolling", raw > 0.02 && raw < 0.98);
@@ -404,7 +358,7 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
         stage.style.setProperty("--earth-spin", `${spin.toFixed(2)}deg`);
       }
       drawRef.current?.(spin);
-      placeCards(spin, driftPhase);
+      placeCards(spin);
 
       if (madeRef.current) {
         const m = reduce ? 1 : madeLabelProgress(raw);
@@ -412,24 +366,8 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
       }
     };
 
-    placeCards(10, 0);
-
-    const unbindScroll = bindOrbitScroll(track, () => apply(performance.now() / 2400), frameRef);
-
-    let driftFrame = 0;
-    const driftLoop = () => {
-      driftFrame = window.requestAnimationFrame(driftLoop);
-      if (reduce) return;
-      const rect = track.getBoundingClientRect();
-      if (rect.bottom < -80 || rect.top > window.innerHeight + 80) return;
-      placeCards(yawRef.current, performance.now() / 2400);
-    };
-    if (!reduce) driftFrame = window.requestAnimationFrame(driftLoop);
-
-    return () => {
-      unbindScroll();
-      if (driftFrame) window.cancelAnimationFrame(driftFrame);
-    };
+    placeCards(10);
+    return bindOrbitScroll(track, apply, frameRef);
   }, []);
 
   return (
@@ -450,11 +388,8 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
             {config.badgeLabel}
           </p>
           <h2 id="what-we-do-heading" className="orbit-work-headline orbit-work-earth-headline">
-            <EarthHeadline text={config.headline} />
+            {config.headline}
           </h2>
-          <p className="orbit-work-earth-lede">
-            Turning ideas into high-performing websites for hotels, spas, travel, and modern businesses.
-          </p>
         </header>
 
         <div className="orbit-work-mosaic-main orbit-work-earth-stage">
@@ -469,21 +404,6 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
             <div className="orbit-work-earth-globe">
               <canvas ref={canvasRef} className="orbit-work-earth-canvas" aria-hidden="true" />
             </div>
-
-            <svg className="orbit-work-earth-connectors" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-              {EARTH_SIDE_LAYOUT.map((layout, i) =>
-                mobileLayout && i >= 6 ? null : (
-                  <line
-                    key={`line-${i}`}
-                    x1={layout.left}
-                    y1={layout.top}
-                    x2={layout.anchorX}
-                    y2={layout.anchorY}
-                  />
-                ),
-              )}
-              <circle cx="50" cy="50" r="0.55" className="orbit-work-earth-hub-dot" />
-            </svg>
 
             <ul ref={cardsRef} className="orbit-work-earth-floats">
               {floaters.map(({ site, layout, index }) => (
@@ -509,13 +429,7 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
                       <span className="orbit-work-earth-browser-url">{site.host}</span>
                     </div>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={site.image}
-                      alt=""
-                      className="orbit-work-earth-card-shot"
-                      loading="lazy"
-                      decoding="async"
-                    />
+                    <img src={site.image} alt="" className="orbit-work-earth-card-shot" />
                   </article>
                 </li>
               ))}
