@@ -6298,6 +6298,30 @@ li.orbit-card:hover {
   opacity: 0.85;
 }
 
+.orbit-work-earth-worldmap {
+  position: absolute;
+  inset: 6% 4% 22% 4%;
+  opacity: 0.28;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 400'%3E%3Cg fill='%23f0c43a' fill-opacity='0.55'%3E%3Ccircle cx='120' cy='95' r='1.2'/%3E%3Ccircle cx='135' cy='88' r='1'/%3E%3Ccircle cx='148' cy='102' r='1.1'/%3E%3Ccircle cx='165' cy='78' r='1'/%3E%3Ccircle cx='182' cy='92' r='1.2'/%3E%3Ccircle cx='198' cy='85' r='1'/%3E%3Ccircle cx='215' cy='98' r='1.1'/%3E%3Ccircle cx='232' cy='72' r='1'/%3E%3Ccircle cx='248' cy='88' r='1.2'/%3E%3Ccircle cx='265' cy='95' r='1'/%3E%3Ccircle cx='282' cy='82' r='1.1'/%3E%3Ccircle cx='298' cy='105' r='1'/%3E%3Ccircle cx='315' cy='90' r='1.2'/%3E%3Ccircle cx='332' cy='78' r='1'/%3E%3Ccircle cx='348' cy='98' r='1.1'/%3E%3Ccircle cx='365' cy='85' r='1'/%3E%3Ccircle cx='382' cy='92' r='1.2'/%3E%3Ccircle cx='398' cy='75' r='1'/%3E%3Ccircle cx='415' cy='88' r='1.1'/%3E%3Ccircle cx='432' cy='102' r='1'/%3E%3Ccircle cx='448' cy='78' r='1.2'/%3E%3Ccircle cx='465' cy='95' r='1'/%3E%3Ccircle cx='482' cy='82' r='1.1'/%3E%3Ccircle cx='498' cy='98' r='1'/%3E%3Ccircle cx='515' cy='72' r='1.2'/%3E%3Ccircle cx='532' cy='88' r='1'/%3E%3Ccircle cx='548' cy='105' r='1.1'/%3E%3Ccircle cx='565' cy='90' r='1'/%3E%3Ccircle cx='582' cy='78' r='1.2'/%3E%3Ccircle cx='598' cy='98' r='1'/%3E%3Ccircle cx='615' cy='85' r='1.1'/%3E%3Ccircle cx='632' cy='92' r='1'/%3E%3Ccircle cx='648' cy='75' r='1.2'/%3E%3Ccircle cx='665' cy='88' r='1'/%3E%3Ccircle cx='682' cy='102' r='1.1'/%3E%3Ccircle cx='95' cy='145' r='1'/%3E%3Ccircle cx='112' cy='158' r='1.1'/%3E%3Ccircle cx='128' cy='142' r='1.2'/%3E%3Ccircle cx='145' cy='165' r='1'/%3E%3Ccircle cx='162' cy='152' r='1.1'/%3E%3Ccircle cx='178' cy='138' r='1'/%3E%3Ccircle cx='195' cy='168' r='1.2'/%3E%3Ccircle cx='212' cy='148' r='1'/%3E%3Ccircle cx='228' cy='162' r='1.1'/%3E%3Ccircle cx='245' cy='135' r='1'/%3E%3Ccircle cx='262' cy='155' r='1.2'/%3E%3Ccircle cx='278' cy='142' r='1'/%3E%3Ccircle cx='295' cy='172' r='1.1'/%3E%3Ccircle cx='312' cy='148' r='1'/%3E%3Ccircle cx='328' cy='158' r='1.2'/%3E%3Ccircle cx='345' cy='132' r='1'/%3E%3Ccircle cx='362' cy='165' r='1.1'/%3E%3Ccircle cx='378' cy='152' r='1'/%3E%3Ccircle cx='395' cy='138' r='1.2'/%3E%3Ccircle cx='412' cy='168' r='1'/%3E%3Ccircle cx='428' cy='145' r='1.1'/%3E%3Ccircle cx='445' cy='158' r='1'/%3E%3Ccircle cx='462' cy='142' r='1.2'/%3E%3Ccircle cx='478' cy='175' r='1'/%3E%3Ccircle cx='495' cy='152' r='1.1'/%3E%3Ccircle cx='512' cy='138' r='1'/%3E%3Ccircle cx='528' cy='162' r='1.2'/%3E%3Ccircle cx='545' cy='148' r='1'/%3E%3Ccircle cx='562' cy='168' r='1.1'/%3E%3Ccircle cx='578' cy='135' r='1'/%3E%3Ccircle cx='595' cy='155' r='1.2'/%3E%3Ccircle cx='612' cy='142' r='1'/%3E%3Ccircle cx='628' cy='172' r='1.1'/%3E%3Ccircle cx='645' cy='148' r='1'/%3E%3Ccircle cx='662' cy='158' r='1.2'/%3E%3Ccircle cx='678' cy='132' r='1'/%3E%3Ccircle cx='695' cy='165' r='1.1'/%3E%3Ccircle cx='88' cy='215' r='1.1'/%3E%3Ccircle cx='105' cy='228' r='1'/%3E%3Ccircle cx='122' cy='205' r='1.2'/%3E%3Ccircle cx='138' cy='238' r='1'/%3E%3Ccircle cx='155' cy='218' r='1.1'/%3E%3Ccircle cx='172' cy='242' r='1'/%3E%3Ccircle cx='188' cy='208' r='1.2'/%3E%3Ccircle cx='205' cy='232' r='1'/%3E%3Ccircle cx='222' cy='215' r='1.1'/%3E%3Ccircle cx='238' cy='248' r='1'/%3E%3Ccircle cx='255' cy='222' r='1.2'/%3E%3Ccircle cx='272' cy='235' r='1'/%3E%3Ccircle cx='288' cy='212' r='1.1'/%3E%3Ccircle cx='305' cy='245' r='1'/%3E%3Ccircle cx='322' cy='218' r='1.2'/%3E%3Ccircle cx='338' cy='232' r='1'/%3E%3Ccircle cx='355' cy='205' r='1.1'/%3E%3Ccircle cx='372' cy='238' r='1'/%3E%3Ccircle cx='388' cy='222' r='1.2'/%3E%3Ccircle cx='405' cy='248' r='1'/%3E%3Ccircle cx='422' cy='215' r='1.1'/%3E%3Ccircle cx='438' cy='232' r='1'/%3E%3Ccircle cx='455' cy='208' r='1.2'/%3E%3Ccircle cx='472' cy='242' r='1'/%3E%3Ccircle cx='488' cy='218' r='1.1'/%3E%3Ccircle cx='505' cy='235' r='1'/%3E%3Ccircle cx='522' cy='212' r='1.2'/%3E%3Ccircle cx='538' cy='245' r='1'/%3E%3Ccircle cx='555' cy='222' r='1.1'/%3E%3Ccircle cx='572' cy='238' r='1'/%3E%3Ccircle cx='588' cy='215' r='1.2'/%3E%3Ccircle cx='605' cy='248' r='1'/%3E%3Ccircle cx='622' cy='228' r='1.1'/%3E%3Ccircle cx='638' cy='205' r='1'/%3E%3Ccircle cx='655' cy='232' r='1.2'/%3E%3Ccircle cx='672' cy='218' r='1'/%3E%3Ccircle cx='688' cy='242' r='1.1'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 100% auto;
+  background-position: center 42%;
+  background-repeat: no-repeat;
+  filter: blur(0.2px);
+  pointer-events: none;
+}
+
+.orbit-work-earth-horizon {
+  position: absolute;
+  left: -10%;
+  right: -10%;
+  bottom: -8%;
+  height: 42%;
+  background:
+    radial-gradient(ellipse 72% 48% at 50% 100%, rgba(56, 120, 220, 0.42) 0%, rgba(30, 80, 180, 0.18) 38%, transparent 72%),
+    radial-gradient(ellipse 90% 35% at 50% 100%, rgba(240, 196, 58, 0.12) 0%, transparent 55%);
+  pointer-events: none;
+}
+
 .orbit-work-earth-vignette {
   position: absolute;
   inset: 0;
@@ -6310,7 +6334,8 @@ li.orbit-card:hover {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse 48% 62% at 82% 48%, rgba(240, 196, 58, 0.16), transparent 58%),
+    radial-gradient(ellipse 52% 70% at 84% 44%, rgba(255, 210, 90, 0.28) 0%, rgba(240, 196, 58, 0.12) 42%, transparent 62%),
+    radial-gradient(ellipse 38% 55% at 78% 52%, rgba(240, 196, 58, 0.14), transparent 58%),
     radial-gradient(ellipse 36% 50% at 18% 52%, rgba(99, 102, 241, 0.08), transparent 55%);
   pointer-events: none;
 }
@@ -6374,8 +6399,10 @@ li.orbit-card:hover {
   height: 96%;
   transform: translate3d(-50%, -50%, 0) scale(var(--halo-scale, 1));
   border-radius: 50%;
-  background: radial-gradient(circle at 62% 42%, rgba(240, 196, 58, 0.28) 0%, rgba(80, 140, 220, 0.1) 42%, transparent 72%);
-  opacity: 0.95;
+  background:
+    radial-gradient(circle at 72% 32%, rgba(255, 235, 160, 0.38) 0%, rgba(240, 196, 58, 0.22) 18%, transparent 42%),
+    radial-gradient(circle at 62% 42%, rgba(240, 196, 58, 0.26) 0%, rgba(80, 140, 220, 0.1) 42%, transparent 72%);
+  opacity: 0.98;
   pointer-events: none;
   z-index: 1;
   animation: orbit-earth-halo-pulse 9s ease-in-out infinite;
@@ -6389,11 +6416,28 @@ li.orbit-card:hover {
   overflow: hidden;
   background: #0a0c12;
   box-shadow:
-    0 0 0 1px rgba(240, 196, 58, 0.42),
-    0 0 0 10px rgba(240, 196, 58, 0.04),
+    0 0 0 1px rgba(240, 196, 58, 0.52),
+    0 0 0 10px rgba(240, 196, 58, 0.06),
     0 40px 90px rgba(0, 0, 0, 0.7),
-    0 0 90px rgba(240, 196, 58, 0.18),
+    0 0 110px rgba(240, 196, 58, 0.28),
+    0 0 60px rgba(255, 220, 120, 0.15),
     inset -22px -30px 50px rgba(0, 0, 0, 0.28);
+}
+
+.orbit-work-earth-globe::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at 76% 24%,
+    rgba(255, 255, 255, 0.62) 0%,
+    rgba(255, 240, 180, 0.28) 6%,
+    rgba(240, 196, 58, 0.08) 16%,
+    transparent 38%
+  );
 }
 
 .orbit-work-earth-canvas {
@@ -6413,9 +6457,12 @@ li.orbit-card:hover {
   position: absolute;
   left: 50%;
   top: 50%;
-  border: 1px solid rgba(240, 196, 58, 0.28);
+  border: 1.5px solid rgba(240, 196, 58, 0.42);
   border-radius: 50%;
-  box-shadow: 0 0 28px rgba(240, 196, 58, 0.08);
+  box-shadow:
+    0 0 32px rgba(240, 196, 58, 0.22),
+    0 0 12px rgba(255, 220, 120, 0.12),
+    inset 0 0 18px rgba(240, 196, 58, 0.06);
 }
 
 .orbit-work-earth-ring.is-1 {
@@ -6474,16 +6521,48 @@ li.orbit-card:hover {
   overflow: visible;
 }
 
-.orbit-work-earth-connectors line {
-  stroke: rgba(240, 196, 58, 0.52);
-  stroke-width: 0.26;
+.orbit-work-earth-sweep {
+  fill: none;
+  stroke: url(#orbitEarthGoldLine);
+  stroke-width: 0.22;
   vector-effect: non-scaling-stroke;
-  filter: drop-shadow(0 0 10px rgba(240, 196, 58, 0.5));
+  opacity: 0.55;
+}
+
+.orbit-work-earth-sweep.is-a {
+  transform-origin: 50px 50px;
+  transform: rotate(-16deg);
+  animation: orbit-earth-ring-spin-a 52s linear infinite;
+}
+
+.orbit-work-earth-sweep.is-b {
+  transform-origin: 50px 50px;
+  transform: rotate(14deg);
+  opacity: 0.38;
+  animation: orbit-earth-ring-spin-b 68s linear infinite reverse;
+}
+
+.orbit-work-earth-connector-path {
+  fill: none;
+  stroke: url(#orbitEarthGoldLine);
+  stroke-width: 0.32;
+  vector-effect: non-scaling-stroke;
+  stroke-linecap: round;
+}
+
+.orbit-work-earth-connector-node {
+  fill: rgba(255, 228, 140, 0.95);
+  filter: drop-shadow(0 0 6px rgba(240, 196, 58, 0.95));
 }
 
 .orbit-work-earth-hub-dot {
-  fill: rgba(240, 196, 58, 0.85);
-  filter: drop-shadow(0 0 4px rgba(240, 196, 58, 0.9));
+  fill: rgba(255, 235, 160, 0.98);
+  filter: drop-shadow(0 0 8px rgba(240, 196, 58, 1));
+}
+
+.orbit-work-earth-hub-glow {
+  fill: rgba(240, 196, 58, 0.22);
+  filter: blur(0.15px);
 }
 
 .orbit-work-earth-floats {
@@ -6516,11 +6595,12 @@ li.orbit-card:hover {
   width: 100%;
   border-radius: 0.65rem;
   overflow: hidden;
-  border: 1px solid rgba(240, 196, 58, 0.62);
+  border: 1px solid rgba(255, 220, 130, 0.78);
   background: #0a0c14;
   box-shadow:
     0 20px 48px rgba(0, 0, 0, 0.58),
-    0 0 32px rgba(240, 196, 58, 0.18),
+    0 0 40px rgba(240, 196, 58, 0.32),
+    0 0 18px rgba(255, 210, 90, 0.2),
     0 0 0 1px rgba(255, 255, 255, 0.06) inset;
 }
 
@@ -6660,10 +6740,26 @@ li.orbit-card:hover {
     font-size: 0.58rem;
   }
 
-  .orbit-work-earth-connectors line {
-    stroke-width: 0.28;
-    opacity: 0.75;
+  .orbit-work-earth-connector-path {
+    stroke-width: 0.34;
   }
+
+  .orbit-work-earth-worldmap {
+    opacity: 0.2;
+  }
+}
+
+html.orbit-mobile-lite .orbit-work-earth-sweeps,
+html.orbit-mobile-lite .orbit-work-earth-connector-lines {
+  filter: none;
+}
+
+html.orbit-mobile-lite .orbit-work-earth-connector-path {
+  filter: drop-shadow(0 0 5px rgba(240, 196, 58, 0.45));
+}
+
+html.orbit-mobile-lite .orbit-work-earth-sweep {
+  opacity: 0.35;
 }
 
 @media (min-width: 1440px) {
@@ -6703,7 +6799,9 @@ li.orbit-card:hover {
   .orbit-work-earth-ring.is-1,
   .orbit-work-earth-ring.is-2,
   .orbit-work-earth-ring.is-3,
-  .orbit-work-earth-halo {
+  .orbit-work-earth-halo,
+  .orbit-work-earth-sweep.is-a,
+  .orbit-work-earth-sweep.is-b {
     animation: none !important;
   }
 }
