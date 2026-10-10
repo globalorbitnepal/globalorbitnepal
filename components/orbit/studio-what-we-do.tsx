@@ -1,13 +1,9 @@
 "use client";
 
 import { useEffect, useMemo, useRef, type CSSProperties } from "react";
+import { DEMO_SITES } from "@/components/orbit/demo-sites";
 import { bindOrbitScroll, isOrbitTouch } from "@/lib/orbit/scroll-performance";
-import {
-  EARTH_ORBIT_SITES,
-  equatorialLng,
-  isLand,
-  projectOrbitCard,
-} from "@/lib/work-earth-mosaic";
+import { EARTH_ORBIT_SITES, equatorialLng, projectOrbitCard } from "@/lib/work-earth-mosaic";
 import type { WorkConfig } from "@/lib/work-config";
 
 function clamp(n: number, min: number, max: number) {
@@ -26,51 +22,88 @@ function madeLabelProgress(raw: number) {
   return 1 - smoothStep((raw - 0.9) / 0.08);
 }
 
-/** Procedural Earth map (no site mosaic) — instant load, classic globe look */
-function paintEarthTexture(width: number) {
-  const height = Math.floor(width / 2);
+function loadImage(src: string): Promise<HTMLImageElement> {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.decoding = "async";
+    img.onload = () => resolve(img);
+    img.onerror = () => reject(new Error(src));
+    img.src = src;
+  });
+}
+
+function drawHeroTile(
+  ctx: CanvasRenderingContext2D,
+  img: HTMLImageElement,
+  dx: number,
+  dy: number,
+  tw: number,
+  th: number,
+) {
+  const gap = Math.max(0.6, tw * 0.012);
+  const x = dx + gap;
+  const y = dy + gap;
+  const w = tw - gap * 2;
+  const h = th - gap * 2;
+  const chrome = Math.max(5, h * 0.11);
+  ctx.fillStyle = "#12141c";
+  ctx.fillRect(x, y, w, chrome);
+  const dot = Math.max(1.6, chrome * 0.22);
+  const dyDot = y + chrome * 0.5 - dot / 2;
+  ctx.fillStyle = "#f87171";
+  ctx.beginPath();
+  ctx.arc(x + chrome * 0.45, dyDot + dot / 2, dot / 2, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.fillStyle = "#fbbf24";
+  ctx.beginPath();
+  ctx.arc(x + chrome * 0.85, dyDot + dot / 2, dot / 2, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.fillStyle = "#4ade80";
+  ctx.beginPath();
+  ctx.arc(x + chrome * 1.25, dyDot + dot / 2, dot / 2, 0, Math.PI * 2);
+  ctx.fill();
+
+  const iw = img.naturalWidth || img.width;
+  const ih = img.naturalHeight || img.height;
+  const destH = h - chrome;
+  const destW = w;
+  const srcRatio = destW / destH;
+  let sw = iw;
+  let sh = iw / srcRatio;
+  if (sh > ih) {
+    sh = ih;
+    sw = ih * srcRatio;
+  }
+  const sx = (iw - sw) / 2;
+  const sy = 0;
+  ctx.drawImage(img, sx, sy, sw, sh, x, y + chrome, destW, destH);
+  ctx.strokeStyle = "rgba(240, 196, 58, 0.42)";
+  ctx.lineWidth = Math.max(0.8, tw * 0.018);
+  ctx.strokeRect(x + 0.4, y + 0.4, w - 0.8, h - 0.8);
+}
+
+/** Equirectangular wall of mini browser tiles — wraps the globe like the original hero. */
+function paintMosaic(images: HTMLImageElement[], width: number, height: number) {
   const canvas = document.createElement("canvas");
   canvas.width = width;
   canvas.height = height;
-  const ctx = canvas.getContext("2d");
+  const ctx = canvas.getContext("2d", { alpha: false });
   if (!ctx) return canvas;
 
-  const img = ctx.createImageData(width, height);
-  const data = img.data;
+  ctx.fillStyle = "#0a0c12";
+  ctx.fillRect(0, 0, width, height);
 
-  for (let y = 0; y < height; y++) {
-    const lat = 90 - (y / height) * 180;
-    for (let x = 0; x < width; x++) {
-      const lng = (x / width) * 360 - 180;
-      const land = isLand(lat, lng);
-      const i = (y * width + x) * 4;
-      const n = ((x * 13 + y * 7) % 17) / 17;
+  const cols = 36;
+  const rows = 18;
+  const tw = width / cols;
+  const th = height / rows;
 
-      if (land) {
-        data[i] = 28 + n * 22;
-        data[i + 1] = 88 + n * 40;
-        data[i + 2] = 52 + n * 18;
-      } else {
-        data[i] = 8 + n * 10;
-        data[i + 1] = 28 + n * 24;
-        data[i + 2] = 58 + n * 32;
-      }
-      data[i + 3] = 255;
+  for (let y = 0; y < rows; y++) {
+    for (let x = 0; x < cols; x++) {
+      const img = images[(x * 7 + y * 13) % images.length];
+      drawHeroTile(ctx, img, x * tw, y * th, tw, th);
     }
   }
-  ctx.putImageData(img, 0, 0);
-
-  ctx.globalAlpha = 0.14;
-  ctx.fillStyle = "#fff";
-  for (let c = 0; c < 120; c++) {
-    const cx = Math.random() * width;
-    const cy = Math.random() * height;
-    const r = 4 + Math.random() * 28;
-    ctx.beginPath();
-    ctx.ellipse(cx, cy, r, r * 0.35, 0, 0, Math.PI * 2);
-    ctx.fill();
-  }
-  ctx.globalAlpha = 1;
 
   return canvas;
 }
@@ -113,12 +146,12 @@ void main() {
   vec3 light = normalize(vec3(-0.42, 0.38, 0.82));
   vec3 view = normalize(vec3(0.0, 0.06, 2.22) - vP);
   float ndl = max(dot(n, light), 0.0);
-  float rim = pow(1.0 - max(dot(n, view), 0.0), 2.4);
-  float spec = pow(max(dot(reflect(-light, n), view), 0.0), 48.0);
+  float rim = pow(1.0 - max(dot(n, view), 0.0), 2.6);
+  float spec = pow(max(dot(reflect(-light, n), view), 0.0), 36.0);
   col *= 0.82 + ndl * 0.28;
   col += vec3(0.85, 0.92, 1.0) * spec * 0.08;
   col += vec3(0.55, 0.78, 1.0) * rim * 0.1;
-  col += vec3(0.95, 0.8, 0.35) * rim * 0.06;
+  col += vec3(0.95, 0.8, 0.35) * rim * 0.08;
   gl_FragColor = vec4(col, 1.0);
 }
 `;
@@ -182,10 +215,13 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
   }, []);
 
   useEffect(() => {
-    for (const site of EARTH_ORBIT_SITES) {
+    const preload = [
+      ...new Set([...EARTH_ORBIT_SITES.map((s) => s.image), ...DEMO_SITES.map((s) => s.image)]),
+    ];
+    for (const src of preload) {
       const img = new Image();
       img.decoding = "async";
-      img.src = site.image;
+      img.src = src;
     }
   }, []);
 
@@ -235,7 +271,7 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
     const uCam = gl.getUniformLocation(prog, "uCam");
     const uMap = gl.getUniformLocation(prog, "uMap");
     gl.uniform1i(uMap, 0);
-    gl.uniform1f(uTilt, 0.2);
+    gl.uniform1f(uTilt, 0.22);
     gl.uniform1f(uCam, 2.22);
 
     const tex = gl.createTexture();
@@ -244,15 +280,30 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-    const earthMap = paintEarthTexture(1024);
-    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1);
-    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, earthMap);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, 1, 1, 0, gl.RGB, gl.UNSIGNED_BYTE, new Uint8Array([12, 14, 20]));
+
+    let alive = true;
+    const uniqueSrc = [
+      ...new Set([...EARTH_ORBIT_SITES.map((s) => s.image), ...DEMO_SITES.map((s) => s.image)]),
+    ];
+    void Promise.all(uniqueSrc.map((src) => loadImage(src).catch(() => null))).then((loaded) => {
+      if (!alive) return;
+      const imgs = loaded.filter((img): img is HTMLImageElement => img != null);
+      if (!imgs.length) return;
+      const mobile = window.matchMedia("(max-width: 767px)").matches;
+      const w = mobile ? 1536 : 2048;
+      const mosaic = paintMosaic(imgs, w, Math.floor(w / 2));
+      gl.bindTexture(gl.TEXTURE_2D, tex);
+      gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, mosaic);
+      drawRef.current?.(yawRef.current);
+    });
 
     const resize = () => {
       const parent = canvas.parentElement;
       if (!parent) return;
       const size = Math.min(parent.clientWidth, parent.clientHeight);
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
       const px = Math.max(360, Math.floor(size * dpr));
       if (canvas.width !== px) {
         canvas.width = px;
@@ -275,6 +326,7 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
     draw(12);
 
     return () => {
+      alive = false;
       drawRef.current = null;
     };
   }, []);
