@@ -1417,6 +1417,343 @@ li.orbit-card:hover {
   color: rgba(255, 255, 255, 0.5);
 }
 
+/* Enterprise software — cinema showcase (single UHD stage, no duplicate grid) */
+.orbit-sw-showcase {
+  background:
+    radial-gradient(ellipse 120% 70% at 50% -20%, rgba(79, 70, 229, 0.22), transparent 55%),
+    radial-gradient(ellipse 50% 40% at 0% 30%, rgba(6, 182, 212, 0.08), transparent 50%),
+    radial-gradient(ellipse 45% 35% at 100% 40%, rgba(240, 196, 58, 0.06), transparent 48%),
+    #040408;
+}
+
+.orbit-sw-showcase-pin {
+  position: relative;
+}
+
+.orbit-sw-showcase-ambient {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.orbit-sw-showcase-mesh {
+  position: absolute;
+  inset: -30% -20%;
+  background:
+    radial-gradient(circle at 30% 20%, rgba(129, 140, 248, 0.14), transparent 42%),
+    radial-gradient(circle at 70% 60%, rgba(168, 85, 247, 0.1), transparent 45%);
+  animation: orbit-sw-mesh-drift 18s ease-in-out infinite alternate;
+}
+
+.orbit-sw-showcase-grid {
+  position: absolute;
+  inset: 0;
+  opacity: 0.35;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 80% 65% at 50% 40%, #000 20%, transparent 72%);
+}
+
+@keyframes orbit-sw-mesh-drift {
+  from {
+    transform: translate3d(-2%, 0, 0) scale(1);
+  }
+  to {
+    transform: translate3d(2%, -3%, 0) scale(1.04);
+  }
+}
+
+.orbit-sw-showcase-accent {
+  background: linear-gradient(90deg, #c4b5fd 0%, #f0c43a 45%, #fff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.orbit-sw-showcase-body {
+  margin-top: clamp(2rem, 4vh, 2.75rem);
+}
+
+.orbit-sw-product-rail {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding: 0.25rem 0.15rem 0.65rem;
+  margin-bottom: clamp(1.25rem, 2.5vw, 1.75rem);
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.orbit-sw-product-rail::-webkit-scrollbar {
+  display: none;
+}
+
+.orbit-sw-product-tab {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 0.45rem;
+  scroll-snap-align: start;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  padding: 0.55rem 1.05rem;
+  font-size: clamp(0.72rem, 0.66rem + 0.16vw, 0.84rem);
+  font-weight: 650;
+  color: rgba(255, 255, 255, 0.62);
+  background: rgba(255, 255, 255, 0.03);
+  cursor: pointer;
+  transition:
+    color 0.3s ease,
+    border-color 0.3s ease,
+    background 0.3s ease,
+    box-shadow 0.3s ease,
+    transform 0.3s ease;
+}
+
+.orbit-sw-product-tab-dot {
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 999px;
+  background: var(--sw-accent, #818cf8);
+  opacity: 0.55;
+  box-shadow: 0 0 10px color-mix(in srgb, var(--sw-accent, #818cf8) 40%, transparent);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.orbit-sw-product-tab.is-active {
+  color: #fff;
+  border-color: color-mix(in srgb, var(--sw-accent, #818cf8) 55%, transparent);
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--sw-accent, #818cf8) 22%, transparent),
+    rgba(255, 255, 255, 0.06)
+  );
+  box-shadow:
+    0 12px 32px rgba(0, 0, 0, 0.35),
+    0 0 28px color-mix(in srgb, var(--sw-accent, #818cf8) 18%, transparent);
+  transform: translateY(-1px);
+}
+
+.orbit-sw-product-tab.is-active .orbit-sw-product-tab-dot {
+  opacity: 1;
+  transform: scale(1.15);
+}
+
+.orbit-sw-feature {
+  display: grid;
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+  align-items: center;
+  border-radius: clamp(1.25rem, 2vw, 1.75rem);
+  padding: clamp(1.25rem, 2.5vw, 2rem);
+  background: linear-gradient(
+    155deg,
+    rgba(255, 255, 255, 0.07) 0%,
+    rgba(8, 10, 20, 0.55) 42%,
+    rgba(4, 5, 10, 0.88) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow:
+    0 32px 80px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  opacity: 0;
+  transform: translate3d(0, 1.5rem, 0);
+}
+
+.orbit-soft-catalog.is-revealed .orbit-sw-feature {
+  animation: orbit-sw-feature-in 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes orbit-sw-feature-in {
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@media (min-width: 1024px) {
+  .orbit-sw-feature {
+    grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.15fr);
+    gap: clamp(1.75rem, 3.5vw, 3rem);
+    padding: clamp(1.75rem, 3vw, 2.5rem);
+  }
+
+  .orbit-sw-product-rail {
+    flex-wrap: wrap;
+    justify-content: center;
+    overflow: visible;
+    padding-bottom: 0.25rem;
+  }
+}
+
+.orbit-sw-feature-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.orbit-sw-live-pulse {
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 999px;
+  background: #4ade80;
+  box-shadow: 0 0 12px rgba(74, 222, 128, 0.65);
+  animation: orbit-sw-pulse 2.2s ease-in-out infinite;
+}
+
+@keyframes orbit-sw-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.55;
+    transform: scale(0.85);
+  }
+}
+
+.orbit-sw-feature-title {
+  margin-top: 0.65rem;
+  font-family: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  font-size: clamp(1.45rem, 1.1rem + 1.2vw, 2.15rem);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+  color: #fff;
+}
+
+.orbit-sw-feature-lede {
+  margin-top: 0.75rem;
+  max-width: 28rem;
+  font-size: clamp(0.92rem, 0.86rem + 0.2vw, 1.05rem);
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.orbit-sw-feature-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1.25rem;
+  margin-top: 1.35rem;
+}
+
+.orbit-sw-feature-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  border-radius: 999px;
+  padding: 0.65rem 1.25rem;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #0b0b10;
+  background: linear-gradient(135deg, #f0c43a 0%, #fcd34d 55%, #fff4c2 100%);
+  box-shadow: 0 14px 36px rgba(240, 196, 58, 0.28);
+  text-decoration: none;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.orbit-sw-feature-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 44px rgba(240, 196, 58, 0.38);
+}
+
+.orbit-sw-feature-secondary {
+  font-size: 0.86rem;
+  font-weight: 650;
+  color: rgba(255, 255, 255, 0.55);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.orbit-sw-feature-secondary:hover {
+  color: #f0c43a;
+}
+
+.orbit-sw-feature-stage {
+  position: relative;
+  opacity: 0;
+  transform: translate3d(0, 12px, 0) scale(0.985);
+  transition:
+    opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.orbit-sw-feature-stage.is-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+}
+
+.orbit-sw-feature-spotlight {
+  pointer-events: none;
+  position: absolute;
+  inset: -8% -5%;
+  z-index: 0;
+  background: radial-gradient(
+    ellipse 70% 60% at 50% 42%,
+    color-mix(in srgb, var(--sw-accent, #6366f1) 28%, transparent),
+    transparent 68%
+  );
+  filter: blur(28px);
+  opacity: 0.85;
+}
+
+.orbit-sw-feature-frame {
+  position: relative;
+  z-index: 1;
+}
+
+.orbit-soft-laptop.is-cinema .orbit-soft-laptop-bezel {
+  transform: rotateX(3deg) translateZ(0);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.14),
+    0 40px 90px rgba(0, 0, 0, 0.62),
+    0 0 100px color-mix(in srgb, var(--soft-accent, #6366f1) 22%, transparent);
+}
+
+.orbit-soft-catalog.is-revealed .orbit-soft-laptop.is-cinema .orbit-soft-laptop-bezel {
+  animation: orbit-sw-laptop-float 7s ease-in-out infinite;
+}
+
+@keyframes orbit-sw-laptop-float {
+  0%,
+  100% {
+    transform: rotateX(3deg) translate3d(0, 0, 0);
+  }
+  50% {
+    transform: rotateX(2deg) translate3d(0, -6px, 0);
+  }
+}
+
+.orbit-soft-laptop.is-cinema .orbit-soft-laptop-img {
+  image-rendering: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orbit-sw-showcase-mesh,
+  .orbit-sw-live-pulse,
+  .orbit-soft-catalog.is-revealed .orbit-soft-laptop.is-cinema .orbit-soft-laptop-bezel {
+    animation: none;
+  }
+
+  .orbit-sw-feature,
+  .orbit-sw-feature-stage {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 .orbit-soft-catalog-pills-wrap {
   margin-top: 1.5rem;
   margin-bottom: 1.65rem;

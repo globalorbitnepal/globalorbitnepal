@@ -10,18 +10,20 @@ export function SoftwareLaptopShot({
   accent,
   size = "card",
   priority = false,
+  cinema = false,
 }: {
   src: string;
   alt: string;
   accent: string;
   size?: Size;
   priority?: boolean;
+  cinema?: boolean;
 }) {
   const hero = size === "hero";
 
   return (
     <figure
-      className={`orbit-soft-laptop ${hero ? "is-hero" : "is-card"}`}
+      className={`orbit-soft-laptop ${hero ? "is-hero" : "is-card"}${cinema ? " is-cinema" : ""}`}
       style={{ "--soft-accent": accent } as CSSProperties}
     >
       <div className="orbit-soft-laptop-bezel">

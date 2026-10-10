@@ -16,17 +16,6 @@ const FEATURED_SLUGS = [
   "crm-software",
 ] as const;
 
-const PILLS = [
-  { label: "All Products", color: "#a78bfa", active: true },
-  { label: "Hospitality", color: "#c084fc" },
-  { label: "Travel & OTA", color: "#38bdf8" },
-  { label: "Inventory", color: "#34d399" },
-  { label: "Manufacturing", color: "#fbbf24" },
-  { label: "Restaurant", color: "#fb923c" },
-  { label: "CRM & Sales", color: "#818cf8" },
-  { label: "Warehouse", color: "#4ade80" },
-];
-
 const CARD_ACCENTS: Record<(typeof FEATURED_SLUGS)[number], string> = {
   "billing-software": "#6366f1",
   "hotel-management-system": "#a855f7",
@@ -47,8 +36,8 @@ const TAGLINES: Record<(typeof FEATURED_SLUGS)[number], string> = {
 
 export function OrbitSoftwareSection({ config }: { config: SoftwareConfig }) {
   const sectionRef = useRef<HTMLElement>(null);
-  const [heroIndex, setHeroIndex] = useState(0);
-  const [heroVisible, setHeroVisible] = useState(true);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [stageVisible, setStageVisible] = useState(true);
 
   useEffect(() => {
     const root = sectionRef.current;
@@ -65,7 +54,7 @@ export function OrbitSoftwareSection({ config }: { config: SoftwareConfig }) {
           observer.disconnect();
         }
       },
-      { threshold: 0.08, rootMargin: "0px 0px -5% 0px" },
+      { threshold: 0.1, rootMargin: "0px 0px -4% 0px" },
     );
     observer.observe(root);
     return () => observer.disconnect();
@@ -83,7 +72,16 @@ export function OrbitSoftwareSection({ config }: { config: SoftwareConfig }) {
     };
   }).filter((item): item is NonNullable<typeof item> => Boolean(item));
 
-  const heroProduct = products[heroIndex] ?? products[0];
+  const active = products[activeIndex] ?? products[0];
+
+  const pickProduct = (index: number) => {
+    if (index === activeIndex) return;
+    setStageVisible(false);
+    window.setTimeout(() => {
+      setActiveIndex(index);
+      setStageVisible(true);
+    }, 280);
+  };
 
   useEffect(() => {
     if (products.length < 2) return;
@@ -91,12 +89,12 @@ export function OrbitSoftwareSection({ config }: { config: SoftwareConfig }) {
     if (reduce) return;
 
     const timer = window.setInterval(() => {
-      setHeroVisible(false);
+      setStageVisible(false);
       window.setTimeout(() => {
-        setHeroIndex((i) => (i + 1) % products.length);
-        setHeroVisible(true);
-      }, 380);
-    }, 5200);
+        setActiveIndex((i) => (i + 1) % products.length);
+        setStageVisible(true);
+      }, 280);
+    }, 6400);
 
     return () => window.clearInterval(timer);
   }, [products.length]);
@@ -104,14 +102,17 @@ export function OrbitSoftwareSection({ config }: { config: SoftwareConfig }) {
   return (
     <section
       ref={sectionRef}
-      className="orbit-soft-track orbit-soft-catalog relative isolate text-white"
+      className="orbit-soft-track orbit-soft-catalog orbit-sw-showcase relative isolate overflow-x-clip text-white"
       aria-labelledby="software-heading"
     >
-      <div className="orbit-soft-pin orbit-soft-catalog-pin">
-        <div className="orbit-soft-catalog-glow" aria-hidden="true" />
+      <div className="orbit-soft-pin orbit-soft-catalog-pin orbit-sw-showcase-pin">
+        <div className="orbit-sw-showcase-ambient" aria-hidden="true">
+          <div className="orbit-sw-showcase-mesh" />
+          <div className="orbit-sw-showcase-grid" />
+        </div>
 
-        <div className="orbit-soft-inner orbit-soft-catalog-inner relative z-[1] mx-auto w-full px-[clamp(1rem,2.5vw,2.5rem)] pb-[clamp(2.75rem,5vh,4.5rem)] pt-[clamp(4.25rem,7vh,5.25rem)]">
-          <header className="orbit-soft-catalog-head mx-auto max-w-[46rem] text-center">
+        <div className="orbit-soft-inner orbit-soft-catalog-inner orbit-sw-showcase-inner relative z-[1] mx-auto w-full px-[clamp(1rem,2.5vw,2.5rem)] pb-[clamp(3rem,6vh,5rem)] pt-[clamp(4.25rem,7vh,5.5rem)]">
+          <header className="orbit-soft-catalog-head orbit-sw-showcase-head mx-auto max-w-[48rem] text-center">
             <p className="orbit-soft-kicker">
               <span className="orbit-soft-kicker-dot" aria-hidden="true">
                 <svg viewBox="0 0 24 24" className="orbit-soft-kicker-icon">
@@ -122,101 +123,78 @@ export function OrbitSoftwareSection({ config }: { config: SoftwareConfig }) {
             </p>
             <h2 id="software-heading" className="orbit-soft-headline orbit-soft-catalog-title">
               {config.headline}{" "}
-              <span>{config.headlineAccent}</span>
+              <span className="orbit-sw-showcase-accent">{config.headlineAccent}</span>
             </h2>
             <p className="orbit-soft-catalog-lede">{config.lede}</p>
           </header>
 
-          <div className="orbit-soft-catalog-pills-wrap">
-            <div className="orbit-sw-pills orbit-soft-catalog-pills" aria-hidden="true">
-              {PILLS.map((pill) => (
-                <span
-                  key={pill.label}
-                  className={pill.active ? "is-active" : undefined}
-                  style={{ "--pill": pill.color } as CSSProperties}
-                >
-                  {!pill.active ? <i /> : null}
-                  {pill.label}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          {heroProduct ? (
-            <div className="orbit-soft-catalog-hero" style={{ "--soft-accent": heroProduct.accent } as CSSProperties}>
-              <div className={`orbit-soft-catalog-hero-stage${heroVisible ? " is-visible" : ""}`}>
-                <SoftwareLaptopShot
-                  src={heroProduct.shotSrc}
-                  alt={`${heroProduct.title} dashboard`}
-                  accent={heroProduct.accent}
-                  size="hero"
-                  priority
-                />
-              </div>
-              <div className="orbit-soft-catalog-hero-meta">
-                <p className="orbit-soft-catalog-hero-kicker">Live product preview</p>
-                <h3 className="orbit-soft-catalog-hero-title">{heroProduct.title}</h3>
-                <p className="orbit-soft-catalog-hero-tag">{heroProduct.tagline}</p>
-                <div className="orbit-soft-catalog-hero-dots" role="tablist" aria-label="Product previews">
-                  {products.map((item, index) => (
-                    <button
-                      key={item.slug}
-                      type="button"
-                      role="tab"
-                      aria-selected={index === heroIndex}
-                      aria-label={item.title}
-                      className={index === heroIndex ? "is-active" : undefined}
-                      style={{ "--dot": item.accent } as CSSProperties}
-                      onClick={() => {
-                        setHeroVisible(false);
-                        window.setTimeout(() => {
-                          setHeroIndex(index);
-                          setHeroVisible(true);
-                        }, 200);
-                      }}
-                    />
-                  ))}
-                </div>
-              </div>
-            </div>
-          ) : null}
-
-          <div className="orbit-soft-catalog-grid">
-            {products.map((item, index) => (
-              <Link
-                key={item.slug}
-                href={item.href}
-                className="orbit-soft-card orbit-soft-catalog-card orbit-soft-catalog-shot-card group"
-                style={
-                  {
-                    "--soft-accent": item.accent,
-                    "--card-i": index,
-                  } as CSSProperties
-                }
+          {active ? (
+            <div className="orbit-sw-showcase-body">
+              <div
+                className="orbit-sw-product-rail"
+                role="tablist"
+                aria-label="Software products"
               >
-                <div className="orbit-soft-shot-card-inner">
-                  <SoftwareLaptopShot
-                    src={item.shotSrc}
-                    alt={`${item.title} interface`}
-                    accent={item.accent}
-                    size="card"
-                    priority={index < 2}
-                  />
-                  <div className="orbit-soft-shot-card-foot">
-                    <div>
-                      <strong>{item.title}</strong>
-                      <p>{item.tagline}</p>
-                    </div>
-                    <span className="orbit-soft-shot-card-arrow" aria-hidden="true">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M7 17L17 7M17 7H9M17 7v8" />
-                      </svg>
-                    </span>
+                {products.map((item, index) => (
+                  <button
+                    key={item.slug}
+                    type="button"
+                    role="tab"
+                    aria-selected={index === activeIndex}
+                    className={`orbit-sw-product-tab${index === activeIndex ? " is-active" : ""}`}
+                    style={{ "--sw-accent": item.accent } as CSSProperties}
+                    onClick={() => pickProduct(index)}
+                  >
+                    <span className="orbit-sw-product-tab-dot" aria-hidden="true" />
+                    {item.title}
+                  </button>
+                ))}
+              </div>
+
+              <article
+                className="orbit-sw-feature"
+                style={{ "--sw-accent": active.accent } as CSSProperties}
+                role="tabpanel"
+                aria-labelledby={`sw-product-${active.slug}`}
+              >
+                <div className="orbit-sw-feature-copy">
+                  <p className="orbit-sw-feature-eyebrow">
+                    <span className="orbit-sw-live-pulse" aria-hidden="true" />
+                    Live product · production ready
+                  </p>
+                  <h3 id={`sw-product-${active.slug}`} className="orbit-sw-feature-title">
+                    {active.title}
+                  </h3>
+                  <p className="orbit-sw-feature-lede">{active.tagline}</p>
+                  <div className="orbit-sw-feature-actions">
+                    <Link href={active.href} className="orbit-sw-feature-cta">
+                      Explore {active.title}
+                      <span aria-hidden="true">→</span>
+                    </Link>
+                    <Link href="/orbit-software" className="orbit-sw-feature-secondary">
+                      All software
+                    </Link>
                   </div>
                 </div>
-              </Link>
-            ))}
-          </div>
+
+                <div
+                  className={`orbit-sw-feature-stage${stageVisible ? " is-visible" : ""}`}
+                >
+                  <div className="orbit-sw-feature-spotlight" aria-hidden="true" />
+                  <div className="orbit-sw-feature-frame">
+                    <SoftwareLaptopShot
+                      src={active.shotSrc}
+                      alt={`${active.title} dashboard`}
+                      accent={active.accent}
+                      size="hero"
+                      priority
+                      cinema
+                    />
+                  </div>
+                </div>
+              </article>
+            </div>
+          ) : null}
         </div>
       </div>
     </section>
