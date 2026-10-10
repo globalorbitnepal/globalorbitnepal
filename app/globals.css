@@ -6305,6 +6305,16 @@ li.orbit-card:hover {
   pointer-events: none;
 }
 
+.orbit-work-earth-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 48% 62% at 82% 48%, rgba(240, 196, 58, 0.16), transparent 58%),
+    radial-gradient(ellipse 36% 50% at 18% 52%, rgba(99, 102, 241, 0.08), transparent 55%);
+  pointer-events: none;
+}
+
 .orbit-work-earth-head {
   position: relative;
   z-index: 6;
@@ -6314,6 +6324,11 @@ li.orbit-card:hover {
 
 .orbit-work-earth-headline {
   max-width: min(22ch, 92vw);
+}
+
+.orbit-work-earth-headline-gold {
+  color: #f0c43a;
+  text-shadow: 0 0 42px rgba(240, 196, 58, 0.35);
 }
 
 .orbit-work-earth-lede {
@@ -6359,10 +6374,11 @@ li.orbit-card:hover {
   height: 96%;
   transform: translate3d(-50%, -50%, 0) scale(var(--halo-scale, 1));
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(240, 196, 58, 0.2) 0%, rgba(80, 140, 220, 0.08) 48%, transparent 72%);
-  opacity: 0.9;
+  background: radial-gradient(circle at 62% 42%, rgba(240, 196, 58, 0.28) 0%, rgba(80, 140, 220, 0.1) 42%, transparent 72%);
+  opacity: 0.95;
   pointer-events: none;
   z-index: 1;
+  animation: orbit-earth-halo-pulse 9s ease-in-out infinite;
 }
 
 .orbit-work-earth-globe {
@@ -6407,6 +6423,7 @@ li.orbit-card:hover {
   height: 34%;
   margin: -17% 0 0 -46%;
   transform: rotate(-18deg);
+  animation: orbit-earth-ring-spin-a 52s linear infinite;
 }
 
 .orbit-work-earth-ring.is-2 {
@@ -6414,7 +6431,8 @@ li.orbit-card:hover {
   height: 30%;
   margin: -15% 0 0 -43%;
   transform: rotate(16deg);
-  opacity: 0.55;
+  opacity: 0.62;
+  animation: orbit-earth-ring-spin-b 68s linear infinite reverse;
 }
 
 .orbit-work-earth-ring.is-3 {
@@ -6422,7 +6440,28 @@ li.orbit-card:hover {
   height: 38%;
   margin: -19% 0 0 -50%;
   transform: rotate(-4deg);
-  opacity: 0.32;
+  opacity: 0.4;
+  animation: orbit-earth-ring-spin-c 84s linear infinite;
+}
+
+@keyframes orbit-earth-ring-spin-a {
+  from { transform: rotate(-18deg); }
+  to { transform: rotate(342deg); }
+}
+
+@keyframes orbit-earth-ring-spin-b {
+  from { transform: rotate(16deg); }
+  to { transform: rotate(376deg); }
+}
+
+@keyframes orbit-earth-ring-spin-c {
+  from { transform: rotate(-4deg); }
+  to { transform: rotate(356deg); }
+}
+
+@keyframes orbit-earth-halo-pulse {
+  0%, 100% { opacity: 0.88; filter: brightness(1); }
+  50% { opacity: 1; filter: brightness(1.08); }
 }
 
 .orbit-work-earth-connectors {
@@ -6436,10 +6475,10 @@ li.orbit-card:hover {
 }
 
 .orbit-work-earth-connectors line {
-  stroke: rgba(240, 196, 58, 0.38);
-  stroke-width: 0.22;
+  stroke: rgba(240, 196, 58, 0.52);
+  stroke-width: 0.26;
   vector-effect: non-scaling-stroke;
-  filter: drop-shadow(0 0 6px rgba(240, 196, 58, 0.35));
+  filter: drop-shadow(0 0 10px rgba(240, 196, 58, 0.5));
 }
 
 .orbit-work-earth-hub-dot {
@@ -6659,6 +6698,13 @@ li.orbit-card:hover {
 
   .orbit-work-track.is-work-scrolling .orbit-work-earth-arena {
     will-change: auto;
+  }
+
+  .orbit-work-earth-ring.is-1,
+  .orbit-work-earth-ring.is-2,
+  .orbit-work-earth-ring.is-3,
+  .orbit-work-earth-halo {
+    animation: none !important;
   }
 }
 

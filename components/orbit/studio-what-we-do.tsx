@@ -10,6 +10,17 @@ function clamp(n: number, min: number, max: number) {
   return Math.min(max, Math.max(min, n));
 }
 
+function EarthHeadline({ text }: { text: string }) {
+  const match = text.match(/^(.*?)(\s*we\s+ship\.?\s*)$/i);
+  if (!match) return text;
+  return (
+    <>
+      {match[1]}
+      <span className="orbit-work-earth-headline-gold">{match[2].trim()}</span>
+    </>
+  );
+}
+
 function smoothStep(t: number) {
   const x = clamp(t, 0, 1);
   return x * x * (3 - 2 * x);
@@ -359,7 +370,7 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
     if (!track) return;
     const touch = isOrbitTouch();
 
-    const placeCards = (spin: number) => {
+    const placeCards = (spin: number, driftPhase = 0) => {
       const root = cardsRef.current;
       if (!root) return;
       const nodes = root.querySelectorAll<HTMLElement>("[data-side-i]");
@@ -369,15 +380,18 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
         if (!layout) return;
         const wobbleX = Math.sin(((spin + i * 28) * Math.PI) / 180) * 0.8;
         const wobbleY = Math.cos(((spin + i * 22) * Math.PI) / 180) * 0.5;
-        el.style.setProperty("--card-left", `${(layout.left + wobbleX).toFixed(2)}%`);
-        el.style.setProperty("--card-top", `${(layout.top + wobbleY).toFixed(2)}%`);
+        const isLeft = layout.left < 50;
+        const orbitDrift = Math.sin(driftPhase + i * 0.72) * (isLeft ? -2.4 : 2.4);
+        const orbitLift = Math.cos(driftPhase * 0.85 + i * 0.5) * 0.9;
+        el.style.setProperty("--card-left", `${(layout.left + wobbleX + orbitDrift).toFixed(2)}%`);
+        el.style.setProperty("--card-top", `${(layout.top + wobbleY + orbitLift).toFixed(2)}%`);
         el.style.setProperty("--card-s", "1");
         el.style.zIndex = String(40 + i);
         el.style.opacity = "1";
       });
     };
 
-    const apply = () => {
+    const apply = (driftPhase = 0) => {
       const travel = Math.max(track.offsetHeight - window.innerHeight, 1);
       const raw = clamp(-track.getBoundingClientRect().top / travel, 0, 1);
       track.classList.toggle("is-work-scrolling", raw > 0.02 && raw < 0.98);
@@ -390,7 +404,7 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
         stage.style.setProperty("--earth-spin", `${spin.toFixed(2)}deg`);
       }
       drawRef.current?.(spin);
-      placeCards(spin);
+      placeCards(spin, driftPhase);
 
       if (madeRef.current) {
         const m = reduce ? 1 : madeLabelProgress(raw);
@@ -398,8 +412,24 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
       }
     };
 
-    placeCards(10);
-    return bindOrbitScroll(track, apply, frameRef);
+    placeCards(10, 0);
+
+    const unbindScroll = bindOrbitScroll(track, () => apply(performance.now() / 2400), frameRef);
+
+    let driftFrame = 0;
+    const driftLoop = () => {
+      driftFrame = window.requestAnimationFrame(driftLoop);
+      if (reduce) return;
+      const rect = track.getBoundingClientRect();
+      if (rect.bottom < -80 || rect.top > window.innerHeight + 80) return;
+      placeCards(yawRef.current, performance.now() / 2400);
+    };
+    if (!reduce) driftFrame = window.requestAnimationFrame(driftLoop);
+
+    return () => {
+      unbindScroll();
+      if (driftFrame) window.cancelAnimationFrame(driftFrame);
+    };
   }, []);
 
   return (
@@ -420,7 +450,7 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
             {config.badgeLabel}
           </p>
           <h2 id="what-we-do-heading" className="orbit-work-headline orbit-work-earth-headline">
-            {config.headline}
+            <EarthHeadline text={config.headline} />
           </h2>
           <p className="orbit-work-earth-lede">
             Turning ideas into high-performing websites for hotels, spas, travel, and modern businesses.
@@ -487,12 +517,6 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
                       decoding="async"
                     />
                   </article>
-                  <p className="orbit-work-earth-card-label">
-                    <span>{site.title}</span>
-                    <svg viewBox="0 0 16 16" aria-hidden="true">
-                      <path d="M3 8h9M9 4l4 4-4 4" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </p>
                 </li>
               ))}
             </ul>
