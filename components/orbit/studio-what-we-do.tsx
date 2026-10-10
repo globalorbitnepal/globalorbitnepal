@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, type CSSProperties } from "react";
 import { DEMO_SITES } from "@/components/orbit/demo-sites";
 import { bindOrbitScroll, isOrbitTouch } from "@/lib/orbit/scroll-performance";
-import { EARTH_ORBIT_SITES, EARTH_SIDE_LAYOUT } from "@/lib/work-earth-mosaic";
+import { EARTH_ORBIT_SITES } from "@/lib/work-earth-mosaic";
 import type { WorkConfig } from "@/lib/work-config";
 
 function clamp(n: number, min: number, max: number) {
@@ -200,6 +200,7 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
   const stageRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const cardsRef = useRef<HTMLUListElement>(null);
+  const stepsRef = useRef<HTMLUListElement>(null);
   const madeRef = useRef<HTMLParagraphElement>(null);
   const yawRef = useRef(12);
   const frameRef = useRef(0);
@@ -208,11 +209,7 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
   const floaters = useMemo(() => {
     const touch = typeof window !== "undefined" && window.matchMedia("(max-width: 767px)").matches;
     const sites = touch ? EARTH_ORBIT_SITES.slice(0, 6) : EARTH_ORBIT_SITES;
-    return sites.map((site, index) => ({
-      site,
-      layout: EARTH_SIDE_LAYOUT[index] ?? EARTH_SIDE_LAYOUT[0],
-      index,
-    }));
+    return sites.map((site, index) => ({ site, index }));
   }, []);
 
   useEffect(() => {
@@ -328,21 +325,29 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
     if (!track) return;
     const touch = isOrbitTouch();
 
-    const placeCards = (spin: number) => {
+    const setActiveShowcase = (raw: number) => {
       const root = cardsRef.current;
       if (!root) return;
       const nodes = root.querySelectorAll<HTMLElement>("[data-side-i]");
+      const count = nodes.length || 1;
+      const idx = reduce ? 0 : Math.min(count - 1, Math.floor(raw * count));
+
       nodes.forEach((el) => {
         const i = Number(el.dataset.sideI);
-        const layout = EARTH_SIDE_LAYOUT[i];
-        if (!layout) return;
-        const wobble = Math.sin(((spin + i * 32) * Math.PI) / 180) * 1.4;
-        el.style.setProperty("--card-left", `${(layout.left + wobble).toFixed(2)}%`);
-        el.style.setProperty("--card-top", `${layout.top.toFixed(2)}%`);
-        el.style.setProperty("--card-s", "1");
-        el.style.zIndex = String(40 + i);
-        el.style.opacity = "1";
+        const active = i === idx;
+        el.classList.toggle("is-active", active);
+        el.setAttribute("aria-hidden", active ? "false" : "true");
+        el.style.zIndex = active ? "55" : "30";
       });
+
+      const steps = stepsRef.current;
+      if (steps) {
+        steps.querySelectorAll<HTMLElement>("[data-step-i]").forEach((dot) => {
+          const i = Number(dot.dataset.stepI);
+          dot.classList.toggle("is-active", i === idx);
+          dot.setAttribute("aria-current", i === idx ? "step" : "false");
+        });
+      }
     };
 
     const apply = () => {
@@ -358,7 +363,7 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
         stage.style.setProperty("--earth-spin", `${spin.toFixed(2)}deg`);
       }
       drawRef.current?.(spin);
-      placeCards(spin);
+      setActiveShowcase(raw);
 
       if (madeRef.current) {
         const m = reduce ? 1 : madeLabelProgress(raw);
@@ -366,15 +371,18 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
       }
     };
 
-    placeCards(10);
+    setActiveShowcase(0);
     return bindOrbitScroll(track, apply, frameRef);
   }, []);
+
+  const siteCount = floaters.length;
 
   return (
     <section
       ref={trackRef}
       className="orbit-work-track orbit-work-earth-track"
       aria-labelledby="what-we-do-heading"
+      style={{ "--earth-scroll-steps": siteCount } as CSSProperties}
     >
       <div className="orbit-work-pin orbit-work-earth-pin-view">
         <div className="orbit-work-earth-bg" aria-hidden="true">
@@ -405,19 +413,13 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
               <canvas ref={canvasRef} className="orbit-work-earth-canvas" aria-hidden="true" />
             </div>
 
-            <ul ref={cardsRef} className="orbit-work-earth-floats">
-              {floaters.map(({ site, layout, index }) => (
+            <ul ref={cardsRef} className="orbit-work-earth-floats" aria-live="polite">
+              {floaters.map(({ site, index }) => (
                 <li
                   key={site.id}
-                  className="orbit-work-earth-card"
+                  className={`orbit-work-earth-card${index === 0 ? " is-active" : ""}`}
                   data-side-i={index}
-                  style={
-                    {
-                      zIndex: 40 + index,
-                      "--card-left": `${layout.left}%`,
-                      "--card-top": `${layout.top}%`,
-                    } as CSSProperties
-                  }
+                  aria-hidden={index === 0 ? "false" : "true"}
                 >
                   <article className="orbit-work-earth-float">
                     <div className="orbit-work-earth-browser-chrome">
@@ -429,12 +431,33 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
                       <span className="orbit-work-earth-browser-url">{site.host}</span>
                     </div>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={site.image} alt="" className="orbit-work-earth-card-shot" />
+                    <img
+                      src={site.image}
+                      alt={`${site.host} website preview`}
+                      className="orbit-work-earth-card-shot"
+                    />
                   </article>
                 </li>
               ))}
             </ul>
           </div>
+
+          <ul
+            ref={stepsRef}
+            className="orbit-work-earth-steps"
+            aria-label="Portfolio highlights"
+          >
+            {floaters.map(({ site, index }) => (
+              <li
+                key={`step-${site.id}`}
+                className={`orbit-work-earth-step${index === 0 ? " is-active" : ""}`}
+                data-step-i={index}
+                aria-current={index === 0 ? "step" : undefined}
+              >
+                <span className="sr-only">{site.host}</span>
+              </li>
+            ))}
+          </ul>
 
           <p ref={madeRef} className="orbit-work-made orbit-work-made-earth">
             {config.madeLabel}

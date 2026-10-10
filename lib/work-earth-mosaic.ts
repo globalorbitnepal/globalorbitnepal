@@ -1,4 +1,4 @@
-/** Browser cards parked left/right of the globe — always visible. */
+/** Sites featured in the scroll-driven globe showcase (one card at a time, centered). */
 export const EARTH_ORBIT_SITES = [
   { id: "earth-first-choice", host: "firstchoiceinterior.com", image: "/brand/projects/demo-first-choice-interior.webp" },
   { id: "earth-kaya", host: "kayahealing.spa", image: "/brand/projects/demo-kaya-spa.webp" },
@@ -7,17 +7,6 @@ export const EARTH_ORBIT_SITES = [
   { id: "earth-thamel", host: "thamelpark.com", image: "/brand/projects/demo-thamel-park-hotel.webp" },
   { id: "earth-ambition", host: "ambitionholidays.com", image: "/brand/projects/demo-ambition-holidays.webp" },
   { id: "earth-summit", host: "summitseek.com", image: "/brand/projects/demo-summit-seek.webp" },
-] as const;
-
-/** Percent positions: 4 left, 3 right, all inside the globe band. */
-export const EARTH_SIDE_LAYOUT = [
-  { left: 7, top: 20 },
-  { left: 3, top: 40 },
-  { left: 8, top: 60 },
-  { left: 4, top: 78 },
-  { left: 93, top: 22 },
-  { left: 97, top: 44 },
-  { left: 92, top: 66 },
 ] as const;
 
 /** Coarse land test in lat/lng — mosaic tiles only paint on continents. */
