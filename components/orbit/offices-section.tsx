@@ -1,23 +1,58 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, type CSSProperties, type MouseEvent } from "react";
+import Link from "next/link";
+import { useEffect, useRef, type CSSProperties } from "react";
 import { OrbitFlag } from "@/components/orbit/flags";
 import { ORBIT_BRAND } from "@/lib/orbit/brand";
 
-function tiltFromEvent(node: HTMLElement, event: MouseEvent<HTMLElement>) {
-  const rect = node.getBoundingClientRect();
-  const x = (event.clientX - rect.left) / rect.width - 0.5;
-  const y = (event.clientY - rect.top) / rect.height - 0.5;
-  node.style.setProperty("--office-tilt-x", `${(-y * 10).toFixed(2)}deg`);
-  node.style.setProperty("--office-tilt-y", `${(x * 12).toFixed(2)}deg`);
-  node.style.setProperty("--office-lift", "10px");
+function OfficeTitle() {
+  return (
+    <>
+      Nepal, India &amp; the{" "}
+      <span className="orbit-offices-title-gold">United States</span>
+    </>
+  );
 }
 
-function resetTilt(node: HTMLElement) {
-  node.style.setProperty("--office-tilt-x", "0deg");
-  node.style.setProperty("--office-tilt-y", "0deg");
-  node.style.setProperty("--office-lift", "0px");
+function IconPhone() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function IconMail() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M4 7h16v10H4V7Zm0 0 8 6 8-6"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function IconArrow() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M5 12h14m0 0-5-5m5 5-5 5"
+        stroke="currentColor"
+        strokeWidth="1.7"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
 }
 
 export function OrbitOfficesSection() {
@@ -40,7 +75,7 @@ export function OrbitOfficesSection() {
           observer.disconnect();
         }
       },
-      { threshold: 0.2 },
+      { threshold: 0.12, rootMargin: "0px 0px -8% 0px" },
     );
 
     observer.observe(node);
@@ -50,38 +85,32 @@ export function OrbitOfficesSection() {
   return (
     <section
       ref={sectionRef}
-      className="orbit-offices-section orbit-offices-premium orbit-studio-surface relative isolate overflow-hidden px-4 py-[clamp(3.25rem,8vh,5rem)] sm:px-6 lg:px-8"
+      className="orbit-offices-section orbit-offices-cinema relative isolate overflow-hidden"
       aria-labelledby="offices-heading"
     >
       <div className="orbit-offices-world-bg pointer-events-none absolute inset-0" aria-hidden="true" />
-      <div className="pointer-events-none absolute inset-0 orbit-studio-surface-glow" aria-hidden="true" />
-      <div className="orbit-offices-premium-ribbon pointer-events-none absolute inset-x-0 top-0 h-px" aria-hidden="true" />
+      <div className="orbit-offices-world-glow pointer-events-none absolute inset-0" aria-hidden="true" />
+      <div className="orbit-offices-world-vignette pointer-events-none absolute inset-0" aria-hidden="true" />
 
-      <div className="relative z-[1] mx-auto w-full max-w-[min(1180px,100%)] lg:max-w-[min(1480px,94vw)] xl:max-w-[min(1680px,92vw)]">
-        <header className="orbit-offices-head mx-auto mb-10 max-w-2xl text-center sm:mb-12">
+      <div className="orbit-offices-inner relative z-[1] mx-auto w-full max-w-[min(1240px,94vw)] px-4 py-[clamp(3.5rem,9vh,5.5rem)] sm:px-6 lg:px-8">
+        <header className="orbit-offices-head mx-auto max-w-3xl text-center">
           <p className="orbit-work-badge mx-auto">
             <span className="orbit-work-badge-num">7</span>
-            3 sales offices
+            Sales Offices
           </p>
           <h2 id="offices-heading" className="orbit-offices-title">
-            Nepal, India &amp; the United States
+            <OfficeTitle />
           </h2>
+          <div className="orbit-offices-rule" aria-hidden="true">
+            <span className="orbit-offices-rule-line" />
+            <span className="orbit-offices-rule-gem" />
+            <span className="orbit-offices-rule-line" />
+          </div>
           <p className="orbit-offices-lede">
-            Three sales offices on three continents — same premium delivery, local time zones, and on-the-ground support.
+            Three sales offices on three continents — same premium delivery, local time zones, and on-the-ground
+            support.
           </p>
         </header>
-
-        <div className="orbit-offices-ticker mb-8 sm:mb-10" aria-hidden="true">
-          <div className="orbit-offices-ticker-track">
-            {[0, 1].map((pass) =>
-              ORBIT_BRAND.salesOffices.map((office) => (
-                <span key={`${pass}-${office.code}`}>
-                  Sales office · {office.country}
-                </span>
-              )),
-            )}
-          </div>
-        </div>
 
         <ul className="orbit-offices-grid">
           {ORBIT_BRAND.salesOffices.map((office, index) => (
@@ -90,38 +119,48 @@ export function OrbitOfficesSection() {
               className="orbit-offices-item"
               style={{ "--office-i": index } as CSSProperties}
             >
-              <article
-                className="orbit-offices-card group"
-                onMouseMove={(event) => tiltFromEvent(event.currentTarget, event)}
-                onMouseLeave={(event) => resetTilt(event.currentTarget)}
-              >
+              <article className="orbit-offices-card">
                 <div className="orbit-offices-visual">
                   <Image
                     src={office.image}
-                    alt={`${office.city} sales office`}
+                    alt=""
                     fill
-                    quality={92}
-                    sizes="(max-width: 640px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    className="object-cover object-center transition-transform duration-700"
+                    quality={index === 1 ? 88 : 82}
+                    sizes="(max-width: 640px) 100vw, (max-width: 1200px) 50vw, 380px"
+                    className="orbit-offices-photo object-cover object-center"
+                    loading={index === 1 ? "eager" : "lazy"}
                     priority={index === 1}
                   />
-                  <div className="orbit-offices-visual-veil" />
-                  <div className="orbit-offices-flag">
+                  <div className="orbit-offices-visual-shade" aria-hidden="true" />
+                  <div className="orbit-offices-chip">
                     <OrbitFlag code={office.code} name={office.country} hd variant="hero" />
+                    <span>{office.code === "us" ? "USA" : office.country.toUpperCase()}</span>
                   </div>
                 </div>
-                <div className="orbit-offices-copy">
-                  <p className="orbit-offices-landmark">Sales office</p>
-                  <h3 className="orbit-offices-country">{office.country}</h3>
-                  <p className="orbit-offices-city">{office.city}</p>
+
+                <div className="orbit-offices-body">
+                  <div className="orbit-offices-body-row">
+                    <div className="orbit-offices-meta">
+                      <p className="orbit-offices-kicker">Sales office</p>
+                      <h3 className="orbit-offices-country">{office.country}</h3>
+                      <p className="orbit-offices-city">{office.city}</p>
+                    </div>
+                    <Link
+                      href="/contact"
+                      className="orbit-offices-cta"
+                      aria-label={`Contact ${office.country} sales office`}
+                    >
+                      <IconArrow />
+                    </Link>
+                  </div>
                   <div className="orbit-offices-contact">
-                    <a href={office.phoneHref} className="orbit-offices-link">
-                      <span className="orbit-offices-link-label">Phone</span>
-                      {office.phone}
+                    <a href={office.phoneHref} className="orbit-offices-contact-line">
+                      <IconPhone />
+                      <span>{office.phone}</span>
                     </a>
-                    <a href={`mailto:${office.email}`} className="orbit-offices-link">
-                      <span className="orbit-offices-link-label">Email</span>
-                      {office.email}
+                    <a href={`mailto:${office.email}`} className="orbit-offices-contact-line">
+                      <IconMail />
+                      <span>{office.email}</span>
                     </a>
                   </div>
                 </div>
