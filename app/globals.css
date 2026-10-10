@@ -9015,17 +9015,39 @@ li.orbit-card:hover {
     transform: none !important;
   }
 
+  .orbit-need-video,
+  .orbit-soft-pin .orbit-soft-video-wrap,
+  .orbit-services-video-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #07070c;
+  }
+
   .orbit-need-video video,
   .orbit-soft-pin video,
   .orbit-services-video {
     object-fit: contain !important;
     object-position: center !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100%;
+    max-height: 100%;
     transform: none !important;
   }
 
   .orbit-studio-hero .orbit-studio-hero-media,
   .orbit-need-video {
     background: #07070c;
+  }
+
+  .orbit-offices-section.is-visible .orbit-offices-photo,
+  .orbit-offices-section.is-visible .orbit-offices-card::after {
+    animation: none !important;
+  }
+
+  .orbit-footer-scene-earth {
+    opacity: 0.22;
   }
 
   .orbit-made-slide,
@@ -12866,4 +12888,70 @@ body.go-cms-open .orbit-gold-fab {
   .go-cms-tools { flex-wrap: wrap; }
   .go-cms-tools input { min-width: 0; width: 100%; }
   .go-cms-top { flex-direction: column; }
+}
+
+/* Site-wide responsive polish — all viewports */
+.orbit-studio-home {
+  width: 100%;
+}
+
+.orbit-studio-home > section,
+.orbit-studio-home > .orbit-made-track,
+.orbit-studio-home .orbit-offices-section,
+.orbit-process-section {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 720px;
+}
+
+.orbit-work-headline,
+.orbit-made-title,
+.orbit-process-title,
+.orbit-offices-title,
+.orbit-footer-tagline,
+.orbit-studio-home h2 {
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+}
+
+.orbit-footer-tagline,
+.orbit-work-earth-lede,
+.orbit-process-lede,
+.orbit-offices-lede {
+  text-wrap: pretty;
+  overflow-wrap: anywhere;
+}
+
+.orbit-made-shot,
+.orbit-offices-photo,
+.orbit-work-earth-card-shot {
+  max-width: 100%;
+}
+
+@media (min-width: 1600px) {
+  .orbit-studio-home {
+    max-width: min(2400px, 96vw);
+    margin-inline: auto;
+  }
+
+  .orbit-header-inner {
+    max-width: min(2200px, 94vw);
+  }
+}
+
+@media (min-width: 2560px) {
+  .orbit-studio-home {
+    max-width: min(2600px, 92vw);
+  }
+}
+
+html.orbit-mobile-lite .orbit-process-step,
+html.orbit-mobile-lite .orbit-offices-item,
+html.orbit-mobile-lite .orbit-footer-office-card {
+  transition-duration: 0.35s !important;
+}
+
+html.orbit-mobile-lite .orbit-process-card:hover,
+html.orbit-mobile-lite .orbit-offices-card:hover,
+html.orbit-mobile-lite .orbit-footer-office-card:hover {
+  transform: none !important;
 }

@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { useEffect, useRef, type CSSProperties } from "react";
 import { ORBIT_PORTFOLIO_SHOWCASE } from "@/lib/portfolio-showcase";
+import type { HomeSurfaceConfig } from "@/lib/home-surface-config";
+import { DEFAULT_HOME_SURFACE } from "@/lib/home-surface-config";
 import { bindOrbitScroll, isOrbitTouch } from "@/lib/orbit/scroll-performance";
 
 function clamp(n: number, min: number, max: number) {
@@ -17,7 +19,10 @@ function easeIn(t: number) {
   return t ** 3;
 }
 
-export function OrbitStudioMadeShowcase() {
+export function OrbitStudioMadeShowcase({ surface = DEFAULT_HOME_SURFACE }: { surface?: HomeSurfaceConfig }) {
+  const madeParts = surface.madeTitle.split(/,\s*/);
+  const madeLead = madeParts[0] ?? surface.madeTitle;
+  const madeTail = madeParts.slice(1).join(", ");
   const trackRef = useRef<HTMLElement>(null);
   const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
   const metaRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -122,11 +127,16 @@ export function OrbitStudioMadeShowcase() {
       <div className="orbit-made-pin">
         <header className="orbit-made-head">
           <p className="orbit-work-badge mx-auto">
-            <span className="orbit-work-badge-num">6</span>
-            Made at Global Orbit
+            <span className="orbit-work-badge-num">{surface.madeBadgeNum}</span>
+            {surface.madeBadgeLabel}
           </p>
           <h2 id="made-heading" className="orbit-made-title">
-            Crafted with purpose, <span>driven by results.</span>
+            {madeLead}
+            {madeTail ? (
+              <>
+                , <span>{madeTail}</span>
+              </>
+            ) : null}
           </h2>
         </header>
 
@@ -169,7 +179,7 @@ export function OrbitStudioMadeShowcase() {
             ))}
           </div>
           <Link href="/projects" className="orbit-made-cta">
-            Visit the full portfolio
+            {surface.madeCtaLabel}
             <span aria-hidden="true">→</span>
           </Link>
         </div>

@@ -7,6 +7,7 @@ import { AdminBlogStudio, type BlogMode } from "@/components/admin/admin-blog-st
 import { AdminMediaLibrary } from "@/components/admin/admin-media-library";
 import { AdminInquiriesPanel } from "@/components/admin/admin-inquiries-panel";
 import { AdminFooterEditor } from "@/components/admin/admin-footer-editor";
+import { AdminHomeSurfaceEditor } from "@/components/admin/admin-home-surface-editor";
 import { AdminMediaField } from "@/components/admin/admin-media-field";
 import { AdminPageHub, AdminSitePagesGrid } from "@/components/admin/admin-page-hub";
 import { AdminSectionThumb } from "@/components/admin/admin-section-thumb";
@@ -33,6 +34,7 @@ import type { SoftwareConfig } from "@/lib/software-config";
 import type { BlogCategory, BlogPost, BlogTag } from "@/lib/blog-types";
 import type { PageSeo } from "@/lib/page-seo-store";
 import type { FooterConfig } from "@/lib/footer-config";
+import type { HomeSurfaceConfig } from "@/lib/home-surface-config";
 import type { SiteChrome } from "@/lib/site-chrome-store";
 import { scoreSeo } from "@/lib/seo-score";
 
@@ -76,6 +78,7 @@ type Props = {
   pages: PageSeo[];
   chrome: SiteChrome;
   initialFooter: FooterConfig;
+  initialHomeSurface: HomeSurfaceConfig;
   inquiryNew: number;
   inquiryTotal: number;
   recentInquiries: InquiryPreview[];
@@ -122,6 +125,7 @@ export function AdminApp(props: Props) {
   const [pages, setPages] = useState(props.pages);
   const [chrome, setChrome] = useState(props.chrome);
   const [footer, setFooter] = useState(props.initialFooter);
+  const [homeSurface, setHomeSurface] = useState(props.initialHomeSurface);
   const [status, setStatus] = useState("");
   const [busy, setBusy] = useState(false);
   const [query, setQuery] = useState("");
@@ -250,6 +254,17 @@ export function AdminApp(props: Props) {
     setStatus(response.ok ? "Header and footer identity published." : "Could not save settings.");
   }
 
+  async function saveHomeSurface() {
+    setBusy(true);
+    const response = await fetch("/api/orbit/home-surface", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(homeSurface),
+    });
+    setBusy(false);
+    setStatus(response.ok ? "Homepage lower sections published." : "Could not save homepage copy.");
+  }
+
   async function saveFooter() {
     setBusy(true);
     const response = await fetch("/api/orbit/footer", {
@@ -289,7 +304,9 @@ export function AdminApp(props: Props) {
                       : page.label;
 
   const showPageHub = view === "page" && section === "hub" && !page.seoOnly;
-  const showEditor = view === "page" && section !== "seo" && section !== "hub" && Boolean(page.editor);
+  const showHomeSurface = view === "page" && pageId === "home" && section === "homeSurface";
+  const showEditor =
+    view === "page" && section !== "seo" && section !== "hub" && section !== "homeSurface" && Boolean(page.editor);
   const showSeo = (view === "page" && (section === "seo" || (page.seoOnly && section !== "hub"))) || view === "seo";
   const seoPage = pages.find((item) => item.path === page.path);
 
@@ -664,6 +681,23 @@ export function AdminApp(props: Props) {
               go("page", page, next);
             }}
           />
+        ) : null}
+
+        {showHomeSurface ? (
+          <div className="go-cms-editor go-cms-editor--light">
+            <div className="go-cms-editor-bar">
+              <button type="button" className="go-cms-back" onClick={() => go("page", page, "hub")}>
+                ← All sections
+              </button>
+              <p className="go-cms-help">Homepage · lower sections</p>
+            </div>
+            <AdminHomeSurfaceEditor
+              surface={homeSurface}
+              busy={busy}
+              onChange={setHomeSurface}
+              onSave={() => void saveHomeSurface()}
+            />
+          </div>
         ) : null}
 
         {showEditor ? (

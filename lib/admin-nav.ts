@@ -7,7 +7,8 @@ export type EditorSection =
   | "careers"
   | "projects"
   | "customApps"
-  | "appointments";
+  | "appointments"
+  | "homeSurface";
 
 export type AdminPageId =
   | "home"
@@ -68,6 +69,7 @@ export const ADMIN_PAGES: AdminPage[] = [
       { id: "need", label: "Why you need us", hint: "Stats, slides, video" },
       { id: "software", label: "Enterprise software", hint: "Product cards" },
       { id: "work", label: "Websites we ship", hint: "Globe mosaic tiles" },
+      { id: "homeSurface", label: "Process · portfolio · FAQ · CTA", hint: "Lower homepage copy" },
       { id: "seo", label: "SEO", hint: "Title, description, robots" },
     ],
   },

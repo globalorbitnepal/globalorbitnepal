@@ -72,6 +72,10 @@ export function sectionPreviewForPage(
         mediaCount: content.work.tiles.length,
       };
     }
+    case "homeSurface":
+      return {
+        excerpt: "Process, portfolio scroll, why us, reviews, FAQ, closing CTA",
+      };
     case "software": {
       const first = content.software.products.find((p) => p.previewSrc);
       return {

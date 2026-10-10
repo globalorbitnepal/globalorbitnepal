@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, type CSSProperties } from "react";
 import { ORBIT_PROCESS } from "@/lib/orbit/catalog";
+import type { HomeSurfaceConfig } from "@/lib/home-surface-config";
+import { DEFAULT_HOME_SURFACE } from "@/lib/home-surface-config";
 
 const ACCENTS = ["#60a5fa", "#818cf8", "#c084fc", "#f0c43a", "#34d399", "#fb7185"];
 
@@ -13,7 +15,7 @@ function SlideLine({ text, delay }: { text: string; delay: number }) {
   );
 }
 
-export function OrbitStudioProcessSection() {
+export function OrbitStudioProcessSection({ surface = DEFAULT_HOME_SURFACE }: { surface?: HomeSurfaceConfig }) {
   const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -51,18 +53,16 @@ export function OrbitStudioProcessSection() {
       <div className="relative mx-auto max-w-[1280px]">
         <header className="orbit-process-head mx-auto max-w-3xl text-center">
           <p className="orbit-work-badge mx-auto">
-            <span className="orbit-work-badge-num">5</span>
-            Smooth journey
+            <span className="orbit-work-badge-num">{surface.processBadgeNum}</span>
+            {surface.processBadgeLabel}
           </p>
           <h2 id="process-heading" className="orbit-process-title">
-            <SlideLine text="From idea to launch" delay={80} />
-            <SlideLine text="— then we stay." delay={220} />
+            <SlideLine text={surface.processTitleLine1} delay={80} />
+            <SlideLine text={surface.processTitleLine2} delay={220} />
           </h2>
           <p className="orbit-process-lede">
             <span className="orbit-process-line" style={{ transitionDelay: "360ms" }}>
-              <span className="orbit-process-slide">
-                Strategy, design, build, SEO, and support — one team from first call to long after go-live.
-              </span>
+              <span className="orbit-process-slide">{surface.processLede}</span>
             </span>
           </p>
         </header>

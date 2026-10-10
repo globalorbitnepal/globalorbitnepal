@@ -14,28 +14,25 @@ import type { HeroConfig } from "@/lib/hero-config";
 import type { NeedConfig } from "@/lib/need-config";
 import type { WorkConfig } from "@/lib/work-config";
 import type { SoftwareConfig } from "@/lib/software-config";
+import type { HomeSurfaceConfig } from "@/lib/home-surface-config";
+import { DEFAULT_HOME_SURFACE } from "@/lib/home-surface-config";
 
 function DisplayHead({
   id,
-  kicker,
   title,
   lede,
   wide = false,
 }: {
   id: string;
-  kicker?: string;
   title: string;
   lede?: string;
   wide?: boolean;
 }) {
   return (
     <div className={`mx-auto mb-12 text-center${wide ? " orbit-home-section-head" : " max-w-4xl"}`}>
-      {kicker ? (
-        <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[#f0c43a]">{kicker}</p>
-      ) : null}
       <h2
         id={id}
-        className="mt-3 font-[family-name:var(--font-jakarta)] text-[clamp(1.85rem,5vw,3.2rem)] font-semibold tracking-tight text-white"
+        className="font-[family-name:var(--font-jakarta)] text-[clamp(1.85rem,5vw,3.2rem)] font-semibold tracking-tight text-white text-balance"
       >
         {title}
       </h2>
@@ -49,11 +46,13 @@ export function OrbitStudioHome({
   need,
   work,
   software,
+  surface = DEFAULT_HOME_SURFACE,
 }: {
   hero: HeroConfig;
   need: NeedConfig;
   work: WorkConfig;
   software: SoftwareConfig;
+  surface?: HomeSurfaceConfig;
 }) {
   return (
     <div className="orbit-studio-home">
@@ -67,9 +66,9 @@ export function OrbitStudioHome({
 
       <OrbitSoftwareSection config={software} />
 
-      <OrbitStudioProcessSection />
+      <OrbitStudioProcessSection surface={surface} />
 
-      <OrbitStudioMadeShowcase />
+      <OrbitStudioMadeShowcase surface={surface} />
 
       <OrbitOfficesSection />
 
@@ -82,42 +81,31 @@ export function OrbitStudioHome({
       </section>
 
       <section className="orbit-studio-surface px-4 py-20 sm:px-8 sm:py-24" aria-labelledby="why-heading">
-        <DisplayHead
-          id="why-heading"
-          wide
-          title="There are thousands of agencies. Why choose us?"
-        />
+        <DisplayHead id="why-heading" wide title={surface.whyTitle} />
         <OrbitStudioWhy />
       </section>
 
       <section className="orbit-studio-surface px-4 py-20 sm:px-8 sm:py-24" aria-labelledby="reviews-heading">
-        <DisplayHead id="reviews-heading" wide title="Our clients speak for us" />
+        <DisplayHead id="reviews-heading" wide title={surface.reviewsTitle} />
         <OrbitTestimonials />
       </section>
 
       <section className="orbit-studio-surface px-4 py-20 sm:px-8 sm:py-24" aria-labelledby="faq-heading">
-        <DisplayHead
-          id="faq-heading"
-          wide
-          title="Frequently asked questions"
-          lede="Cost, timelines, stack, SEO, and whether we are the right firm."
-        />
+        <DisplayHead id="faq-heading" wide title={surface.faqTitle} lede={surface.faqLede} />
         <OrbitFaqList />
       </section>
 
       <section className="orbit-studio-surface orbit-studio-cta relative overflow-hidden px-4 py-24 text-center sm:px-8 sm:py-28">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(240,196,58,0.12),transparent_55%)]" />
-        <h2 className="relative font-[family-name:var(--font-jakarta)] text-[clamp(1.9rem,5vw,3.4rem)] font-semibold tracking-tight text-white">
-          Let’s bring your project to life.
+        <h2 className="relative font-[family-name:var(--font-jakarta)] text-[clamp(1.9rem,5vw,3.4rem)] font-semibold tracking-tight text-white text-balance">
+          {surface.ctaTitle}
         </h2>
-        <p className="relative mx-auto mt-4 max-w-xl text-white/65">
-          Websites, apps, ERP, and SEO from studios in Nepal, India, and the United States.
-        </p>
+        <p className="relative mx-auto mt-4 max-w-xl text-white/65 text-pretty">{surface.ctaLede}</p>
         <Link
           href="/contact"
           className="relative mt-8 inline-flex h-12 items-center rounded-full bg-white px-8 text-sm font-semibold text-[#0b0b10]"
         >
-          Start a project
+          {surface.ctaButtonLabel}
         </Link>
       </section>
       </div>

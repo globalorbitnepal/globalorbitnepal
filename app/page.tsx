@@ -4,6 +4,7 @@ import { getHeroConfig } from "@/lib/hero-store";
 import { getNeedConfig } from "@/lib/need-store";
 import { getWorkConfig } from "@/lib/work-store";
 import { getSoftwareConfig } from "@/lib/software-store";
+import { getHomeSurfaceConfig } from "@/lib/home-surface-store";
 import { applyPageSeo } from "@/lib/apply-page-seo";
 import { organizationJsonLd } from "@/lib/seo";
 import { getSiteChrome } from "@/lib/site-chrome-store";
@@ -21,12 +22,13 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function HomePage() {
-  const [settings, hero, need, work, software] = await Promise.all([
+  const [settings, hero, need, work, software, surface] = await Promise.all([
     getSiteSettings(),
     getHeroConfig(),
     getNeedConfig(),
     getWorkConfig(),
     getSoftwareConfig(),
+    getHomeSurfaceConfig(),
   ]);
   const videoSrc = hero.videoSrc || "/brand/hero-product.mp4";
   const companyName = settings?.companyName || FALLBACK_SITE.companyName;
@@ -45,7 +47,7 @@ export default async function HomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <OrbitHomeView hero={hero} need={need} work={work} software={software} />
+      <OrbitHomeView hero={hero} need={need} work={work} software={software} surface={surface} />
     </>
   );
 }
