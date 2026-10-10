@@ -6817,6 +6817,43 @@ li.orbit-card:hover {
   opacity: 0.32;
 }
 
+.orbit-work-earth-orbit-track {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 4;
+  width: 92%;
+  height: 36%;
+  border: 1px solid rgba(240, 196, 58, 0.16);
+  border-radius: 50%;
+  transform: translate3d(-50%, -50%, 0) rotateX(72deg) rotateZ(var(--earth-orbit-angle, 0deg));
+  box-shadow: 0 0 40px rgba(240, 196, 58, 0.06);
+  pointer-events: none;
+}
+
+.orbit-work-earth-sun-halo {
+  background: radial-gradient(circle, rgba(255, 220, 120, 0.35) 0%, rgba(240, 196, 58, 0.12) 42%, transparent 72%);
+}
+
+.orbit-work-earth-sun {
+  box-shadow:
+    0 0 0 1px rgba(255, 220, 140, 0.55),
+    0 0 0 12px rgba(240, 196, 58, 0.08),
+    0 0 120px rgba(255, 180, 60, 0.45),
+    0 40px 90px rgba(0, 0, 0, 0.65),
+    inset -18px -24px 48px rgba(80, 40, 0, 0.35);
+}
+
+.orbit-work-earth-front-label {
+  margin: 0.35rem auto 0;
+  text-align: center;
+  font-size: clamp(0.72rem, 0.66rem + 0.2vw, 0.82rem);
+  font-weight: 650;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(240, 196, 58, 0.75);
+}
+
 .orbit-work-earth-floats {
   position: absolute;
   z-index: 40;
@@ -6827,25 +6864,38 @@ li.orbit-card:hover {
   pointer-events: none;
 }
 
-.orbit-work-earth-card {
+.orbit-work-earth-planet {
+  --card-left: 50%;
+  --card-top: 50%;
+  --card-s: 0.85;
   position: absolute;
-  left: 50%;
-  top: 54%;
-  width: clamp(15rem, 44vw, 24rem);
-  opacity: 0;
-  transform: translate3d(-50%, -50%, 0) scale(0.9);
+  left: var(--card-left);
+  top: var(--card-top);
+  width: clamp(7.5rem, 11vw, 10.5rem);
+  opacity: 0.65;
+  transform: translate3d(-50%, -50%, 0) scale(var(--card-s));
   transform-origin: center center;
+  will-change: transform, opacity, left, top;
   transition:
-    opacity 0.42s ease,
-    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
-  filter: blur(6px);
+    opacity 0.28s linear,
+    width 0.35s ease,
+    box-shadow 0.35s ease;
 }
 
-.orbit-work-earth-card.is-active {
-  opacity: 1;
-  transform: translate3d(-50%, -50%, 0) scale(1);
-  filter: blur(0);
+.orbit-work-earth-planet.is-front {
+  width: clamp(12rem, 20vw, 17rem);
   pointer-events: auto;
+}
+
+.orbit-work-earth-planet.is-front .orbit-work-earth-float {
+  border-color: rgba(240, 196, 58, 0.75);
+  box-shadow:
+    0 28px 56px rgba(0, 0, 0, 0.62),
+    0 0 48px rgba(240, 196, 58, 0.22);
+}
+
+.orbit-work-earth-planet.is-behind {
+  filter: saturate(0.65) brightness(0.75);
 }
 
 .orbit-work-earth-float {
@@ -6862,9 +6912,13 @@ li.orbit-card:hover {
 .orbit-work-earth-card-shot {
   display: block;
   width: 100%;
-  height: clamp(8.5rem, 14vw, 12.5rem);
+  height: clamp(5.2rem, 9vw, 7.5rem);
   object-fit: cover;
   object-position: top center;
+}
+
+.orbit-work-earth-planet.is-front .orbit-work-earth-card-shot {
+  height: clamp(7rem, 12vw, 10rem);
 }
 
 .orbit-work-earth-steps {
@@ -6987,13 +7041,16 @@ li.orbit-card:hover {
     inset: 8%;
   }
 
-  .orbit-work-earth-card {
-    top: 56%;
-    width: min(92vw, 20rem);
+  .orbit-work-earth-planet {
+    width: clamp(6.5rem, 34vw, 9rem);
   }
 
-  .orbit-work-earth-card-shot {
-    height: clamp(6.5rem, 38vw, 8.5rem);
+  .orbit-work-earth-planet.is-front {
+    width: min(88vw, 15rem);
+  }
+
+  .orbit-work-earth-planet.is-front .orbit-work-earth-card-shot {
+    height: clamp(5.8rem, 32vw, 7.5rem);
   }
 }
 
@@ -7010,8 +7067,8 @@ li.orbit-card:hover {
     height: min(90vmin, 1240px);
   }
 
-  .orbit-work-earth-card {
-    width: clamp(17rem, 28vw, 26rem);
+  .orbit-work-earth-planet.is-front {
+    width: clamp(14rem, 22vw, 19rem);
   }
 }
 
@@ -7027,8 +7084,7 @@ li.orbit-card:hover {
     --earth-spin: 16deg;
   }
 
-  .orbit-work-earth-card {
-    filter: none;
+  .orbit-work-earth-planet {
     transition: opacity 0.2s ease;
   }
 

@@ -37,6 +37,11 @@ export function isLand(lat: number, lng: number): boolean {
   return false;
 }
 
+/** Even spacing on the equatorial “planet” ring (degrees). */
+export function equatorialLng(index: number, count: number) {
+  return (index / count) * 360;
+}
+
 export function projectOrbitCard(
   lat: number,
   lng: number,

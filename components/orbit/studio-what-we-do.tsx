@@ -1,9 +1,8 @@
 "use client";
 
 import { useEffect, useMemo, useRef, type CSSProperties } from "react";
-import { DEMO_SITES } from "@/components/orbit/demo-sites";
 import { bindOrbitScroll, isOrbitTouch } from "@/lib/orbit/scroll-performance";
-import { EARTH_ORBIT_SITES } from "@/lib/work-earth-mosaic";
+import { EARTH_ORBIT_SITES, equatorialLng, projectOrbitCard } from "@/lib/work-earth-mosaic";
 import type { WorkConfig } from "@/lib/work-config";
 
 function clamp(n: number, min: number, max: number) {
@@ -22,87 +21,36 @@ function madeLabelProgress(raw: number) {
   return 1 - smoothStep((raw - 0.9) / 0.08);
 }
 
-function loadImage(src: string): Promise<HTMLImageElement> {
-  return new Promise((resolve, reject) => {
-    const img = new Image();
-    img.decoding = "async";
-    img.onload = () => resolve(img);
-    img.onerror = () => reject(new Error(src));
-    img.src = src;
-  });
-}
-
-function drawHeroTile(
-  ctx: CanvasRenderingContext2D,
-  img: HTMLImageElement,
-  dx: number,
-  dy: number,
-  tw: number,
-  th: number,
-) {
-  const gap = Math.max(0.6, tw * 0.012);
-  const x = dx + gap;
-  const y = dy + gap;
-  const w = tw - gap * 2;
-  const h = th - gap * 2;
-  const chrome = Math.max(5, h * 0.11);
-  ctx.fillStyle = "#12141c";
-  ctx.fillRect(x, y, w, chrome);
-  const dot = Math.max(1.6, chrome * 0.22);
-  const dyDot = y + chrome * 0.5 - dot / 2;
-  ctx.fillStyle = "#f87171";
-  ctx.beginPath();
-  ctx.arc(x + chrome * 0.45, dyDot + dot / 2, dot / 2, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.fillStyle = "#fbbf24";
-  ctx.beginPath();
-  ctx.arc(x + chrome * 0.85, dyDot + dot / 2, dot / 2, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.fillStyle = "#4ade80";
-  ctx.beginPath();
-  ctx.arc(x + chrome * 1.25, dyDot + dot / 2, dot / 2, 0, Math.PI * 2);
-  ctx.fill();
-
-  const iw = img.naturalWidth || img.width;
-  const ih = img.naturalHeight || img.height;
-  const destH = h - chrome;
-  const destW = w;
-  const srcRatio = destW / destH;
-  let sw = iw;
-  let sh = iw / srcRatio;
-  if (sh > ih) {
-    sh = ih;
-    sw = ih * srcRatio;
-  }
-  const sx = (iw - sw) / 2;
-  const sy = 0;
-  ctx.drawImage(img, sx, sy, sw, sh, x, y + chrome, destW, destH);
-  ctx.strokeStyle = "rgba(240, 196, 58, 0.42)";
-  ctx.lineWidth = Math.max(0.8, tw * 0.018);
-  ctx.strokeRect(x + 0.4, y + 0.4, w - 0.8, h - 0.8);
-}
-
-function paintMosaic(images: HTMLImageElement[], width: number, height: number) {
+function paintSunTexture(size: number) {
   const canvas = document.createElement("canvas");
-  canvas.width = width;
-  canvas.height = height;
-  const ctx = canvas.getContext("2d", { alpha: false });
+  canvas.width = size;
+  canvas.height = size;
+  const ctx = canvas.getContext("2d");
   if (!ctx) return canvas;
 
-  ctx.fillStyle = "#0a0c12";
-  ctx.fillRect(0, 0, width, height);
+  const cx = size / 2;
+  const cy = size / 2;
+  const r = size * 0.5;
+  const g = ctx.createRadialGradient(cx, cy, r * 0.02, cx, cy, r);
+  g.addColorStop(0, "#fffef5");
+  g.addColorStop(0.18, "#fde68a");
+  g.addColorStop(0.42, "#f0c43a");
+  g.addColorStop(0.68, "#d97706");
+  g.addColorStop(0.88, "#92400e");
+  g.addColorStop(1, "#3b1a06");
+  ctx.fillStyle = g;
+  ctx.fillRect(0, 0, size, size);
 
-  const cols = 36;
-  const rows = 18;
-  const tw = width / cols;
-  const th = height / rows;
-
-  for (let y = 0; y < rows; y++) {
-    for (let x = 0; x < cols; x++) {
-      const img = images[(x * 7 + y * 13) % images.length];
-      drawHeroTile(ctx, img, x * tw, y * th, tw, th);
-    }
+  ctx.globalAlpha = 0.12;
+  for (let i = 0; i < 6; i++) {
+    const band = ctx.createLinearGradient(0, size * (0.15 + i * 0.12), size, size * (0.22 + i * 0.12));
+    band.addColorStop(0, "transparent");
+    band.addColorStop(0.5, "#fff");
+    band.addColorStop(1, "transparent");
+    ctx.fillStyle = band;
+    ctx.fillRect(0, 0, size, size);
   }
+  ctx.globalAlpha = 1;
 
   return canvas;
 }
@@ -142,15 +90,14 @@ varying vec3 vP;
 void main() {
   vec3 n = normalize(vN);
   vec3 col = texture2D(uMap, vUv).rgb;
-  vec3 light = normalize(vec3(-0.42, 0.38, 0.82));
+  vec3 light = normalize(vec3(-0.35, 0.42, 0.88));
   vec3 view = normalize(vec3(0.0, 0.06, 2.22) - vP);
   float ndl = max(dot(n, light), 0.0);
-  float rim = pow(1.0 - max(dot(n, view), 0.0), 2.6);
-  float spec = pow(max(dot(reflect(-light, n), view), 0.0), 36.0);
-  col *= 0.82 + ndl * 0.28;
-  col += vec3(0.85, 0.92, 1.0) * spec * 0.08;
-  col += vec3(0.55, 0.78, 1.0) * rim * 0.1;
-  col += vec3(0.95, 0.8, 0.35) * rim * 0.08;
+  float rim = pow(1.0 - max(dot(n, view), 0.0), 2.4);
+  float spec = pow(max(dot(reflect(-light, n), view), 0.0), 48.0);
+  col *= 0.88 + ndl * 0.22;
+  col += vec3(1.0, 0.95, 0.75) * spec * 0.14;
+  col += vec3(1.0, 0.82, 0.35) * rim * 0.22;
   gl_FragColor = vec4(col, 1.0);
 }
 `;
@@ -201,6 +148,7 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const cardsRef = useRef<HTMLUListElement>(null);
   const stepsRef = useRef<HTMLUListElement>(null);
+  const frontLabelRef = useRef<HTMLParagraphElement>(null);
   const madeRef = useRef<HTMLParagraphElement>(null);
   const yawRef = useRef(12);
   const frameRef = useRef(0);
@@ -213,9 +161,16 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
   }, []);
 
   useEffect(() => {
+    for (const site of EARTH_ORBIT_SITES) {
+      const img = new Image();
+      img.decoding = "async";
+      img.src = site.image;
+    }
+  }, []);
+
+  useEffect(() => {
     const canvas = canvasRef.current;
-    const track = trackRef.current;
-    if (!canvas || !track) return;
+    if (!canvas) return;
 
     const gl = canvas.getContext("webgl", {
       alpha: true,
@@ -237,7 +192,7 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
     if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) return;
     gl.useProgram(prog);
 
-    const mesh = createSphere(24, 40);
+    const mesh = createSphere(28, 48);
     const aPos = gl.getAttribLocation(prog, "aPos");
     const aUv = gl.getAttribLocation(prog, "aUv");
     const bufPos = gl.createBuffer();
@@ -259,7 +214,7 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
     const uCam = gl.getUniformLocation(prog, "uCam");
     const uMap = gl.getUniformLocation(prog, "uMap");
     gl.uniform1i(uMap, 0);
-    gl.uniform1f(uTilt, 0.22);
+    gl.uniform1f(uTilt, 0.2);
     gl.uniform1f(uCam, 2.22);
 
     const tex = gl.createTexture();
@@ -268,30 +223,15 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, 1, 1, 0, gl.RGB, gl.UNSIGNED_BYTE, new Uint8Array([12, 14, 20]));
-
-    let alive = true;
-    const uniqueSrc = [
-      ...new Set([...EARTH_ORBIT_SITES.map((s) => s.image), ...DEMO_SITES.map((s) => s.image)]),
-    ];
-    void Promise.all(uniqueSrc.map((src) => loadImage(src).catch(() => null))).then((loaded) => {
-      if (!alive) return;
-      const imgs = loaded.filter((img): img is HTMLImageElement => img != null);
-      if (!imgs.length) return;
-      const mobile = window.matchMedia("(max-width: 767px)").matches;
-      const w = mobile ? 1536 : 2048;
-      const mosaic = paintMosaic(imgs, w, Math.floor(w / 2));
-      gl.bindTexture(gl.TEXTURE_2D, tex);
-      gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1);
-      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, mosaic);
-      drawRef.current?.(yawRef.current);
-    });
+    const sun = paintSunTexture(1024);
+    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, sun);
 
     const resize = () => {
       const parent = canvas.parentElement;
       if (!parent) return;
       const size = Math.min(parent.clientWidth, parent.clientHeight);
-      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
       const px = Math.max(360, Math.floor(size * dpr));
       if (canvas.width !== px) {
         canvas.width = px;
@@ -314,7 +254,6 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
     draw(12);
 
     return () => {
-      alive = false;
       drawRef.current = null;
     };
   }, []);
@@ -324,29 +263,57 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (!track) return;
     const touch = isOrbitTouch();
+    const sites = floaters;
 
-    const setActiveShowcase = (raw: number) => {
+    const placePlanets = (spin: number) => {
       const root = cardsRef.current;
       if (!root) return;
       const nodes = root.querySelectorAll<HTMLElement>("[data-side-i]");
       const count = nodes.length || 1;
-      const idx = reduce ? 0 : Math.min(count - 1, Math.floor(raw * count));
+      let frontI = 0;
+      let bestDepth = -Infinity;
 
       nodes.forEach((el) => {
         const i = Number(el.dataset.sideI);
-        const active = i === idx;
-        el.classList.toggle("is-active", active);
-        el.setAttribute("aria-hidden", active ? "false" : "true");
-        el.style.zIndex = active ? "55" : "30";
+        const lng = equatorialLng(i, count);
+        const p = projectOrbitCard(6, lng, spin, 0.2);
+        const left = 50 + p.x * 48;
+        const top = 50 + p.y * 48;
+        const behind = p.depth < -0.08;
+
+        el.style.setProperty("--card-left", `${left.toFixed(2)}%`);
+        el.style.setProperty("--card-top", `${top.toFixed(2)}%`);
+        el.style.setProperty("--card-s", p.scale.toFixed(3));
+        el.style.zIndex = String(Math.round(32 + p.depth * 28));
+        el.style.opacity = behind ? "0.08" : String(clamp(0.42 + (p.depth + 1) * 0.3, 0.35, 1));
+        el.classList.toggle("is-behind", behind);
+
+        if (p.depth > bestDepth) {
+          bestDepth = p.depth;
+          frontI = i;
+        }
+      });
+
+      nodes.forEach((el) => {
+        const i = Number(el.dataset.sideI);
+        const front = i === frontI;
+        el.classList.toggle("is-front", front);
+        el.setAttribute("aria-hidden", front ? "false" : "true");
       });
 
       const steps = stepsRef.current;
       if (steps) {
         steps.querySelectorAll<HTMLElement>("[data-step-i]").forEach((dot) => {
           const i = Number(dot.dataset.stepI);
-          dot.classList.toggle("is-active", i === idx);
-          dot.setAttribute("aria-current", i === idx ? "step" : "false");
+          dot.classList.toggle("is-active", i === frontI);
+          dot.setAttribute("aria-current", i === frontI ? "step" : "false");
         });
+      }
+
+      const label = frontLabelRef.current;
+      const site = sites[frontI]?.site;
+      if (label && site) {
+        label.textContent = site.host;
       }
     };
 
@@ -355,15 +322,16 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
       const raw = clamp(-track.getBoundingClientRect().top / travel, 0, 1);
       track.classList.toggle("is-work-scrolling", raw > 0.02 && raw < 0.98);
 
-      const spin = reduce ? 16 : 10 + raw * (touch ? 38 : 52);
+      const spin = reduce ? 20 : 8 + raw * (touch ? 300 : 420);
       yawRef.current = spin;
 
       const stage = stageRef.current;
       if (stage) {
         stage.style.setProperty("--earth-spin", `${spin.toFixed(2)}deg`);
+        stage.style.setProperty("--earth-orbit-angle", `${spin.toFixed(2)}deg`);
       }
       drawRef.current?.(spin);
-      setActiveShowcase(raw);
+      placePlanets(spin);
 
       if (madeRef.current) {
         const m = reduce ? 1 : madeLabelProgress(raw);
@@ -371,16 +339,16 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
       }
     };
 
-    setActiveShowcase(0);
+    placePlanets(8);
     return bindOrbitScroll(track, apply, frameRef);
-  }, []);
+  }, [floaters]);
 
   const siteCount = floaters.length;
 
   return (
     <section
       ref={trackRef}
-      className="orbit-work-track orbit-work-earth-track"
+      className="orbit-work-track orbit-work-earth-track orbit-work-solar"
       aria-labelledby="what-we-do-heading"
       style={{ "--earth-scroll-steps": siteCount } as CSSProperties}
     >
@@ -402,22 +370,23 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
 
         <div className="orbit-work-mosaic-main orbit-work-earth-stage">
           <div ref={stageRef} className="orbit-work-earth-arena">
-            <div className="orbit-work-earth-halo" aria-hidden="true" />
+            <div className="orbit-work-earth-halo orbit-work-earth-sun-halo" aria-hidden="true" />
             <div className="orbit-work-earth-rings" aria-hidden="true">
               <span className="orbit-work-earth-ring is-1" />
               <span className="orbit-work-earth-ring is-2" />
               <span className="orbit-work-earth-ring is-3" />
             </div>
+            <div className="orbit-work-earth-orbit-track" aria-hidden="true" />
 
-            <div className="orbit-work-earth-globe">
+            <div className="orbit-work-earth-globe orbit-work-earth-sun">
               <canvas ref={canvasRef} className="orbit-work-earth-canvas" aria-hidden="true" />
             </div>
 
-            <ul ref={cardsRef} className="orbit-work-earth-floats" aria-live="polite">
+            <ul ref={cardsRef} className="orbit-work-earth-floats orbit-work-earth-planets" aria-live="polite">
               {floaters.map(({ site, index }) => (
                 <li
                   key={site.id}
-                  className={`orbit-work-earth-card${index === 0 ? " is-active" : ""}`}
+                  className={`orbit-work-earth-card orbit-work-earth-planet${index === 0 ? " is-front" : ""}`}
                   data-side-i={index}
                   aria-hidden={index === 0 ? "false" : "true"}
                 >
@@ -435,6 +404,9 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
                       src={site.image}
                       alt={`${site.host} website preview`}
                       className="orbit-work-earth-card-shot"
+                      decoding="async"
+                      loading={index < 2 ? "eager" : "lazy"}
+                      fetchPriority={index === 0 ? "high" : "auto"}
                     />
                   </article>
                 </li>
@@ -442,11 +414,11 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
             </ul>
           </div>
 
-          <ul
-            ref={stepsRef}
-            className="orbit-work-earth-steps"
-            aria-label="Portfolio highlights"
-          >
+          <p ref={frontLabelRef} className="orbit-work-earth-front-label">
+            {floaters[0]?.site.host}
+          </p>
+
+          <ul ref={stepsRef} className="orbit-work-earth-steps" aria-label="Portfolio highlights">
             {floaters.map(({ site, index }) => (
               <li
                 key={`step-${site.id}`}
