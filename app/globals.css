@@ -6316,6 +6316,16 @@ li.orbit-card:hover {
   max-width: min(22ch, 92vw);
 }
 
+.orbit-work-earth-lede {
+  margin: 0.65rem auto 0;
+  max-width: min(42ch, 92vw);
+  text-align: center;
+  font-size: clamp(0.88rem, 0.8rem + 0.35vw, 1.05rem);
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.62);
+  font-weight: 500;
+}
+
 .orbit-work-earth-stage {
   position: relative;
   z-index: 2;
@@ -6415,9 +6425,31 @@ li.orbit-card:hover {
   opacity: 0.32;
 }
 
+.orbit-work-earth-connectors {
+  position: absolute;
+  z-index: 22;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.orbit-work-earth-connectors line {
+  stroke: rgba(240, 196, 58, 0.38);
+  stroke-width: 0.22;
+  vector-effect: non-scaling-stroke;
+  filter: drop-shadow(0 0 6px rgba(240, 196, 58, 0.35));
+}
+
+.orbit-work-earth-hub-dot {
+  fill: rgba(240, 196, 58, 0.85);
+  filter: drop-shadow(0 0 4px rgba(240, 196, 58, 0.9));
+}
+
 .orbit-work-earth-floats {
   position: absolute;
-  z-index: auto;
+  z-index: 35;
   inset: 0;
   margin: 0;
   padding: 0;
@@ -6432,20 +6464,45 @@ li.orbit-card:hover {
   position: absolute;
   left: var(--card-left);
   top: var(--card-top);
-  width: clamp(10.5rem, 12.5vw, 13.5rem);
+  width: clamp(10.5rem, 12.5vw, 14rem);
   transform: translate3d(-50%, -50%, 0) scale(var(--card-s));
   transform-origin: center center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
 }
 
 .orbit-work-earth-float {
   width: 100%;
   border-radius: 0.65rem;
   overflow: hidden;
-  border: 1px solid rgba(240, 196, 58, 0.55);
+  border: 1px solid rgba(240, 196, 58, 0.62);
   background: #0a0c14;
   box-shadow:
     0 20px 48px rgba(0, 0, 0, 0.58),
-    0 0 28px rgba(240, 196, 58, 0.12);
+    0 0 32px rgba(240, 196, 58, 0.18),
+    0 0 0 1px rgba(255, 255, 255, 0.06) inset;
+}
+
+.orbit-work-earth-card-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0;
+  padding: 0.15rem 0.2rem 0;
+  font-size: clamp(0.62rem, 0.55rem + 0.25vw, 0.74rem);
+  font-weight: 650;
+  letter-spacing: 0.02em;
+  color: rgba(240, 196, 58, 0.92);
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.65);
+  white-space: nowrap;
+}
+
+.orbit-work-earth-card-label svg {
+  width: 0.85rem;
+  height: 0.85rem;
+  opacity: 0.85;
 }
 
 .orbit-work-earth-card-shot {
@@ -6526,31 +6583,47 @@ li.orbit-card:hover {
 
 @media (max-width: 767px) {
   .orbit-work-earth-track {
-    height: 145vh;
-    min-height: 145vh;
+    height: 125vh;
+    min-height: 125vh;
+    content-visibility: auto;
+    contain-intrinsic-size: auto 125vh;
   }
 
   .orbit-work-earth-head {
     padding-top: clamp(5rem, 11vh, 6rem);
   }
 
+  .orbit-work-earth-lede {
+    font-size: 0.82rem;
+    line-height: 1.45;
+  }
+
   .orbit-work-earth-arena {
-    width: min(100vw, 96vmin);
-    height: min(100vw, 96vmin);
-    max-height: calc(100svh - 9rem);
-    max-height: calc(100dvh - 9rem);
+    width: min(100vw, 94vmin);
+    height: min(100vw, 94vmin);
+    max-height: calc(100svh - 10rem);
+    max-height: calc(100dvh - 10rem);
   }
 
   .orbit-work-earth-globe {
-    inset: 8%;
+    inset: 10%;
   }
 
   .orbit-work-earth-card {
-    width: clamp(8.4rem, 36vw, 12rem);
+    width: clamp(7.8rem, 34vw, 10.5rem);
   }
 
   .orbit-work-earth-card-shot {
-    height: 5.4rem;
+    height: 5rem;
+  }
+
+  .orbit-work-earth-card-label {
+    font-size: 0.58rem;
+  }
+
+  .orbit-work-earth-connectors line {
+    stroke-width: 0.28;
+    opacity: 0.75;
   }
 }
 

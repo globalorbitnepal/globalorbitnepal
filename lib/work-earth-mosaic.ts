@@ -1,23 +1,58 @@
-/** Browser cards parked left/right of the globe — always visible. */
+/** Browser cards around the globe — left/right stagger (not a straight column). */
 export const EARTH_ORBIT_SITES = [
-  { id: "earth-first-choice", host: "firstchoiceinterior.com", image: "/brand/projects/demo-first-choice-interior.webp" },
-  { id: "earth-kaya", host: "kayahealing.spa", image: "/brand/projects/demo-kaya-spa.webp" },
-  { id: "earth-marlo", host: "marlohotels.com", image: "/brand/projects/demo-marlo-hotels.webp" },
-  { id: "earth-zen", host: "zenspa.com", image: "/brand/projects/demo-zen-spa.webp" },
-  { id: "earth-thamel", host: "thamelpark.com", image: "/brand/projects/demo-thamel-park-hotel.webp" },
-  { id: "earth-ambition", host: "ambitionholidays.com", image: "/brand/projects/demo-ambition-holidays.webp" },
-  { id: "earth-summit", host: "summitseek.com", image: "/brand/projects/demo-summit-seek.webp" },
+  {
+    id: "earth-first-choice",
+    host: "firstchoiceinterior.com",
+    image: "/brand/projects/demo-first-choice-interior.webp",
+    title: "Interior & Design",
+  },
+  {
+    id: "earth-kaya",
+    host: "kayahealing.spa",
+    image: "/brand/projects/demo-kaya-spa.webp",
+    title: "Spa & Wellness",
+  },
+  {
+    id: "earth-marlo",
+    host: "marlohotels.com",
+    image: "/brand/projects/demo-marlo-hotels.webp",
+    title: "Hotel & Hospitality",
+  },
+  {
+    id: "earth-zen",
+    host: "zenspa.com",
+    image: "/brand/projects/demo-zen-spa.webp",
+    title: "Luxury Spa",
+  },
+  {
+    id: "earth-thamel",
+    host: "thamelpark.com",
+    image: "/brand/projects/demo-thamel-park-hotel.webp",
+    title: "Travel & Tours",
+  },
+  {
+    id: "earth-ambition",
+    host: "ambitionholidays.com",
+    image: "/brand/projects/demo-ambition-holidays.webp",
+    title: "Adventure & Trekking",
+  },
+  {
+    id: "earth-summit",
+    host: "summitseek.com",
+    image: "/brand/projects/demo-summit-seek.webp",
+    title: "Mountain Expeditions",
+  },
 ] as const;
 
-/** Percent positions: 4 left, 3 right, all inside the globe band. */
+/** Percent positions — curved inward toward the globe (reference layout). */
 export const EARTH_SIDE_LAYOUT = [
-  { left: 7, top: 20 },
-  { left: 3, top: 40 },
-  { left: 8, top: 60 },
-  { left: 4, top: 78 },
-  { left: 93, top: 22 },
-  { left: 97, top: 44 },
-  { left: 92, top: 66 },
+  { left: 3.5, top: 17, anchorX: 38, anchorY: 42 },
+  { left: 11, top: 31, anchorX: 40, anchorY: 46 },
+  { left: 4.5, top: 48, anchorX: 39, anchorY: 50 },
+  { left: 12.5, top: 66, anchorX: 41, anchorY: 54 },
+  { left: 96.5, top: 19, anchorX: 62, anchorY: 43 },
+  { left: 88, top: 38, anchorX: 60, anchorY: 48 },
+  { left: 95, top: 62, anchorX: 63, anchorY: 52 },
 ] as const;
 
 /** Coarse land test in lat/lng — mosaic tiles only paint on continents. */
