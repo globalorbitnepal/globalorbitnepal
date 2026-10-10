@@ -1,18 +1,17 @@
 import type { MetadataRoute } from "next";
-
-const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://arnav.theglobalorbit.com";
+import { SITE_ORIGIN } from "@/lib/site-origin";
 
 export default function robots(): MetadataRoute.Robots {
-  const host = SITE.replace(/^https?:\/\//, "");
+  const host = SITE_ORIGIN.replace(/^https?:\/\//, "");
   return {
     rules: [
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/admin", "/admin/", "/orbit", "/orbit/", "/api/", "/demo"],
+        disallow: ["/admin", "/admin/", "/orbit", "/orbit/", "/api/", "/demo", "/news"],
       },
     ],
     host,
-    sitemap: `${SITE}/sitemap.xml`,
+    sitemap: `${SITE_ORIGIN}/sitemap.xml`,
   };
 }

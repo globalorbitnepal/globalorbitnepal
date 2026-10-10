@@ -8,6 +8,7 @@
     "verify:build": "node scripts/verify-next-artifacts.mjs",
     "start": "next start -p 3031 -H 127.0.0.1",
     "lint": "eslint",
+    "seo:verify": "node scripts/verify-seo-routes.mjs",
     "db:generate": "prisma generate",
     "db:validate": "prisma validate",
     "db:verify-target": "node scripts/verify-database-target.mjs",

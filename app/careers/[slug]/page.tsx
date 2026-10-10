@@ -4,7 +4,7 @@ import Link from "next/link";
 import { OrbitArticlePage } from "@/components/orbit/catalog-page";
 import { findCareerRole } from "@/lib/careers-config";
 import { getCareersConfig } from "@/lib/careers-store";
-import { buildPageMetadata } from "@/lib/seo";
+import { applyPageSeo } from "@/lib/apply-page-seo";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -18,10 +18,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const config = await getCareersConfig();
   const item = findCareerRole(config, slug);
   if (!item) return { title: "Role" };
-  return buildPageMetadata({
-    title: item.title,
+  return applyPageSeo(`/careers/${item.slug}`, {
+    title: `${item.title} · Careers`,
     description: item.summary,
-    path: `/careers/${item.slug}`,
   });
 }
 

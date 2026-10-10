@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { mergeSeoFallback } from "@/lib/seo-page-defaults";
 import { getPageSeo } from "@/lib/page-seo-store";
+import { DEFAULT_OG_IMAGE_PATH } from "@/lib/site-origin";
 import { buildPageMetadata } from "@/lib/seo";
 
 export async function applyPageSeo(
@@ -30,7 +31,7 @@ export async function applyPageSeo(
     robotsIndex,
     ogTitle: seo?.ogTitle,
     ogDescription: seo?.ogDescription,
-    ogImage: seo?.ogImage,
+    ogImage: seo?.ogImage?.trim() || DEFAULT_OG_IMAGE_PATH,
   });
   if (focusKeyword || seo?.tags?.trim()) {
     return {

@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
+import { absoluteUrl, DEFAULT_OG_IMAGE_PATH, SITE_ORIGIN } from "@/lib/site-origin";
 import { FALLBACK_SITE } from "@/lib/site";
-
-const SITE_ORIGIN = process.env.NEXT_PUBLIC_SITE_URL ?? "https://arnav.theglobalorbit.com";
 
 type PageMetaInput = {
   title: string;
@@ -26,10 +25,13 @@ export function buildPageMetadata({
   ogDescription,
   ogImage,
 }: PageMetaInput): Metadata {
-  const url = path.startsWith("http") ? path : `${SITE_ORIGIN}${path.startsWith("/") ? path : `/${path}`}`;
+  const pathNormalized = path.startsWith("/") ? path : `/${path}`;
+  const url = path.startsWith("http") ? path : absoluteUrl(pathNormalized);
   const trimmedDescription = description.trim().slice(0, 160);
   const ogDesc = (ogDescription || trimmedDescription).slice(0, 200);
-  const canonicalPath = canonical?.trim() || (path.startsWith("/") ? path : `/${path}`);
+  const canonicalPath = canonical?.trim() || pathNormalized;
+  const canonicalUrl = canonicalPath.startsWith("http") ? canonicalPath : absoluteUrl(canonicalPath);
+  const ogImageUrl = ogImage?.trim() ? absoluteUrl(ogImage.trim()) : absoluteUrl(DEFAULT_OG_IMAGE_PATH);
 
   return {
     metadataBase: new URL(SITE_ORIGIN),
@@ -37,7 +39,7 @@ export function buildPageMetadata({
     description: trimmedDescription,
     keywords,
     alternates: {
-      canonical: canonicalPath.startsWith("http") ? canonicalPath : canonicalPath,
+      canonical: canonicalUrl,
     },
     openGraph: {
       title: ogTitle?.trim() || title,
@@ -45,13 +47,13 @@ export function buildPageMetadata({
       locale: "en_NP",
       type: "website",
       url,
-      ...(ogImage?.trim() ? { images: [{ url: ogImage.trim() }] } : {}),
+      images: [{ url: ogImageUrl, alt: "Global Orbit — websites, apps, and SEO in Nepal" }],
     },
     twitter: {
       card: "summary_large_image",
       title: ogTitle?.trim() || title,
       description: ogDesc,
-      ...(ogImage?.trim() ? { images: [ogImage.trim()] } : {}),
+      images: [ogImageUrl],
     },
     robots: {
       index: robotsIndex,

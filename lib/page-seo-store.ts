@@ -87,7 +87,11 @@ export async function getPageSeoList(): Promise<PageSeo[]> {
 
 export async function getPageSeo(pathname: string): Promise<PageSeo | null> {
   const list = await getPageSeoList();
-  return list.find((page) => page.path === pathname) ?? null;
+  const found = list.find((page) => page.path === pathname);
+  if (found) return found;
+  const d = getPageSeoDefaults(pathname);
+  if (!d) return null;
+  return normalizePageSeo(buildDefaultPageSeo(pathname));
 }
 
 export async function savePageSeoList(pages: PageSeo[]) {

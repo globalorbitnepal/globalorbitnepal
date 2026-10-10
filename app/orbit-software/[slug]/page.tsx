@@ -65,7 +65,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
   const item = findBySlug(ORBIT_SOFTWARE, slug);
   if (!item) return { title: "Software" };
-  return buildPageMetadata({ title: item.title, description: item.summary, path: item.href });
+  return applyPageSeo(item.href, { title: item.title, description: item.summary });
 }
 
 async function renderPlatformPage(slug: PlatformPageSlug) {
