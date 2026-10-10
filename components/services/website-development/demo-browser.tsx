@@ -13,7 +13,7 @@ export function WebsiteDemoBrowser({ children, url }: { children: ReactNode; url
         </span>
         <span className="wd-browser-url">{url}</span>
       </div>
-      <div className="wd-browser-viewport">{children}</div>
+      <div className="wd-browser-viewport" aria-hidden="true" data-wd-demo-preview="true">{children}</div>
     </div>
   );
 }

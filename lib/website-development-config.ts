@@ -197,6 +197,19 @@ export const WEBSITE_DEV_FAQ = [
   },
 ];
 
+export const WEBSITE_DEV_PORTFOLIO = {
+  eyebrow: "Selected work",
+  title: "Real projects from our Nepal studio",
+  lede: "Hotel, trek, interior, spa, and travel brands we have shipped — see the live portfolio for screenshots and delivery notes.",
+  href: "/projects",
+  linkLabel: "View full portfolio",
+  samples: [
+    { label: "Marlo Hotels", href: "/projects" },
+    { label: "Ambition Holidays", href: "/projects" },
+    { label: "Summit Seek", href: "/projects" },
+  ],
+};
+
 export const WEBSITE_DEV_CTA = {
   title: "Ready for a website that is yours alone?",
   lede: "Tell us your industry, timeline, and must-have integrations. We will reply with a milestone plan and investment range.",

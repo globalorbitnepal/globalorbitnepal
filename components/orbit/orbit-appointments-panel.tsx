@@ -33,9 +33,16 @@ export function OrbitAppointmentsPanel() {
   }, []);
 
   useEffect(() => {
-    void load();
-    const timer = window.setInterval(() => void load(), 60000);
-    return () => window.clearInterval(timer);
+    const timer = window.setInterval(() => {
+      void load();
+    }, 60000);
+    const start = window.setTimeout(() => {
+      void load();
+    }, 0);
+    return () => {
+      window.clearInterval(timer);
+      window.clearTimeout(start);
+    };
   }, [load]);
 
   async function markRead(ids: string[]) {

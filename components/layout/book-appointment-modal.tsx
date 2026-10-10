@@ -19,6 +19,11 @@ const inputClass =
   "w-full rounded-xl border border-white/14 bg-[#12121a]/90 px-4 py-2.5 text-[15px] text-white outline-none transition focus:border-[#f0c43a]/55 focus:ring-2 focus:ring-[#f0c43a]/20";
 
 export function BookAppointmentModal({ open, onClose }: Props) {
+  if (!open) return null;
+  return <BookAppointmentModalForm onClose={onClose} />;
+}
+
+function BookAppointmentModalForm({ onClose }: { onClose: () => void }) {
   const titleId = useId();
   const panelRef = useRef<HTMLDivElement>(null);
   const [phase, setPhase] = useState<"form" | "success">("form");
@@ -39,26 +44,18 @@ export function BookAppointmentModal({ open, onClose }: Props) {
   });
 
   useEffect(() => {
-    if (!open) return;
-    setPhase("form");
-    setError("");
     const onKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") onClose();
     };
     document.addEventListener("keydown", onKey);
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+    panelRef.current?.focus();
     return () => {
       document.removeEventListener("keydown", onKey);
       document.body.style.overflow = prev;
     };
-  }, [open, onClose]);
-
-  useEffect(() => {
-    if (open && panelRef.current) {
-      panelRef.current.focus();
-    }
-  }, [open]);
+  }, [onClose]);
 
   function toggleService(service: AppointmentService) {
     setForm((current) => ({
@@ -86,8 +83,6 @@ export function BookAppointmentModal({ open, onClose }: Props) {
     }
     setPhase("success");
   }
-
-  if (!open) return null;
 
   return (
     <div className="orbit-appointment-root fixed inset-0 z-[100] flex items-end justify-center sm:items-center sm:p-4">

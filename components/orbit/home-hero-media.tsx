@@ -1,41 +1,44 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState, useSyncExternalStore } from "react";
 
 const HERO_4K = "/brand/hero-scene-uhd-4k.jpg";
 const HERO_2K = "/brand/hero-scene-uhd-2k.jpg";
 const HERO_HD = "/brand/hero-scene-uhd.jpg";
 const HERO_FALLBACK = "/brand/hero-globe.jpg";
 
+function subscribeMediaQuery(query: string, onChange: () => void) {
+  const mq = window.matchMedia(query);
+  mq.addEventListener("change", onChange);
+  return () => mq.removeEventListener("change", onChange);
+}
+
+function subscribeResize(onChange: () => void) {
+  window.addEventListener("resize", onChange, { passive: true });
+  return () => window.removeEventListener("resize", onChange);
+}
+
+function pickUhdSrc() {
+  const w = window.innerWidth;
+  if (w >= 1536) return HERO_4K;
+  if (w >= 960) return HERO_2K;
+  return HERO_HD;
+}
+
 /**
  * Ultra HD hero environment (responsive 1x/2x/4K plates + CSS atmosphere).
- * All marketing copy stays in OrbitHomeHero as HTML.
  */
 export function OrbitHomeHeroScene() {
-  const [motionOk, setMotionOk] = useState(true);
-  const [uhdSrc, setUhdSrc] = useState(HERO_HD);
-
-  useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setMotionOk(!mq.matches);
-    const onChange = () => setMotionOk(!mq.matches);
-    mq.addEventListener("change", onChange);
-
-    const pick = () => {
-      const w = window.innerWidth;
-      if (w >= 1536) setUhdSrc(HERO_4K);
-      else if (w >= 960) setUhdSrc(HERO_2K);
-      else setUhdSrc(HERO_HD);
-    };
-    pick();
-    window.addEventListener("resize", pick, { passive: true });
-
-    return () => {
-      mq.removeEventListener("change", onChange);
-      window.removeEventListener("resize", pick);
-    };
-  }, []);
+  const reducedMotion = useSyncExternalStore(
+    (cb) => subscribeMediaQuery("(prefers-reduced-motion: reduce)", cb),
+    () => window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+    () => false,
+  );
+  const uhdSrc = useSyncExternalStore(subscribeResize, pickUhdSrc, () => HERO_HD);
+  const [imgSrc, setImgSrc] = useState<string | null>(null);
+  const motionOk = !reducedMotion;
+  const displaySrc = imgSrc ?? uhdSrc;
 
   return (
     <div className="absolute inset-0 overflow-hidden bg-[#020610]" aria-hidden="true">
@@ -47,14 +50,14 @@ export function OrbitHomeHeroScene() {
         }`}
       >
         <Image
-          src={uhdSrc}
+          src={displaySrc}
           alt=""
           fill
           priority
           unoptimized
           sizes="100vw"
           className="orbit-hero-sharp object-cover object-[48%_38%] contrast-[1.06] saturate-[1.1] brightness-[1.02] sm:object-[50%_40%] lg:object-[48%_38%]"
-          onError={() => setUhdSrc(HERO_FALLBACK)}
+          onError={() => setImgSrc(HERO_FALLBACK)}
         />
       </div>
 

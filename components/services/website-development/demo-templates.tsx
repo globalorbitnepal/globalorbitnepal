@@ -33,7 +33,7 @@ export function DemoSummitLodge() {
       <section className="wd-app-hero-row">
         <div>
           <p className="wd-app-kicker">Nagarkot · 12 rooms</p>
-          <h1>Book a quiet night above the ridge</h1>
+          <p className="wd-app-demo-title">Book a quiet night above the ridge</p>
           <p className="wd-app-lede">Forest suites, fireside dining, and airport transfer on request.</p>
           <form className="wd-app-book" onSubmit={(e) => e.preventDefault()}>
             <label>
@@ -86,7 +86,7 @@ export function DemoTrailhead() {
       <section className="wd-app-hero-row wd-app-hero-row--trail">
         <div>
           <p className="wd-app-kicker">Everest region · 14 days</p>
-          <h1>Departures with named guides</h1>
+          <p className="wd-app-demo-title">Departures with named guides</p>
           <p className="wd-app-lede">Small groups, porter welfare, and a written altitude plan before you fly to Lukla.</p>
           <button type="button" className="wd-app-primary">
             Get the itinerary
@@ -130,7 +130,7 @@ export function DemoEmberSlate() {
       <section className="wd-app-hero-row wd-app-hero-row--ember">
         <div>
           <p className="wd-app-kicker">Kathmandu · Thu–Sun</p>
-          <h1>Seven-course tasting, one seating</h1>
+          <p className="wd-app-demo-title">Seven-course tasting, one seating</p>
           <p className="wd-app-lede">Wood-fired produce and natural wines. Last table 21:30.</p>
           <form className="wd-app-reserve" onSubmit={(e) => e.preventDefault()}>
             <input defaultValue="Saturday" readOnly />
@@ -161,7 +161,7 @@ export function DemoNorwood() {
       <section className="wd-app-shop-head">
         <div>
           <p className="wd-app-kicker">Winter 2026</p>
-          <h1>Hill-morning layers</h1>
+          <p className="wd-app-demo-title">Hill-morning layers</p>
         </div>
         <p>Merino, structure, and export-ready sizes. Pickup in Thamel.</p>
       </section>
@@ -200,7 +200,7 @@ export function DemoPulseMetrics() {
         </aside>
         <div>
           <header className="wd-app-saas-head">
-            <h1>Revenue this quarter</h1>
+            <p className="wd-app-demo-title">Revenue this quarter</p>
             <span>+18% vs last</span>
           </header>
           <div className="wd-app-kpis">
@@ -235,7 +235,7 @@ export function DemoHavenSpa() {
       <section className="wd-app-hero-row wd-app-hero-row--spa">
         <div>
           <p className="wd-app-kicker">Thamel · Daily 10:00–21:00</p>
-          <h1>Book a ritual, not a popup</h1>
+          <p className="wd-app-demo-title">Book a ritual, not a popup</p>
           <p className="wd-app-lede">Therapist matched to pressure. Gift vouchers at reception.</p>
           <form className="wd-app-book wd-app-book--spa" onSubmit={(e) => e.preventDefault()}>
             <label>

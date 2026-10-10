@@ -20,9 +20,8 @@ export function AboutPageView({ config }: { config: AboutConfig }) {
         <div className="mx-auto max-w-[52rem]">
           <Badge>{config.heroEyebrow}</Badge>
           <h1 className="orbit-about-hero-title mt-6 font-[family-name:var(--font-jakarta)]">
-            <span className="text-white">{config.heroTitleBefore} </span>
-            <GoldGradient>{config.heroTitleAccent}</GoldGradient>
-            <br />
+            About Global Orbit — {config.heroTitleBefore}{" "}
+            <GoldGradient>{config.heroTitleAccent}</GoldGradient>{" "}
             <span className="text-white/92">{config.heroTitleAfter}</span>
           </h1>
           <p className="orbit-about-hero-lede mx-auto mt-7 max-w-2xl">{config.heroLede}</p>

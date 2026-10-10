@@ -1,13 +1,23 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import { FooterInstallIcon } from "@/components/layout/footer-action-icons";
 
 type PromptEvent = Event & { prompt: () => Promise<void>; userChoice: Promise<{ outcome: string }> };
 
+function subscribeStandalone(onChange: () => void) {
+  const mql = window.matchMedia("(display-mode: standalone)");
+  mql.addEventListener("change", onChange);
+  return () => mql.removeEventListener("change", onChange);
+}
+
+function isStandalone() {
+  return window.matchMedia("(display-mode: standalone)").matches;
+}
+
 export function PwaInstall({ className }: { className?: string }) {
   const [prompt, setPrompt] = useState<PromptEvent | null>(null);
-  const [installed, setInstalled] = useState(false);
+  const installed = useSyncExternalStore(subscribeStandalone, isStandalone, () => false);
 
   useEffect(() => {
     if ("serviceWorker" in navigator) {
@@ -17,10 +27,11 @@ export function PwaInstall({ className }: { className?: string }) {
       event.preventDefault();
       setPrompt(event as PromptEvent);
     };
-    const onInstalled = () => setInstalled(true);
+    const onInstalled = () => {
+      setPrompt(null);
+    };
     window.addEventListener("beforeinstallprompt", onPrompt);
     window.addEventListener("appinstalled", onInstalled);
-    if (window.matchMedia("(display-mode: standalone)").matches) setInstalled(true);
     return () => {
       window.removeEventListener("beforeinstallprompt", onPrompt);
       window.removeEventListener("appinstalled", onInstalled);
@@ -35,16 +46,13 @@ export function PwaInstall({ className }: { className?: string }) {
     <button
       type="button"
       className={className}
+      disabled={!prompt}
       onClick={() => {
-        if (prompt) {
-          void prompt.prompt();
-          return;
-        }
-        window.alert("Use your browser menu → Add to Home Screen / Install app.");
+        if (prompt) void prompt.prompt();
       }}
     >
       <FooterInstallIcon />
-      <span className="orbit-footer-chip-label">Install app</span>
+      Install app
     </button>
   );
 }

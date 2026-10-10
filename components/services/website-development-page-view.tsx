@@ -8,6 +8,7 @@ import {
   WEBSITE_DEV_DEMOS,
   WEBSITE_DEV_FAQ,
   WEBSITE_DEV_HERO,
+  WEBSITE_DEV_PORTFOLIO,
   WEBSITE_DEV_PROCESS,
   WEBSITE_DEV_SEO,
   WEBSITE_DEV_STATS,
@@ -32,9 +33,8 @@ export function WebsiteDevelopmentPageView() {
           <div className="mx-auto max-w-[54rem] text-center">
             <Badge>{WEBSITE_DEV_HERO.eyebrow}</Badge>
             <h1 className="orbit-about-hero-title mt-5 font-[family-name:var(--font-jakarta)]">
-              <span className="text-white">{WEBSITE_DEV_HERO.titleBefore} </span>
-              <GoldGradient>{WEBSITE_DEV_HERO.titleAccent}</GoldGradient>
-              <br />
+              Website development in Nepal — {WEBSITE_DEV_HERO.titleBefore}{" "}
+              <GoldGradient>{WEBSITE_DEV_HERO.titleAccent}</GoldGradient>{" "}
               <span className="text-white/92">{WEBSITE_DEV_HERO.titleAfter}</span>
             </h1>
             <p className="orbit-about-hero-lede mx-auto mt-5 max-w-2xl">{WEBSITE_DEV_HERO.lede}</p>
@@ -150,6 +150,31 @@ export function WebsiteDevelopmentPageView() {
                   </li>
                 ))}
               </ul>
+            </div>
+          </AboutReveal>
+        </div>
+      </section>
+
+      <section className="orbit-projects-tight px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-[76rem]">
+          <AboutReveal>
+            <div className="orbit-about-glass orbit-about-story">
+              <Badge>{WEBSITE_DEV_PORTFOLIO.eyebrow}</Badge>
+              <h2 className="orbit-about-h2 mt-4">{WEBSITE_DEV_PORTFOLIO.title}</h2>
+              <p className="mt-3 max-w-2xl text-base leading-relaxed text-white/55">{WEBSITE_DEV_PORTFOLIO.lede}</p>
+              <ul className="mt-6 flex flex-wrap gap-3">
+                {WEBSITE_DEV_PORTFOLIO.samples.map((sample) => (
+                  <li key={sample.label}>
+                    <Link href={sample.href} className="orbit-about-cta-ghost text-sm">
+                      {sample.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+              <Link href={WEBSITE_DEV_PORTFOLIO.href} className="orbit-about-cta-primary mt-8 inline-flex">
+                {WEBSITE_DEV_PORTFOLIO.linkLabel}
+                <span aria-hidden="true">→</span>
+              </Link>
             </div>
           </AboutReveal>
         </div>

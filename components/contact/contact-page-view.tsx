@@ -39,9 +39,8 @@ export function ContactPageView() {
         <div className="mx-auto max-w-[76rem] text-center">
           <Badge>{CONTACT_HERO.eyebrow}</Badge>
           <h1 className="orbit-about-hero-title mt-6 font-[family-name:var(--font-jakarta)]">
-            <span className="text-white">{CONTACT_HERO.titleBefore} </span>
-            <Gold>{CONTACT_HERO.titleAccent}</Gold>
-            <br />
+            Contact Global Orbit — {CONTACT_HERO.titleBefore}{" "}
+            <Gold>{CONTACT_HERO.titleAccent}</Gold>{" "}
             <span className="text-white/92">{CONTACT_HERO.titleAfter}</span>
           </h1>
           <p className="orbit-about-hero-lede mx-auto mt-6 max-w-2xl">{CONTACT_HERO.lede}</p>

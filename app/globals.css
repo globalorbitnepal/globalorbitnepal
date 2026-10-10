@@ -9350,7 +9350,8 @@ li.orbit-card:hover {
 
 .wd-app-hero-row h1,
 .wd-app-shop-head h1,
-.wd-app-saas-head h1 {
+.wd-app-saas-head h1,
+.wd-app-demo-title {
   margin: 0.35rem 0 0.55rem;
   font-size: clamp(1.45rem, 2.6vw, 2.15rem);
   letter-spacing: -0.035em;

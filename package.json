@@ -9,6 +9,7 @@
     "start": "next start -p 3031 -H 127.0.0.1",
     "lint": "eslint",
     "seo:verify": "node scripts/verify-seo-routes.mjs",
+    "test:e2e": "playwright test",
     "db:generate": "prisma generate",
     "db:validate": "prisma validate",
     "db:verify-target": "node scripts/verify-database-target.mjs",
@@ -28,6 +29,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.3.4",
+    "@playwright/test": "^1.51.0",
     "tailwindcss": "^4",
     "prisma": "^6.16.2",
     "typescript": "^5"

@@ -1,7 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 export function OrbitPremiumReveal({
   children,
@@ -13,22 +13,19 @@ export function OrbitPremiumReveal({
   delayMs?: number;
 }) {
   const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    const reduce =
-      typeof window !== "undefined" &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduce) {
-      setVisible(true);
+      el.classList.add("is-visible");
       return;
     }
     const io = new IntersectionObserver(
       ([entry]) => {
         if (entry?.isIntersecting) {
-          setVisible(true);
+          el.classList.add("is-visible");
           io.disconnect();
         }
       },
@@ -41,7 +38,7 @@ export function OrbitPremiumReveal({
   return (
     <div
       ref={ref}
-      className={`orbit-premium-reveal ${visible ? "is-visible" : ""} ${className}`.trim()}
+      className={`orbit-premium-reveal ${className}`.trim()}
       style={delayMs ? { transitionDelay: `${delayMs}ms` } : undefined}
     >
       {children}
