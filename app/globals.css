@@ -6831,19 +6831,6 @@ li.orbit-card:hover {
   pointer-events: none;
 }
 
-.orbit-work-earth-sun-halo {
-  background: radial-gradient(circle, rgba(255, 220, 120, 0.35) 0%, rgba(240, 196, 58, 0.12) 42%, transparent 72%);
-}
-
-.orbit-work-earth-sun {
-  box-shadow:
-    0 0 0 1px rgba(255, 220, 140, 0.55),
-    0 0 0 12px rgba(240, 196, 58, 0.08),
-    0 0 120px rgba(255, 180, 60, 0.45),
-    0 40px 90px rgba(0, 0, 0, 0.65),
-    inset -18px -24px 48px rgba(80, 40, 0, 0.35);
-}
-
 .orbit-work-earth-front-label {
   margin: 0.35rem auto 0;
   text-align: center;

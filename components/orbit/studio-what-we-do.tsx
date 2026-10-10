@@ -2,7 +2,12 @@
 
 import { useEffect, useMemo, useRef, type CSSProperties } from "react";
 import { bindOrbitScroll, isOrbitTouch } from "@/lib/orbit/scroll-performance";
-import { EARTH_ORBIT_SITES, equatorialLng, projectOrbitCard } from "@/lib/work-earth-mosaic";
+import {
+  EARTH_ORBIT_SITES,
+  equatorialLng,
+  isLand,
+  projectOrbitCard,
+} from "@/lib/work-earth-mosaic";
 import type { WorkConfig } from "@/lib/work-config";
 
 function clamp(n: number, min: number, max: number) {
@@ -21,34 +26,49 @@ function madeLabelProgress(raw: number) {
   return 1 - smoothStep((raw - 0.9) / 0.08);
 }
 
-function paintSunTexture(size: number) {
+/** Procedural Earth map (no site mosaic) — instant load, classic globe look */
+function paintEarthTexture(width: number) {
+  const height = Math.floor(width / 2);
   const canvas = document.createElement("canvas");
-  canvas.width = size;
-  canvas.height = size;
+  canvas.width = width;
+  canvas.height = height;
   const ctx = canvas.getContext("2d");
   if (!ctx) return canvas;
 
-  const cx = size / 2;
-  const cy = size / 2;
-  const r = size * 0.5;
-  const g = ctx.createRadialGradient(cx, cy, r * 0.02, cx, cy, r);
-  g.addColorStop(0, "#fffef5");
-  g.addColorStop(0.18, "#fde68a");
-  g.addColorStop(0.42, "#f0c43a");
-  g.addColorStop(0.68, "#d97706");
-  g.addColorStop(0.88, "#92400e");
-  g.addColorStop(1, "#3b1a06");
-  ctx.fillStyle = g;
-  ctx.fillRect(0, 0, size, size);
+  const img = ctx.createImageData(width, height);
+  const data = img.data;
 
-  ctx.globalAlpha = 0.12;
-  for (let i = 0; i < 6; i++) {
-    const band = ctx.createLinearGradient(0, size * (0.15 + i * 0.12), size, size * (0.22 + i * 0.12));
-    band.addColorStop(0, "transparent");
-    band.addColorStop(0.5, "#fff");
-    band.addColorStop(1, "transparent");
-    ctx.fillStyle = band;
-    ctx.fillRect(0, 0, size, size);
+  for (let y = 0; y < height; y++) {
+    const lat = 90 - (y / height) * 180;
+    for (let x = 0; x < width; x++) {
+      const lng = (x / width) * 360 - 180;
+      const land = isLand(lat, lng);
+      const i = (y * width + x) * 4;
+      const n = ((x * 13 + y * 7) % 17) / 17;
+
+      if (land) {
+        data[i] = 28 + n * 22;
+        data[i + 1] = 88 + n * 40;
+        data[i + 2] = 52 + n * 18;
+      } else {
+        data[i] = 8 + n * 10;
+        data[i + 1] = 28 + n * 24;
+        data[i + 2] = 58 + n * 32;
+      }
+      data[i + 3] = 255;
+    }
+  }
+  ctx.putImageData(img, 0, 0);
+
+  ctx.globalAlpha = 0.14;
+  ctx.fillStyle = "#fff";
+  for (let c = 0; c < 120; c++) {
+    const cx = Math.random() * width;
+    const cy = Math.random() * height;
+    const r = 4 + Math.random() * 28;
+    ctx.beginPath();
+    ctx.ellipse(cx, cy, r, r * 0.35, 0, 0, Math.PI * 2);
+    ctx.fill();
   }
   ctx.globalAlpha = 1;
 
@@ -90,14 +110,15 @@ varying vec3 vP;
 void main() {
   vec3 n = normalize(vN);
   vec3 col = texture2D(uMap, vUv).rgb;
-  vec3 light = normalize(vec3(-0.35, 0.42, 0.88));
+  vec3 light = normalize(vec3(-0.42, 0.38, 0.82));
   vec3 view = normalize(vec3(0.0, 0.06, 2.22) - vP);
   float ndl = max(dot(n, light), 0.0);
   float rim = pow(1.0 - max(dot(n, view), 0.0), 2.4);
   float spec = pow(max(dot(reflect(-light, n), view), 0.0), 48.0);
-  col *= 0.88 + ndl * 0.22;
-  col += vec3(1.0, 0.95, 0.75) * spec * 0.14;
-  col += vec3(1.0, 0.82, 0.35) * rim * 0.22;
+  col *= 0.82 + ndl * 0.28;
+  col += vec3(0.85, 0.92, 1.0) * spec * 0.08;
+  col += vec3(0.55, 0.78, 1.0) * rim * 0.1;
+  col += vec3(0.95, 0.8, 0.35) * rim * 0.06;
   gl_FragColor = vec4(col, 1.0);
 }
 `;
@@ -223,9 +244,9 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-    const sun = paintSunTexture(1024);
+    const earthMap = paintEarthTexture(1024);
     gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1);
-    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, sun);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, earthMap);
 
     const resize = () => {
       const parent = canvas.parentElement;
@@ -370,7 +391,7 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
 
         <div className="orbit-work-mosaic-main orbit-work-earth-stage">
           <div ref={stageRef} className="orbit-work-earth-arena">
-            <div className="orbit-work-earth-halo orbit-work-earth-sun-halo" aria-hidden="true" />
+            <div className="orbit-work-earth-halo" aria-hidden="true" />
             <div className="orbit-work-earth-rings" aria-hidden="true">
               <span className="orbit-work-earth-ring is-1" />
               <span className="orbit-work-earth-ring is-2" />
@@ -378,7 +399,7 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
             </div>
             <div className="orbit-work-earth-orbit-track" aria-hidden="true" />
 
-            <div className="orbit-work-earth-globe orbit-work-earth-sun">
+            <div className="orbit-work-earth-globe">
               <canvas ref={canvasRef} className="orbit-work-earth-canvas" aria-hidden="true" />
             </div>
 
