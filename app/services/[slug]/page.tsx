@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { getServiceBySlug, isServiceSlug, SERVICE_CATALOG } from "@/lib/content/services";
 import { getPublishedServiceBySlug } from "@/lib/db/services";
 import { getSiteSettings } from "@/lib/db/site-settings";
-import { buildPageMetadata } from "@/lib/seo";
+import { applyPageSeo } from "@/lib/apply-page-seo";
 import { FALLBACK_SITE } from "@/lib/site";
 import { PageCta } from "@/components/site/page-cta";
 import { PageHero } from "@/components/site/page-hero";
@@ -27,10 +27,9 @@ export async function generateMetadata({ params }: ServicePageProps): Promise<Me
     return { title: "Service" };
   }
   const db = await getPublishedServiceBySlug(slug);
-  return buildPageMetadata({
+  return applyPageSeo(`/services/${catalog.slug}`, {
     title: db?.title ? `${db.title}` : catalog.seoTitle,
     description: db?.summary || catalog.seoDescription,
-    path: `/services/${catalog.slug}`,
   });
 }
 

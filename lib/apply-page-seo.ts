@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { mergeSeoFallback } from "@/lib/seo-page-defaults";
 import { getPageSeo } from "@/lib/page-seo-store";
 import { buildPageMetadata } from "@/lib/seo";
 
@@ -7,28 +8,36 @@ export async function applyPageSeo(
   fallback: { title: string; description: string; keywords?: string[] },
 ): Promise<Metadata> {
   const seo = await getPageSeo(pathname);
-  const title = seo?.seoTitle?.trim() || fallback.title;
-  const description = seo?.seoDescription?.trim() || fallback.description;
+  const base = mergeSeoFallback(pathname, fallback);
+  const title = seo?.seoTitle?.trim() || base.title;
+  const description = seo?.seoDescription?.trim() || base.description;
   const keywords = seo?.keywords
     ? seo.keywords.split(",").map((item) => item.trim()).filter(Boolean)
-    : fallback.keywords;
+    : base.keywords;
+  const focusKeyword = seo?.focusKeyword?.trim() || base.focusKeyword;
+  const robotsIndex =
+    seo?.robotsIndex !== undefined && seo?.robotsIndex !== null
+      ? seo.robotsIndex
+      : pathname === "/demo"
+        ? false
+        : true;
   const meta = buildPageMetadata({
     title,
     description,
     path: pathname,
     keywords,
     canonical: seo?.canonical,
-    robotsIndex: seo?.robotsIndex,
+    robotsIndex,
     ogTitle: seo?.ogTitle,
     ogDescription: seo?.ogDescription,
     ogImage: seo?.ogImage,
   });
-  if (seo?.focusKeyword?.trim() || seo?.tags?.trim()) {
+  if (focusKeyword || seo?.tags?.trim()) {
     return {
       ...meta,
       other: {
-        ...(seo.focusKeyword ? { "focus-keyword": seo.focusKeyword } : {}),
-        ...(seo.tags ? { tags: seo.tags } : {}),
+        ...(focusKeyword ? { "focus-keyword": focusKeyword } : {}),
+        ...(seo?.tags ? { tags: seo.tags } : {}),
       },
     };
   }

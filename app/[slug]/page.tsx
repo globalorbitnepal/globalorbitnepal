@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { OrbitArticlePage } from "@/components/orbit/catalog-page";
 import { findBySlug, ORBIT_LANDINGS } from "@/lib/orbit/catalog";
-import { buildPageMetadata } from "@/lib/seo";
+import { applyPageSeo } from "@/lib/apply-page-seo";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -14,7 +14,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const item = findBySlug(ORBIT_LANDINGS, slug);
   if (!item) return { title: "Global Orbit" };
-  return buildPageMetadata({ title: item.title, description: item.summary, path: item.href });
+  return applyPageSeo(item.href, { title: item.title, description: item.summary });
 }
 
 export default async function LandingPage({ params }: Props) {

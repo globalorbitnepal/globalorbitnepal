@@ -10,9 +10,9 @@ export const FALLBACK_SITE = {
   email: "support@theglobalorbit.com",
   phone: "+977-9823631899",
   address: "Kathmandu · India · United States",
-  defaultSeoTitle: "Global Orbit | Websites, Apps, ERP & SaaS — Nepal, India, USA",
+  defaultSeoTitle: "Web Developer Nepal · Website, SEO, Apps & Digital Marketing | Global Orbit",
   defaultSeoDescription:
-    "Global Orbit Pvt Ltd builds websites, custom apps, ERP, billing, SaaS and SEO from offices in Nepal, India and the United States.",
+    "Kathmandu studio for website development, SEO, Google & social media ads, web apps, and ERP software — mobile-perfect builds for Nepal and global brands.",
 } as const;
 
 export const FALLBACK_HEADER_NAV: FallbackNavItem[] = [

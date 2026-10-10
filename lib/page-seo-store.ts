@@ -1,6 +1,7 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { getAppEnv } from "@/lib/env";
+import { getPageSeoDefaults, listSeoDefaultPaths } from "@/lib/seo-page-defaults";
 
 export type PageSeo = {
   path: string;
@@ -17,41 +18,6 @@ export type PageSeo = {
   ogImage: string;
 };
 
-const SEO_BLANK = {
-  seoTitle: "",
-  seoDescription: "",
-  keywords: "",
-  tags: "",
-  focusKeyword: "",
-  canonical: "",
-  robotsIndex: true,
-  ogTitle: "",
-  ogDescription: "",
-  ogImage: "",
-} as const;
-
-export const DEFAULT_PAGE_SEO: PageSeo[] = [
-  { path: "/", label: "Home", ...SEO_BLANK },
-  { path: "/about", label: "About", ...SEO_BLANK },
-  { path: "/contact", label: "Contact", ...SEO_BLANK },
-  { path: "/projects", label: "Portfolio", ...SEO_BLANK },
-  { path: "/careers", label: "Careers", ...SEO_BLANK },
-  { path: "/orbit-software", label: "Orbit Software", ...SEO_BLANK },
-  { path: "/privacy-policy", label: "Privacy Policy", ...SEO_BLANK },
-  { path: "/terms-and-conditions", label: "Terms & Conditions", ...SEO_BLANK },
-  { path: "/service/website-development-nepal", label: "Website Development", ...SEO_BLANK },
-  { path: "/service/ai-automation", label: "AI Automation", ...SEO_BLANK },
-  { path: "/blogs", label: "Blog index", ...SEO_BLANK },
-  { path: "/orbit-software/web-apps", label: "Web Apps", ...SEO_BLANK },
-  { path: "/orbit-software/android-apps", label: "Android Apps", ...SEO_BLANK },
-  { path: "/orbit-software/ios-apps", label: "iOS Apps", ...SEO_BLANK },
-  { path: "/packages", label: "Packages", ...SEO_BLANK },
-  { path: "/services", label: "Solutions", ...SEO_BLANK },
-  { path: "/demo", label: "Demo", ...SEO_BLANK },
-  { path: "/inside-orbit", label: "Inside Orbit", ...SEO_BLANK },
-  { path: "/studio", label: "Studio", ...SEO_BLANK },
-];
-
 export function normalizePageSeo(page: PageSeo, incoming?: Partial<PageSeo>): PageSeo {
   return {
     ...page,
@@ -67,6 +33,39 @@ export function normalizePageSeo(page: PageSeo, incoming?: Partial<PageSeo>): Pa
     ogImage: String(incoming?.ogImage ?? page.ogImage ?? "").trim(),
   };
 }
+
+function labelForPath(pathname: string): string {
+  if (pathname === "/") return "Home";
+  const d = getPageSeoDefaults(pathname);
+  if (d?.title) {
+    const short = d.title.split("·")[0]?.trim();
+    if (short) return short.slice(0, 48);
+  }
+  return pathname.replace(/^\//, "").replace(/\//g, " · ") || "Page";
+}
+
+function buildDefaultPageSeo(pathname: string): PageSeo {
+  const d = getPageSeoDefaults(pathname);
+  const robotsIndex = pathname === "/demo" ? false : true;
+  return {
+    path: pathname,
+    label: labelForPath(pathname),
+    seoTitle: d?.title ?? "",
+    seoDescription: d?.description ?? "",
+    keywords: d?.keywords.join(", ") ?? "",
+    tags: "",
+    focusKeyword: d?.focusKeyword ?? "",
+    canonical: "",
+    robotsIndex,
+    ogTitle: d?.title ?? "",
+    ogDescription: d?.description ?? "",
+    ogImage: "",
+  };
+}
+
+export const DEFAULT_PAGE_SEO: PageSeo[] = listSeoDefaultPaths().map((pathname) =>
+  normalizePageSeo(buildDefaultPageSeo(pathname)),
+);
 
 function seoPath() {
   return path.join(path.dirname(getAppEnv().uploadDir), "page-seo.json");

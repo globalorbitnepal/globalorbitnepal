@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { SiteShell } from "@/components/layout/site-shell";
+import { GlobalJsonLd } from "@/components/seo/global-json-ld";
 import { listVisibleNavItems } from "@/lib/db/nav-items";
 import { getSiteSettings } from "@/lib/db/site-settings";
 import { getFooterConfig } from "@/lib/footer-config-store";
@@ -92,6 +93,13 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
         />
       </head>
       <body className="orbit-app-body min-h-full overflow-x-clip antialiased">
+        <GlobalJsonLd
+          companyName={companyName}
+          description={settings?.defaultSeoDescription || FALLBACK_SITE.defaultSeoDescription}
+          email={chrome?.email || settings?.email || FALLBACK_SITE.email}
+          phone={chrome?.phone || settings?.phone || FALLBACK_SITE.phone}
+          address={chrome?.address || settings?.address || FALLBACK_SITE.address}
+        />
         <SiteShell
           companyName={companyName}
           tagline={tagline}

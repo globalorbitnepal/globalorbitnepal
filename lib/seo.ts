@@ -66,11 +66,15 @@ export function organizationJsonLd(input: {
   email?: string;
   phone?: string;
   address?: string;
+  url?: string;
 }) {
+  const url = input.url || SITE_ORIGIN;
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
+    "@id": `${url}/#organization`,
     name: input.name,
+    url,
     description: input.description || FALLBACK_SITE.defaultSeoDescription,
     address: {
       "@type": "PostalAddress",
@@ -80,6 +84,56 @@ export function organizationJsonLd(input: {
     },
     email: input.email || undefined,
     telephone: input.phone || undefined,
-    areaServed: ["NP"],
+    areaServed: [{ "@type": "Country", name: "Nepal" }, "IN", "US"],
+    sameAs: [] as string[],
+  };
+}
+
+export function websiteJsonLd(input: { name: string; description: string }) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": `${SITE_ORIGIN}/#website`,
+    url: SITE_ORIGIN,
+    name: input.name,
+    description: input.description,
+    inLanguage: "en-NP",
+    publisher: { "@id": `${SITE_ORIGIN}/#organization` },
+    potentialAction: {
+      "@type": "SearchAction",
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate: `${SITE_ORIGIN}/blogs?q={search_term_string}`,
+      },
+      "query-input": "required name=search_term_string",
+    },
+  };
+}
+
+export function localBusinessJsonLd(input: {
+  name: string;
+  description: string;
+  email?: string;
+  phone?: string;
+  address?: string;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "@id": `${SITE_ORIGIN}/#localbusiness`,
+    name: input.name,
+    description: input.description,
+    url: SITE_ORIGIN,
+    image: `${SITE_ORIGIN}/brand/logo-official-gold.png`,
+    email: input.email,
+    telephone: input.phone,
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "Kathmandu",
+      addressCountry: "NP",
+      streetAddress: input.address,
+    },
+    areaServed: { "@type": "Country", name: "Nepal" },
+    priceRange: "$$",
   };
 }
