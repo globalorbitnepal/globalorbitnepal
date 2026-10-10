@@ -3317,6 +3317,26 @@ li.orbit-card:hover {
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   padding-bottom: 0.35rem;
+  max-width: 100%;
+}
+
+@media (max-width: 1023px) {
+  .orbit-why,
+  .orbit-why-layout,
+  .orbit-why-nav {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .orbit-why-nav {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .orbit-why-tab {
+    min-width: min(72vw, 220px);
+    flex: 0 0 auto;
+  }
 }
 
 @media (min-width: 1024px) {
@@ -3633,9 +3653,10 @@ li.orbit-card:hover {
   position: relative;
   z-index: 2;
   width: min(100%, var(--orbit-footer-max, 1680px));
-  max-width: min(var(--orbit-footer-max, 1680px), calc(100vw - clamp(1.25rem, 3.5vw, 4rem) * 2));
+  max-width: min(var(--orbit-footer-max, 1680px), 100%);
   margin: 0 auto;
   padding: clamp(2.75rem, 5vw, 4.25rem) clamp(1.25rem, 4vw, 2.5rem) clamp(2rem, 3.5vw, 2.5rem);
+  box-sizing: border-box;
 }
 
 @media (min-width: 1600px) {
@@ -4154,10 +4175,11 @@ li.orbit-card:hover {
   display: grid;
   gap: 0.9rem;
   width: min(100%, var(--orbit-footer-max, 1680px));
-  max-width: min(var(--orbit-footer-max, 1680px), calc(100vw - clamp(1.25rem, 3.5vw, 4rem) * 2));
+  max-width: min(var(--orbit-footer-max, 1680px), 100%);
   margin: 0 auto;
   padding: 1.15rem clamp(1.25rem, 4vw, 2.5rem) 1.25rem;
   align-items: center;
+  box-sizing: border-box;
 }
 
 @media (min-width: 900px) {

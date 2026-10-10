@@ -73,11 +73,16 @@ export function attachDiagnostics(page: Page) {
 }
 
 export async function assertNoHorizontalOverflow(page: Page) {
-  const overflow = await page.evaluate(() => {
-    const doc = document.documentElement;
-    return doc.scrollWidth > doc.clientWidth + 2;
+  await page.evaluate(async () => {
+    await document.fonts?.ready;
   });
-  return overflow;
+  return page.evaluate(() => {
+    const doc = document.documentElement;
+    const body = document.body;
+    const clientW = doc.clientWidth;
+    const scrollW = Math.max(doc.scrollWidth, body.scrollWidth);
+    return scrollW > clientW + 2;
+  });
 }
 
 export async function primaryH1Text(page: Page): Promise<string> {

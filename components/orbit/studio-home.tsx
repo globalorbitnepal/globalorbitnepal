@@ -80,7 +80,10 @@ export function OrbitStudioHome({
         <OrbitCountryFlags />
       </section>
 
-      <section className="orbit-studio-surface px-4 py-20 sm:px-8 sm:py-24" aria-labelledby="why-heading">
+      <section
+        className="orbit-studio-surface overflow-x-clip px-4 py-20 sm:px-8 sm:py-24"
+        aria-labelledby="why-heading"
+      >
         <DisplayHead id="why-heading" wide title={surface.whyTitle} />
         <OrbitStudioWhy />
       </section>

@@ -107,7 +107,7 @@ test.describe("horizontal overflow — homepage all viewports", () => {
   for (const width of ALL_VIEWPORTS) {
     test(`homepage @ ${width}px`, async ({ page }) => {
       await page.setViewportSize({ width, height: Math.min(1200, width < 768 ? 844 : 900) });
-      await page.goto("/", { waitUntil: "domcontentloaded", timeout: 60_000 });
+      await page.goto("/", { waitUntil: "load", timeout: 60_000 });
       expect(await assertNoHorizontalOverflow(page)).toBe(false);
     });
   }
@@ -126,7 +126,7 @@ test.describe("horizontal overflow — key templates", () => {
     for (const path of paths) {
       test(`${path} @ ${width}px`, async ({ page }) => {
         await page.setViewportSize({ width, height: width < 768 ? 844 : 900 });
-        await page.goto(path, { waitUntil: "domcontentloaded", timeout: 45_000 });
+        await page.goto(path, { waitUntil: "load", timeout: 45_000 });
         expect(await assertNoHorizontalOverflow(page)).toBe(false);
       });
     }
@@ -137,12 +137,13 @@ test.describe("mobile navigation", () => {
   test.use({ viewport: { width: 390, height: 844 } });
 
   test("header menu opens", async ({ page }) => {
-    await page.goto("/", { waitUntil: "domcontentloaded" });
-    const menuBtn = page.getByRole("button", { name: /open menu/i });
+    await page.goto("/", { waitUntil: "load", timeout: 60_000 });
+    const menuBtn = page.locator("button.orbit-header-menu-btn");
     await expect(menuBtn).toBeVisible();
     await menuBtn.click();
-    const nav = page.locator("#mobile-nav");
-    await expect(nav).toBeVisible({ timeout: 5000 });
+    await expect(menuBtn).toHaveAttribute("aria-expanded", "true");
+    await expect(page.locator("#mobile-nav")).toBeVisible({ timeout: 5000 });
+    await expect(page.locator("#mobile-nav a").first()).toBeVisible();
   });
 });
 

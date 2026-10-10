@@ -57,26 +57,25 @@ export function SiteHeader({ headerLogoSrc }: SiteHeaderProps) {
           </div>
         </div>
 
-        {open ? (
-          <div
-            id="mobile-nav"
-            className="pointer-events-auto mx-4 mt-2 rounded-[28px] border border-white/12 bg-[#0b0b12]/92 px-4 py-4 backdrop-blur-xl lg:hidden"
-          >
-            <div className="flex flex-col gap-1">
-              <StudioHeaderNavMobile onNavigate={() => setOpen(false)} />
-              <button
-                type="button"
-                className="block w-full rounded-xl px-3 py-3 text-left text-[15px] font-semibold text-[#f0c43a]"
-                onClick={() => {
-                  setOpen(false);
-                  setAppointmentOpen(true);
-                }}
-              >
-                Book Appointment
-              </button>
-            </div>
+        <div
+          id="mobile-nav"
+          className={`pointer-events-auto mx-4 mt-2 rounded-[28px] border border-white/12 bg-[#0b0b12]/92 px-4 py-4 backdrop-blur-xl lg:hidden${open ? "" : " hidden"}`}
+          aria-hidden={!open}
+        >
+          <div className="flex flex-col gap-1">
+            <StudioHeaderNavMobile onNavigate={() => setOpen(false)} />
+            <button
+              type="button"
+              className="block w-full rounded-xl px-3 py-3 text-left text-[15px] font-semibold text-[#f0c43a]"
+              onClick={() => {
+                setOpen(false);
+                setAppointmentOpen(true);
+              }}
+            >
+              Book Appointment
+            </button>
           </div>
-        ) : null}
+        </div>
       </header>
 
       <BookAppointmentModal open={appointmentOpen} onClose={() => setAppointmentOpen(false)} />
