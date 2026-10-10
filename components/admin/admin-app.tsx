@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { AdminBlogStudio, type BlogMode } from "@/components/admin/admin-blog-studio";
 import { AdminMediaLibrary } from "@/components/admin/admin-media-library";
 import { AdminInquiriesPanel } from "@/components/admin/admin-inquiries-panel";
+import { AdminFooterEditor } from "@/components/admin/admin-footer-editor";
 import { AdminMediaField } from "@/components/admin/admin-media-field";
 import { AdminPageHub, AdminSitePagesGrid } from "@/components/admin/admin-page-hub";
 import { AdminSectionThumb } from "@/components/admin/admin-section-thumb";
@@ -31,6 +32,7 @@ import type { WorkConfig } from "@/lib/work-config";
 import type { SoftwareConfig } from "@/lib/software-config";
 import type { BlogCategory, BlogPost, BlogTag } from "@/lib/blog-types";
 import type { PageSeo } from "@/lib/page-seo-store";
+import type { FooterConfig } from "@/lib/footer-config";
 import type { SiteChrome } from "@/lib/site-chrome-store";
 import { scoreSeo } from "@/lib/seo-score";
 
@@ -73,6 +75,7 @@ type Props = {
   tags: BlogTag[];
   pages: PageSeo[];
   chrome: SiteChrome;
+  initialFooter: FooterConfig;
   inquiryNew: number;
   inquiryTotal: number;
   recentInquiries: InquiryPreview[];
@@ -118,6 +121,7 @@ export function AdminApp(props: Props) {
   const [tags, setTags] = useState(props.tags);
   const [pages, setPages] = useState(props.pages);
   const [chrome, setChrome] = useState(props.chrome);
+  const [footer, setFooter] = useState(props.initialFooter);
   const [status, setStatus] = useState("");
   const [busy, setBusy] = useState(false);
   const [query, setQuery] = useState("");
@@ -244,6 +248,17 @@ export function AdminApp(props: Props) {
     });
     setBusy(false);
     setStatus(response.ok ? "Header and footer identity published." : "Could not save settings.");
+  }
+
+  async function saveFooter() {
+    setBusy(true);
+    const response = await fetch("/api/orbit/footer", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(footer),
+    });
+    setBusy(false);
+    setStatus(response.ok ? "Footer content published." : "Could not save footer.");
   }
 
   const title =
@@ -717,6 +732,7 @@ export function AdminApp(props: Props) {
         {view === "media" ? <AdminMediaLibrary /> : null}
 
         {view === "chrome" ? (
+          <>
           <section className="go-cms-card">
             <h2>Header, footer & identity</h2>
             <AdminMediaField
@@ -755,6 +771,8 @@ export function AdminApp(props: Props) {
               </button>
             </div>
           </section>
+          <AdminFooterEditor footer={footer} busy={busy} onChange={setFooter} onSave={() => void saveFooter()} />
+          </>
         ) : null}
 
         {view === "inquiries" ? (

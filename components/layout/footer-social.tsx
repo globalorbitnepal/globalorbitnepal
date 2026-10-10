@@ -1,4 +1,5 @@
 import type { CSSProperties, ReactNode } from "react";
+import type { FooterSocialLink } from "@/lib/footer-config";
 import { ORBIT_BRAND } from "@/lib/orbit/brand";
 
 type Network = "facebook" | "instagram" | "linkedin" | "youtube" | "tiktok";
@@ -65,10 +66,17 @@ function networkFromLabel(label: string): Network {
   return "tiktok";
 }
 
-export function OrbitFooterSocial({ className = "" }: { className?: string }) {
+export function OrbitFooterSocial({
+  className = "",
+  items,
+}: {
+  className?: string;
+  items?: FooterSocialLink[];
+}) {
+  const links = items?.length ? items : ORBIT_BRAND.social;
   return (
     <div className={`orbit-footer-social ${className}`.trim()} role="list" aria-label="Social media">
-      {ORBIT_BRAND.social.map((item) => {
+      {links.map((item) => {
         const network = networkFromLabel(item.label);
         const icon = ICONS[network];
         return (

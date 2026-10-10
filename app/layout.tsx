@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { SiteShell } from "@/components/layout/site-shell";
 import { listVisibleNavItems } from "@/lib/db/nav-items";
 import { getSiteSettings } from "@/lib/db/site-settings";
+import { getFooterConfig } from "@/lib/footer-config-store";
 import { getSiteChrome } from "@/lib/site-chrome-store";
 import {
   FALLBACK_FOOTER_NAV,
@@ -70,9 +71,12 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function RootLayout({ children }: LayoutProps<"/">) {
-  const settings = await getSiteSettings();
-  const chrome = await getSiteChrome();
-  const footerRows = await listVisibleNavItems("FOOTER");
+  const [settings, chrome, footerRows, footer] = await Promise.all([
+    getSiteSettings(),
+    getSiteChrome(),
+    listVisibleNavItems("FOOTER"),
+    getFooterConfig(),
+  ]);
 
   const companyName = chrome?.companyName || settings?.companyName || FALLBACK_SITE.companyName;
   const tagline = chrome?.footerTagline || chrome?.tagline || settings?.tagline || FALLBACK_SITE.tagline;
@@ -97,6 +101,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
           email={chrome?.email || settings?.email || FALLBACK_SITE.email}
           phone={chrome?.phone || settings?.phone || FALLBACK_SITE.phone}
           address={chrome?.address || settings?.address || FALLBACK_SITE.address}
+          footer={footer}
         >
           {children}
         </SiteShell>

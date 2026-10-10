@@ -4,8 +4,10 @@ import { FormEvent, useState } from "react";
 import { submitInquiry } from "@/app/contact/actions";
 import { OrbitFooterSocial } from "@/components/layout/footer-social";
 import { FooterEnvelopeHero } from "@/components/layout/footer-icons";
+import type { FooterConfig } from "@/lib/footer-config";
+import { DEFAULT_FOOTER_CONFIG } from "@/lib/footer-config";
 
-export function FooterConnectBar() {
+export function FooterConnectBar({ footer = DEFAULT_FOOTER_CONFIG }: { footer?: FooterConfig }) {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
   const [busy, setBusy] = useState(false);
@@ -34,10 +36,8 @@ export function FooterConnectBar() {
       <div className="orbit-footer-connect-brand">
         <FooterEnvelopeHero />
         <div>
-          <h4 className="orbit-footer-connect-title">Connect with us</h4>
-          <p className="orbit-footer-connect-lede">
-            Follow for product launches, SEO insights, and stories from client projects worldwide.
-          </p>
+          <h4 className="orbit-footer-connect-title">{footer.connectTitle}</h4>
+          <p className="orbit-footer-connect-lede">{footer.connectLede}</p>
         </div>
       </div>
 
@@ -65,13 +65,13 @@ export function FooterConnectBar() {
             type="email"
             name="email"
             autoComplete="email"
-            placeholder="Enter your email address"
+            placeholder={footer.subscribePlaceholder}
             value={email}
             onChange={(event) => setEmail(event.target.value)}
           />
         </span>
         <button type="submit" className="orbit-footer-subscribe-btn" disabled={busy}>
-          {busy ? "Saving…" : "Subscribe"}
+          {busy ? "Saving…" : footer.subscribeButton}
           <span aria-hidden="true">→</span>
         </button>
         {status === "error" ? (
@@ -82,7 +82,7 @@ export function FooterConnectBar() {
       </form>
       )}
 
-      <OrbitFooterSocial className="orbit-footer-social-premium" />
+      <OrbitFooterSocial className="orbit-footer-social-premium" items={footer.social} />
     </div>
   );
 }

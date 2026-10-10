@@ -7,15 +7,10 @@ import {
   FooterStatIcon,
 } from "@/components/layout/footer-icons";
 import { OrbitFlag } from "@/components/orbit/flags";
-import {
-  ORBIT_BRAND,
-  ORBIT_FOOTER_LEGAL,
-  ORBIT_FOOTER_QUICK,
-  ORBIT_FOOTER_SERVICES,
-  ORBIT_FOOTER_STATS,
-} from "@/lib/orbit/brand";
-import type { FallbackNavItem } from "@/lib/site";
+import type { FooterConfig } from "@/lib/footer-config";
+import { DEFAULT_FOOTER_CONFIG } from "@/lib/footer-config";
 import { DEFAULT_SITE_CHROME } from "@/lib/site-chrome-store";
+import type { FallbackNavItem } from "@/lib/site";
 
 type SiteFooterProps = {
   companyName: string;
@@ -25,15 +20,22 @@ type SiteFooterProps = {
   email?: string;
   phone?: string;
   address?: string;
+  footer?: FooterConfig;
 };
 
-export function SiteFooter({ companyName, tagline, headerLogoSrc }: SiteFooterProps) {
+export function SiteFooter({
+  companyName,
+  tagline,
+  headerLogoSrc,
+  footer = DEFAULT_FOOTER_CONFIG,
+}: SiteFooterProps) {
   const year = new Date().getFullYear();
 
   return (
     <footer className="orbit-footer mt-auto text-white">
       <div className="orbit-footer-scene" aria-hidden="true">
-        <div className="orbit-footer-scene-mountains" />
+        <div className="orbit-footer-scene-base" />
+        <div className="orbit-footer-scene-earth" />
         <div className="orbit-footer-scene-glow" />
       </div>
 
@@ -47,7 +49,7 @@ export function SiteFooter({ companyName, tagline, headerLogoSrc }: SiteFooterPr
               {tagline?.trim() || DEFAULT_SITE_CHROME.footerTagline}
             </p>
             <div className="orbit-footer-stats">
-              {ORBIT_FOOTER_STATS.map((stat) => (
+              {footer.stats.map((stat) => (
                 <div key={stat.label} className="orbit-footer-stat">
                   <FooterStatIcon kind={stat.icon} />
                   <span>{stat.label}</span>
@@ -57,10 +59,10 @@ export function SiteFooter({ companyName, tagline, headerLogoSrc }: SiteFooterPr
           </div>
 
           <div className="orbit-footer-col">
-            <h4 className="orbit-footer-heading">Explore</h4>
+            <h4 className="orbit-footer-heading">{footer.exploreHeading}</h4>
             <ul className="orbit-footer-links orbit-footer-links-rich">
-              {ORBIT_FOOTER_QUICK.map((item) => (
-                <li key={item.href}>
+              {footer.explore.map((item) => (
+                <li key={`${item.href}-${item.label}`}>
                   <Link href={item.href}>
                     <FooterExploreIcon id={item.icon} />
                     <span>{item.label}</span>
@@ -71,10 +73,10 @@ export function SiteFooter({ companyName, tagline, headerLogoSrc }: SiteFooterPr
           </div>
 
           <div className="orbit-footer-col">
-            <h4 className="orbit-footer-heading">Services</h4>
+            <h4 className="orbit-footer-heading">{footer.servicesHeading}</h4>
             <ul className="orbit-footer-links orbit-footer-links-rich">
-              {ORBIT_FOOTER_SERVICES.map((item) => (
-                <li key={item.href}>
+              {footer.services.map((item) => (
+                <li key={`${item.href}-${item.label}`}>
                   <Link href={item.href}>
                     <FooterServiceIcon id={item.icon} />
                     <span>{item.label}</span>
@@ -85,9 +87,9 @@ export function SiteFooter({ companyName, tagline, headerLogoSrc }: SiteFooterPr
           </div>
 
           <div className="orbit-footer-col orbit-footer-col-offices">
-            <h4 className="orbit-footer-heading">Sales offices</h4>
+            <h4 className="orbit-footer-heading">{footer.officesHeading}</h4>
             <ul className="orbit-footer-offices">
-              {ORBIT_BRAND.salesOffices.map((office) => (
+              {footer.offices.map((office) => (
                 <li key={office.code}>
                   <a href={office.phoneHref} className="orbit-footer-office-card">
                     <span className="orbit-footer-office-flag">
@@ -98,6 +100,17 @@ export function SiteFooter({ companyName, tagline, headerLogoSrc }: SiteFooterPr
                       <span className="orbit-footer-office-line">{office.phone}</span>
                       <span className="orbit-footer-office-line is-muted">{office.email}</span>
                     </span>
+                    <span className="orbit-footer-office-go" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none">
+                        <path
+                          d="M9 6l6 6-6 6"
+                          stroke="currentColor"
+                          strokeWidth="1.8"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </span>
                   </a>
                 </li>
               ))}
@@ -105,7 +118,7 @@ export function SiteFooter({ companyName, tagline, headerLogoSrc }: SiteFooterPr
           </div>
         </div>
 
-        <FooterConnectBar />
+        <FooterConnectBar footer={footer} />
       </div>
 
       <div className="orbit-footer-bottom">
@@ -115,7 +128,7 @@ export function SiteFooter({ companyName, tagline, headerLogoSrc }: SiteFooterPr
           </p>
 
           <nav className="orbit-footer-legal" aria-label="Legal">
-            {ORBIT_FOOTER_LEGAL.map((item) => (
+            {footer.legal.map((item) => (
               <Link key={item.href} href={item.href}>
                 {item.label}
               </Link>

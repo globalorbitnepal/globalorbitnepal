@@ -6,6 +6,7 @@ import { OrbitChrome } from "@/components/layout/orbit-chrome";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { SiteMain } from "@/components/layout/site-main";
+import type { FooterConfig } from "@/lib/footer-config";
 import type { FallbackNavItem } from "@/lib/site";
 
 type SiteShellProps = {
@@ -17,6 +18,7 @@ type SiteShellProps = {
   email?: string;
   phone?: string;
   address?: string;
+  footer?: FooterConfig;
   children: ReactNode;
 };
 
@@ -29,6 +31,7 @@ export function SiteShell({
   email,
   phone,
   address,
+  footer,
   children,
 }: SiteShellProps) {
   return (
@@ -51,6 +54,7 @@ export function SiteShell({
           email={email}
           phone={phone}
           address={address}
+          footer={footer}
         />
       </HideOnOrbit>
       <OrbitChrome />
