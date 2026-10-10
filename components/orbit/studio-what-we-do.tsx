@@ -10,15 +10,6 @@ function clamp(n: number, min: number, max: number) {
   return Math.min(max, Math.max(min, n));
 }
 
-function connectorPath(x1: number, y1: number, ax: number, ay: number) {
-  const mx = (x1 + ax) / 2;
-  const my = (y1 + ay) / 2;
-  const pull = 0.42;
-  const cx = mx + (50 - mx) * pull;
-  const cy = my + (50 - my) * pull;
-  return `M ${x1.toFixed(2)} ${y1.toFixed(2)} Q ${cx.toFixed(2)} ${cy.toFixed(2)} ${ax} ${ay}`;
-}
-
 function EarthHeadline({ text }: { text: string }) {
   const match = text.match(/^(.*?)(\s*we\s+ship\.?\s*)$/i);
   if (!match) return text;
@@ -220,7 +211,6 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
   const stageRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const cardsRef = useRef<HTMLUListElement>(null);
-  const connectorsRef = useRef<SVGSVGElement>(null);
   const madeRef = useRef<HTMLParagraphElement>(null);
   const yawRef = useRef(12);
   const frameRef = useRef(0);
@@ -393,26 +383,8 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
         const isLeft = layout.left < 50;
         const orbitDrift = Math.sin(driftPhase + i * 0.72) * (isLeft ? -2.4 : 2.4);
         const orbitLift = Math.cos(driftPhase * 0.85 + i * 0.5) * 0.9;
-        const cardLeft = layout.left + wobbleX + orbitDrift;
-        const cardTop = layout.top + wobbleY + orbitLift;
-        el.style.setProperty("--card-left", `${cardLeft.toFixed(2)}%`);
-        el.style.setProperty("--card-top", `${cardTop.toFixed(2)}%`);
-
-        const svg = connectorsRef.current;
-        if (svg) {
-          const path = svg.querySelector<SVGPathElement>(`[data-connect-i="${i}"]`);
-          if (path) {
-            path.setAttribute(
-              "d",
-              connectorPath(cardLeft, cardTop, layout.anchorX, layout.anchorY),
-            );
-          }
-          const node = svg.querySelector<SVGCircleElement>(`[data-node-i="${i}"]`);
-          if (node) {
-            node.setAttribute("cx", cardLeft.toFixed(2));
-            node.setAttribute("cy", cardTop.toFixed(2));
-          }
-        }
+        el.style.setProperty("--card-left", `${(layout.left + wobbleX + orbitDrift).toFixed(2)}%`);
+        el.style.setProperty("--card-top", `${(layout.top + wobbleY + orbitLift).toFixed(2)}%`);
         el.style.setProperty("--card-s", "1");
         el.style.zIndex = String(40 + i);
         el.style.opacity = "1";
@@ -445,14 +417,11 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
     const unbindScroll = bindOrbitScroll(track, () => apply(performance.now() / 2400), frameRef);
 
     let driftFrame = 0;
-    let driftTick = 0;
     const driftLoop = () => {
       driftFrame = window.requestAnimationFrame(driftLoop);
       if (reduce) return;
       const rect = track.getBoundingClientRect();
       if (rect.bottom < -80 || rect.top > window.innerHeight + 80) return;
-      driftTick += 1;
-      if (driftTick % 2 !== 0) return;
       placeCards(yawRef.current, performance.now() / 2400);
     };
     if (!reduce) driftFrame = window.requestAnimationFrame(driftLoop);
@@ -472,8 +441,6 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
       <div className="orbit-work-pin orbit-work-earth-pin-view">
         <div className="orbit-work-earth-bg" aria-hidden="true">
           <div className="orbit-work-earth-stars" />
-          <div className="orbit-work-earth-worldmap" />
-          <div className="orbit-work-earth-horizon" />
           <div className="orbit-work-earth-vignette" />
         </div>
 
@@ -503,59 +470,19 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
               <canvas ref={canvasRef} className="orbit-work-earth-canvas" aria-hidden="true" />
             </div>
 
-            <svg
-              ref={connectorsRef}
-              className="orbit-work-earth-connectors"
-              viewBox="0 0 100 100"
-              preserveAspectRatio="none"
-              aria-hidden="true"
-            >
-              <defs>
-                <linearGradient id="orbitEarthGoldLine" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="rgba(255, 228, 140, 0.95)" />
-                  <stop offset="45%" stopColor="rgba(240, 196, 58, 0.92)" />
-                  <stop offset="100%" stopColor="rgba(210, 155, 45, 0.75)" />
-                </linearGradient>
-                <filter id="orbitEarthGoldGlow" x="-30%" y="-30%" width="160%" height="160%">
-                  <feGaussianBlur in="SourceGraphic" stdDeviation="0.42" result="glow" />
-                  <feMerge>
-                    <feMergeNode in="glow" />
-                    <feMergeNode in="SourceGraphic" />
-                  </feMerge>
-                </filter>
-              </defs>
-              <g className="orbit-work-earth-sweeps" filter="url(#orbitEarthGoldGlow)">
-                <ellipse className="orbit-work-earth-sweep is-a" cx="50" cy="50" rx="47" ry="17.5" />
-                <ellipse className="orbit-work-earth-sweep is-b" cx="50" cy="50" rx="44" ry="15.5" />
-              </g>
-              <g className="orbit-work-earth-connector-lines" filter="url(#orbitEarthGoldGlow)">
-                {EARTH_SIDE_LAYOUT.map((layout, i) =>
-                  mobileLayout && i >= 6 ? null : (
-                    <path
-                      key={`path-${i}`}
-                      data-connect-i={i}
-                      className="orbit-work-earth-connector-path"
-                      d={connectorPath(layout.left, layout.top, layout.anchorX, layout.anchorY)}
-                    />
-                  ),
-                )}
-              </g>
-              <g className="orbit-work-earth-connector-nodes">
-                {EARTH_SIDE_LAYOUT.map((layout, i) =>
-                  mobileLayout && i >= 6 ? null : (
-                    <circle
-                      key={`node-${i}`}
-                      data-node-i={i}
-                      className="orbit-work-earth-connector-node"
-                      cx={layout.left}
-                      cy={layout.top}
-                      r="0.5"
-                    />
-                  ),
-                )}
-                <circle cx="50" cy="50" r="0.75" className="orbit-work-earth-hub-dot" />
-                <circle cx="50" cy="50" r="1.35" className="orbit-work-earth-hub-glow" />
-              </g>
+            <svg className="orbit-work-earth-connectors" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+              {EARTH_SIDE_LAYOUT.map((layout, i) =>
+                mobileLayout && i >= 6 ? null : (
+                  <line
+                    key={`line-${i}`}
+                    x1={layout.left}
+                    y1={layout.top}
+                    x2={layout.anchorX}
+                    y2={layout.anchorY}
+                  />
+                ),
+              )}
+              <circle cx="50" cy="50" r="0.55" className="orbit-work-earth-hub-dot" />
             </svg>
 
             <ul ref={cardsRef} className="orbit-work-earth-floats">
