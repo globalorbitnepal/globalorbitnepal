@@ -10885,7 +10885,8 @@ li.orbit-card:hover {
 .orbit-contact-hero-orb {
   position: absolute;
   top: 12%;
-  right: -8%;
+  right: 0;
+  translate: 12% 0;
   width: min(42vw, 520px);
   height: min(42vw, 520px);
   border-radius: 50%;

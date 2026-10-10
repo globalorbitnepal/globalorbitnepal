@@ -31,7 +31,7 @@ const CHANNEL_ICON: Record<string, string> = {
 
 export function ContactPageView() {
   return (
-    <main className="orbit-contact-page orbit-about-page text-white">
+    <main className="orbit-contact-page orbit-about-page overflow-x-clip text-white">
       <section className="orbit-contact-hero relative isolate overflow-hidden px-4 pb-16 pt-[clamp(4.75rem,9vh,6.5rem)] sm:px-6 lg:px-8">
         <div className="orbit-about-hero-glow pointer-events-none absolute inset-0 -z-10" aria-hidden="true" />
         <div className="orbit-about-hero-grid pointer-events-none absolute inset-0 -z-10 opacity-35" aria-hidden="true" />

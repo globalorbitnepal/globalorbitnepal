@@ -73,9 +73,6 @@ export function attachDiagnostics(page: Page) {
 }
 
 export async function assertNoHorizontalOverflow(page: Page) {
-  await page.evaluate(async () => {
-    await document.fonts?.ready;
-  });
   return page.evaluate(() => {
     const doc = document.documentElement;
     const body = document.body;

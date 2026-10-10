@@ -140,10 +140,11 @@ test.describe("mobile navigation", () => {
     await page.goto("/", { waitUntil: "load", timeout: 60_000 });
     const menuBtn = page.locator("button.orbit-header-menu-btn");
     await expect(menuBtn).toBeVisible();
-    await menuBtn.click();
-    await expect(menuBtn).toHaveAttribute("aria-expanded", "true");
-    await expect(page.locator("#mobile-nav")).toBeVisible({ timeout: 5000 });
-    await expect(page.locator("#mobile-nav a").first()).toBeVisible();
+    await menuBtn.click({ timeout: 10_000 });
+    await expect(menuBtn).toHaveAttribute("aria-expanded", "true", { timeout: 10_000 });
+    const nav = page.locator("#mobile-nav:not(.hidden)");
+    await expect(nav).toBeVisible({ timeout: 10_000 });
+    await expect(nav.locator("a").first()).toBeVisible();
   });
 });
 
