@@ -27,7 +27,7 @@ export const TEMPLATE_PAGES: TemplatePage[] = [
   {
     path: "/service/website-development-nepal",
     name: "Website development",
-    h1: /Website development in Nepal/i,
+    h1: /Website Development Company in Nepal/i,
     h1MustNot: /Book a quiet night/i,
   },
   {

@@ -6,7 +6,8 @@ import { WebsiteDevelopmentPageView } from "@/components/services/website-develo
 import { AI_FAQ, AI_HERO, AI_KEYWORDS } from "@/lib/ai-automation-page";
 import { findBySlug, ORBIT_SERVICE_PAGES } from "@/lib/orbit/catalog";
 import { applyPageSeo } from "@/lib/apply-page-seo";
-import { WEBSITE_DEV_FAQ, WEBSITE_DEV_HERO } from "@/lib/website-development-config";
+import { WD_FAQ_EXTENDED, WD_HERO } from "@/lib/website-development-content";
+import { SITE_ORIGIN } from "@/lib/site-origin";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -35,9 +36,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   if (slug === WEBSITE_DEV_SLUG) {
     return applyPageSeo(item.href, {
-      title: "Website Development Nepal · Custom Web Design",
+      title: "Website Development Nepal | Custom Business Websites | Global Orbit",
       description:
-        "Professional website development in Nepal — original designs, Next.js builds, scroll-polished demos, and SEO-ready launches from Global Orbit Kathmandu.",
+        "Website development in Nepal — custom business sites, e-commerce, hotel and travel websites, responsive design, and SEO-ready builds by Global Orbit Kathmandu.",
       keywords: WEBSITE_DEV_KEYWORDS,
     });
   }
@@ -82,13 +83,28 @@ function aiAutomationJsonLd() {
 }
 
 function websiteDevJsonLd() {
+  const pageUrl = `${SITE_ORIGIN}/service/website-development-nepal`;
   return {
     "@context": "https://schema.org",
     "@graph": [
       {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_ORIGIN}/` },
+          { "@type": "ListItem", position: 2, name: "Solutions", item: `${SITE_ORIGIN}/services` },
+          { "@type": "ListItem", position: 3, name: "Website Development Nepal", item: pageUrl },
+        ],
+      },
+      {
+        "@type": "WebPage",
+        name: "Website Development Nepal | Global Orbit",
+        description: WD_HERO.lede,
+        url: pageUrl,
+      },
+      {
         "@type": "Service",
         name: "Website Development Nepal",
-        description: WEBSITE_DEV_HERO.lede,
+        description: WD_HERO.lede,
         provider: {
           "@type": "Organization",
           name: "Global Orbit",
@@ -96,10 +112,11 @@ function websiteDevJsonLd() {
         },
         areaServed: "Nepal",
         serviceType: "Website design and development",
+        url: pageUrl,
       },
       {
         "@type": "FAQPage",
-        mainEntity: WEBSITE_DEV_FAQ.map((item) => ({
+        mainEntity: WD_FAQ_EXTENDED.map((item) => ({
           "@type": "Question",
           name: item.q,
           acceptedAnswer: { "@type": "Answer", text: item.a },

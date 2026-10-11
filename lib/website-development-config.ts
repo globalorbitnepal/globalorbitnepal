@@ -7,22 +7,28 @@ export type WebsiteDevDemo = {
   story: string;
   bullets: string[];
   stack: string[];
+  audience: string;
+  designDirection: string;
+  conversionAction: string;
+  uxNote: string;
+  fictionalLabel: string;
 };
 
 export const WEBSITE_DEV_HERO = {
   eyebrow: "Global Orbit · Website Development Nepal",
   titleBefore: "Original websites",
   titleAccent: "designed from scratch",
-  titleAfter: "for operators who need Page 1 and polish",
+  titleAfter: "for operators who need clarity and polish",
   lede:
     "We ship bespoke frontends in Kathmandu — not recycled agency templates and not a clone of our own marketing site. Every layout below is a fictional brand we art-directed to show how different industries feel when the UX, motion, and SEO structure are done properly.",
 };
 
+/** Capability-led trust indicators — not unverified performance statistics */
 export const WEBSITE_DEV_STATS: WebsiteDevStat[] = [
-  { value: "380+", label: "Sites launched" },
-  { value: "98", label: "Lighthouse SEO avg." },
-  { value: "25+", label: "Countries served" },
-  { value: "6–10 wk", label: "Typical build window" },
+  { value: "Custom", label: "Design per brand" },
+  { value: "Mobile", label: "Responsive builds" },
+  { value: "SEO", label: "Technical foundations" },
+  { value: "25+", label: "Markets served" },
 ];
 
 export const WEBSITE_DEV_DEMOS: WebsiteDevDemo[] = [
@@ -34,6 +40,11 @@ export const WEBSITE_DEV_DEMOS: WebsiteDevDemo[] = [
       "Earth-tone palette, serif headlines, and a sticky availability strip — built for lodges that sell rooms on trust, not flash sales.",
     bullets: ["Room grid with seasonal rates", "Gallery-led hero without stock clutter", "Schema for LocalBusiness + Hotel"],
     stack: ["Next.js", "Booking API", "Structured data"],
+    audience: "Boutique lodges and city hotels",
+    designDirection: "Earth tones, serif headlines, calm booking strip",
+    conversionAction: "Check availability / enquiry",
+    uxNote: "Gallery-led hero with room grid and seasonal rate context",
+    fictionalLabel: "Fictional demo brand — not a live client property",
   },
   {
     id: "trailhead",
@@ -43,6 +54,11 @@ export const WEBSITE_DEV_DEMOS: WebsiteDevDemo[] = [
       "High-contrast typography and itinerary modules for trek operators who need long-form trip pages that still scan on mobile.",
     bullets: ["Difficulty + elevation chips", "Guide roster and safety block", "Enquiry funnel with trek SKU"],
     stack: ["App Router", "MDX itineraries", "Edge images"],
+    audience: "Trekking and expedition operators",
+    designDirection: "High-contrast type and itinerary modules",
+    conversionAction: "Trip enquiry with trek SKU",
+    uxNote: "Difficulty chips and long-form trip pages that scan on mobile",
+    fictionalLabel: "Fictional demo — illustrative itineraries only",
   },
   {
     id: "ember-slate",
@@ -52,6 +68,11 @@ export const WEBSITE_DEV_DEMOS: WebsiteDevDemo[] = [
       "Dark copper accents, tasting-menu rhythm, and OpenTable-style CTAs — a restaurant site that feels like the dining room, not a PDF menu.",
     bullets: ["Chef story + wine pairings", "Hours & location strip", "Event private dining module"],
     stack: ["Motion-safe CSS", "Reservations", "Local SEO"],
+    audience: "Fine dining and tasting-menu restaurants",
+    designDirection: "Dark copper accents and menu rhythm",
+    conversionAction: "Reserve a table",
+    uxNote: "Chef story and hours strip without PDF menu downloads",
+    fictionalLabel: "Fictional demo restaurant",
   },
   {
     id: "norwood",
@@ -61,6 +82,11 @@ export const WEBSITE_DEV_DEMOS: WebsiteDevDemo[] = [
       "Whitespace-forward ecommerce storytelling — lookbook rows, size guides, and cart UX tuned for fashion labels in Nepal and export markets.",
     bullets: ["Collection landing pages", "Quick-add product cards", "GST-ready checkout hooks"],
     stack: ["Headless cart", "Stripe / eSewa", "PWA shell"],
+    audience: "Fashion and lifestyle retail",
+    designDirection: "Editorial whitespace and lookbook rows",
+    conversionAction: "Add to cart / collection browse",
+    uxNote: "Quick-add cards and size-guide pattern",
+    fictionalLabel: "Fictional demo store — no real transactions",
   },
   {
     id: "pulse-metrics",
@@ -70,6 +96,11 @@ export const WEBSITE_DEV_DEMOS: WebsiteDevDemo[] = [
       "Gradient mesh hero, pricing tiers, and an embedded dashboard preview — the pattern we use for B2B startups pitching investors and trials.",
     bullets: ["Feature comparison table", "SOC2-ready trust row", "Signup + demo request split"],
     stack: ["TypeScript", "Auth", "Analytics"],
+    audience: "B2B SaaS and analytics products",
+    designDirection: "Gradient mesh hero with product UI depth",
+    conversionAction: "Start trial / book demo",
+    uxNote: "Pricing table and embedded dashboard preview",
+    fictionalLabel: "Fictional SaaS demo — metrics are illustrative",
   },
   {
     id: "haven-spa",
@@ -79,6 +110,11 @@ export const WEBSITE_DEV_DEMOS: WebsiteDevDemo[] = [
       "Soft sage palette, treatment cards with duration and therapist tags, and gentle motion — spa sites that convert enquiries without aggressive pop-ups.",
     bullets: ["Service menu with pricing bands", "Gift voucher CTA", "Google Business sync copy"],
     stack: ["Calm motion", "Forms", "Reviews widget"],
+    audience: "Spa and wellness centres",
+    designDirection: "Soft sage palette and gentle motion",
+    conversionAction: "Book a treatment",
+    uxNote: "Treatment cards with duration and therapist tags",
+    fictionalLabel: "Fictional spa demo",
   },
 ];
 
@@ -141,19 +177,19 @@ export const WEBSITE_DEV_VERTICALS = {
 
 export const WEBSITE_DEV_SEO = {
   eyebrow: "Search-ready",
-  title: "SEO and performance are structural, not an add-on",
+  title: "SEO-friendly website development",
   paragraphs: [
-    "Website development in Nepal often stops at a pretty homepage. We bake in canonical URLs, metadata, Open Graph, JSON-LD, XML sitemaps, and internal linking patterns that match how Google crawls hospitality, travel, retail, and SaaS sites.",
-    "Core Web Vitals budgets are agreed in scope — LCP, INP, and CLS tracked on staging before go-live. Multilingual hreflang and Nepal + global keyword clusters are documented for your content team.",
-    "Every page we ship has a unique H1, supporting H2s, FAQ schema where it helps, and image alt text written for the brand — not generic stock captions. Blog and landing templates exist so you can keep publishing after handover.",
+    "Technical SEO is part of the build: search-friendly information architecture, clean URLs, unique titles and meta descriptions, logical heading hierarchy, canonical URLs, XML sitemaps, and sensible robots directives.",
+    "We plan internal linking, image optimization with descriptive alt text, and structured data where eligible. Mobile usability and Core Web Vitals are tested on staging before launch — strong scores are a goal, not a guarantee.",
+    "For redesigns we plan redirects and Search Console monitoring. Local SEO foundations help Kathmandu and Nepal-facing businesses; multilingual hreflang is added when you serve multiple languages. Technical work supports visibility — it does not promise a specific Google ranking.",
   ],
   bullets: [
-    "Technical SEO audit checklist on handover",
-    "Schema for Organization, Service, FAQ, and vertical types",
-    "Image pipelines with modern formats and lazy loading",
-    "Blog and landing page templates for long-tail Nepal queries",
-    "301 maps and Search Console monitoring on redesigns",
-    "Nepali + English content architecture when you need both markets",
+    "Unique H1 and H2 structure per template",
+    "Open Graph and social metadata",
+    "JSON-LD where content supports it",
+    "Analytics and Search Console setup when in scope",
+    "301 redirect maps for migrations",
+    "Nepali and English content architecture when required",
   ],
 };
 
@@ -213,8 +249,8 @@ export const WEBSITE_DEV_PORTFOLIO = {
 export const WEBSITE_DEV_CTA = {
   title: "Ready for a website that is yours alone?",
   lede: "Tell us your industry, timeline, and must-have integrations. We will reply with a milestone plan and investment range.",
-  primaryLabel: "Book free consultation",
+  primaryLabel: "Start Your Project",
   primaryHref: "/contact",
-  secondaryLabel: "View our work",
-  secondaryHref: "/projects",
+  secondaryLabel: "Book a Consultation",
+  secondaryHref: "/contact",
 };

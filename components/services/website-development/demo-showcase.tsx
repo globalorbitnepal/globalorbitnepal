@@ -73,6 +73,7 @@ export function WebsiteDevDemoShowcase({ demos, header }: { demos: WebsiteDevDem
                   <h3>{demo.brand}</h3>
                   <p>{demo.tagline}</p>
                 </div>
+                <p className="wd-demo-fiction">{demo.fictionalLabel}</p>
                 <div
                   ref={(el) => {
                     frameRefs.current[index] = el;
@@ -83,6 +84,25 @@ export function WebsiteDevDemoShowcase({ demos, header }: { demos: WebsiteDevDem
                     {Demo ? <Demo /> : null}
                   </WebsiteDemoBrowser>
                 </div>
+                <dl className="wd-demo-details">
+                  <div>
+                    <dt>Audience</dt>
+                    <dd>{demo.audience}</dd>
+                  </div>
+                  <div>
+                    <dt>Design direction</dt>
+                    <dd>{demo.designDirection}</dd>
+                  </div>
+                  <div>
+                    <dt>Primary action</dt>
+                    <dd>{demo.conversionAction}</dd>
+                  </div>
+                  <div>
+                    <dt>UX focus</dt>
+                    <dd>{demo.uxNote}</dd>
+                  </div>
+                </dl>
+                <p className="wd-demo-story">{demo.story}</p>
               </article>
             );
           })}
