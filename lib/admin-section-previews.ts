@@ -76,6 +76,10 @@ export function sectionPreviewForPage(
       return {
         excerpt: "Process, portfolio scroll, why us, reviews, FAQ, closing CTA",
       };
+    case "websiteDevelopment":
+      return {
+        excerpt: "Hero, demo images, services, industries, FAQ, CTAs",
+      };
     case "software": {
       const first = content.software.products.find((p) => p.previewSrc);
       return {

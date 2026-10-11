@@ -8,7 +8,8 @@ export type EditorSection =
   | "projects"
   | "customApps"
   | "appointments"
-  | "homeSurface";
+  | "homeSurface"
+  | "websiteDevelopment";
 
 export type AdminPageId =
   | "home"
@@ -23,6 +24,7 @@ export type AdminPageId =
   | "blogs"
   | "packages"
   | "services"
+  | "website-development"
   | "privacy"
   | "terms";
 
@@ -157,6 +159,19 @@ export const ADMIN_PAGES: AdminPage[] = [
     ],
   },
   {
+    id: "website-development",
+    label: "Website Development Nepal",
+    path: "/service/website-development-nepal",
+    sections: [
+      {
+        id: "websiteDevelopment",
+        label: "Full page editor",
+        hint: "Hero, images, demos, industries, services, FAQ, CTAs",
+      },
+      { id: "seo", label: "SEO", hint: "Title, description, robots for this service page" },
+    ],
+  },
+  {
     id: "blogs",
     label: "Blog",
     path: "/blogs",
@@ -198,7 +213,7 @@ export const ADMIN_NAV_GROUPS: AdminNavGroup[] = [
   {
     id: "main",
     label: "Main website",
-    pageIds: ["home", "about", "software", "projects", "careers", "contact"],
+    pageIds: ["home", "about", "software", "website-development", "projects", "careers", "contact"],
   },
   {
     id: "platforms",

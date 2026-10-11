@@ -34,7 +34,8 @@ type EditorSection =
   | "projects"
   | "customApps"
   | "appointments"
-  | "homeSurface";
+  | "homeSurface"
+  | "websiteDevelopment";
 
 type Props = {
   initial: HeroConfig;

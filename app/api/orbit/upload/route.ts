@@ -40,6 +40,7 @@ export async function POST(request: Request) {
   const isPlatformHeroVideo = kind === "platformHeroVideo";
   const isPlatformClipVideo = kind === "platformClipVideo";
   const isChromeLogo = kind === "chromeLogo";
+  const isWebsiteDevImage = kind === "websiteDevImage";
   const logoId = String(form.get("logoId") || "")
     .trim()
     .replace(/[^a-zA-Z0-9_-]/g, "");
@@ -57,6 +58,9 @@ export async function POST(request: Request) {
 
   const platformSlug = String(form.get("platformSlug") || "").trim();
   const clipIndex = Number(form.get("clipIndex") ?? -1);
+  const assetKey = String(form.get("assetKey") || "")
+    .trim()
+    .replace(/[^a-zA-Z0-9_-]/g, "");
 
   if (isTrustLogo && !logoId) {
     return NextResponse.json({ error: "Missing logo id" }, { status: 400 });
@@ -75,6 +79,9 @@ export async function POST(request: Request) {
   }
   if (isPlatformClipVideo && (clipIndex < 0 || clipIndex > 8)) {
     return NextResponse.json({ error: "Missing clip index" }, { status: 400 });
+  }
+  if (isWebsiteDevImage && !assetKey) {
+    return NextResponse.json({ error: "Missing asset key" }, { status: 400 });
   }
 
   let ext = "jpg";
@@ -129,6 +136,9 @@ export async function POST(request: Request) {
   } else if (isChromeLogo) {
     ext = file.type === "image/png" ? "png" : file.type === "image/webp" ? "webp" : "jpg";
     name = `site-logo.${ext}`;
+  } else if (isWebsiteDevImage) {
+    ext = file.type === "image/png" ? "png" : file.type === "image/webp" ? "webp" : "jpg";
+    name = `website-dev-${assetKey}.${ext}`;
   } else {
     name = `hero-image.${ext}`;
   }
@@ -154,7 +164,7 @@ export async function POST(request: Request) {
 
   const config = await getHeroConfig();
   const stamp = Date.now();
-  if (isBlogImage) {
+  if (isBlogImage || isWebsiteDevImage) {
     return NextResponse.json({ ok: true, url: `/api/media/hero/${name}?v=${stamp}` });
   }
   if (isVideo) {

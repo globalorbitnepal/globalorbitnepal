@@ -9729,6 +9729,14 @@ li.orbit-card:hover {
   background: rgba(0, 0, 0, 0.35);
 }
 
+.wd-demo-static-preview {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  object-position: top center;
+}
+
 .wd-browser-viewport {
   height: min(78vh, 720px);
   overflow: auto;

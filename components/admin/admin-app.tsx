@@ -8,6 +8,7 @@ import { AdminMediaLibrary } from "@/components/admin/admin-media-library";
 import { AdminInquiriesPanel } from "@/components/admin/admin-inquiries-panel";
 import { AdminFooterEditor } from "@/components/admin/admin-footer-editor";
 import { AdminHomeSurfaceEditor } from "@/components/admin/admin-home-surface-editor";
+import { AdminWebsiteDevelopmentEditor } from "@/components/admin/admin-website-development-editor";
 import { AdminMediaField } from "@/components/admin/admin-media-field";
 import { AdminPageHub, AdminSitePagesGrid } from "@/components/admin/admin-page-hub";
 import { AdminSectionThumb } from "@/components/admin/admin-section-thumb";
@@ -35,6 +36,7 @@ import type { BlogCategory, BlogPost, BlogTag } from "@/lib/blog-types";
 import type { PageSeo } from "@/lib/page-seo-store";
 import type { FooterConfig } from "@/lib/footer-config";
 import type { HomeSurfaceConfig } from "@/lib/home-surface-config";
+import type { WebsiteDevelopmentPageConfig } from "@/lib/website-development-page-config";
 import type { SiteChrome } from "@/lib/site-chrome-store";
 import { scoreSeo } from "@/lib/seo-score";
 
@@ -79,6 +81,7 @@ type Props = {
   chrome: SiteChrome;
   initialFooter: FooterConfig;
   initialHomeSurface: HomeSurfaceConfig;
+  initialWebsiteDevelopment: WebsiteDevelopmentPageConfig;
   inquiryNew: number;
   inquiryTotal: number;
   recentInquiries: InquiryPreview[];
@@ -126,6 +129,8 @@ export function AdminApp(props: Props) {
   const [chrome, setChrome] = useState(props.chrome);
   const [footer, setFooter] = useState(props.initialFooter);
   const [homeSurface, setHomeSurface] = useState(props.initialHomeSurface);
+  const [websiteDevelopment, setWebsiteDevelopment] = useState(props.initialWebsiteDevelopment);
+  const [wdStatus, setWdStatus] = useState("");
   const [status, setStatus] = useState("");
   const [busy, setBusy] = useState(false);
   const [query, setQuery] = useState("");
@@ -265,6 +270,25 @@ export function AdminApp(props: Props) {
     setStatus(response.ok ? "Homepage lower sections published." : "Could not save homepage copy.");
   }
 
+  async function saveWebsiteDevelopment(event: { preventDefault: () => void }) {
+    event.preventDefault();
+    setBusy(true);
+    setWdStatus("");
+    const response = await fetch("/api/orbit/website-development", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(websiteDevelopment),
+    });
+    const data = await response.json();
+    setBusy(false);
+    if (response.ok && data.config) {
+      setWebsiteDevelopment(data.config);
+      setWdStatus("Published. Open /service/website-development-nepal on the live site.");
+    } else {
+      setWdStatus("Could not save website development page.");
+    }
+  }
+
   async function saveFooter() {
     setBusy(true);
     const response = await fetch("/api/orbit/footer", {
@@ -305,8 +329,15 @@ export function AdminApp(props: Props) {
 
   const showPageHub = view === "page" && section === "hub" && !page.seoOnly;
   const showHomeSurface = view === "page" && pageId === "home" && section === "homeSurface";
+  const showWebsiteDevelopment =
+    view === "page" && pageId === "website-development" && section === "websiteDevelopment";
   const showEditor =
-    view === "page" && section !== "seo" && section !== "hub" && section !== "homeSurface" && Boolean(page.editor);
+    view === "page" &&
+    section !== "seo" &&
+    section !== "hub" &&
+    section !== "homeSurface" &&
+    section !== "websiteDevelopment" &&
+    Boolean(page.editor);
   const showSeo = (view === "page" && (section === "seo" || (page.seoOnly && section !== "hub"))) || view === "seo";
   const seoPage = pages.find((item) => item.path === page.path);
 
@@ -696,6 +727,24 @@ export function AdminApp(props: Props) {
               busy={busy}
               onChange={setHomeSurface}
               onSave={() => void saveHomeSurface()}
+            />
+          </div>
+        ) : null}
+
+        {showWebsiteDevelopment ? (
+          <div className="go-cms-editor go-cms-editor--light">
+            <div className="go-cms-editor-bar">
+              <button type="button" className="go-cms-back" onClick={() => go("page", page, "hub")}>
+                ← All sections
+              </button>
+              <p className="go-cms-help">Website Development Nepal · full page</p>
+            </div>
+            <AdminWebsiteDevelopmentEditor
+              config={websiteDevelopment}
+              busy={busy}
+              status={wdStatus}
+              onChange={setWebsiteDevelopment}
+              onSubmit={(event) => void saveWebsiteDevelopment(event)}
             />
           </div>
         ) : null}

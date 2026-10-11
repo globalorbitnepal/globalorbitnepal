@@ -1,19 +1,16 @@
 import Image from "next/image";
 import { WebsiteDemoBrowser } from "@/components/services/website-development/demo-browser";
+import type { WebsiteDevelopmentPageConfig } from "@/lib/website-development-page-config";
 
-const SATELLITES = [
-  { src: "/brand/website-demos/trek-hero.jpg", alt: "Trekking website concept preview", url: "trail.demo", className: "wd-hero-sat wd-hero-sat--tl" },
-  { src: "/brand/website-demos/fashion-hero.jpg", alt: "E-commerce website concept preview", url: "shop.demo", className: "wd-hero-sat wd-hero-sat--tr" },
-  { src: "/brand/website-demos/dine-hero.jpg", alt: "Restaurant website concept preview", url: "dine.demo", className: "wd-hero-sat wd-hero-sat--bl" },
-  { src: "/brand/website-demos/saas-hero.jpg", alt: "SaaS marketing site concept preview", url: "app.demo", className: "wd-hero-sat wd-hero-sat--br" },
-] as const;
+export function WebsiteDevHeroShowcase({ composition }: { composition: WebsiteDevelopmentPageConfig["heroComposition"] }) {
+  const satellites = composition.satellites.slice(0, 4);
+  const satClass = ["wd-hero-sat--tl", "wd-hero-sat--tr", "wd-hero-sat--bl", "wd-hero-sat--br"];
 
-export function WebsiteDevHeroShowcase() {
   return (
     <div className="wd-hero-composition" aria-hidden="true">
       <div className="wd-hero-composition-glow" />
-      {SATELLITES.map((item) => (
-        <div key={item.url} className={item.className}>
+      {satellites.map((item, index) => (
+        <div key={`${item.url}-${index}`} className={`wd-hero-sat ${satClass[index] ?? ""}`}>
           <div className="wd-hero-sat-chrome">
             <span />
             <span />
@@ -21,14 +18,21 @@ export function WebsiteDevHeroShowcase() {
             <em>{item.url}</em>
           </div>
           <div className="wd-hero-sat-screen">
-            <Image src={item.src} alt="" width={640} height={400} sizes="(max-width: 768px) 28vw, 180px" quality={88} />
+            <Image
+              src={item.src}
+              alt={item.alt}
+              width={640}
+              height={400}
+              sizes="(max-width: 768px) 28vw, 180px"
+              quality={88}
+            />
           </div>
         </div>
       ))}
       <div className="wd-hero-composition-main wd-hero-enter">
-        <WebsiteDemoBrowser url="yourbrand.com.np">
+        <WebsiteDemoBrowser url={composition.mainBrowserUrl}>
           <Image
-            src="/brand/website-demos/lodge-hero.jpg"
+            src={composition.mainImage}
             alt=""
             width={1280}
             height={800}
@@ -39,7 +43,7 @@ export function WebsiteDevHeroShowcase() {
           />
         </WebsiteDemoBrowser>
       </div>
-      <p className="wd-hero-composition-caption">Conceptual layouts — fictional brands for demonstration</p>
+      <p className="wd-hero-composition-caption">{composition.caption}</p>
     </div>
   );
 }

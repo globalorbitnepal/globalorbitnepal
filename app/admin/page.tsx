@@ -15,6 +15,7 @@ import { isOrbitAuthed } from "@/lib/orbit-auth";
 import { getPageSeoList } from "@/lib/page-seo-store";
 import { getFooterConfig } from "@/lib/footer-config-store";
 import { getHomeSurfaceConfig } from "@/lib/home-surface-store";
+import { getWebsiteDevelopmentPageConfig } from "@/lib/website-development-store";
 import { DEFAULT_SITE_CHROME, getSiteChrome } from "@/lib/site-chrome-store";
 
 export const metadata: Metadata = {
@@ -26,7 +27,7 @@ export default async function AdminPage() {
   const authed = await isOrbitAuthed();
   if (!authed) return <AdminLogin />;
 
-  const [config, need, work, software, about, careers, projects, webApps, androidApps, iosApps, blog, pages, chrome, footerConfig, homeSurface, inquiryNew, inquiryTotal, recent] =
+  const [config, need, work, software, about, careers, projects, webApps, androidApps, iosApps, blog, pages, chrome, footerConfig, homeSurface, websiteDevelopment, inquiryNew, inquiryTotal, recent] =
     await Promise.all([
       getHeroConfig(),
       getNeedConfig(),
@@ -43,6 +44,7 @@ export default async function AdminPage() {
       getSiteChrome(),
       getFooterConfig(),
       getHomeSurfaceConfig(),
+      getWebsiteDevelopmentPageConfig(),
       countInquiries("NEW"),
       countInquiries(),
       listInquiries({ take: 5 }),
@@ -67,6 +69,7 @@ export default async function AdminPage() {
       chrome={chrome ?? DEFAULT_SITE_CHROME}
       initialFooter={footerConfig}
       initialHomeSurface={homeSurface}
+      initialWebsiteDevelopment={websiteDevelopment}
       inquiryNew={inquiryNew}
       inquiryTotal={inquiryTotal}
       recentInquiries={recent.items.map((item) => ({

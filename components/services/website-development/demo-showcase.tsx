@@ -1,19 +1,11 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import type { WebsiteDevDemo } from "@/lib/website-development-config";
+import Image from "next/image";
+import type { WebsiteDevDemoConfig } from "@/lib/website-development-page-config";
 import { bindOrbitScroll } from "@/lib/orbit/scroll-performance";
 import { WebsiteDemoBrowser } from "@/components/services/website-development/demo-browser";
 import { DEMO_COMPONENTS } from "@/components/services/website-development/demo-templates";
-
-const DEMO_URLS: Record<string, string> = {
-  "summit-lodge": "summitlodge.np",
-  trailhead: "trailheadexpeditions.com",
-  "ember-slate": "emberandslate.com",
-  norwood: "norwoodatelier.com",
-  "pulse-metrics": "pulsemetrics.io",
-  "haven-spa": "havenspa.com.np",
-};
 
 type Header = {
   eyebrow: string;
@@ -22,7 +14,7 @@ type Header = {
   lede: string;
 };
 
-export function WebsiteDevDemoShowcase({ demos, header }: { demos: WebsiteDevDemo[]; header: Header }) {
+export function WebsiteDevDemoShowcase({ demos, header }: { demos: WebsiteDevDemoConfig[]; header: Header }) {
   const sectionRef = useRef<HTMLElement>(null);
   const frameRefs = useRef<(HTMLDivElement | null)[]>([]);
   const frameId = useRef(0);
@@ -80,8 +72,19 @@ export function WebsiteDevDemoShowcase({ demos, header }: { demos: WebsiteDevDem
                   }}
                   className="orbit-wd-hero-frame"
                 >
-                  <WebsiteDemoBrowser url={DEMO_URLS[demo.id] ?? "demo.test"}>
-                    {Demo ? <Demo /> : null}
+                  <WebsiteDemoBrowser url={demo.demoUrl || "demo.test"}>
+                    {demo.previewImageSrc?.trim() ? (
+                      <Image
+                        src={demo.previewImageSrc}
+                        alt={`${demo.brand} demo preview`}
+                        width={1280}
+                        height={800}
+                        className="wd-demo-static-preview"
+                        sizes="(max-width: 900px) 94vw, 820px"
+                      />
+                    ) : Demo ? (
+                      <Demo />
+                    ) : null}
                   </WebsiteDemoBrowser>
                 </div>
                 <dl className="wd-demo-details">

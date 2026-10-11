@@ -6,8 +6,8 @@ import { WebsiteDevelopmentPageView } from "@/components/services/website-develo
 import { AI_FAQ, AI_HERO, AI_KEYWORDS } from "@/lib/ai-automation-page";
 import { findBySlug, ORBIT_SERVICE_PAGES } from "@/lib/orbit/catalog";
 import { applyPageSeo } from "@/lib/apply-page-seo";
-import { WD_FAQ_EXTENDED, WD_HERO } from "@/lib/website-development-content";
 import { SITE_ORIGIN } from "@/lib/site-origin";
+import { getWebsiteDevelopmentPageConfig } from "@/lib/website-development-store";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -82,7 +82,8 @@ function aiAutomationJsonLd() {
   };
 }
 
-function websiteDevJsonLd() {
+async function websiteDevJsonLd() {
+  const config = await getWebsiteDevelopmentPageConfig();
   const pageUrl = `${SITE_ORIGIN}/service/website-development-nepal`;
   return {
     "@context": "https://schema.org",
@@ -98,13 +99,13 @@ function websiteDevJsonLd() {
       {
         "@type": "WebPage",
         name: "Website Development Nepal | Global Orbit",
-        description: WD_HERO.lede,
+        description: config.hero.lede,
         url: pageUrl,
       },
       {
         "@type": "Service",
         name: "Website Development Nepal",
-        description: WD_HERO.lede,
+        description: config.hero.lede,
         provider: {
           "@type": "Organization",
           name: "Global Orbit",
@@ -116,7 +117,7 @@ function websiteDevJsonLd() {
       },
       {
         "@type": "FAQPage",
-        mainEntity: WD_FAQ_EXTENDED.map((item) => ({
+        mainEntity: config.faq.map((item) => ({
           "@type": "Question",
           name: item.q,
           acceptedAnswer: { "@type": "Answer", text: item.a },
@@ -132,13 +133,17 @@ export default async function ServiceDetailPage({ params }: Props) {
   if (!item) notFound();
 
   if (slug === WEBSITE_DEV_SLUG) {
+    const [config, jsonLd] = await Promise.all([
+      getWebsiteDevelopmentPageConfig(),
+      websiteDevJsonLd(),
+    ]);
     return (
       <>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteDevJsonLd()) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        <WebsiteDevelopmentPageView />
+        <WebsiteDevelopmentPageView config={config} />
       </>
     );
   }
