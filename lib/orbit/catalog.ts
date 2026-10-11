@@ -16,13 +16,13 @@ export const ORBIT_SOFTWARE: OrbitCard[] = [
   {
     slug: "hotel-management-system",
     title: "Hotel Management System",
-    summary: "Full hotel operations — reservations, check-in/out, housekeeping, and channel manager.",
+    summary: "Reservations, front desk, housekeeping, and guest folios — with distribution integrations scoped per property.",
     href: "/orbit-software/hotel-management-system",
   },
   {
     slug: "ota-management-system",
     title: "OTA Management System",
-    summary: "Connect to Booking.com, Agoda, Expedia. Sync rates, inventory, and reservations in real time.",
+    summary: "Centralize travel bookings, suppliers, packages, and agency operations — with channel sync scoped per integration.",
     href: "/orbit-software/ota-management-system",
   },
   {

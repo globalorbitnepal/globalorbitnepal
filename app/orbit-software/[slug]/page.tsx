@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
 import { notFound, permanentRedirect } from "next/navigation";
 import { CustomAppsPageView } from "@/components/orbit-software/custom-apps-page-view";
+import { SoftwareProductPageView } from "@/components/orbit-software/software-product-page-view";
 import { OrbitArticlePage } from "@/components/orbit/catalog-page";
 import { findBySlug, ORBIT_SOFTWARE } from "@/lib/orbit/catalog";
+import { getSoftwareProductContent, softwareProductTitle } from "@/lib/software-products";
+import { softwareProductJsonLd } from "@/lib/software-product-jsonld";
+import { isSoftwareProductSlug, softwareProductPath } from "@/lib/software-product-slugs";
 import { getSiteSettings } from "@/lib/db/site-settings";
 import { getPlatformPageConfig } from "@/lib/platform-page-store";
 import {
@@ -63,9 +67,32 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       keywords: meta.keywords,
     });
   }
+  if (isSoftwareProductSlug(slug)) {
+    const content = getSoftwareProductContent(slug);
+    return applyPageSeo(softwareProductPath(slug), {
+      title: content.seo.title,
+      description: content.seo.description,
+      keywords: content.seo.keywords,
+    });
+  }
   const item = findBySlug(ORBIT_SOFTWARE, slug);
   if (!item) return { title: "Software" };
   return applyPageSeo(item.href, { title: item.title, description: item.summary });
+}
+
+function renderSoftwareProductPage(slug: Parameters<typeof getSoftwareProductContent>[0]) {
+  const content = getSoftwareProductContent(slug);
+  const productName = softwareProductTitle(slug);
+  const { breadcrumbLd, webPageLd, softwareLd } = softwareProductJsonLd(content, productName);
+
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareLd) }} />
+      <SoftwareProductPageView content={content} />
+    </>
+  );
 }
 
 async function renderPlatformPage(slug: PlatformPageSlug) {
@@ -113,6 +140,10 @@ export default async function SoftwareDetailPage({ params }: Props) {
 
   if (isPlatformPageSlug(slug)) {
     return renderPlatformPage(slug);
+  }
+
+  if (isSoftwareProductSlug(slug)) {
+    return renderSoftwareProductPage(slug);
   }
 
   const item = findBySlug(ORBIT_SOFTWARE, slug);

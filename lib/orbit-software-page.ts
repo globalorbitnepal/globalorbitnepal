@@ -56,7 +56,7 @@ export const ERP_SUITES: ErpSuite[] = [
     index: "03",
     kicker: "Distribution",
     title: "OTA Management",
-    body: "Rates and inventory synced to Booking.com, Agoda, and Expedia without double-bookings or midnight spreadsheets.",
+    body: "Agency booking desk for packages, suppliers, and payments — channel connectors added when APIs and contracts are in place.",
     bullets: ["Channel mapping", "Rate plans", "Reservation inbox"],
     href: "/orbit-software/ota-management-system",
     accent: "#38bdf8",

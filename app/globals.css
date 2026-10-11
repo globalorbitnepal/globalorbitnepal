@@ -13540,3 +13540,116 @@ html.orbit-mobile-lite .orbit-premium-reveal {
     transform: none;
   }
 }
+
+/* Orbit software product pages (billing, hotel, OTA, WMS, POS, CRM) */
+.sw-product-crumb ol {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 0.8125rem;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.sw-product-crumb li:not(:last-child)::after {
+  content: "/";
+  margin-left: 0.5rem;
+  color: rgba(255, 255, 255, 0.22);
+}
+
+.sw-product-crumb a {
+  color: rgba(255, 255, 255, 0.55);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.sw-product-crumb a:hover {
+  color: #f0c43a;
+}
+
+.sw-product-live {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #6ee7b7;
+}
+
+.sw-product-explore {
+  font-size: 0.875rem;
+}
+
+.sw-product-hero-shot {
+  min-width: 0;
+}
+
+.sw-product-ui-wrap {
+  overflow: hidden;
+}
+
+.sw-product-ui-stage {
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+  -webkit-overflow-scrolling: touch;
+}
+
+.sw-product-ui-stage .orbit-ref-sw {
+  min-width: min(100%, 52rem);
+  margin-inline: auto;
+}
+
+.sw-product-related-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 1.25rem 1.35rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+}
+
+.sw-product-related-card:hover {
+  border-color: rgba(240, 196, 58, 0.35);
+  background: rgba(255, 255, 255, 0.05);
+  transform: translateY(-2px);
+}
+
+.sw-product-related-card h3 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.sw-product-related-card p {
+  margin-top: 0.5rem;
+  flex: 1;
+  font-size: 0.875rem;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.sw-product-related-card span {
+  margin-top: 0.85rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #f0c43a;
+}
+
+.orbit-sw-product-faq {
+  margin-top: 2rem;
+}
+
+@media (max-width: 1023px) {
+  .orbit-sw-product-page .orbit-about-hero-title {
+    font-size: clamp(1.85rem, 6.5vw, 2.45rem);
+  }
+}
