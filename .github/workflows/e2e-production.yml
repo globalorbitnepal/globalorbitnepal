@@ -1,9 +1,10 @@
 name: E2E Production Smoke
 
 on:
-  push:
-    branches:
-      - main
+  workflow_run:
+    workflows: ["Deploy GlobalOrbitNepal"]
+    types: [completed]
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -12,6 +13,7 @@ permissions:
 jobs:
   playwright:
     name: Playwright vs production
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     timeout-minutes: 45
     env:

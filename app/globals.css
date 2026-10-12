@@ -4743,6 +4743,8 @@ li.orbit-card:hover {
 .orbit-header-bar {
   background: linear-gradient(180deg, rgba(7, 7, 11, 0.72), rgba(7, 7, 11, 0.28) 70%, transparent);
   pointer-events: none;
+  max-width: 100%;
+  overflow-x: clip;
 }
 
 .orbit-header-bar > * {
@@ -4760,6 +4762,10 @@ li.orbit-card:hover {
   align-items: center;
   gap: 0.75rem;
   box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: clip;
   padding:
     calc(env(safe-area-inset-top, 0px) + clamp(0.35rem, 0.8vw, 0.55rem))
     clamp(1rem, 3vw, 2.75rem)
@@ -4770,7 +4776,7 @@ li.orbit-card:hover {
   .orbit-header-inner {
     --orbit-header-logo-h: clamp(4.35rem, calc(var(--orbit-header-nav-h) * 3), 6.35rem);
     --orbit-header-logo-w: clamp(11rem, 24vw, 20rem);
-    grid-template-columns: minmax(11rem, 0.38fr) minmax(0, 1fr) minmax(10rem, 0.36fr);
+    grid-template-columns: minmax(0, 0.38fr) minmax(0, 1fr) minmax(0, 0.36fr);
     gap: 1rem;
     align-items: center;
   }
@@ -4849,9 +4855,11 @@ li.orbit-card:hover {
   display: flex;
   align-items: center;
   width: auto;
-  max-width: var(--orbit-header-logo-w);
+  max-width: min(var(--orbit-header-logo-w), 100%);
   height: var(--orbit-header-logo-h);
   line-height: 0;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .orbit-brand-logo-bar-img {
@@ -13506,14 +13514,6 @@ body.go-cms-open .orbit-gold-fab {
 .orbit-studio-home {
   width: 100%;
   overflow-x: clip;
-}
-
-.orbit-studio-home > section,
-.orbit-studio-home > .orbit-made-track,
-.orbit-studio-home .orbit-offices-section,
-.orbit-process-section {
-  content-visibility: auto;
-  contain-intrinsic-size: auto 720px;
 }
 
 .orbit-work-headline,
