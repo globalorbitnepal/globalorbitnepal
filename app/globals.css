@@ -7589,13 +7589,16 @@ li.orbit-card:hover {
   height: 100%;
   width: 100%;
   object-fit: cover;
-  object-position: top center;
+  /* Crop baked-in laptop mock — show site screen only (no side bezels) */
+  object-position: center 24%;
+  transform: scale(1.42);
+  transform-origin: center 21%;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1024px) and (max-height: 820px) {
   .orbit-made-shot {
-    object-fit: contain;
-    object-position: center center;
+    transform: scale(1.5);
+    object-position: center 22%;
   }
 }
 
@@ -9522,7 +9525,9 @@ li.orbit-card:hover {
   .orbit-made-shot,
   .orbit-work-shot {
     object-fit: cover !important;
-    object-position: 50% 0% !important;
+    object-position: center 22% !important;
+    transform: scale(1.32) !important;
+    transform-origin: center 20% !important;
   }
 
   .orbit-made-frame,
