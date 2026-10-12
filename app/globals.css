@@ -7513,13 +7513,11 @@ li.orbit-card:hover {
   flex-direction: column;
   overflow: hidden;
   background: #07070b;
-  --made-head-pt: clamp(4.5rem, 8vh, 5.5rem);
-  --made-frame-max-h: min(62vh, 680px);
 }
 
 .orbit-made-head {
   flex-shrink: 0;
-  padding: var(--made-head-pt) clamp(1.25rem, 3.6vw, 3.4rem) 0.65rem;
+  padding: clamp(4.5rem, 8vh, 5.5rem) clamp(1.25rem, 3.6vw, 3.4rem) 0.65rem;
   text-align: center;
 }
 
@@ -7567,7 +7565,7 @@ li.orbit-card:hover {
   width: min(96vw, 1180px);
   flex: 1 1 auto;
   min-height: 0;
-  max-height: var(--made-frame-max-h);
+  max-height: min(62vh, 680px);
   border-radius: clamp(14px, 1.6vw, 22px);
   border: 1px solid rgba(255, 255, 255, 0.14);
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(0, 0, 0, 0.35));
@@ -7590,19 +7588,8 @@ li.orbit-card:hover {
   display: block;
   height: 100%;
   width: 100%;
-  object-fit: contain;
-  object-position: center center;
-}
-
-@media (min-width: 768px) {
-  .orbit-made-slide {
-    justify-content: center;
-    padding-bottom: clamp(0.25rem, 0.8vh, 0.65rem);
-  }
-
-  .orbit-made-frame {
-    width: min(94vw, 1180px);
-  }
+  object-fit: cover;
+  object-position: top center;
 }
 
 .orbit-made-meta {
@@ -7686,69 +7673,6 @@ li.orbit-card:hover {
   border-color: rgba(240, 196, 58, 0.55);
   background: rgba(240, 196, 58, 0.12);
   transform: translateY(-2px);
-}
-
-/* Made showcase — scale chrome by viewport height (15″–27″, same sticky scroll) */
-@media (min-width: 768px) and (max-height: 940px) {
-  .orbit-made-track {
-    --made-slide-unit: 34vh;
-  }
-
-  .orbit-made-pin {
-    --made-head-pt: clamp(3.6rem, 6.5vh, 4.35rem);
-    --made-frame-max-h: min(calc(100dvh - 12rem), 560px);
-  }
-
-  .orbit-made-title {
-    margin-top: 0.5rem;
-    font-size: clamp(1.28rem, 0.88rem + 1.25vw, 1.85rem);
-  }
-
-  .orbit-made-meta {
-    margin-top: 0.45rem;
-  }
-
-  .orbit-made-foot {
-    gap: 0.55rem;
-    padding-bottom: clamp(0.65rem, 1.2vh, 0.95rem);
-  }
-}
-
-@media (min-width: 768px) and (max-height: 820px) {
-  .orbit-made-pin {
-    --made-head-pt: clamp(3.35rem, 5.8vh, 3.95rem);
-    --made-frame-max-h: min(calc(100dvh - 11rem), 480px);
-  }
-
-  .orbit-made-title {
-    margin-top: 0.4rem;
-    font-size: clamp(1.15rem, 0.8rem + 1vw, 1.55rem);
-  }
-
-  .orbit-made-name {
-    font-size: clamp(0.92rem, 0.86rem + 0.25vw, 1.05rem);
-  }
-
-  .orbit-work-badge {
-    height: 2rem;
-    font-size: 0.82rem;
-  }
-}
-
-@media (min-width: 1280px) and (min-height: 941px) {
-  .orbit-made-pin {
-    --made-frame-max-h: min(64vh, 720px);
-  }
-}
-
-@media (min-width: 1600px) and (min-height: 1000px) {
-  .orbit-made-pin {
-    --made-frame-max-h: min(66vh, 760px);
-  }
-
-  .orbit-made-track {
-    --made-slide-unit: 38vh;
-  }
 }
 
 .orbit-made-track + section,
@@ -13747,6 +13671,10 @@ body.go-cms-open .orbit-gold-fab {
     font-size: clamp(1.35rem, 1.05rem + 0.85vw, 1.75rem);
   }
 
+  .orbit-made-frame {
+    max-height: min(52vh, 560px);
+  }
+
   .orbit-work-headline {
     max-width: min(22ch, 88vw);
   }
@@ -13779,6 +13707,20 @@ body.go-cms-open .orbit-gold-fab {
   .orbit-need-know {
     height: clamp(4.25rem, 6.8vh, 4.85rem);
     width: clamp(10rem, 12vw, 11.5rem);
+  }
+
+  .orbit-made-head {
+    padding-top: clamp(4.15rem, 7.5vh, 4.85rem);
+    padding-bottom: 0.35rem;
+  }
+
+  .orbit-made-frame {
+    max-height: min(46vh, 480px);
+  }
+
+  .orbit-made-title {
+    font-size: clamp(1.45rem, 0.95rem + 1.5vw, 2rem);
+    margin-top: 0.55rem;
   }
 
   .orbit-work-mosaic {
