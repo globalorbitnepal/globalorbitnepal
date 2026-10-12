@@ -196,6 +196,12 @@ html.orbit-touch {
     radial-gradient(ellipse 40% 30% at 90% 20%, rgba(240, 196, 58, 0.06), transparent 45%),
     #06060b;
   color: #e8eef8;
+  overflow-x: clip;
+}
+
+.orbit-about-hero-glow,
+.orbit-about-hero-grid {
+  contain: paint;
 }
 
 .orbit-about-hero-glow {
@@ -4744,8 +4750,9 @@ li.orbit-card:hover {
 }
 
 .orbit-header-inner {
-  /* Locked header tokens — logo width must not track nav pill height */
-  --orbit-header-logo-w: 280px;
+  /* Logo column — bar asset is wide; height drives visual size on desktop */
+  --orbit-header-logo-w: clamp(10rem, 22vw, 18rem);
+  --orbit-header-logo-h: clamp(2.75rem, 5vw, 3.15rem);
   --orbit-header-nav-h: clamp(2.65rem, 3.6vw, 3.15rem);
   position: relative;
   display: grid;
@@ -4761,8 +4768,11 @@ li.orbit-card:hover {
 
 @media (min-width: 1024px) {
   .orbit-header-inner {
-    grid-template-columns: var(--orbit-header-logo-w) minmax(0, 1fr) var(--orbit-header-logo-w);
+    --orbit-header-logo-h: clamp(4.35rem, calc(var(--orbit-header-nav-h) * 3), 6.35rem);
+    --orbit-header-logo-w: clamp(11rem, 24vw, 20rem);
+    grid-template-columns: minmax(11rem, 0.38fr) minmax(0, 1fr) minmax(10rem, 0.36fr);
     gap: 1rem;
+    align-items: center;
   }
 }
 
@@ -4777,6 +4787,8 @@ li.orbit-card:hover {
 .orbit-header-side.is-left {
   justify-content: flex-start;
   z-index: 2;
+  height: auto;
+  align-self: center;
 }
 
 .orbit-header-side.is-right {
@@ -4838,7 +4850,7 @@ li.orbit-card:hover {
   align-items: center;
   width: auto;
   max-width: var(--orbit-header-logo-w);
-  height: var(--orbit-header-nav-h);
+  height: var(--orbit-header-logo-h);
   line-height: 0;
 }
 
@@ -4847,21 +4859,9 @@ li.orbit-card:hover {
   width: auto;
   max-width: var(--orbit-header-logo-w);
   height: 100%;
-  max-height: var(--orbit-header-nav-h);
+  max-height: var(--orbit-header-logo-h);
   object-fit: contain;
   object-position: left center;
-}
-
-@media (min-width: 1024px) {
-  .orbit-brand-logo-bar {
-    max-width: 280px;
-    min-width: 0;
-  }
-
-  .orbit-brand-logo-bar-img {
-    max-width: 280px;
-    min-width: 0;
-  }
 }
 
 @media (min-width: 1024px) and (max-width: 1680px) {
@@ -4890,7 +4890,11 @@ li.orbit-card:hover {
 
   .orbit-brand-logo-bar {
     height: auto;
-    max-height: 2.75rem;
+    max-height: clamp(3.25rem, 12vw, 4.25rem);
+  }
+
+  .orbit-brand-logo-bar-img {
+    max-height: clamp(3.25rem, 12vw, 4.25rem);
   }
 
   .orbit-header-side {
@@ -7652,6 +7656,78 @@ li.orbit-card:hover {
   border-color: rgba(240, 196, 58, 0.55);
   background: rgba(240, 196, 58, 0.12);
   transform: translateY(-2px);
+}
+
+/* Made showcase — 14–17″ laptops (full frame visible in one viewport) */
+@media (min-width: 1024px) and (max-width: 1920px) {
+  .orbit-made-track {
+    --made-slide-unit: 30vh;
+  }
+
+  .orbit-made-pin {
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    grid-template-areas: "made-head" "made-stage" "made-foot";
+  }
+
+  .orbit-made-head {
+    grid-area: made-head;
+    padding: clamp(4.35rem, 7.2vh, 5.15rem) clamp(1.25rem, 3vw, 2.5rem) 0.35rem;
+  }
+
+  .orbit-made-stage {
+    grid-area: made-stage;
+    min-height: 0;
+  }
+
+  .orbit-made-foot {
+    grid-area: made-foot;
+    padding-top: 0.2rem;
+    padding-bottom: clamp(0.65rem, 1.4vh, 1rem);
+  }
+
+  .orbit-made-title {
+    margin-top: 0.45rem;
+    font-size: clamp(1.32rem, 0.82rem + 1.35vw, 2rem);
+  }
+
+  .orbit-made-slide {
+    justify-content: flex-start;
+    padding-top: 0.15rem;
+    padding-bottom: 0.25rem;
+  }
+
+  .orbit-made-frame {
+    width: min(93vw, 1060px);
+    flex: 0 1 auto;
+    max-height: min(48vh, 520px);
+    min-height: min(30vh, 320px);
+  }
+
+  .orbit-made-meta {
+    margin-top: 0.45rem;
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1920px) and (max-height: 900px) {
+  .orbit-made-head {
+    padding-top: clamp(4rem, 6.5vh, 4.65rem);
+  }
+
+  .orbit-made-title {
+    font-size: clamp(1.22rem, 0.78rem + 1.2vw, 1.75rem);
+    margin-top: 0.35rem;
+  }
+
+  .orbit-made-frame {
+    max-height: min(42vh, 440px);
+    min-height: min(26vh, 280px);
+  }
+
+  .orbit-work-badge {
+    height: 2rem;
+    font-size: 0.82rem;
+  }
 }
 
 .orbit-made-track + section,
@@ -11394,6 +11470,17 @@ li.orbit-card:hover {
   background: radial-gradient(circle, rgba(240, 196, 58, 0.12), transparent 68%);
   filter: blur(2px);
   animation: orbit-about-orb 14s ease-in-out infinite;
+  pointer-events: none;
+  contain: paint;
+}
+
+@media (max-width: 767px) {
+  .orbit-contact-hero-orb {
+    translate: 0 0;
+    right: -18%;
+    width: min(62vw, 300px);
+    height: min(62vw, 300px);
+  }
 }
 
 .orbit-contact-stat {
@@ -13491,11 +13578,15 @@ body.go-cms-open .orbit-gold-fab {
 
   .orbit-studio-hero-video {
     object-position: 70% 40%;
-    transform: scale(1.06) translateZ(0);
+    transform: scale(1.04) translateZ(0);
+  }
+
+  .orbit-studio-hero-media {
+    overflow: hidden;
   }
 
   .orbit-studio-hero-shell {
-    padding-top: clamp(4.35rem, 7.2vh, 5.75rem);
+    padding-top: clamp(5rem, 8.5vh, 6.75rem);
     padding-inline: clamp(1.25rem, 3vw, 2.5rem);
   }
 
@@ -13598,10 +13689,6 @@ body.go-cms-open .orbit-gold-fab {
     font-size: clamp(1.35rem, 1.05rem + 0.85vw, 1.75rem);
   }
 
-  .orbit-made-frame {
-    max-height: min(52vh, 560px);
-  }
-
   .orbit-work-headline {
     max-width: min(22ch, 88vw);
   }
@@ -13634,20 +13721,6 @@ body.go-cms-open .orbit-gold-fab {
   .orbit-need-know {
     height: clamp(4.25rem, 6.8vh, 4.85rem);
     width: clamp(10rem, 12vw, 11.5rem);
-  }
-
-  .orbit-made-head {
-    padding-top: clamp(4.15rem, 7.5vh, 4.85rem);
-    padding-bottom: 0.35rem;
-  }
-
-  .orbit-made-frame {
-    max-height: min(46vh, 480px);
-  }
-
-  .orbit-made-title {
-    font-size: clamp(1.45rem, 0.95rem + 1.5vw, 2rem);
-    margin-top: 0.55rem;
   }
 
   .orbit-work-mosaic {
@@ -13942,6 +14015,7 @@ html.orbit-mobile-lite .orbit-premium-reveal {
   min-height: clamp(280px, 42vw, 420px);
   margin-inline: auto;
   max-width: 36rem;
+  overflow: hidden;
 }
 
 .wd-hero-composition-glow {

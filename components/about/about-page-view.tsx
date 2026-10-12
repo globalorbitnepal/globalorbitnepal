@@ -13,8 +13,8 @@ function GoldGradient({ children }: { children: ReactNode }) {
 
 export function AboutPageView({ config }: { config: AboutConfig }) {
   return (
-    <main className="orbit-about-page min-h-screen overflow-hidden text-white">
-      <section className="orbit-about-hero relative isolate px-4 pb-20 pt-[clamp(5rem,10vh,6.5rem)] text-center sm:px-6 lg:px-8">
+    <main className="orbit-about-page min-h-screen overflow-x-clip text-white">
+      <section className="orbit-about-hero relative isolate overflow-hidden px-4 pb-20 pt-[clamp(5rem,10vh,6.5rem)] text-center sm:px-6 lg:px-8">
         <div className="orbit-about-hero-glow pointer-events-none absolute inset-0 -z-10" aria-hidden="true" />
         <div className="orbit-about-hero-grid pointer-events-none absolute inset-0 -z-10 opacity-40" aria-hidden="true" />
         <div className="mx-auto max-w-[52rem]">

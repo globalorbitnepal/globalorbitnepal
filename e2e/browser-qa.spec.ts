@@ -47,7 +47,7 @@ test.describe("metadata and DOM (desktop)", () => {
   test("website-development — no lodge demo as document H1", async ({ page }) => {
     await page.goto("/service/website-development-nepal", { waitUntil: "domcontentloaded" });
     const h1 = await primaryH1Text(page);
-    expect(h1).toMatch(/Website development in Nepal/i);
+    expect(h1).toMatch(/Website Development Company in Nepal/i);
     expect(h1).not.toMatch(/Book a quiet night|above the ridge/i);
     const allH1 = await page.locator("h1").allInnerTexts();
     const lodge = allH1.filter((t) => /Book a quiet night/i.test(t));
