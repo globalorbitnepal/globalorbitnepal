@@ -271,8 +271,8 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
     const uCam = gl.getUniformLocation(prog, "uCam");
     const uMap = gl.getUniformLocation(prog, "uMap");
     gl.uniform1i(uMap, 0);
-    gl.uniform1f(uTilt, 0.22);
-    gl.uniform1f(uCam, 2.22);
+    gl.uniform1f(uTilt, 0.14);
+    gl.uniform1f(uCam, 2.18);
 
     const tex = gl.createTexture();
     gl.bindTexture(gl.TEXTURE_2D, tex);

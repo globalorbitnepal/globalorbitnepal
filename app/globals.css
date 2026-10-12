@@ -4745,6 +4745,15 @@ li.orbit-card:hover {
   pointer-events: none;
   max-width: 100%;
   overflow-x: clip;
+  transition:
+    transform 0.38s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.32s ease;
+}
+
+.orbit-header-bar.orbit-header-bar--past-hero {
+  transform: translate3d(0, calc(-100% - 0.5rem), 0);
+  opacity: 0;
+  visibility: hidden;
 }
 
 .orbit-header-bar > * {
@@ -4774,8 +4783,8 @@ li.orbit-card:hover {
 
 @media (min-width: 1024px) {
   .orbit-header-inner {
-    --orbit-header-logo-h: clamp(4.35rem, calc(var(--orbit-header-nav-h) * 3), 6.35rem);
-    --orbit-header-logo-w: clamp(11rem, 24vw, 20rem);
+    --orbit-header-logo-h: clamp(5.2rem, calc(var(--orbit-header-nav-h) * 3.6), 7.6rem);
+    --orbit-header-logo-w: clamp(13.2rem, 28.8vw, 24rem);
     grid-template-columns: minmax(0, 0.38fr) minmax(0, 1fr) minmax(0, 0.36fr);
     gap: 1rem;
     align-items: center;
@@ -7579,8 +7588,8 @@ li.orbit-card:hover {
   display: block;
   height: 100%;
   width: 100%;
-  object-fit: cover;
-  object-position: top center;
+  object-fit: contain;
+  object-position: center center;
 }
 
 .orbit-made-meta {
@@ -7680,7 +7689,7 @@ li.orbit-card:hover {
 
   .orbit-made-head {
     grid-area: made-head;
-    padding: clamp(4.35rem, 7.2vh, 5.15rem) clamp(1.25rem, 3vw, 2.5rem) 0.35rem;
+    padding: clamp(3.85rem, 6.2vh, 4.65rem) clamp(1.25rem, 3vw, 2.5rem) 0.2rem;
   }
 
   .orbit-made-stage {
@@ -7695,41 +7704,53 @@ li.orbit-card:hover {
   }
 
   .orbit-made-title {
-    margin-top: 0.45rem;
-    font-size: clamp(1.32rem, 0.82rem + 1.35vw, 2rem);
+    margin-top: 0.35rem;
+    font-size: clamp(1.22rem, 0.78rem + 1.2vw, 1.85rem);
+    line-height: 1.12;
   }
 
   .orbit-made-slide {
-    justify-content: flex-start;
-    padding-top: 0.15rem;
-    padding-bottom: 0.25rem;
+    justify-content: center;
+    padding-top: 0;
+    padding-bottom: 0.15rem;
   }
 
   .orbit-made-frame {
-    width: min(93vw, 1060px);
+    width: min(90vw, 980px);
     flex: 0 1 auto;
-    max-height: min(48vh, 520px);
-    min-height: min(30vh, 320px);
+    max-height: min(44vh, 460px);
+    min-height: 0;
+    aspect-ratio: 16 / 10;
+  }
+
+  .orbit-made-shot {
+    object-fit: contain;
+    object-position: center center;
   }
 
   .orbit-made-meta {
-    margin-top: 0.45rem;
+    margin-top: 0.35rem;
+  }
+
+  .orbit-made-foot {
+    padding-bottom: clamp(0.55rem, 1.1vh, 0.85rem);
   }
 }
 
 @media (min-width: 1024px) and (max-width: 1920px) and (max-height: 900px) {
   .orbit-made-head {
-    padding-top: clamp(4rem, 6.5vh, 4.65rem);
+    padding-top: clamp(3.65rem, 5.8vh, 4.25rem);
   }
 
   .orbit-made-title {
-    font-size: clamp(1.22rem, 0.78rem + 1.2vw, 1.75rem);
-    margin-top: 0.35rem;
+    font-size: clamp(1.12rem, 0.72rem + 1.05vw, 1.55rem);
+    margin-top: 0.28rem;
   }
 
   .orbit-made-frame {
-    max-height: min(42vh, 440px);
-    min-height: min(26vh, 280px);
+    max-height: min(40vh, 400px);
+    min-height: 0;
+    aspect-ratio: 16 / 10;
   }
 
   .orbit-work-badge {
@@ -13599,16 +13620,61 @@ body.go-cms-open .orbit-gold-fab {
   }
 
   .orbit-hero-features {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.75rem 1.35rem;
-    max-width: min(40rem, 94%);
-    justify-items: start;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: clamp(0.45rem, 1.1vw, 1.1rem);
+    width: 100%;
+    max-width: min(76rem, 97vw);
+    padding-inline: 0.15rem;
+  }
+
+  .orbit-hero-features li {
+    flex: 1 1 0;
+    min-width: 0;
+    gap: 0.5rem;
+  }
+
+  .orbit-hero-feature-icon {
+    width: 1.45rem;
+    height: 1.45rem;
+  }
+
+  .orbit-hero-feature-icon svg {
+    width: 1.2rem;
+    height: 1.2rem;
   }
 
   .orbit-hero-features strong {
-    white-space: normal;
-    font-size: clamp(0.92rem, 0.84rem + 0.2vw, 1.05rem);
+    white-space: nowrap;
+    font-size: clamp(0.8rem, 0.72rem + 0.16vw, 0.98rem);
+  }
+
+  .orbit-hero-features small {
+    white-space: nowrap;
+    font-size: clamp(0.68rem, 0.62rem + 0.12vw, 0.78rem);
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .orbit-work-earth-head {
+    padding-top: clamp(4.75rem, 8.5vh, 5.65rem);
+    padding-bottom: 0.05rem;
+  }
+
+  .orbit-work-earth-arena {
+    width: min(86vmin, 900px);
+    height: min(86vmin, 900px);
+    max-height: calc(100dvh - 10.5rem);
+  }
+
+  .orbit-work-earth-globe {
+    inset: 3.5%;
+  }
+
+  .orbit-work-earth-vignette {
+    background: radial-gradient(ellipse 74% 72% at 50% 50%, transparent 30%, rgba(2, 2, 6, 0.78) 100%);
   }
 
   .orbit-need-copy {

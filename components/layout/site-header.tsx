@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BrandLogo } from "@/components/brand/brand-logo";
 import {
   BookAppointmentButton,
@@ -23,12 +23,43 @@ export function SiteHeader({ headerLogoSrc }: SiteHeaderProps) {
   const [open, setOpen] = useState(false);
   const [appointmentOpen, setAppointmentOpen] = useState(false);
   const pathname = usePathname();
+  const isHome = pathname === "/";
+  const [pastHomeHero, setPastHomeHero] = useState(false);
+
+  useEffect(() => {
+    if (!isHome) {
+      setPastHomeHero(false);
+      return;
+    }
+
+    const hero = document.querySelector(".orbit-studio-hero");
+    const update = () => {
+      if (!hero) {
+        setPastHomeHero(false);
+        return;
+      }
+      const bottom = hero.getBoundingClientRect().bottom;
+      setPastHomeHero(bottom <= 72);
+    };
+
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
+    };
+  }, [isHome]);
+
   if (isOrbitAdminPath(pathname)) return null;
+
+  const headerHidden = isHome && pastHomeHero;
 
   return (
     <>
       <header
-        className="orbit-header-bar pointer-events-none inset-x-0 top-0 z-50 text-white fixed"
+        className={`orbit-header-bar pointer-events-none inset-x-0 top-0 z-50 text-white fixed${headerHidden ? " orbit-header-bar--past-hero" : ""}`}
+        aria-hidden={headerHidden}
       >
         <div className="orbit-header-inner pointer-events-auto mx-auto w-full max-w-[1680px]">
           <div className="orbit-header-side is-left">
