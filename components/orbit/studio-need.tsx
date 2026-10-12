@@ -69,10 +69,14 @@ export function OrbitStudioNeed({ config }: { config: NeedConfig }) {
       const startH = Math.max(slotRect.height, 32);
       const startX = slotRect.left - pinRect.left;
       const startY = slotRect.top - pinRect.top;
-      const endW = pinRect.width * 0.93;
-      const endH = pinRect.height * 0.86;
-      const endX = pinRect.width * 0.035;
-      const endY = pinRect.height * 0.05;
+      const compactLaptop =
+        window.innerWidth >= 1024 &&
+        window.innerWidth <= 1680 &&
+        window.innerHeight <= 920;
+      const endW = pinRect.width * (compactLaptop ? 0.9 : 0.93);
+      const endH = pinRect.height * (compactLaptop ? 0.8 : 0.86);
+      const endX = pinRect.width * (compactLaptop ? 0.05 : 0.035);
+      const endY = pinRect.height * (compactLaptop ? 0.08 : 0.05);
       const startR = startH / 2;
       const endR = Math.min(pinRect.width, pinRect.height) * 0.045;
 
