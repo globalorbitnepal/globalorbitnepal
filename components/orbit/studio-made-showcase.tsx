@@ -164,8 +164,10 @@ export function OrbitStudioMadeShowcase({ surface = DEFAULT_HOME_SURFACE }: { su
               className="orbit-made-slide"
             >
               <div className="orbit-made-frame">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={item.image} alt={item.title} className="orbit-made-shot" loading={index < 2 ? "eager" : "lazy"} />
+                <div className="orbit-made-screen">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={item.image} alt={item.title} className="orbit-made-shot" loading={index < 2 ? "eager" : "lazy"} />
+                </div>
               </div>
               <div
                 ref={(node) => {
