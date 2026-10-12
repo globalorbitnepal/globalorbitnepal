@@ -150,7 +150,7 @@ export function OrbitStudioServicesShowcase() {
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_0%,rgba(59,130,246,0.12),transparent_55%)]" aria-hidden="true" />
 
       <div className="relative z-[1] mx-auto w-full max-w-[1680px] px-[clamp(1.25rem,3.6vw,3.4rem)] py-[clamp(3.5rem,7vh,5.5rem)]">
-        <div className="orbit-services-showcase-head grid gap-[clamp(1.5rem,3vw,2.75rem)] lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-center">
+        <div className="orbit-services-showcase-head grid gap-[clamp(1.5rem,3vw,2.75rem)] xl:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] xl:items-center">
           <div>
             <p className="orbit-services-badge">
               <span className="orbit-services-badge-num">2</span>
