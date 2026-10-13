@@ -27,18 +27,22 @@ export function SiteHeader({ headerLogoSrc }: SiteHeaderProps) {
   const [pastHomeHero, setPastHomeHero] = useState(false);
 
   useEffect(() => {
-    if (!isHome) return;
+    if (!isHome) {
+      setPastHomeHero(false);
+      return;
+    }
 
     const hero = document.querySelector(".orbit-studio-hero");
     const update = () => {
-      // App-like home: hide chrome as soon as the user scrolls — bottom dock is nav.
-      const scrolled = window.scrollY > 12;
       if (!hero) {
-        setPastHomeHero(scrolled);
+        setPastHomeHero(false);
         return;
       }
-      const bottom = hero.getBoundingClientRect().bottom;
-      setPastHomeHero(scrolled || bottom <= 88);
+      // Keep logo/menu while the hero is still on screen. Hide only after leaving hero.
+      // (Do NOT hide on tiny scrollY — that made the logo vanish on the hero itself.)
+      const rect = hero.getBoundingClientRect();
+      const heroStillVisible = rect.bottom > 110;
+      setPastHomeHero(!heroStillVisible);
     };
 
     const frame = requestAnimationFrame(update);

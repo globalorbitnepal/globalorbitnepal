@@ -4891,21 +4891,22 @@ li.orbit-card:hover {
 
 @media (max-width: 1023px) {
   .orbit-header-inner {
-    --orbit-header-logo-w: min(92vw, 22rem);
-    --orbit-header-logo-h: clamp(4.85rem, 16vw, 6.35rem);
+    /* +30% vs previous mobile logo size */
+    --orbit-header-logo-w: min(94vw, 26rem);
+    --orbit-header-logo-h: clamp(6.3rem, 20.8vw, 8.25rem);
     grid-template-columns: minmax(0, 1fr) auto;
     gap: 0.55rem;
-    padding-top: calc(env(safe-area-inset-top, 0px) + 0.28rem);
-    padding-bottom: 0.28rem;
+    padding-top: calc(env(safe-area-inset-top, 0px) + 0.35rem);
+    padding-bottom: 0.35rem;
   }
 
-  /* ~2× prior mobile logo — sharper brand mark in the app chrome */
   .orbit-brand-logo-bar {
-    width: min(340px, calc(100vw - 5.25rem));
-    max-width: min(340px, calc(100vw - 5.25rem));
+    width: min(420px, calc(100vw - 5rem));
+    max-width: min(420px, calc(100vw - 5rem));
     min-width: 0;
     height: var(--orbit-header-logo-h);
     max-height: var(--orbit-header-logo-h);
+    overflow: visible;
   }
 
   .orbit-brand-logo-bar-img {
@@ -4929,6 +4930,11 @@ li.orbit-card:hover {
 
   .orbit-header-center {
     display: none !important;
+  }
+
+  /* Ensure hero logo/menu stay above hero video */
+  .orbit-header-bar {
+    z-index: 60;
   }
 }
 
@@ -5175,8 +5181,13 @@ li.orbit-card:hover {
   }
 
   .orbit-studio-hero-shell {
-    padding-top: calc(5.85rem + env(safe-area-inset-top, 0px));
+    padding-top: calc(7.35rem + env(safe-area-inset-top, 0px));
     padding-bottom: clamp(0.85rem, 2.4vh, 1.25rem);
+  }
+
+  /* Remove 4 service tiles under Explore CTA — cleaner professional hero */
+  .orbit-hero-features {
+    display: none !important;
   }
 
   .orbit-hero-tech-item span {
@@ -6443,6 +6454,52 @@ li.orbit-card:hover {
   .orbit-need-headline {
     max-width: none;
     font-size: clamp(1.7rem, 6.4vw, 2.35rem);
+  }
+}
+
+/* Phones: static Need block — no sticky pin / expanding video */
+@media (max-width: 767px) {
+  .orbit-need-track,
+  .orbit-need-track.is-mobile-static {
+    height: auto !important;
+    min-height: 0 !important;
+    margin-top: 0;
+  }
+
+  .orbit-need-track.is-mobile-static .orbit-need-pin,
+  .orbit-need-pin {
+    position: relative !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible;
+  }
+
+  .orbit-need-track.is-mobile-static .orbit-need-copy,
+  .orbit-need-copy {
+    height: auto !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    padding:
+      calc(5.5rem + env(safe-area-inset-top, 0px))
+      1.15rem
+      calc(5.75rem + var(--safe-bottom, 0px));
+  }
+
+  .orbit-need-track.is-mobile-static .orbit-need-video,
+  .orbit-need-video {
+    display: none !important;
+  }
+
+  .orbit-need-slot {
+    display: none !important;
+  }
+
+  .orbit-need-stat {
+    font-size: clamp(3.1rem, 14vw, 4.6rem);
+  }
+
+  .orbit-need-headline {
+    font-size: clamp(1.55rem, 5.8vw, 2.1rem);
   }
 }
 
@@ -14806,19 +14863,6 @@ html.orbit-mobile-lite .orbit-premium-reveal {
     animation: none;
   }
 
-  /* Extra bottom room so hero feature grid clears FABs + dock */
-  .orbit-studio-hero-shell {
-    padding-bottom: calc(6.35rem + var(--safe-bottom));
-  }
-
-  .orbit-hero-features {
-    padding-bottom: 0.35rem;
-  }
-
-  .orbit-hero-features li:nth-child(even) {
-    padding-right: 2.75rem;
-  }
-
   /* Homepage / pages — app-like density, no horizontal crop */
   .orbit-studio-home,
   .orbit-premium-page,
@@ -14829,6 +14873,7 @@ html.orbit-mobile-lite .orbit-premium-reveal {
   .orbit-studio-hero-shell {
     padding-inline: 1.15rem;
     padding-bottom: calc(5.75rem + var(--safe-bottom));
+    justify-content: center;
   }
 
   .orbit-studio-hero-copy {
@@ -14838,33 +14883,17 @@ html.orbit-mobile-lite .orbit-premium-reveal {
   }
 
   .orbit-hero-features {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.55rem 0.7rem;
-    width: 100%;
-    max-width: 100%;
-    margin: 0;
-    padding: 0.75rem 0 0;
-    justify-content: stretch;
-    align-items: start;
+    display: none !important;
   }
 
-  .orbit-hero-features li {
-    min-width: 0;
-    align-items: flex-start;
-    gap: 0.45rem;
+  /* Lighter scroll work on phones */
+  .orbit-work-earth-track {
+    height: calc(100svh + var(--earth-scroll-steps, 6) * 22vh) !important;
+    min-height: calc(100svh + var(--earth-scroll-steps, 6) * 22vh) !important;
   }
 
-  .orbit-hero-features strong {
-    white-space: normal;
-    font-size: 0.82rem;
-    line-height: 1.2;
-  }
-
-  .orbit-hero-features small {
-    white-space: normal;
-    font-size: 0.68rem;
-    line-height: 1.25;
+  .orbit-made-track {
+    --made-slide-unit: 20vh;
   }
 
   .orbit-hero-scroll {
