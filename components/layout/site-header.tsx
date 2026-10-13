@@ -106,13 +106,13 @@ export function SiteHeader({ headerLogoSrc }: SiteHeaderProps) {
 
             <button
               type="button"
-              className={`orbit-header-menu-btn orbit-header-menu-btn--lines inline-flex shrink-0 items-center justify-center${open ? " is-open" : ""}`}
+              className={`orbit-header-menu-btn orbit-header-menu-btn--dots inline-flex shrink-0 items-center justify-center rounded-full border border-white/15 bg-white/5${open ? " is-open" : ""}`}
               aria-expanded={open}
               aria-controls="mobile-nav"
               onClick={() => setOpen((value) => !value)}
             >
               <span className="sr-only">{open ? "Close menu" : "Open menu"}</span>
-              <span className="orbit-header-menu-icon orbit-header-menu-icon--lines" aria-hidden="true">
+              <span className="orbit-header-menu-icon" aria-hidden="true">
                 <span />
                 <span />
                 <span />
