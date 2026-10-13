@@ -76,6 +76,13 @@ export function OrbitSoftwareSection({ config }: { config: SoftwareConfig }) {
 
   const pickProduct = (index: number) => {
     if (index === activeIndex) return;
+    // Keep mockup visible on compact laptops — empty right column looks broken at 1366×768
+    const compact = window.matchMedia("(max-height: 820px), (max-width: 900px)").matches;
+    if (compact) {
+      setActiveIndex(index);
+      setStageVisible(true);
+      return;
+    }
     setStageVisible(false);
     window.setTimeout(() => {
       setActiveIndex(index);
@@ -89,6 +96,12 @@ export function OrbitSoftwareSection({ config }: { config: SoftwareConfig }) {
     if (reduce) return;
 
     const timer = window.setInterval(() => {
+      const compact = window.matchMedia("(max-height: 820px), (max-width: 900px)").matches;
+      if (compact) {
+        setActiveIndex((i) => (i + 1) % products.length);
+        setStageVisible(true);
+        return;
+      }
       setStageVisible(false);
       window.setTimeout(() => {
         setActiveIndex((i) => (i + 1) % products.length);
