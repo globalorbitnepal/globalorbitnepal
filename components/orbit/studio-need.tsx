@@ -73,10 +73,20 @@ export function OrbitStudioNeed({ config }: { config: NeedConfig }) {
         window.innerWidth >= 1024 &&
         window.innerWidth <= 1680 &&
         window.innerHeight <= 920;
-      const endW = pinRect.width * (compactLaptop ? 0.9 : 0.93);
-      const endH = pinRect.height * (compactLaptop ? 0.8 : 0.86);
-      const endX = pinRect.width * (compactLaptop ? 0.05 : 0.035);
-      const endY = pinRect.height * (compactLaptop ? 0.08 : 0.05);
+      const mobile = window.innerWidth < 768;
+      // Mobile: keep a landscape 16:9 plate — full-bleed tall video feels stretched ("laba").
+      const endW = mobile
+        ? pinRect.width * 0.94
+        : pinRect.width * (compactLaptop ? 0.9 : 0.93);
+      const endH = mobile
+        ? Math.min(endW * (9 / 16), pinRect.height * 0.44)
+        : pinRect.height * (compactLaptop ? 0.8 : 0.86);
+      const endX = mobile
+        ? (pinRect.width - endW) / 2
+        : pinRect.width * (compactLaptop ? 0.05 : 0.035);
+      const endY = mobile
+        ? Math.max(pinRect.height * 0.28, (pinRect.height - endH) * 0.42)
+        : pinRect.height * (compactLaptop ? 0.08 : 0.05);
       const startR = startH / 2;
       const endR = Math.min(pinRect.width, pinRect.height) * 0.045;
 

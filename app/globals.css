@@ -4891,32 +4891,40 @@ li.orbit-card:hover {
 
 @media (max-width: 1023px) {
   .orbit-header-inner {
+    --orbit-header-logo-w: min(92vw, 22rem);
+    --orbit-header-logo-h: clamp(4.85rem, 16vw, 6.35rem);
     grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.55rem;
+    padding-top: calc(env(safe-area-inset-top, 0px) + 0.28rem);
+    padding-bottom: 0.28rem;
   }
 
+  /* ~2× prior mobile logo — sharper brand mark in the app chrome */
   .orbit-brand-logo-bar {
-    width: min(240px, calc(100vw - 5.5rem));
-    max-width: min(240px, calc(100vw - 5.5rem));
+    width: min(340px, calc(100vw - 5.25rem));
+    max-width: min(340px, calc(100vw - 5.25rem));
     min-width: 0;
+    height: var(--orbit-header-logo-h);
+    max-height: var(--orbit-header-logo-h);
   }
 
   .orbit-brand-logo-bar-img {
-    width: 100%;
+    width: auto;
     max-width: 100%;
     min-width: 0;
-  }
-
-  .orbit-brand-logo-bar {
-    height: auto;
-    max-height: clamp(3.25rem, 12vw, 4.25rem);
-  }
-
-  .orbit-brand-logo-bar-img {
-    max-height: clamp(3.25rem, 12vw, 4.25rem);
+    height: 100%;
+    max-height: var(--orbit-header-logo-h);
+    object-fit: contain;
+    object-position: left center;
+    image-rendering: auto;
   }
 
   .orbit-header-side {
     height: auto;
+  }
+
+  .orbit-header-side.is-left {
+    max-width: calc(100% - 3.5rem);
   }
 
   .orbit-header-center {
@@ -5140,25 +5148,34 @@ li.orbit-card:hover {
 
 @media (max-width: 767px) {
   .orbit-studio-hero-veil {
+    /* Kill busy hero-video text so headline stays crisp */
     background:
-      linear-gradient(180deg, rgba(7, 7, 11, 0.5) 0%, rgba(7, 7, 11, 0.32) 36%, rgba(7, 7, 11, 0.78) 100%),
-      linear-gradient(90deg, rgba(7, 7, 11, 0.62) 0%, transparent 62%);
+      linear-gradient(180deg, rgba(7, 7, 11, 0.72) 0%, rgba(7, 7, 11, 0.55) 38%, rgba(7, 7, 11, 0.88) 100%),
+      linear-gradient(90deg, rgba(7, 7, 11, 0.78) 0%, rgba(7, 7, 11, 0.35) 55%, transparent 78%);
+  }
+
+  .orbit-studio-hero-video {
+    object-fit: cover;
+    object-position: 62% 42%;
+    filter: brightness(0.72) saturate(0.92) contrast(1.05);
   }
 
   .orbit-hero-headline {
-    font-size: clamp(2.15rem, 8.4vw, 2.85rem);
+    font-size: clamp(2.05rem, 8vw, 2.75rem);
     line-height: 1.08;
     overflow-wrap: anywhere;
+    text-shadow: 0 2px 24px rgba(0, 0, 0, 0.55);
   }
 
   .orbit-hero-lede {
     max-width: none;
-    font-size: 1.08rem;
+    font-size: 1.02rem;
     line-height: 1.55;
+    color: rgba(255, 255, 255, 0.88);
   }
 
   .orbit-studio-hero-shell {
-    padding-top: calc(4.6rem + env(safe-area-inset-top, 0px));
+    padding-top: calc(5.85rem + env(safe-area-inset-top, 0px));
     padding-bottom: clamp(0.85rem, 2.4vh, 1.25rem);
   }
 
@@ -5516,6 +5533,21 @@ li.orbit-card:hover {
     0 14px 30px rgba(180, 130, 16, 0.48),
     inset 0 2px 4px rgba(255, 255, 255, 0.62),
     inset 0 -4px 8px rgba(90, 58, 0, 0.38);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translate3d(0, 12px, 0) scale(0.92);
+  transition:
+    opacity 0.28s ease,
+    visibility 0.28s ease,
+    transform 0.28s ease;
+}
+
+.orbit-gold-fab.is-visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translate3d(0, 0, 0) scale(1);
   animation: orbit-gold-fab-float 2.8s ease-in-out infinite;
 }
 
@@ -5545,7 +5577,8 @@ li.orbit-card:hover {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .orbit-gold-fab {
+  .orbit-gold-fab,
+  .orbit-gold-fab.is-visible {
     animation: none;
   }
 }
@@ -7075,35 +7108,49 @@ li.orbit-card:hover {
 
 @media (max-width: 767px) {
   .orbit-work-earth-track {
-    height: calc(100svh + var(--earth-scroll-steps, 6) * 32vh);
-    min-height: calc(100svh + var(--earth-scroll-steps, 6) * 32vh);
+    height: calc(100svh + var(--earth-scroll-steps, 6) * 28vh);
+    min-height: calc(100svh + var(--earth-scroll-steps, 6) * 28vh);
   }
 
   .orbit-work-earth-head {
-    padding-top: clamp(5rem, 11vh, 6rem);
+    padding-top: clamp(4.25rem, 9vh, 5.25rem);
   }
 
   .orbit-work-earth-arena {
-    width: min(100vw, 96vmin);
-    height: min(100vw, 96vmin);
-    max-height: calc(100svh - 9rem);
-    max-height: calc(100dvh - 9rem);
+    width: min(100vw, 92vmin);
+    height: min(100vw, 92vmin);
+    max-height: calc(100svh - 11.5rem);
+    max-height: calc(100dvh - 11.5rem);
   }
 
   .orbit-work-earth-globe {
-    inset: 8%;
+    inset: 4%;
+    box-shadow:
+      0 0 0 1px rgba(240, 196, 58, 0.5),
+      0 0 0 8px rgba(240, 196, 58, 0.06),
+      0 28px 70px rgba(0, 0, 0, 0.65),
+      0 0 70px rgba(240, 196, 58, 0.22),
+      inset -14px -18px 36px rgba(0, 0, 0, 0.18);
   }
 
   .orbit-work-earth-planet {
-    width: clamp(6.5rem, 34vw, 9rem);
+    width: clamp(7.25rem, 36vw, 9.5rem);
+  }
+
+  .orbit-work-earth-planet.is-behind {
+    filter: brightness(0.92);
   }
 
   .orbit-work-earth-planet.is-front {
-    width: min(88vw, 15rem);
+    width: min(90vw, 16rem);
   }
 
   .orbit-work-earth-planet.is-front .orbit-work-earth-card-shot {
-    height: clamp(5.8rem, 32vw, 7.5rem);
+    height: clamp(6.2rem, 34vw, 8rem);
+  }
+
+  .orbit-work-earth-stage {
+    padding-bottom: calc(5.5rem + var(--safe-bottom, 0px));
   }
 }
 
@@ -7767,11 +7814,11 @@ li.orbit-card:hover {
 
 @media (max-width: 640px) {
   .orbit-made-track {
-    --made-slide-unit: 28vh;
+    --made-slide-unit: 24vh;
   }
 
   .orbit-made-head {
-    padding-top: clamp(3.5rem, 8vh, 4.5rem);
+    padding-top: clamp(3.25rem, 7vh, 4rem);
   }
 
   .orbit-made-title {
@@ -7779,7 +7826,8 @@ li.orbit-card:hover {
   }
 
   .orbit-made-frame {
-    --made-frame-max-h: min(42vh, 320px);
+    /* Compact landscape plate — avoid tall stretched frames on phones */
+    --made-frame-max-h: min(36vh, 280px);
     width: min(100%, calc(100vw - 1.5rem), calc(var(--made-frame-max-h) * 16 / 9));
     max-width: min(100%, calc(100vw - 1.5rem), calc(var(--made-frame-max-h) * 16 / 9));
     border-radius: 12px;
@@ -7790,7 +7838,7 @@ li.orbit-card:hover {
   }
 
   .orbit-made-foot {
-    padding-bottom: 0.85rem;
+    padding-bottom: calc(5.25rem + var(--safe-bottom, 0px));
   }
 }
 
@@ -14752,6 +14800,23 @@ html.orbit-mobile-lite .orbit-premium-reveal {
     right: max(0.75rem, var(--safe-right));
     width: 3rem;
     height: 3rem;
+  }
+
+  .orbit-gold-fab.is-visible {
+    animation: none;
+  }
+
+  /* Extra bottom room so hero feature grid clears FABs + dock */
+  .orbit-studio-hero-shell {
+    padding-bottom: calc(6.35rem + var(--safe-bottom));
+  }
+
+  .orbit-hero-features {
+    padding-bottom: 0.35rem;
+  }
+
+  .orbit-hero-features li:nth-child(even) {
+    padding-right: 2.75rem;
   }
 
   /* Homepage / pages — app-like density, no horizontal crop */

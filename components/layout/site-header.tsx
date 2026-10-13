@@ -31,12 +31,14 @@ export function SiteHeader({ headerLogoSrc }: SiteHeaderProps) {
 
     const hero = document.querySelector(".orbit-studio-hero");
     const update = () => {
+      // App-like home: hide chrome as soon as the user scrolls — bottom dock is nav.
+      const scrolled = window.scrollY > 12;
       if (!hero) {
-        setPastHomeHero(false);
+        setPastHomeHero(scrolled);
         return;
       }
       const bottom = hero.getBoundingClientRect().bottom;
-      setPastHomeHero(bottom <= 72);
+      setPastHomeHero(scrolled || bottom <= 88);
     };
 
     const frame = requestAnimationFrame(update);

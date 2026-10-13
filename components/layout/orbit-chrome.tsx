@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { PwaInstallPrompt } from "@/components/layout/pwa-install-prompt";
 import { isOrbitAdminPath } from "@/lib/is-orbit-admin-route";
@@ -7,6 +8,14 @@ import { isOrbitAdminPath } from "@/lib/is-orbit-admin-route";
 export function OrbitChrome() {
   const pathname = usePathname();
   const hide = isOrbitAdminPath(pathname);
+  const [showTop, setShowTop] = useState(false);
+
+  useEffect(() => {
+    const update = () => setShowTop(window.scrollY > 420);
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    return () => window.removeEventListener("scroll", update);
+  }, []);
 
   function scrollToHero() {
     const target = document.getElementById("home-hero-heading");
@@ -46,7 +55,14 @@ export function OrbitChrome() {
         </span>
       </a>
 
-      <button type="button" className="orbit-gold-fab" aria-label="Back to top" onClick={scrollToHero}>
+      <button
+        type="button"
+        className={`orbit-gold-fab${showTop ? " is-visible" : ""}`}
+        aria-label="Back to top"
+        aria-hidden={!showTop}
+        tabIndex={showTop ? 0 : -1}
+        onClick={scrollToHero}
+      >
         <span className="orbit-gold-fab-shine" aria-hidden="true" />
         <svg viewBox="0 0 24 24" aria-hidden="true">
           <path d="M6.5 14.5 12 8.8l5.5 5.7" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />

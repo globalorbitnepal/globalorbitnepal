@@ -290,8 +290,10 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
       if (!alive) return;
       const imgs = loaded.filter((img): img is HTMLImageElement => img != null);
       if (!imgs.length) return;
+      // WebGL1 + REPEAT wrap requires power-of-two textures. 1536 is not POT and
+      // leaves the globe black on many mobile GPUs; keep 1024 / 2048 only.
       const mobile = window.matchMedia("(max-width: 767px)").matches;
-      const w = mobile ? 1536 : 2048;
+      const w = mobile ? 1024 : 2048;
       const mosaic = paintMosaic(imgs, w, Math.floor(w / 2));
       gl.bindTexture(gl.TEXTURE_2D, tex);
       gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1);
@@ -358,7 +360,12 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
         el.style.setProperty("--card-top", `${top.toFixed(2)}%`);
         el.style.setProperty("--card-s", p.scale.toFixed(3));
         el.style.zIndex = String(Math.round(32 + p.depth * 28));
-        el.style.opacity = behind ? "0.08" : String(clamp(0.42 + (p.depth + 1) * 0.3, 0.35, 1));
+        // Mobile: keep side sites visible so the orbit reads “full”, not empty.
+        const behindOpacity = touch ? "0.42" : "0.08";
+        const frontOpacity = touch
+          ? String(clamp(0.55 + (p.depth + 1) * 0.28, 0.5, 1))
+          : String(clamp(0.42 + (p.depth + 1) * 0.3, 0.35, 1));
+        el.style.opacity = behind ? behindOpacity : frontOpacity;
         el.classList.toggle("is-behind", behind);
 
         if (p.depth > bestDepth) {
