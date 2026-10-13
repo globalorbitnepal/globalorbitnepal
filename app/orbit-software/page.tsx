@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { OrbitSoftwarePageView } from "@/components/orbit-software/orbit-software-page-view";
 import { ERP_FAQ, ERP_HERO, ERP_KEYWORDS, ERP_SUITES } from "@/lib/orbit-software-page";
 import { applyPageSeo } from "@/lib/apply-page-seo";
+import { absoluteUrl } from "@/lib/site-origin";
 
 export async function generateMetadata(): Promise<Metadata> {
   return applyPageSeo("/orbit-software", {
@@ -20,7 +21,7 @@ function jsonLd() {
         "@type": "CollectionPage",
         name: "Orbit Software · ERP",
         description: ERP_HERO.lede,
-        url: "https://arnav.theglobalorbit.com/orbit-software",
+        url: absoluteUrl("/orbit-software"),
       },
       {
         "@type": "ItemList",
@@ -28,7 +29,7 @@ function jsonLd() {
           "@type": "ListItem",
           position: index + 1,
           name: item.title,
-          url: `https://arnav.theglobalorbit.com${item.href}`,
+          url: absoluteUrl(item.href),
         })),
       },
       {

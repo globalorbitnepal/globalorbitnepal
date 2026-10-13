@@ -1,0 +1,1291 @@
+{
+  "BASE": "https://arnav.theglobalorbit.com",
+  "intendedApex": "https://theglobalorbit.com",
+  "crawledAt": "2026-10-13T18:49:09.582Z",
+  "sitemapCount": 64,
+  "robotsOk": true,
+  "robotsSnippet": "User-Agent: *\nAllow: /\nDisallow: /admin\nDisallow: /admin/\nDisallow: /orbit\nDisallow: /orbit/\nDisallow: /api/\nDisallow: /demo\nDisallow: /news\n\nHost: arnav.theglobalorbit.com\nSitemap: https://arnav.theglobalorbit.com/sitemap.xml\n",
+  "issues": [],
+  "pages": [
+    {
+      "url": "https://arnav.theglobalorbit.com/",
+      "finalUrl": "https://arnav.theglobalorbit.com/",
+      "status": 200,
+      "title": "Global Orbit | Web Development &amp; Software Company in Nepal",
+      "description": "Global Orbit helps businesses in Nepal with website development, custom software, mobile apps, SEO and digital marketing. Contact our Kathmandu team for a co…",
+      "canonical": "https://arnav.theglobalorbit.com",
+      "robots": "index, follow",
+      "ogTitle": "Global Orbit | Web Development &amp; Software Company in Nepal",
+      "ogUrl": "https://arnav.theglobalorbit.com",
+      "ogImage": "https://arnav.theglobalorbit.com/brand/hero-uhd.jpg",
+      "h1Count": 1,
+      "chain": [
+        {
+          "url": "https://arnav.theglobalorbit.com/",
+          "status": 200,
+          "location": null
+        }
+      ]
+    },
+    {
+      "url": "https://arnav.theglobalorbit.com/about",
+      "finalUrl": "https://arnav.theglobalorbit.com/about",
+      "status": 200,
+      "title": "About Us",
+      "description": "Global Orbit Pvt Ltd — enterprise software, web development, and SEO from Kathmandu with studios in Nepal, India, and the United States.",
+      "canonical": "https://arnav.theglobalorbit.com/about",
+      "robots": "index, follow",
+      "ogTitle": "About Us",
+      "ogUrl": "https://arnav.theglobalorbit.com/about",
+      "ogImage": "https://arnav.theglobalorbit.com/brand/hero-uhd.jpg",
+      "h1Count": 1,
+      "chain": [
+        {
+          "url": "https://arnav.theglobalorbit.com/about",
+          "status": 200,
+          "location": null
+        }
+      ]
+    },
+    {
+      "url": "https://arnav.theglobalorbit.com/blog/core-web-vitals-2026-cheat-sheet",
+      "finalUrl": "https://arnav.theglobalorbit.com/blog/core-web-vitals-2026-cheat-sheet",
+      "status": 200,
+      "title": "Core Web Vitals 2026 Cheat Sheet",
+      "description": "Complete guide to Core Web Vitals metrics for 2026.",
+      "canonical": "https://arnav.theglobalorbit.com/blog/core-web-vitals-2026-cheat-sheet",
+      "robots": "index, follow",
+      "ogTitle": "Core Web Vitals 2026 Cheat Sheet",
+      "ogUrl": "https://arnav.theglobalorbit.com/blog/core-web-vitals-2026-cheat-sheet",
+      "ogImage": "https://arnav.theglobalorbit.com/brand/hero-uhd.jpg",
+      "h1Count": 1,
+      "chain": [
+        {
+          "url": "https://arnav.theglobalorbit.com/blog/core-web-vitals-2026-cheat-sheet",
+          "status": 200,
+          "location": null
+        }
+      ]
+    },
+    {
+      "url": "https://arnav.theglobalorbit.com/blog/rank-nepali-businesses-page-1-google",
+      "finalUrl": "https://arnav.theglobalorbit.com/blog/rank-nepali-businesses-page-1-google",
+      "status": 200,
+      "title": "Rank Nepali Businesses on Page 1 of Google",
+      "description": "SEO strategies for Nepali businesses to rank on Google Page 1.",
+      "canonical": "https://arnav.theglobalorbit.com/blog/rank-nepali-businesses-page-1-google",
+      "robots": "index, follow",
+      "ogTitle": "Rank Nepali Businesses on Page 1 of Google",
+      "ogUrl": "https://arnav.theglobalorbit.com/blog/rank-nepali-businesses-page-1-google",
+      "ogImage": "https://arnav.theglobalorbit.com/brand/hero-uhd.jpg",
+      "h1Count": 1,
+      "chain": [
+        {
+          "url": "https://arnav.theglobalorbit.com/blog/rank-nepali-businesses-page-1-google",
+          "status": 200,
+          "location": null
+        }
+      ]
+    },
+    {
+      "url": "https://arnav.theglobalorbit.com/blog/right-tech-stack-nepali-startup-2026",
+      "finalUrl": "https://arnav.theglobalorbit.com/blog/right-tech-stack-nepali-startup-2026",
+      "status": 200,
+      "title": "Right Tech Stack for Nepali Startups 2026",
+      "description": "Choosing the right technology stack for Nepali startups in 2026.",
+      "canonical": "https://arnav.theglobalorbit.com/blog/right-tech-stack-nepali-startup-2026",
+      "robots": "index, follow",
+      "ogTitle": "Right Tech Stack for Nepali Startups 2026",
+      "ogUrl": "https://arnav.theglobalorbit.com/blog/right-tech-stack-nepali-startup-2026",
+      "ogImage": "https://arnav.theglobalorbit.com/brand/hero-uhd.jpg",
+      "h1Count": 1,
+      "chain": [
+        {
+          "url": "https://arnav.theglobalorbit.com/blog/right-tech-stack-nepali-startup-2026",
+          "status": 200,
+          "location": null
+        }
+      ]
+    },
+    {
+      "url": "https://arnav.theglobalorbit.com/blogs",
+      "finalUrl": "https://arnav.theglobalorbit.com/blogs",
+      "status": 200,
+      "title": "Blog",
+      "description": "SEO, Core Web Vitals, and tech-stack notes from Global Orbit.",
+      "canonical": "https://arnav.theglobalorbit.com/blogs",
+      "robots": "index, follow",
+      "ogTitle": "Blog",
+      "ogUrl": "https://arnav.theglobalorbit.com/blogs",
+      "ogImage": "https://arnav.theglobalorbit.com/brand/hero-uhd.jpg",
+      "h1Count": 1,
+      "chain": [
+        {
+          "url": "https://arnav.theglobalorbit.com/blogs",
+          "status": 200,
+          "location": null
+        }
+      ]
+    },
+    {
+      "url": "https://arnav.theglobalorbit.com/booking-website-development-nepal",
+      "finalUrl": "https://arnav.theglobalorbit.com/booking-website-development-nepal",
+      "status": 200,
+      "title": "Booking Website Development Nepal",
+      "description": "Booking-led websites for hotels, tours, and appointments.",
+      "canonical": "https://arnav.theglobalorbit.com/booking-website-development-nepal",
+      "robots": "index, follow",
+      "ogTitle": "Booking Website Development Nepal",
+      "ogUrl": "https://arnav.theglobalorbit.com/booking-website-development-nepal",
+      "ogImage": "https://arnav.theglobalorbit.com/brand/hero-uhd.jpg",
+      "h1Count": 1,
+      "chain": [
+        {
+          "url": "https://arnav.theglobalorbit.com/booking-website-development-nepal",
+          "status": 200,
+          "location": null
+        }
+      ]
+    },
+    {
+      "url": "https://arnav.theglobalorbit.com/careers",
+      "finalUrl": "https://arnav.theglobalorbit.com/careers",
+      "status": 200,
+      "title": "Careers",
+      "description": "Join Global Orbit — engineering, design, and SEO roles across Nepal, India, and the United States.",
+      "canonical": "https://arnav.theglobalorbit.com/careers",
+      "robots": "index, follow",
+      "ogTitle": "Careers",
+      "ogUrl": "https://arnav.theglobalorbit.com/careers",
+      "ogImage": "https://arnav.theglobalorbit.com/brand/hero-uhd.jpg",
+      "h1Count": 1,
+      "chain": [
+        {
+          "url": "https://arnav.theglobalorbit.com/careers",
+          "status": 200,
+          "location": null
+        }
+      ]
+    },
+    {
+      "url": "https://arnav.theglobalorbit.com/careers/senior-full-stack-developer",
+      "finalUrl": "https://arnav.theglobalorbit.com/careers/senior-full-stack-developer",
+      "status": 200,
+      "title": "Senior Full-Stack Developer · Careers",
+      "description": "Own features across Next.js and Laravel — from API design to polished UI and production monitoring.",
+      "canonical": "https://arnav.theglobalorbit.com/careers/senior-full-stack-developer",
+      "robots": "index, follow",
+      "ogTitle": "Senior Full-Stack Developer · Careers",
+      "ogUrl": "https://arnav.theglobalorbit.com/careers/senior-full-stack-developer",
+      "ogImage": "https://arnav.theglobalorbit.com/brand/hero-uhd.jpg",
+      "h1Count": 1,
+      "chain": [
+        {
+          "url": "https://arnav.theglobalorbit.com/careers/senior-full-stack-developer",
+          "status": 200,
+          "location": null
+        }
+      ]
+    },
+    {
+      "url": "https://arnav.theglobalorbit.com/careers/seo-specialist",
+      "finalUrl": "https://arnav.theglobalorbit.com/careers/seo-specialist",
+      "status": 200,
+      "title": "SEO Specialist · Careers",
+      "description": "Technical SEO, content architecture, and measurable growth for Nepal and international export brands.",
+      "canonical": "https://arnav.theglobalorbit.com/careers/seo-specialist",
+      "robots": "index, follow",
+      "ogTitle": "SEO Specialist · Careers",
+      "ogUrl": "https://arnav.theglobalorbit.com/careers/seo-specialist",
+      "ogImage": "https://arnav.theglobalorbit.com/brand/hero-uhd.jpg",
+      "h1Count": 1,
+      "chain": [
+        {
+          "url": "https://arnav.theglobalorbit.com/careers/seo-specialist",
+          "status": 200,
+          "location": null
+        }
+      ]
+    },
+    {
+      "url": "https://arnav.theglobalorbit.com/careers/ui-ux-designer",
+      "finalUrl": "https://arnav.theglobalorbit.com/careers/ui-ux-designer",
+      "status": 200,
+      "title": "UI/UX Designer · Careers",
+      "description": "Design systems and product flows for hotel, trek, ecommerce, and SaaS clients — Figma to shipped UI.",
+      "canonical": "https://arnav.theglobalorbit.com/careers/ui-ux-designer",
+      "robots": "index, follow",
+      "ogTitle": "UI/UX Designer · Careers",
+      "ogUrl": "https://arnav.theglobalorbit.com/careers/ui-ux-designer",
+      "ogImage": "https://arnav.theglobalorbit.com/brand/hero-uhd.jpg",
+      "h1Count": 1,
+      "chain": [
+        {
+          "url": "https://arnav.theglobalorbit.com/careers/ui-ux-designer",
+          "status": 200,
+          "location": null
+        }
+      ]
+    },
+    {
+      "url": "https://arnav.theglobalorbit.com/contact",
+      "finalUrl": "https://arnav.theglobalorbit.com/contact",
+      "status": 200,
+      "title": "Contact · Free Consultation",
+      "description": "Contact Global Orbit — free consultation for websites, apps, ERP, SaaS, and SEO. Nepal, India, and United States sales offices. WhatsApp +977-9812322339.",
+      "canonical": "https://arnav.theglobalorbit.com/contact",
+      "robots": "index, follow",
+      "ogTitle": "Contact · Free Consultation",
+      "ogUrl": "https://arnav.theglobalorbit.com/contact",
+      "ogImage": "https://arnav.theglobalorbit.com/brand/hero-uhd.jpg",
+      "h1Count": 1,
+      "chain": [
+        {
+          "url": "https://arnav.theglobalorbit.com/contact",
+          "status": 200,
+          "location": null
+        }
+      ]
+    },
+    {
+      "url": "https://arnav.theglobalorbit.com/custom-software-development-nepal",
+      "finalUrl": "https://arnav.theglobalorbit.com/custom-software-development-nepal",
+      "status": 200,
+      "title": "Custom Software Development Nepal",
+      "description": "Bespoke software, ERP, and internal tools for Nepali operators.",
+      "canonical": "https://arnav.theglobalorbit.com/custom-software-development-nepal",
+      "robots": "index, follow",
+      "ogTitle": "Custom Software Development Nepal",
+      "ogUrl": "https://arnav.theglobalorbit.com/custom-software-development-nepal",
+      "ogImage": "https://arnav.theglobalorbit.com/brand/hero-uhd.jpg",
+      "h1Count": 1,
+      "chain": [
+        {
+          "url": "https://arnav.theglobalorbit.com/custom-software-development-nepal",
+          "status": 200,
+          "location": null
+        }
+      ]
+    },
+    {
+      "url": "https://arnav.theglobalorbit.com/ecommerce-website-development-nepal",
+      "finalUrl": "https://arnav.theglobalorbit.com/ecommerce-website-development-nepal",
+      "status": 200,
+      "title": "Ecommerce Website Development Nepal",
+      "description": "Shopify, WooCommerce, and custom stores for Nepali brands.",
+      "canonical": "https://arnav.theglobalorbit.com/ecommerce-website-development-nepal",
+      "robots": "index, follow",
+      "ogTitle": "Ecommerce Website Development Nepal",
+      "ogUrl": "https://arnav.theglobalorbit.com/ecommerce-website-development-nepal",
+      "ogImage": "https://arnav.theglobalorbit.com/brand/hero-uhd.jpg",
+      "h1Count": 1,
+      "chain": [
+        {
+          "url": "https://arnav.theglobalorbit.com/ecommerce-website-development-nepal",
+          "status": 200,
+          "location": null
+        }
+      ]
+    },
+    {
+      "url": "https://arnav.theglobalorbit.com/erp-software-nepal",
+      "finalUrl": "https://arnav.theglobalorbit.com/erp-software-nepal",
+      "status": 200,
+      "title": "ERP Software Nepal",
+      "description": "ERP systems for manufacturing, hotels, warehouses, and retail.",
+      "canonical": "https://arnav.theglobalorbit.com/erp-software-nepal",
+      "robots": "index, follow",
+      "ogTitle": "ERP Software Nepal",
+      "ogUrl": "https://arnav.theglobalorbit.com/erp-software-nepal",
+      "ogImage": "https://arnav.theglobalorbit.com/brand/hero-uhd.jpg",
+      "h1Count": 1,
+      "chain": [
+        {
+          "url": "https://arnav.theglobalorbit.com/erp-software-nepal",
+          "status": 200,
+          "location": null
+        }
+      ]
+    },
+    {
+      "url": "https://arnav.theglobalorbit.com/hotel-website-development-nepal",
+      "finalUrl": "https://arnav.theglobalorbit.com/hotel-website-development-nepal",
+      "status": 200,
+      "title": "Hotel Website Development Nepal",
+      "description": "Hotel websites with booking paths and channel-ready structure.",
+      "canonical": "https://arnav.theglobalorbit.com/hotel-website-development-nepal",
+      "robots": "index, follow",
+      "ogTitle": "Hotel Website Development Nepal",
+      "ogUrl": "https://arnav.theglobalorbit.com/hotel-website-development-nepal",
+      "ogImage": "https://arnav.theglobalorbit.com/brand/hero-uhd.jpg",
+      "h1Count": 1,
+      "chain": [
+        {
+          "url": "https://arnav.theglobalorbit.com/hotel-website-development-nepal",
+          "status": 200,
+          "location": null
+        }
+      ]
+    },
+    {
+      "url": "https://arnav.theglobalorbit.com/inside-orbit",
+      "finalUrl": "https://arnav.theglobalorbit.com/inside-orbit",
+      "status": 200,
+      "title": "Inside Orbit",
+      "description": "How Global Orbit works as a studio.",
+      "canonical": "https://arnav.theglobalorbit.com/inside-orbit",
+      "robots": "index, follow",
+      "ogTitle": "Inside Orbit",
+      "ogUrl": "https://arnav.theglobalorbit.com/inside-orbit",
+      "ogImage": "https://arnav.theglobalorbit.com/brand/hero-uhd.jpg",
+      "h1Count": 1,
+      "chain": [
+        {
+          "url": "https://arnav.theglobalorbit.com/inside-orbit",
+          "status": 200,
+          "location": null
+        }
+      ]
+    },
+    {
+      "url": "https://arnav.theglobalorbit.com/local-seo-nepal",
+      "finalUrl": "https://arnav.theglobalorbit.com/local-seo-nepal",
+      "status": 200,
+      "title": "Local SEO Nepal",
+      "description": "Maps, citations, and local pack rankings for Kathmandu businesses.",
+      "canonical": "https://arnav.theglobalorbit.com/local-seo-nepal",
+      "robots": "index, follow",
+      "ogTitle": "Local SEO Nepal",
+      "ogUrl": "https://arnav.theglobalorbit.com/local-seo-nepal",
+      "ogImage": "https://arnav.theglobalorbit.com/brand/hero-uhd.jpg",
+      "h1Count": 1,
+      "chain": [
+        {
+          "url": "https://arnav.theglobalorbit.com/local-seo-nepal",
+          "status": 200,
+          "location": null
+        }
+      ]
+    },
+    {
+      "url": "https://arnav.theglobalorbit.com/orbit-software",
+      "finalUrl": "https://arnav.theglobalorbit.com/orbit-software",
+      "status": 200,
+      "title": "ERP Software Nepal · Orbit Software",
+      "description": "Orbit Software from Global Orbit: hotel PMS, billing, OTA, warehouse, manufacturing ERP, restaurant POS, CRM, and SaaS — operator systems built in Nepal.",
+      "canonical": "https://arnav.theglobalorbit.com/orbit-software",
+      "robots": "index, follow",
+      "ogTitle": "ERP Software Nepal · Orbit Software",
+      "ogUrl": "https://arnav.theglobalorbit.com/orbit-software",
+      "ogImage": "https://arnav.theglobalorbit.com/brand/hero-uhd.jpg",
+      "h1Count": 1,
+      "chain": [
+        {
+          "url": "https://arnav.theglobalorbit.com/orbit-software",
+          "status": 200,
+          "location": null
+        }
+      ]
+    },
+    {
+      "url": "https://arnav.theglobalorbit.com/orbit-software/android-apps",
+      "finalUrl": "https://arnav.theglobalorbit.com/orbit-software/android-apps",
+      "status": 200,
+      "title": "Android Apps · Kotlin &amp; Play Store",
+      "description": "Android apps built for the field. Kotlin-forward Android builds for booking, logistics, and staff — Material motion, push notifications, and secure APIs to your",
+      "canonical": "https://arnav.theglobalorbit.com/orbit-software/android-apps",
+      "robots": "index, follow",
+      "ogTitle": "Android Apps · Kotlin &amp; Play Store",
+      "ogUrl": "https://arnav.theglobalorbit.com/orbit-software/android-apps",
+      "ogImage": "https://arnav.theglobalorbit.com/brand/hero-uhd.jpg",
+      "h1Count": 1,
+      "chain": [
+        {
+          "url": "https://arnav.theglobalorbit.com/orbit-software/android-apps",
+          "status": 200,
+          "location": null
+        }
+      ]
+    },
+    {
+      "url": "https://arnav.theglobalorbit.com/orbit-software/billing-software",
+      "finalUrl": "https://arnav.theglobalorbit.com/orbit-software/billing-software",
+      "status": 200,
+      "title": "Billing Software | Business Billing &amp; Invoicing | Global Orbit",
+      "description": "Billing and invoice management for retailers, distributors, and service businesses — sales and purchase invoices, tax-ready documents, payment tracking, and rep",
+      "canonical": "https://arnav.theglobalorbit.com/orbit-software/billing-software",
+      "robots": "index, follow",
+      "ogTitle": "Billing Software | Business Billing &amp; Invoicing | Global Orbit",
+      "ogUrl": "https://arnav.theglobalorbit.com/orbit-software/billing-software",
+      "ogImage": "https://arnav.theglobalorbit.com/brand/hero-uhd.jpg",
+      "h1Count": 1,
+      "chain": [
+        {
+          "url": "https://arnav.theglobalorbit.com/orbit-software/billing-software",
+          "status": 200,
+          "location": null
+        }
+      ]
+    },
+    {
+      "url": "https://arnav.theglobalorbit.com/orbit-software/crm-software",
+      "finalUrl": "https://arnav.theglobalorbit.com/orbit-software/crm-software",
+      "status": 200,
+      "title": "CRM Software | Lead &amp; Customer Management | Global Orbit",
+      "description": "CRM software for leads, pipelines, follow-ups, deals, and sales reporting — practical customer relationship management for Nepali sales teams.",
+      "canonical": "https://arnav.theglobalorbit.com/orbit-software/crm-software",
+      "robots": "index, follow",
+      "ogTitle": "CRM Software | Lead &amp; Customer Management | Global Orbit",
+      "ogUrl": "https://arnav.theglobalorbit.com/orbit-software/crm-software",
+      "ogImage": "https://arnav.theglobalorbit.com/brand/hero-uhd.jpg",
+      "h1Count": 1,
+      "chain": [
+        {
+          "url": "https://arnav.theglobalorbit.com/orbit-software/crm-software",
+          "status": 200,
+          "location": null
+        }
+      ]
+    },
+    {
+      "url": "https://arnav.theglobalorbit.com/orbit-software/hotel-management-system",
+      "finalUrl": "https://arnav.theglobalorbit.com/orbit-software/hotel-management-system",
+      "status": 200,
+      "title": "Hotel Management System | Hotel Operations Software | Global Orbit",
+      "description": "Hotel management software for front desk, reservations, room inventory, housekeeping, guest folios, and occupancy reporting — built for Nepali hospitality opera",
+      "canonical": "https://arnav.theglobalorbit.com/orbit-software/hotel-management-system",
+      "robots": "index, follow",
+      "ogTitle": "Hotel Management System | Hotel Operations Software | Global Orbit",
+      "ogUrl": "https://arnav.theglobalorbit.com/orbit-software/hotel-management-system",
+      "ogImage": "https://arnav.theglobalorbit.com/brand/hero-uhd.jpg",
+      "h1Count": 1,
+      "chain": [
+        {
+          "url": "https://arnav.theglobalorbit.com/orbit-software/hotel-management-system",
+          "status": 200,
+          "location": null
+        }
+      ]
+    },
+    {
+      "url": "https://arnav.theglobalorbit.com/orbit-software/ios-apps",
+      "finalUrl": "https://arnav.theglobalorbit.com/orbit-software/ios-apps",
+      "status": 200,
+      "title": "iOS Apps · SwiftUI &amp; App Store",
+      "description": "iOS apps with Apple-grade polish. SwiftUI and UIKit builds for premium brands — smooth motion, Sign in with Apple, in-app purchases, and Node.js backends your w",
+      "canonical": "https://arnav.theglobalorbit.com/orbit-software/ios-apps",
+      "robots": "index, follow",
+      "ogTitle": "iOS Apps · SwiftUI &amp; App Store",
+      "ogUrl": "https://arnav.theglobalorbit.com/orbit-software/ios-apps",
+      "ogImage": "https://arnav.theglobalorbit.com/brand/hero-uhd.jpg",
+      "h1Count": 1,
+      "chain": [
+        {
+          "url": "https://arnav.theglobalorbit.com/orbit-software/ios-apps",
+          "status": 200,
+          "location": null
+        }
+      ]
+    },
+    {
+      "url": "https://arnav.theglobalorbit.com/orbit-software/manufacturing-erp",
+      "finalUrl": "https://arnav.theglobalorbit.com/orbit-software/manufacturing-erp",
+      "status": 200,
+      "title": "Manufacturing ERP",
+      "description": "Plan production, manage BOM, track work orders, and control quality end-to-end.",
+      "canonical": "https://arnav.theglobalorbit.com/orbit-software/manufacturing-erp",
+      "robots": "index, follow",
+      "ogTitle": "Manufacturing ERP",
+      "ogUrl": "https://arnav.theglobalorbit.com/orbit-software/manufacturing-erp",
+      "ogImage": "https://arnav.theglobalorbit.com/brand/hero-uhd.jpg",
+      "h1Count": 1,
+      "chain": [
+        {
+          "url": "https://arnav.theglobalorbit.com/orbit-software/manufacturing-erp",
+          "status": 200,
+          "location": null
+        }
+      ]
+    },
+    {
+      "url": "https://arnav.theglobalorbit.com/orbit-software/ota-management-system",
+      "finalUrl": "https://arnav.theglobalorbit.com/orbit-software/ota-management-system",
+      "status": 200,
+      "title": "OTA Management System | Travel Booking Management | Global Orbit",
+      "description": "Online travel agency and tour operator software for centralized bookings, supplier inventory, packages, commissions, and operational reporting — from Global Orb",
+      "canonical": "https://arnav.theglobalorbit.com/orbit-software/ota-management-system",
+      "robots": "index, follow",
+      "ogTitle": "OTA Management System | Travel Booking Management | Global Orbit",
+      "ogUrl": "https://arnav.theglobalorbit.com/orbit-software/ota-management-system",
+      "ogImage": "https://arnav.theglobalorbit.com/brand/hero-uhd.jpg",
+      "h1Count": 1,
+      "chain": [
+        {
+          "url": "https://arnav.theglobalorbit.com/orbit-software/ota-management-system",
+          "status": 200,
+          "location": null
+        }
+      ]
+    },
+    {
+      "url": "https://arnav.theglobalorbit.com/orbit-software/restaurant-pos",
+      "finalUrl": "https://arnav.theglobalorbit.com/orbit-software/restaurant-pos",
+      "status": 200,
+      "title": "Restaurant POS System | Restaurant Billing Software | Global Orbit",
+      "description": "Restaurant POS for table service, takeaway, kitchen tickets, menu management, split bills, and shift reports — built for Kathmandu service speed.",
+      "canonical": "https://arnav.theglobalorbit.com/orbit-software/restaurant-pos",
+      "robots": "index, follow",
+      "ogTitle": "Restaurant POS System | Restaurant Billing Software | Global Orbit",
+      "ogUrl": "https://arnav.theglobalorbit.com/orbit-software/restaurant-pos",
+      "ogImage": "https://arnav.theglobalorbit.com/brand/hero-uhd.jpg",
+      "h1Count": 1,
+      "chain": [
+        {
+          "url": "https://arnav.theglobalorbit.com/orbit-software/restaurant-pos",
+          "status": 200,
+          "location": null
+        }
+      ]
+    },
+    {
+      "url": "https://arnav.theglobalorbit.com/orbit-software/saas-business-suite",
+      "finalUrl": "https://arnav.theglobalorbit.com/orbit-software/saas-business-suite",
+      "status": 200,
+      "title": "SaaS Business Suite",
+      "description": "All-in-one platform — billing, CRM, analytics, and automation in a single dashboard.",
+      "canonical": "https://arnav.theglobalorbit.com/orbit-software/saas-business-suite",
+      "robots": "index, follow",
+      "ogTitle": "SaaS Business Suite",
+      "ogUrl": "https://arnav.theglobalorbit.com/orbit-software/saas-business-suite",
+      "ogImage": "https://arnav.theglobalorbit.com/brand/hero-uhd.jpg",
+      "h1Count": 1,
+      "chain": [
+        {
+          "url": "https://arnav.theglobalorbit.com/orbit-software/saas-business-suite",
+          "status": 200,
+          "location": null
+        }
+      ]
+    },
+    {
+      "url": "https://arnav.theglobalorbit.com/orbit-software/saas-management-system",
+      "finalUrl": "https://arnav.theglobalorbit.com/orbit-software/saas-management-system",
+      "status": 200,
+      "title": "SaaS Management System",
+      "description": "Backend for your own SaaS: tenants, billing, roles, usage meters, and admin consoles.",
+      "canonical": "https://arnav.theglobalorbit.com/orbit-software/saas-management-system",
+      "robots": "index, follow",
+      "ogTitle": "SaaS Management System",
+      "ogUrl": "https://arnav.theglobalorbit.com/orbit-software/saas-management-system",
+      "ogImage": "https://arnav.theglobalorbit.com/brand/hero-uhd.jpg",
+      "h1Count": 1,
+      "chain": [
+        {
+          "url": "https://arnav.theglobalorbit.com/orbit-software/saas-management-system",
+          "status": 200,
+          "location": null
+        }
+      ]
+    },
+    {
+      "url": "https://arnav.theglobalorbit.com/orbit-software/warehouse-management",
+      "finalUrl": "https://arnav.theglobalorbit.com/orbit-software/warehouse-management",
+      "status": 200,
+      "title": "Warehouse Management Software | Inventory Control | Global Orbit",
+      "description": "Warehouse and inventory management for receiving, stock tracking, transfers, picking, and reporting — with clear visibility for Nepali distributors and retailer",
+      "canonical": "https://arnav.theglobalorbit.com/orbit-software/warehouse-management",
+      "robots": "index, follow",
+      "ogTitle": "Warehouse Management Software | Inventory Control | Global Orbit",
+      "ogUrl": "https://arnav.theglobalorbit.com/orbit-software/warehouse-management",
+      "ogImage": "https://arnav.theglobalorbit.com/brand/hero-uhd.jpg",
+      "h1Count": 1,
+      "chain": [
+        {
+          "url": "https://arnav.theglobalorbit.com/orbit-software/warehouse-management",
+          "status": 200,
+          "location": null
+        }
+      ]
+    },
+    {
+      "url": "https://arnav.theglobalorbit.com/orbit-software/web-apps",
+      "finalUrl": "https://arnav.theglobalorbit.com/orbit-software/web-apps",
+      "status": 200,
+      "title": "Web Apps · Next.js &amp; PWA",
+      "description": "Progressive web apps that feel native. Installable PWAs, customer portals, and admin consoles on Next.js — fast first paint, SEO built in, and one codebase for",
+      "canonical": "https://arnav.theglobalorbit.com/orbit-software/web-apps",
+      "robots": "index, follow",
+      "ogTitle": "Web Apps · Next.js &amp; PWA",
+      "ogUrl": "https://arnav.theglobalorbit.com/orbit-software/web-apps",
+      "ogImage": "https://arnav.theglobalorbit.com/brand/hero-uhd.jpg",
+      "h1Count": 1,
+      "chain": [
+        {
+          "url": "https://arnav.theglobalorbit.com/orbit-software/web-apps",
+          "status": 200,
+          "location": null
+        }
+      ]
+    },
+    {
+      "url": "https://arnav.theglobalorbit.com/packages",
+      "finalUrl": "https://arnav.theglobalorbit.com/packages",
+      "status": 200,
+      "title": "Packages",
+      "description": "Website and SEO packages from Global Orbit Nepal.",
+      "canonical": "https://arnav.theglobalorbit.com/packages",
+      "robots": "index, follow",
+      "ogTitle": "Packages",
+      "ogUrl": "https://arnav.theglobalorbit.com/packages",
+      "ogImage": "https://arnav.theglobalorbit.com/brand/hero-uhd.jpg",
+      "h1Count": 1,
+      "chain": [
+        {
+          "url": "https://arnav.theglobalorbit.com/packages",
+          "status": 200,
+          "location": null
+        }
+      ]
+    },
+    {
+      "url": "https://arnav.theglobalorbit.com/packages/business-website",
+      "finalUrl": "https://arnav.theglobalorbit.com/packages/business-website",
+      "status": 200,
+      "title": "Business Website",
+      "description": "Multi-section marketing site with lead capture and integrations.",
+      "canonical": "https://arnav.theglobalorbit.com/packages/business-website",
+      "robots": "index, follow",
+      "ogTitle": "Business Website",
+      "ogUrl": "https://arnav.theglobalorbit.com/packages/business-website",
+      "ogImage": "https://arnav.theglobalorbit.com/brand/hero-uhd.jpg",
+      "h1Count": 1,
+      "chain": [
+        {
+          "url": "https://arnav.theglobalorbit.com/packages/business-website",
+          "status": 200,
+          "location": null
+        }
+      ]
+    },
+    {
+      "url": "https://arnav.theglobalorbit.com/packages/enterprise-website",
+      "finalUrl": "https://arnav.theglobalorbit.com/packages/enterprise-website",
+      "status": 200,
+      "title": "Enterprise Website",
+      "description": "Complex information architecture, multilingual, and operations.",
+      "canonical": "https://arnav.theglobalorbit.com/packages/enterprise-website",
+      "robots": "index, follow",
+      "ogTitle": "Enterprise Website",
+      "ogUrl": "https://arnav.theglobalorbit.com/packages/enterprise-website",
+      "ogImage": "https://arnav.theglobalorbit.com/brand/hero-uhd.jpg",
+      "h1Count": 1,
+      "chain": [
+        {
+          "url": "https://arnav.theglobalorbit.com/packages/enterprise-website",
+          "status": 200,
+          "location": null
+        }
+      ]
+    },
+    {
+      "url": "https://arnav.theglobalorbit.com/packages/professional-website",
+      "finalUrl": "https://arnav.theglobalorbit.com/packages/professional-website",
+      "status": 200,
+      "title": "Professional Website",
+      "description": "Business site with service pages, blog, and conversion paths.",
+      "canonical": "https://arnav.theglobalorbit.com/packages/professional-website",
+      "robots": "index, follow",
+      "ogTitle": "Professional Website",
+      "ogUrl": "https://arnav.theglobalorbit.com/packages/professional-website",
+      "ogImage": "https://arnav.theglobalorbit.com/brand/hero-uhd.jpg",
+      "h1Count": 1,
+      "chain": [
+        {
+          "url": "https://arnav.theglobalorbit.com/packages/professional-website",
+          "status": 200,
+          "location": null
+        }
+      ]
+    },
+    {
+      "url": "https://arnav.theglobalorbit.com/packages/seo-enterprise",
+      "finalUrl": "https://arnav.theglobalorbit.com/packages/seo-enterprise",
+      "status": 200,
+      "title": "SEO Enterprise",
+      "description": "Multi-site, multi-market search operations.",
+      "canonical": "https://arnav.theglobalorbit.com/packages/seo-enterprise",
+      "robots": "index, follow",
+      "ogTitle": "SEO Enterprise",
+      "ogUrl": "https://arnav.theglobalorbit.com/packages/seo-enterprise",
+      "ogImage": "https://arnav.theglobalorbit.com/brand/hero-uhd.jpg",
+      "h1Count": 1,
+      "chain": [
+        {
+          "url": "https://arnav.theglobalorbit.com/packages/seo-enterprise",
+          "status": 200,
+          "location": null
+        }
+      ]
+    },
+    {
+      "url": "https://arnav.theglobalorbit.com/packages/seo-growth",
+      "finalUrl": "https://arnav.theglobalorbit.com/packages/seo-growth",
+      "status": 200,
+      "title": "SEO Growth",
+      "description": "Content + technical work aimed at first-page movement.",
+      "canonical": "https://arnav.theglobalorbit.com/packages/seo-growth",
+      "robots": "index, follow",
+      "ogTitle": "SEO Growth",
+      "ogUrl": "https://arnav.theglobalorbit.com/packages/seo-growth",
+      "ogImage": "https://arnav.theglobalorbit.com/brand/hero-uhd.jpg",
+      "h1Count": 1,
+      "chain": [
+        {
+          "url": "https://arnav.theglobalorbit.com/packages/seo-growth",
+          "status": 200,
+          "location": null
+        }
+      ]
+    },
+    {
+      "url": "https://arnav.theglobalorbit.com/packages/seo-pro",
+      "finalUrl": "https://arnav.theglobalorbit.com/packages/seo-pro",
+      "status": 200,
+      "title": "SEO Pro",
+      "description": "Aggressive growth for competitive Nepali and regional terms.",
+      "canonical": "https://arnav.theglobalorbit.com/packages/seo-pro",
+      "robots": "index, follow",
+      "ogTitle": "SEO Pro",
+      "ogUrl": "https://arnav.theglobalorbit.com/packages/seo-pro",
+      "ogImage": "https://arnav.theglobalorbit.com/brand/hero-uhd.jpg",
+      "h1Count": 1,
+      "chain": [
+        {
+          "url": "https://arnav.theglobalorbit.com/packages/seo-pro",
+          "status": 200,
+          "location": null
+        }
+      ]
+    },
+    {
+      "url": "https://arnav.theglobalorbit.com/packages/seo-starter",
+      "finalUrl": "https://arnav.theglobalorbit.com/packages/seo-starter",
+      "status": 200,
+      "title": "SEO Starter",
+      "description": "Technical baseline and keyword map for a new domain.",
+      "canonical": "https://arnav.theglobalorbit.com/packages/seo-starter",
+      "robots": "index, follow",
+      "ogTitle": "SEO Starter",
+      "ogUrl": "https://arnav.theglobalorbit.com/packages/seo-starter",
+      "ogImage": "https://arnav.theglobalorbit.com/brand/hero-uhd.jpg",
+      "h1Count": 1,
+      "chain": [
+        {
+          "url": "https://arnav.theglobalorbit.com/packages/seo-starter",
+          "status": 200,
+          "location": null
+        }
+      ]
+    },
+    {
+      "url": "https://arnav.theglobalorbit.com/packages/starter-website",
+      "finalUrl": "https://arnav.theglobalorbit.com/packages/starter-website",
+      "status": 200,
+      "title": "Starter Website",
+      "description": "Landing page for new brands that need to be live quickly.",
+      "canonical": "https://arnav.theglobalorbit.com/packages/starter-website",
+      "robots": "index, follow",
+      "ogTitle": "Starter Website",
+      "ogUrl": "https://arnav.theglobalorbit.com/packages/starter-website",
+      "ogImage": "https://arnav.theglobalorbit.com/brand/hero-uhd.jpg",
+      "h1Count": 1,
+      "chain": [
+        {
+          "url": "https://arnav.theglobalorbit.com/packages/starter-website",
+          "status": 200,
+          "location": null
+        }
+      ]
+    },
+    {
+      "url": "https://arnav.theglobalorbit.com/privacy-policy",
+      "finalUrl": "https://arnav.theglobalorbit.com/privacy-policy",
+      "status": 200,
+      "title": "Privacy Policy",
+      "description": "How Global Orbit collects, uses, and protects your information.",
+      "canonical": "https://arnav.theglobalorbit.com/privacy-policy",
+      "robots": "index, follow",
+      "ogTitle": "Privacy Policy",
+      "ogUrl": "https://arnav.theglobalorbit.com/privacy-policy",
+      "ogImage": "https://arnav.theglobalorbit.com/brand/hero-uhd.jpg",
+      "h1Count": 1,
+      "chain": [
+        {
+          "url": "https://arnav.theglobalorbit.com/privacy-policy",
+          "status": 200,
+          "location": null
+        }
+      ]
+    },
+    {
+      "url": "https://arnav.theglobalorbit.com/projects",
+      "finalUrl": "https://arnav.theglobalorbit.com/projects",
+      "status": 200,
+      "title": "Our Work · Projects",
+      "description": "Hospitality, travel, spa, interior, and SaaS — nine production launches with Next.js, Node, and SEO baked in. Browse the mosaic, then scroll each case stud",
+      "canonical": "https://arnav.theglobalorbit.com/projects",
+      "robots": "index, follow",
+      "ogTitle": "Our Work · Projects",
+      "ogUrl": "https://arnav.theglobalorbit.com/projects",
+      "ogImage": "https://arnav.theglobalorbit.com/brand/hero-uhd.jpg",
+      "h1Count": 1,
+      "chain": [
+        {
+          "url": "https://arnav.theglobalorbit.com/projects",
+          "status": 200,
+          "location": null
+        }
+      ]
+    },
+    {
+      "url": "https://arnav.theglobalorbit.com/resort-website-development-nepal",
+      "finalUrl": "https://arnav.theglobalorbit.com/resort-website-development-nepal",
+      "status": 200,
+      "title": "Resort Website Development Nepal",
+      "description": "Resort sites with galleries, seasons, and booking CTAs.",
+      "canonical": "https://arnav.theglobalorbit.com/resort-website-development-nepal",
+      "robots": "index, follow",
+      "ogTitle": "Resort Website Development Nepal",
+      "ogUrl": "https://arnav.theglobalorbit.com/resort-website-development-nepal",
+      "ogImage": "https://arnav.theglobalorbit.com/brand/hero-uhd.jpg",
+      "h1Count": 1,
+      "chain": [
+        {
+          "url": "https://arnav.theglobalorbit.com/resort-website-development-nepal",
+          "status": 200,
+          "location": null
+        }
+      ]
+    },
+    {
+      "url": "https://arnav.theglobalorbit.com/restaurant-website-development-nepal",
+      "finalUrl": "https://arnav.theglobalorbit.com/restaurant-website-development-nepal",
+      "status": 200,
+      "title": "Restaurant Website Development Nepal",
+      "description": "Menus, reservations, and local SEO for restaurants.",
+      "canonical": "https://arnav.theglobalorbit.com/restaurant-website-development-nepal",
+      "robots": "index, follow",
+      "ogTitle": "Restaurant Website Development Nepal",
+      "ogUrl": "https://arnav.theglobalorbit.com/restaurant-website-development-nepal",
+      "ogImage": "https://arnav.theglobalorbit.com/brand/hero-uhd.jpg",
+      "h1Count": 1,
+      "chain": [
+        {
+          "url": "https://arnav.theglobalorbit.com/restaurant-website-development-nepal",
+          "status": 200,
+          "location": null
+        }
+      ]
+    },
+    {
+      "url": "https://arnav.theglobalorbit.com/seo-services-nepal",
+      "finalUrl": "https://arnav.theglobalorbit.com/seo-services-nepal",
+      "status": 200,
+      "title": "SEO Services Nepal",
+      "description": "Technical and content SEO for Google visibility in Nepal.",
+      "canonical": "https://arnav.theglobalorbit.com/seo-services-nepal",
+      "robots": "index, follow",
+      "ogTitle": "SEO Services Nepal",
+      "ogUrl": "https://arnav.theglobalorbit.com/seo-services-nepal",
+      "ogImage": "https://arnav.theglobalorbit.com/brand/hero-uhd.jpg",
+      "h1Count": 1,
+      "chain": [
+        {
+          "url": "https://arnav.theglobalorbit.com/seo-services-nepal",
+          "status": 200,
+          "location": null
+        }
+      ]
+    },
+    {
+      "url": "https://arnav.theglobalorbit.com/service/ai-automation",
+      "finalUrl": "https://arnav.theglobalorbit.com/service/ai-automation",
+      "status": 200,
+      "title": "AI Automation Nepal · Workflows, WhatsApp, Invoice Capture",
+      "description": "We wire models into the work you already run — WhatsApp, invoices, PMS, POS, and CRM — with audit logs, human gates, and Kathmandu delivery. No stock photos. No",
+      "canonical": "https://arnav.theglobalorbit.com/service/ai-automation",
+      "robots": "index, follow",
+      "ogTitle": "AI Automation Nepal · Workflows, WhatsApp, Invoice Capture",
+      "ogUrl": "https://arnav.theglobalorbit.com/service/ai-automation",
+      "ogImage": "https://arnav.theglobalorbit.com/brand/hero-uhd.jpg",
+      "h1Count": 1,
+      "chain": [
+        {
+          "url": "https://arnav.theglobalorbit.com/service/ai-automation",
+          "status": 200,
+          "location": null
+        }
+      ]
+    },
+    {
+      "url": "https://arnav.theglobalorbit.com/service/digital-marketing-nepal",
+      "finalUrl": "https://arnav.theglobalorbit.com/service/digital-marketing-nepal",
+      "status": 200,
+      "title": "Digital Marketing Nepal",
+      "description": "Complete digital marketing services in Nepal including SEO, Google Ads, and social media.",
+      "canonical": "https://arnav.theglobalorbit.com/service/digital-marketing-nepal",
+      "robots": "index, follow",
+      "ogTitle": "Digital Marketing Nepal",
+      "ogUrl": "https://arnav.theglobalorbit.com/service/digital-marketing-nepal",
+      "ogImage": "https://arnav.theglobalorbit.com/brand/hero-uhd.jpg",
+      "h1Count": 1,
+      "chain": [
+        {
+          "url": "https://arnav.theglobalorbit.com/service/digital-marketing-nepal",
+          "status": 200,
+          "location": null
+        }
+      ]
+    },
+    {
+      "url": "https://arnav.theglobalorbit.com/service/ecommerce-development-nepal",
+      "finalUrl": "https://arnav.theglobalorbit.com/service/ecommerce-development-nepal",
+      "status": 200,
+      "title": "Ecommerce Development Nepal",
+      "description": "Custom ecommerce website development in Nepal.",
+      "canonical": "https://arnav.theglobalorbit.com/service/ecommerce-development-nepal",
+      "robots": "index, follow",
+      "ogTitle": "Ecommerce Development Nepal",
+      "ogUrl": "https://arnav.theglobalorbit.com/service/ecommerce-development-nepal",
+      "ogImage": "https://arnav.theglobalorbit.com/brand/hero-uhd.jpg",
+      "h1Count": 1,
+      "chain": [
+        {
+          "url": "https://arnav.theglobalorbit.com/service/ecommerce-development-nepal",
+          "status": 200,
+          "location": null
+        }
+      ]
+    },
+    {
+      "url": "https://arnav.theglobalorbit.com/service/erp-crm-software-nepal",
+      "finalUrl": "https://arnav.theglobalorbit.com/service/erp-crm-software-nepal",
+      "status": 200,
+      "title": "ERP &amp; CRM Software Nepal",
+      "description": "Custom ERP and CRM software development in Nepal.",
+      "canonical": "https://arnav.theglobalorbit.com/service/erp-crm-software-nepal",
+      "robots": "index, follow",
+      "ogTitle": "ERP &amp; CRM Software Nepal",
+      "ogUrl": "https://arnav.theglobalorbit.com/service/erp-crm-software-nepal",
+      "ogImage": "https://arnav.theglobalorbit.com/brand/hero-uhd.jpg",
+      "h1Count": 1,
+      "chain": [
+        {
+          "url": "https://arnav.theglobalorbit.com/service/erp-crm-software-nepal",
+          "status": 200,
+          "location": null
+        }
+      ]
+    },
+    {
+      "url": "https://arnav.theglobalorbit.com/service/google-ranking-services-nepal",
+      "finalUrl": "https://arnav.theglobalorbit.com/service/google-ranking-services-nepal",
+      "status": 200,
+      "title": "Google Ranking Services Nepal",
+      "description": "Google ranking services to get your business on Page 1 in Nepal.",
+      "canonical": "https://arnav.theglobalorbit.com/service/google-ranking-services-nepal",
+      "robots": "index, follow",
+      "ogTitle": "Google Ranking Services Nepal",
+      "ogUrl": "https://arnav.theglobalorbit.com/service/google-ranking-services-nepal",
+      "ogImage": "https://arnav.theglobalorbit.com/brand/hero-uhd.jpg",
+      "h1Count": 1,
+      "chain": [
+        {
+          "url": "https://arnav.theglobalorbit.com/service/google-ranking-services-nepal",
+          "status": 200,
+          "location": null
+        }
+      ]
+    },
+    {
+      "url": "https://arnav.theglobalorbit.com/service/seo-optimization-nepal",
+      "finalUrl": "https://arnav.theglobalorbit.com/service/seo-optimization-nepal",
+      "status": 200,
+      "title": "SEO Optimization Nepal",
+      "description": "Expert SEO optimization services in Nepal for Google Page 1 rankings.",
+      "canonical": "https://arnav.theglobalorbit.com/service/seo-optimization-nepal",
+      "robots": "index, follow",
+      "ogTitle": "SEO Optimization Nepal",
+      "ogUrl": "https://arnav.theglobalorbit.com/service/seo-optimization-nepal",
+      "ogImage": "https://arnav.theglobalorbit.com/brand/hero-uhd.jpg",
+      "h1Count": 1,
+      "chain": [
+        {
+          "url": "https://arnav.theglobalorbit.com/service/seo-optimization-nepal",
+          "status": 200,
+          "location": null
+        }
+      ]
+    },
+    {
+      "url": "https://arnav.theglobalorbit.com/service/website-development-nepal",
+      "finalUrl": "https://arnav.theglobalorbit.com/service/website-development-nepal",
+      "status": 200,
+      "title": "Website Development Nepal | Custom Business Websites | Global Orbit",
+      "description": "Website development in Nepal — custom business sites, e-commerce, hotel and travel websites, responsive design, and SEO-ready builds by Global Orbit Kathmandu.",
+      "canonical": "https://arnav.theglobalorbit.com/service/website-development-nepal",
+      "robots": "index, follow",
+      "ogTitle": "Website Development Nepal | Custom Business Websites | Global Orbit",
+      "ogUrl": "https://arnav.theglobalorbit.com/service/website-development-nepal",
+      "ogImage": "https://arnav.theglobalorbit.com/brand/hero-uhd.jpg",
+      "h1Count": 1,
+      "chain": [
+        {
+          "url": "https://arnav.theglobalorbit.com/service/website-development-nepal",
+          "status": 200,
+          "location": null
+        }
+      ]
+    },
+    {
+      "url": "https://arnav.theglobalorbit.com/services",
+      "finalUrl": "https://arnav.theglobalorbit.com/services",
+      "status": 200,
+      "title": "Solutions",
+      "description": "Web development, ecommerce, SEO, ads, and automation from Global Orbit Nepal.",
+      "canonical": "https://arnav.theglobalorbit.com/services",
+      "robots": "index, follow",
+      "ogTitle": "Solutions",
+      "ogUrl": "https://arnav.theglobalorbit.com/services",
+      "ogImage": "https://arnav.theglobalorbit.com/brand/hero-uhd.jpg",
+      "h1Count": 1,
+      "chain": [
+        {
+          "url": "https://arnav.theglobalorbit.com/services",
+          "status": 200,
+          "location": null
+        }
+      ]
+    },
+    {
+      "url": "https://arnav.theglobalorbit.com/services/digital-solutions",
+      "finalUrl": "https://arnav.theglobalorbit.com/services/digital-solutions",
+      "status": 200,
+      "title": "Digital solutions and integrations",
+      "description": "Operational digital solutions from Global Orbit Nepal: enquiry flows, internal tools, and integrations that match how the organisation already works.",
+      "canonical": "https://arnav.theglobalorbit.com/services/digital-solutions",
+      "robots": "index, follow",
+      "ogTitle": "Digital solutions and integrations",
+      "ogUrl": "https://arnav.theglobalorbit.com/services/digital-solutions",
+      "ogImage": "https://arnav.theglobalorbit.com/brand/hero-uhd.jpg",
+      "h1Count": 1,
+      "chain": [
+        {
+          "url": "https://arnav.theglobalorbit.com/services/digital-solutions",
+          "status": 200,
+          "location": null
+        }
+      ]
+    },
+    {
+      "url": "https://arnav.theglobalorbit.com/services/hosting",
+      "finalUrl": "https://arnav.theglobalorbit.com/services/hosting",
+      "status": 200,
+      "title": "Website hosting and operations",
+      "description": "Hosting from Global Orbit Nepal: documented operations, backups, and access control for organisations that need their site to stay theirs.",
+      "canonical": "https://arnav.theglobalorbit.com/services/hosting",
+      "robots": "index, follow",
+      "ogTitle": "Website hosting and operations",
+      "ogUrl": "https://arnav.theglobalorbit.com/services/hosting",
+      "ogImage": "https://arnav.theglobalorbit.com/brand/hero-uhd.jpg",
+      "h1Count": 1,
+      "chain": [
+        {
+          "url": "https://arnav.theglobalorbit.com/services/hosting",
+          "status": 200,
+          "location": null
+        }
+      ]
+    },
+    {
+      "url": "https://arnav.theglobalorbit.com/services/seo",
+      "finalUrl": "https://arnav.theglobalorbit.com/services/seo",
+      "status": 200,
+      "title": "SEO for company websites",
+      "description": "Search engine foundations from Global Orbit Nepal: technical structure, honest metadata, and publishing discipline—without promised rankings.",
+      "canonical": "https://arnav.theglobalorbit.com/services/seo",
+      "robots": "index, follow",
+      "ogTitle": "SEO for company websites",
+      "ogUrl": "https://arnav.theglobalorbit.com/services/seo",
+      "ogImage": "https://arnav.theglobalorbit.com/brand/hero-uhd.jpg",
+      "h1Count": 1,
+      "chain": [
+        {
+          "url": "https://arnav.theglobalorbit.com/services/seo",
+          "status": 200,
+          "location": null
+        }
+      ]
+    },
+    {
+      "url": "https://arnav.theglobalorbit.com/services/web-development",
+      "finalUrl": "https://arnav.theglobalorbit.com/services/web-development",
+      "status": 200,
+      "title": "Web development in Kathmandu",
+      "description": "Custom websites and web applications from Global Orbit Nepal: clear structure, accessible interfaces, and delivery that continues after launch.",
+      "canonical": "https://arnav.theglobalorbit.com/services/web-development",
+      "robots": "index, follow",
+      "ogTitle": "Web development in Kathmandu",
+      "ogUrl": "https://arnav.theglobalorbit.com/services/web-development",
+      "ogImage": "https://arnav.theglobalorbit.com/brand/hero-uhd.jpg",
+      "h1Count": 1,
+      "chain": [
+        {
+          "url": "https://arnav.theglobalorbit.com/services/web-development",
+          "status": 200,
+          "location": null
+        }
+      ]
+    },
+    {
+      "url": "https://arnav.theglobalorbit.com/spa-website-development-nepal",
+      "finalUrl": "https://arnav.theglobalorbit.com/spa-website-development-nepal",
+      "status": 200,
+      "title": "Spa Website Development Nepal",
+      "description": "Spa and wellness sites with treatment lists and enquiries.",
+      "canonical": "https://arnav.theglobalorbit.com/spa-website-development-nepal",
+      "robots": "index, follow",
+      "ogTitle": "Spa Website Development Nepal",
+      "ogUrl": "https://arnav.theglobalorbit.com/spa-website-development-nepal",
+      "ogImage": "https://arnav.theglobalorbit.com/brand/hero-uhd.jpg",
+      "h1Count": 1,
+      "chain": [
+        {
+          "url": "https://arnav.theglobalorbit.com/spa-website-development-nepal",
+          "status": 200,
+          "location": null
+        }
+      ]
+    },
+    {
+      "url": "https://arnav.theglobalorbit.com/studio",
+      "finalUrl": "https://arnav.theglobalorbit.com/studio",
+      "status": 200,
+      "title": "Studio",
+      "description": "UI/UX and brand design from Global Orbit.",
+      "canonical": "https://arnav.theglobalorbit.com/studio",
+      "robots": "index, follow",
+      "ogTitle": "Studio",
+      "ogUrl": "https://arnav.theglobalorbit.com/studio",
+      "ogImage": "https://arnav.theglobalorbit.com/brand/hero-uhd.jpg",
+      "h1Count": 1,
+      "chain": [
+        {
+          "url": "https://arnav.theglobalorbit.com/studio",
+          "status": 200,
+          "location": null
+        }
+      ]
+    },
+    {
+      "url": "https://arnav.theglobalorbit.com/terms-and-conditions",
+      "finalUrl": "https://arnav.theglobalorbit.com/terms-and-conditions",
+      "status": 200,
+      "title": "Terms &amp; Conditions",
+      "description": "Terms of use for Global Orbit websites and services.",
+      "canonical": "https://arnav.theglobalorbit.com/terms-and-conditions",
+      "robots": "index, follow",
+      "ogTitle": "Terms &amp; Conditions",
+      "ogUrl": "https://arnav.theglobalorbit.com/terms-and-conditions",
+      "ogImage": "https://arnav.theglobalorbit.com/brand/hero-uhd.jpg",
+      "h1Count": 1,
+      "chain": [
+        {
+          "url": "https://arnav.theglobalorbit.com/terms-and-conditions",
+          "status": 200,
+          "location": null
+        }
+      ]
+    },
+    {
+      "url": "https://arnav.theglobalorbit.com/travel-website-development-nepal",
+      "finalUrl": "https://arnav.theglobalorbit.com/travel-website-development-nepal",
+      "status": 200,
+      "title": "Travel Website Development Nepal",
+      "description": "Travel brand websites for packages, seasons, and agents.",
+      "canonical": "https://arnav.theglobalorbit.com/travel-website-development-nepal",
+      "robots": "index, follow",
+      "ogTitle": "Travel Website Development Nepal",
+      "ogUrl": "https://arnav.theglobalorbit.com/travel-website-development-nepal",
+      "ogImage": "https://arnav.theglobalorbit.com/brand/hero-uhd.jpg",
+      "h1Count": 1,
+      "chain": [
+        {
+          "url": "https://arnav.theglobalorbit.com/travel-website-development-nepal",
+          "status": 200,
+          "location": null
+        }
+      ]
+    },
+    {
+      "url": "https://arnav.theglobalorbit.com/trekking-website-development-nepal",
+      "finalUrl": "https://arnav.theglobalorbit.com/trekking-website-development-nepal",
+      "status": 200,
+      "title": "Trekking Website Development Nepal",
+      "description": "Trek operator sites built for enquiry, itineraries, and search.",
+      "canonical": "https://arnav.theglobalorbit.com/trekking-website-development-nepal",
+      "robots": "index, follow",
+      "ogTitle": "Trekking Website Development Nepal",
+      "ogUrl": "https://arnav.theglobalorbit.com/trekking-website-development-nepal",
+      "ogImage": "https://arnav.theglobalorbit.com/brand/hero-uhd.jpg",
+      "h1Count": 1,
+      "chain": [
+        {
+          "url": "https://arnav.theglobalorbit.com/trekking-website-development-nepal",
+          "status": 200,
+          "location": null
+        }
+      ]
+    },
+    {
+      "url": "https://arnav.theglobalorbit.com/web-development-nepal",
+      "finalUrl": "https://arnav.theglobalorbit.com/web-development-nepal",
+      "status": 200,
+      "title": "Web Development Nepal",
+      "description": "React, Next.js, Laravel and WordPress delivery from Global Orbit.",
+      "canonical": "https://arnav.theglobalorbit.com/web-development-nepal",
+      "robots": "index, follow",
+      "ogTitle": "Web Development Nepal",
+      "ogUrl": "https://arnav.theglobalorbit.com/web-development-nepal",
+      "ogImage": "https://arnav.theglobalorbit.com/brand/hero-uhd.jpg",
+      "h1Count": 1,
+      "chain": [
+        {
+          "url": "https://arnav.theglobalorbit.com/web-development-nepal",
+          "status": 200,
+          "location": null
+        }
+      ]
+    },
+    {
+      "url": "https://arnav.theglobalorbit.com/website-development-nepal",
+      "finalUrl": "https://arnav.theglobalorbit.com/website-development-nepal",
+      "status": 200,
+      "title": "Website Development Nepal",
+      "description": "Business websites designed to rank and convert, built in Kathmandu.",
+      "canonical": "https://arnav.theglobalorbit.com/website-development-nepal",
+      "robots": "index, follow",
+      "ogTitle": "Website Development Nepal",
+      "ogUrl": "https://arnav.theglobalorbit.com/website-development-nepal",
+      "ogImage": "https://arnav.theglobalorbit.com/brand/hero-uhd.jpg",
+      "h1Count": 1,
+      "chain": [
+        {
+          "url": "https://arnav.theglobalorbit.com/website-development-nepal",
+          "status": 200,
+          "location": null
+        }
+      ]
+    }
+  ]
+}

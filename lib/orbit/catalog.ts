@@ -438,7 +438,7 @@ export const ORBIT_FAQS = [
 export const ORBIT_TESTIMONIALS = [
   {
     quote:
-      "Global Orbit built our hotel website and within three months we were ranking on page one of Google for our brand and core stay keywords. Direct bookings increased by roughly one hundred fifty percent compared to the old template site. The team explained SEO in plain language, shipped fast on mobile, and still answers on WhatsApp when we need a change before a holiday weekend.",
+      "Global Orbit rebuilt our hotel website for mobile guests, connected WhatsApp enquiries, and explained SEO in plain language. The team still answers when we need a change before a holiday weekend.",
     name: "Hotel operator",
     place: "Pokhara",
   },

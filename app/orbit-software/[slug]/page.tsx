@@ -17,6 +17,7 @@ import {
 import { applyPageSeo } from "@/lib/apply-page-seo";
 import { buildPageMetadata } from "@/lib/seo";
 import { FALLBACK_SITE } from "@/lib/site";
+import { absoluteUrl, SITE_ORIGIN } from "@/lib/site-origin";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -99,14 +100,14 @@ async function renderPlatformPage(slug: PlatformPageSlug) {
   const [config, settings] = await Promise.all([getPlatformPageConfig(slug), getSiteSettings()]);
   const companyName = settings?.companyName || FALLBACK_SITE.companyName;
   const meta = PLATFORM_SEO[slug];
-  const pageUrl = `https://arnav.theglobalorbit.com${platformPagePath(slug)}`;
+  const pageUrl = absoluteUrl(platformPagePath(slug));
 
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Service",
     name: meta.serviceName,
     description: config.heroLede,
-    provider: { "@type": "Organization", name: companyName, url: "https://arnav.theglobalorbit.com" },
+    provider: { "@type": "Organization", name: companyName, url: SITE_ORIGIN },
     areaServed: ["NP", "IN", "US"],
     url: pageUrl,
   };
@@ -115,8 +116,8 @@ async function renderPlatformPage(slug: PlatformPageSlug) {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Home", item: "https://arnav.theglobalorbit.com/" },
-      { "@type": "ListItem", position: 2, name: "ERP Software", item: "https://arnav.theglobalorbit.com/orbit-software" },
+      { "@type": "ListItem", position: 1, name: "Home", item: absoluteUrl("/") },
+      { "@type": "ListItem", position: 2, name: "ERP Software", item: absoluteUrl("/orbit-software") },
       { "@type": "ListItem", position: 3, name: meta.breadcrumb, item: pageUrl },
     ],
   };

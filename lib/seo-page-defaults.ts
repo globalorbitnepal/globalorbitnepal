@@ -21,8 +21,8 @@ function trimDesc(text: string, max = 158): string {
   return `${t.slice(0, max - 1).trim()}…`;
 }
 
-function cardSeo(card: OrbitCard, focus: string, extraKw: string[] = []): PageSeoDefaults {
-  const title = `${card.title} · Kathmandu | Global Orbit`;
+function cardSeo(card: OrbitCard, focus: string, extraKw: string[] = [], titleOverride?: string): PageSeoDefaults {
+  const title = titleOverride ?? `${card.title} | Global Orbit Nepal`;
   const description = trimDesc(
     `${card.summary} Nepal-based studio: websites, SEO, apps, ERP, and digital marketing with measurable delivery.`,
   );
@@ -36,12 +36,12 @@ function cardSeo(card: OrbitCard, focus: string, extraKw: string[] = []): PageSe
 
 const STATIC: Record<string, PageSeoDefaults> = {
   "/": {
-    title: "Web Developer Nepal · Website, SEO, Apps & Digital Marketing",
+    title: "Global Orbit | Web Development & Software Company in Nepal",
     description: trimDesc(
-      "Global Orbit Nepal builds websites, web apps, SEO, Google & social ads, and ERP software in Kathmandu — fast, mobile-perfect, and search-ready.",
+      "Global Orbit helps businesses in Nepal with website development, custom software, mobile apps, SEO and digital marketing. Contact our Kathmandu team for a consultation.",
     ),
     keywords: keywordsCsv(),
-    focusKeyword: "web developer nepal",
+    focusKeyword: "web development company nepal",
   },
   "/about": {
     title: "About Global Orbit · Web & Software Studio Nepal",
@@ -176,11 +176,15 @@ function buildDynamicMap(): Record<string, PageSeoDefaults> {
   const map: Record<string, PageSeoDefaults> = { ...STATIC };
 
   for (const item of ORBIT_SERVICE_PAGES) {
-    map[item.href] = cardSeo(item, SERVICE_FOCUS[item.slug] ?? `${item.slug.replace(/-/g, " ")} nepal`);
+    const focus = SERVICE_FOCUS[item.slug] ?? `${item.slug.replace(/-/g, " ")} nepal`;
+    // Service funnel pages: commercial “company / services” framing
+    map[item.href] = cardSeo(item, focus, [], `${item.title} Services | Kathmandu · Global Orbit`);
   }
 
   for (const item of ORBIT_LANDINGS) {
-    map[item.href] = cardSeo(item, LANDING_FOCUS[item.slug] ?? `${item.slug.replace(/-/g, " ")}`);
+    const focus = LANDING_FOCUS[item.slug] ?? `${item.slug.replace(/-/g, " ")}`;
+    // Industry / long-tail landings: distinct from /service/* to avoid title cannibalization
+    map[item.href] = cardSeo(item, focus, [], `${item.title} | Nepal Guide · Global Orbit`);
   }
 
   for (const item of ORBIT_PACKAGES) {
@@ -218,14 +222,22 @@ export function listSeoDefaultPaths(): string[] {
   return Object.keys(SEO_BY_PATH).sort();
 }
 
+/** Legacy homepage titles that must not win over current Nepal SEO defaults. */
+const STALE_TITLES = new Set([
+  "Web Developer Nepal · Website, SEO, Apps & Digital Marketing",
+  "Web Developer Nepal · Website, SEO, Apps & Digital Marketing | Global Orbit",
+]);
+
 export function mergeSeoFallback(
   pathname: string,
   fallback: { title: string; description: string; keywords?: string[] },
 ): { title: string; description: string; keywords?: string[]; focusKeyword?: string } {
   const defaults = getPageSeoDefaults(pathname);
   if (!defaults) return fallback;
+  const fallbackTitle = fallback.title?.trim() || "";
+  const useDefaultsTitle = !fallbackTitle || STALE_TITLES.has(fallbackTitle);
   return {
-    title: fallback.title?.trim() ? fallback.title : defaults.title,
+    title: useDefaultsTitle ? defaults.title : fallbackTitle,
     description: fallback.description?.trim() ? fallback.description : defaults.description,
     keywords: fallback.keywords?.length ? fallback.keywords : defaults.keywords,
     focusKeyword: defaults.focusKeyword,

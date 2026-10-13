@@ -65,9 +65,9 @@ export const ORBIT_HEADER_NAV = [
 ];
 
 export const ORBIT_FOOTER_STATS = [
-  { label: "500+ Projects", icon: "rocket" as const },
-  { label: "300+ Clients", icon: "clients" as const },
-  { label: "4.9/5 Ratings", icon: "star" as const },
+  { label: "Web · Apps · SEO", icon: "rocket" as const },
+  { label: "3 Studios · NP · IN · US", icon: "clients" as const },
+  { label: "Kathmandu engineering", icon: "star" as const },
 ];
 
 export const ORBIT_FOOTER_LEGAL = [

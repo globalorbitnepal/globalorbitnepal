@@ -55,10 +55,10 @@ const CARDS: WhyCard[] = [
 ];
 
 const STATS = [
-  { label: "500+ Happy Clients", icon: "people" },
+  { label: "Kathmandu engineering", icon: "people" },
   { label: "3 Global Offices", icon: "globe" },
-  { label: "99.9% Uptime Record", icon: "uptime" },
-  { label: "6+ Years of Excellence", icon: "bars" },
+  { label: "Web · Apps · SEO", icon: "uptime" },
+  { label: "One accountable team", icon: "bars" },
 ] as const;
 
 function CardIcon({ name }: { name: WhyCard["icon"] }) {

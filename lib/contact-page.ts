@@ -10,8 +10,8 @@ export const CONTACT_HERO = {
 export const CONTACT_STATS = [
   { value: "< 24h", label: "First response on business days" },
   { value: "3", label: "Sales offices · NP · IN · US" },
-  { value: "500+", label: "Projects shipped" },
   { value: "Free", label: "Consultation · no obligation" },
+  { value: "NP", label: "Kathmandu sales desk" },
 ] as const;
 
 export const CONTACT_CHANNELS = [

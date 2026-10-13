@@ -1,6 +1,9 @@
 import type { Page } from "@playwright/test";
 
-export const PRODUCTION_ORIGIN = "https://arnav.theglobalorbit.com";
+export const PRODUCTION_ORIGIN =
+  process.env.PLAYWRIGHT_BASE_URL?.replace(/\/$/, "") ||
+  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
+  "https://arnav.theglobalorbit.com";
 
 export const ALL_VIEWPORTS = [
   320, 360, 375, 390, 414, 430, 768, 1024, 1280, 1366, 1440, 1536, 1920, 2560, 3440, 3840,

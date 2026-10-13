@@ -94,6 +94,23 @@ export async function getPageSeo(pathname: string): Promise<PageSeo | null> {
   return normalizePageSeo(buildDefaultPageSeo(pathname));
 }
 
+/**
+ * Admin overrides only (page-seo.json). Returns null when the file is absent or
+ * the path has no stored row — so page-level generateMetadata fallbacks and
+ * seo-page-defaults can apply without synthetic defaults masking them.
+ */
+export async function getPersistedPageSeo(pathname: string): Promise<Partial<PageSeo> | null> {
+  try {
+    const raw = await readFile(seoPath(), "utf8");
+    const data = JSON.parse(raw) as { pages?: PageSeo[] };
+    if (!Array.isArray(data.pages) || !data.pages.length) return null;
+    const found = data.pages.find((page) => page.path === pathname);
+    return found ?? null;
+  } catch {
+    return null;
+  }
+}
+
 export async function savePageSeoList(pages: PageSeo[]) {
   const file = seoPath();
   await mkdir(path.dirname(file), { recursive: true });

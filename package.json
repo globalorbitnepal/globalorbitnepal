@@ -9,6 +9,7 @@
     "start": "next start -p 3031 -H 127.0.0.1",
     "lint": "eslint",
     "seo:verify": "node scripts/verify-seo-routes.mjs",
+    "seo:audit": "node scripts/audit-seo-live.mjs",
     "test:e2e": "playwright test",
     "db:generate": "prisma generate",
     "db:validate": "prisma validate",

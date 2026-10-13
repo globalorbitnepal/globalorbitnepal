@@ -27,10 +27,7 @@ export function SiteHeader({ headerLogoSrc }: SiteHeaderProps) {
   const [pastHomeHero, setPastHomeHero] = useState(false);
 
   useEffect(() => {
-    if (!isHome) {
-      setPastHomeHero(false);
-      return;
-    }
+    if (!isHome) return;
 
     const hero = document.querySelector(".orbit-studio-hero");
     const update = () => {
@@ -42,10 +39,11 @@ export function SiteHeader({ headerLogoSrc }: SiteHeaderProps) {
       setPastHomeHero(bottom <= 72);
     };
 
-    update();
+    const frame = requestAnimationFrame(update);
     window.addEventListener("scroll", update, { passive: true });
     window.addEventListener("resize", update, { passive: true });
     return () => {
+      cancelAnimationFrame(frame);
       window.removeEventListener("scroll", update);
       window.removeEventListener("resize", update);
     };

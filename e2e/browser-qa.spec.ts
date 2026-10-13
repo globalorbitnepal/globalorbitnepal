@@ -86,7 +86,7 @@ test.describe("sitemap, robots, redirects", () => {
 
   test("robots.txt", async ({ request }) => {
     const body = await (await request.get("/robots.txt")).text();
-    expect(body).toContain("Sitemap: https://arnav.theglobalorbit.com/sitemap.xml");
+    expect(body).toContain(`Sitemap: ${PRODUCTION_ORIGIN}/sitemap.xml`);
     expect(body).toContain("Disallow: /demo");
   });
 

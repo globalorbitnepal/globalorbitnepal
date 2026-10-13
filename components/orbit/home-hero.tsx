@@ -10,10 +10,10 @@ const SERVICES = [
 ] as const;
 
 const STATS = [
-  { value: "03+", label: "Studios", icon: "team" },
-  { value: "25+", label: "Live Projects", icon: "code" },
-  { value: "100+", label: "Happy Clients", icon: "users" },
-  { value: "6+", label: "Years of Trust", icon: "award" },
+  { value: "03", label: "Studios", icon: "team" },
+  { value: "NP", label: "Kathmandu HQ", icon: "code" },
+  { value: "Web", label: "Apps · Software", icon: "users" },
+  { value: "SEO", label: "Digital Growth", icon: "award" },
 ] as const;
 
 const MARKETS = [

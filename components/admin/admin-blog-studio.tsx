@@ -499,7 +499,7 @@ export function AdminBlogStudio({
               <div className="go-cms-serp">
                 <p>Search preview</p>
                 <strong>{draft.seoTitle || draft.title || "Untitled"}</strong>
-                <em>https://arnav.theglobalorbit.com/blog/{draft.slug || "slug"}</em>
+                <em>/blog/{draft.slug || "slug"}</em>
                 <span>{draft.seoDescription || "Add a meta description."}</span>
               </div>
             </section>

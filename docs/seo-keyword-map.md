@@ -2,6 +2,8 @@
 
 Internal reference for Global Orbit Nepal. Search volumes are **not** listed unless verified in Google Search Console or Keyword Planner — do not treat this file as ranking guarantees.
 
+**Domain migration:** see `docs/domain-migration.md`. Apex `theglobalorbit.com` must not be set as `NEXT_PUBLIC_SITE_URL` until cutover is authorized.
+
 ## Site technical SEO
 
 | Asset | URL |
@@ -10,13 +12,15 @@ Internal reference for Global Orbit Nepal. Search volumes are **not** listed unl
 | Robots | `https://arnav.theglobalorbit.com/robots.txt` |
 | Default OG image | `/brand/hero-uhd.jpg` |
 | Metadata source | `lib/seo-page-defaults.ts` + Admin → SEO (`page-seo.json`) |
+| Live audit | `npm run seo:audit` → `reports/seo-live-crawl.json` |
+| Full report | `reports/website-seo-audit.md` |
 
 ## Core pages
 
 | Primary keyword (intent) | Canonical URL | Notes |
 |--------------------------|---------------|--------|
-| web developer nepal | `/` | Homepage; Organization + WebSite JSON-LD sitewide |
-| web development company nepal | `/about` | Studio story, trust |
+| web development company nepal | `/` | Homepage; Organization + WebSite JSON-LD sitewide |
+| about / studio trust | `/about` | Studio story, trust |
 | website consultation nepal | `/contact` | Primary conversion |
 | website portfolio nepal | `/projects` | Alias redirect: `/portfolio` → `/projects` |
 | digital marketing nepal | `/services` | Solutions hub |

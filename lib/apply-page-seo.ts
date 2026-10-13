@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { mergeSeoFallback } from "@/lib/seo-page-defaults";
-import { getPageSeo } from "@/lib/page-seo-store";
+import { getPersistedPageSeo } from "@/lib/page-seo-store";
 import { DEFAULT_OG_IMAGE_PATH } from "@/lib/site-origin";
 import { buildPageMetadata } from "@/lib/seo";
 
@@ -8,7 +8,7 @@ export async function applyPageSeo(
   pathname: string,
   fallback: { title: string; description: string; keywords?: string[] },
 ): Promise<Metadata> {
-  const seo = await getPageSeo(pathname);
+  const seo = await getPersistedPageSeo(pathname);
   const base = mergeSeoFallback(pathname, fallback);
   const title = seo?.seoTitle?.trim() || base.title;
   const description = seo?.seoDescription?.trim() || base.description;

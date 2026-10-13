@@ -35,12 +35,29 @@ function isIosSafari() {
   return iOS && webkit && !chrome;
 }
 
+function subscribeDismiss(onChange: () => void) {
+  window.addEventListener("storage", onChange);
+  return () => window.removeEventListener("storage", onChange);
+}
+
+function readDismissed() {
+  try {
+    return window.localStorage.getItem("orbit-pwa-dismiss") === "1";
+  } catch {
+    return false;
+  }
+}
+
+const emptySubscribe = () => () => {};
+
 export function PwaInstallPrompt() {
   const pathname = usePathname();
   const installed = useSyncExternalStore(subscribeStandalone, isStandalone, () => false);
+  const storedDismissed = useSyncExternalStore(subscribeDismiss, readDismissed, () => false);
+  const iosHint = useSyncExternalStore(emptySubscribe, isIosSafari, () => false);
   const [prompt, setPrompt] = useState<PromptEvent | null>(null);
-  const [dismissed, setDismissed] = useState(false);
-  const [iosHint, setIosHint] = useState(false);
+  const [localDismissed, setLocalDismissed] = useState(false);
+  const dismissed = storedDismissed || localDismissed;
   const [showIosHelp, setShowIosHelp] = useState(false);
   const [showAndroidHelp, setShowAndroidHelp] = useState(false);
 
@@ -49,21 +66,13 @@ export function PwaInstallPrompt() {
       void navigator.serviceWorker.register("/sw.js").catch(() => {});
     }
 
-    try {
-      if (window.localStorage.getItem("orbit-pwa-dismiss") === "1") setDismissed(true);
-    } catch {
-      /* ignore */
-    }
-
-    setIosHint(isIosSafari());
-
     const onPrompt = (event: Event) => {
       event.preventDefault();
       setPrompt(event as PromptEvent);
     };
     const onInstalled = () => {
       setPrompt(null);
-      setDismissed(true);
+      setLocalDismissed(true);
     };
     window.addEventListener("beforeinstallprompt", onPrompt);
     window.addEventListener("appinstalled", onInstalled);
@@ -78,7 +87,7 @@ export function PwaInstallPrompt() {
   const showBanner = !installed && (Boolean(prompt) || iosHint) && !dismissed;
 
   const dismiss = () => {
-    setDismissed(true);
+    setLocalDismissed(true);
     setShowIosHelp(false);
     setShowAndroidHelp(false);
     try {

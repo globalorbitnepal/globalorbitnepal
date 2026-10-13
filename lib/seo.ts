@@ -35,7 +35,8 @@ export function buildPageMetadata({
 
   return {
     metadataBase: new URL(SITE_ORIGIN),
-    title,
+    // Absolute so root layout `title.template` does not append the company name twice.
+    title: { absolute: title },
     description: trimmedDescription,
     keywords,
     alternates: {
@@ -77,6 +78,8 @@ export function organizationJsonLd(input: {
     "@id": `${url}/#organization`,
     name: input.name,
     url,
+    logo: absoluteUrl("/brand/logo-official-gold.png"),
+    image: absoluteUrl("/brand/logo-official-gold.png"),
     description: input.description || FALLBACK_SITE.defaultSeoDescription,
     address: {
       "@type": "PostalAddress",
@@ -126,7 +129,8 @@ export function localBusinessJsonLd(input: {
     name: input.name,
     description: input.description,
     url: SITE_ORIGIN,
-    image: `${SITE_ORIGIN}/brand/logo-official-gold.png`,
+    image: absoluteUrl("/brand/logo-official-gold.png"),
+    logo: absoluteUrl("/brand/logo-official-gold.png"),
     email: input.email,
     telephone: input.phone,
     address: {

@@ -5,6 +5,7 @@ import { isPublicPost } from "@/lib/blog-status";
 import { getPostBySlug, getPublishedPosts } from "@/lib/blog-store";
 import { isOrbitAuthed } from "@/lib/orbit-auth";
 import { buildPageMetadata } from "@/lib/seo";
+import { absoluteUrl } from "@/lib/site-origin";
 
 type Props = { params: Promise<{ slug: string }>; searchParams: Promise<{ preview?: string }> };
 
@@ -47,7 +48,7 @@ export default async function BlogDetailPage({ params, searchParams }: Props) {
     author: { "@type": "Organization", name: item.author || "Global Orbit" },
     datePublished: item.publishedAt,
     dateModified: item.updatedAt || item.publishedAt,
-    mainEntityOfPage: `https://arnav.theglobalorbit.com/blog/${item.slug}`,
+    mainEntityOfPage: absoluteUrl(`/blog/${item.slug}`),
   };
   return (
     <>

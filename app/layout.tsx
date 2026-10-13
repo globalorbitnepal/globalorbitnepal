@@ -11,6 +11,7 @@ import {
   FALLBACK_SITE,
   type FallbackNavItem,
 } from "@/lib/site";
+import { SITE_ORIGIN } from "@/lib/site-origin";
 import "./globals.css";
 
 export const dynamic = "force-dynamic";
@@ -44,6 +45,7 @@ export async function generateMetadata(): Promise<Metadata> {
     settings?.defaultSeoDescription || FALLBACK_SITE.defaultSeoDescription;
 
   return {
+    metadataBase: new URL(SITE_ORIGIN),
     title: {
       default: title,
       template: `%s · ${settings?.companyName || FALLBACK_SITE.companyName}`,
@@ -54,6 +56,7 @@ export async function generateMetadata(): Promise<Metadata> {
       description,
       locale: "en_NP",
       type: "website",
+      url: SITE_ORIGIN,
     },
     manifest: "/manifest.webmanifest",
     appleWebApp: {
