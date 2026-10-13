@@ -142,7 +142,7 @@ test.describe("mobile navigation", () => {
     await expect(menuBtn).toBeVisible();
     await menuBtn.click({ timeout: 10_000 });
     await expect(menuBtn).toHaveAttribute("aria-expanded", "true", { timeout: 10_000 });
-    const nav = page.locator("#mobile-nav:not(.hidden)");
+    const nav = page.locator(".orbit-mobile-menu.is-open #mobile-nav");
     await expect(nav).toBeVisible({ timeout: 10_000 });
     await expect(nav.locator("a").first()).toBeVisible();
   });

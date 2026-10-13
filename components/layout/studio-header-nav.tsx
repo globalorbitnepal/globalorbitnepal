@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useId, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState, type CSSProperties } from "react";
 import {
   STUDIO_HEADER_NAV,
   isNavDropdown,
@@ -192,7 +192,7 @@ function MobileNavLink({
   if (link.children?.length) {
     return (
       <ul className={`${depth ? "ml-2 border-l border-white/10 pl-3" : ""} flex flex-col gap-1`}>
-        <li className="px-3 py-1 text-[11px] font-bold uppercase tracking-[0.18em] text-[#f0c43a]/80">{link.label}</li>
+        <li className="orbit-mobile-nav-label">{link.label}</li>
         {link.children.map((sub) => (
           <li key={sub.href ?? sub.label}>
             <MobileNavLink link={sub} pathname={pathname} depth={depth + 1} onNavigate={onNavigate} />
@@ -207,7 +207,7 @@ function MobileNavLink({
   return (
     <Link
       href={link.href}
-      className={`block rounded-lg px-3 py-2.5 ${navLinkActive(pathname, link.href) ? "text-white" : "text-white/70"}`}
+      className={`orbit-mobile-nav-sublink${navLinkActive(pathname, link.href) ? " is-active" : ""}`}
       onClick={onNavigate}
     >
       {link.label}
@@ -246,37 +246,37 @@ export function StudioHeaderNavMobile({ onNavigate }: { onNavigate?: () => void 
   const serviceLinks = services && isNavDropdown(services) ? services.children : [];
 
   return (
-    <ul className="flex flex-col gap-1 text-[15px] font-semibold">
-      {STUDIO_HEADER_NAV.map((item) => {
+    <ul className="orbit-mobile-nav-list">
+      {STUDIO_HEADER_NAV.map((item, index) => {
         if (isNavDropdown(item)) {
           return (
-            <li key={item.label}>
+            <li key={item.label} className="orbit-mobile-nav-item" style={{ "--nav-i": index } as CSSProperties}>
               <button
                 type="button"
-                className="flex w-full items-center justify-between rounded-xl px-3 py-3 text-left text-white/85"
+                className={`orbit-mobile-nav-row orbit-mobile-nav-row--toggle${servicesOpen ? " is-open" : ""}`}
                 aria-expanded={servicesOpen}
                 onClick={() => setServicesOpen((value) => !value)}
               >
-                Services
-                <span aria-hidden="true">{servicesOpen ? "−" : "+"}</span>
+                <span>Services</span>
+                <svg viewBox="0 0 12 12" className="orbit-mobile-nav-chevron" aria-hidden="true">
+                  <path fill="currentColor" d="M2.5 4.5 6 8l3.5-3.5" />
+                </svg>
               </button>
-              {servicesOpen ? (
-                <div className="mb-2 ml-2 border-l border-white/10 pl-3">
-                  {serviceLinks.map((child) => (
-                    <div key={child.label} className="mb-2">
-                      <MobileNavLink link={child} pathname={pathname} depth={0} onNavigate={onNavigate} />
-                    </div>
-                  ))}
-                </div>
-              ) : null}
+              <div className={`orbit-mobile-nav-sub${servicesOpen ? " is-open" : ""}`}>
+                {serviceLinks.map((child) => (
+                  <div key={child.label} className="orbit-mobile-nav-sub-group">
+                    <MobileNavLink link={child} pathname={pathname} depth={0} onNavigate={onNavigate} />
+                  </div>
+                ))}
+              </div>
             </li>
           );
         }
         return (
-          <li key={item.href}>
+          <li key={item.href} className="orbit-mobile-nav-item" style={{ "--nav-i": index } as CSSProperties}>
             <Link
               href={item.href!}
-              className={`block rounded-xl px-3 py-3 ${itemActive(pathname, item) ? "text-white" : "text-white/80"}`}
+              className={`orbit-mobile-nav-row${itemActive(pathname, item) ? " is-active" : ""}`}
               onClick={onNavigate}
             >
               {item.label}

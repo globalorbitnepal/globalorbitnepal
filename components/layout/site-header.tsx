@@ -40,6 +40,20 @@ export function SiteHeader({ headerLogoSrc }: SiteHeaderProps) {
   const [pastHomeHero, setPastHomeHero] = useState(false);
 
   useEffect(() => {
+    if (!open) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = prev;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
+
+  useEffect(() => {
     // Permanent: phone/tablet always keep logo + ☰ on home (no hide-on-scroll flicker).
     if (!isHome || isCompactNav) {
       setPastHomeHero(false);
@@ -92,34 +106,63 @@ export function SiteHeader({ headerLogoSrc }: SiteHeaderProps) {
 
             <button
               type="button"
-              className="orbit-header-menu-btn inline-flex shrink-0 items-center justify-center rounded-full border border-white/15 bg-white/5"
+              className={`orbit-header-menu-btn orbit-header-menu-btn--dots inline-flex shrink-0 items-center justify-center rounded-full border border-white/15 bg-white/5${open ? " is-open" : ""}`}
               aria-expanded={open}
               aria-controls="mobile-nav"
               onClick={() => setOpen((value) => !value)}
             >
               <span className="sr-only">{open ? "Close menu" : "Open menu"}</span>
-              <span aria-hidden="true">{open ? "×" : "☰"}</span>
+              <span className="orbit-header-menu-icon" aria-hidden="true">
+                <span />
+                <span />
+                <span />
+              </span>
             </button>
           </div>
         </div>
 
         <div
-          id="mobile-nav"
-          className={`pointer-events-auto mx-4 mt-2 rounded-[28px] border border-white/12 bg-[#0b0b12]/92 px-4 py-4 backdrop-blur-xl lg:hidden${open ? "" : " hidden"}`}
+          className={`orbit-mobile-menu lg:hidden${open ? " is-open" : ""}`}
           aria-hidden={!open}
         >
-          <div className="flex flex-col gap-1">
-            <StudioHeaderNavMobile onNavigate={() => setOpen(false)} />
-            <button
-              type="button"
-              className="block w-full rounded-xl px-3 py-3 text-left text-[15px] font-semibold text-[#f0c43a]"
-              onClick={() => {
-                setOpen(false);
-                setAppointmentOpen(true);
-              }}
-            >
-              Book Appointment
-            </button>
+          <button
+            type="button"
+            className="orbit-mobile-menu-backdrop"
+            aria-label="Close menu"
+            tabIndex={open ? 0 : -1}
+            onClick={() => setOpen(false)}
+          />
+          <div
+            id="mobile-nav"
+            className="orbit-mobile-menu-sheet"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Site navigation"
+          >
+            <div className="orbit-mobile-menu-head">
+              <p className="orbit-mobile-menu-eyebrow">Navigate</p>
+              <button
+                type="button"
+                className="orbit-mobile-menu-close"
+                aria-label="Close menu"
+                onClick={() => setOpen(false)}
+              >
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div className="orbit-mobile-menu-body">
+              <StudioHeaderNavMobile onNavigate={() => setOpen(false)} />
+              <button
+                type="button"
+                className="orbit-mobile-menu-cta"
+                onClick={() => {
+                  setOpen(false);
+                  setAppointmentOpen(true);
+                }}
+              >
+                Book Appointment
+              </button>
+            </div>
           </div>
         </div>
       </header>
