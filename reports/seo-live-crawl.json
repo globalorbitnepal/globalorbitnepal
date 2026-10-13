@@ -1,7 +1,7 @@
 {
   "BASE": "https://arnav.theglobalorbit.com",
   "intendedApex": "https://theglobalorbit.com",
-  "crawledAt": "2026-10-13T18:49:09.582Z",
+  "crawledAt": "2026-10-13T19:01:50.352Z",
   "sitemapCount": 64,
   "robotsOk": true,
   "robotsSnippet": "User-Agent: *\nAllow: /\nDisallow: /admin\nDisallow: /admin/\nDisallow: /orbit\nDisallow: /orbit/\nDisallow: /api/\nDisallow: /demo\nDisallow: /news\n\nHost: arnav.theglobalorbit.com\nSitemap: https://arnav.theglobalorbit.com/sitemap.xml\n",

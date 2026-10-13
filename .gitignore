@@ -18,6 +18,7 @@
 
 # next.js
 /.next/
+/.next-apex-validate/
 /out/
 
 # production

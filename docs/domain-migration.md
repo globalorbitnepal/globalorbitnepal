@@ -1,5 +1,7 @@
 # Domain migration readiness — Global Orbit
 
+**Migration package (reversible, not activated):** [`deploy/migration/README.md`](../deploy/migration/README.md)
+
 ## Current vs intended hosts
 
 | Role | Origin |

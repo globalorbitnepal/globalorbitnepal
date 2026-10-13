@@ -1,0 +1,44 @@
+# =============================================================================
+# DISABLED BY FILENAME — DO NOT ENABLE UNTIL POST-CUTOVER VALIDATION PASSES
+#
+# Path-preserving 301 from staging hostname → production apex.
+# Activate ONLY after:
+#   - Apex nginx+TLS serves THIS Next.js app
+#   - NEXT_PUBLIC_SITE_URL=https://theglobalorbit.com rebuilt + validated
+#   - migration:validate against apex PASSes (zero arnav in SEO output)
+#
+# Activation (authorized ops):
+#   1) Backup current arnav vhost:
+#        sudo cp /etc/nginx/sites-available/globalorbitnepal \
+#          /etc/nginx/sites-available/globalorbitnepal.bak-$(date +%Y%m%d%H%M%S)
+#   2) Replace arnav server blocks with the redirect versions below
+#      (or include this file from sites-available after renaming to .conf)
+#   3) sudo nginx -t && sudo systemctl reload nginx
+#
+# Rollback:
+#   Restore the bak-* file to sites-available/globalorbitnepal, nginx -t, reload.
+#   Staging vhost snapshot is also in:
+#     deploy/migration/nginx/arnav.theglobalorbit.com.live-snapshot.conf
+# =============================================================================
+
+server {
+    listen 80;
+    listen [::]:80;
+    server_name arnav.theglobalorbit.com;
+    return 301 https://theglobalorbit.com$request_uri;
+}
+
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+    http2 on;
+    server_name arnav.theglobalorbit.com;
+
+    # Keep existing staging certs so HTTPS redirects work without broken TLS
+    ssl_certificate     /etc/letsencrypt/live/arnav.theglobalorbit.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/arnav.theglobalorbit.com/privkey.pem;
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+
+    return 301 https://theglobalorbit.com$request_uri;
+}
