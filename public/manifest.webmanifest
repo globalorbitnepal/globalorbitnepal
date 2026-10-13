@@ -1,24 +1,56 @@
 {
+  "id": "/",
   "name": "Global Orbit",
   "short_name": "Global Orbit",
-  "description": "Websites, apps, ERP and SaaS from Global Orbit Pvt Ltd.",
-  "start_url": "/",
+  "description": "Websites, apps, ERP and SaaS from Global Orbit Pvt Ltd — Nepal, India & USA.",
+  "start_url": "/?source=pwa",
+  "scope": "/",
   "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
   "background_color": "#07070b",
   "theme_color": "#07070b",
-  "orientation": "portrait-primary",
+  "orientation": "any",
+  "lang": "en",
+  "dir": "ltr",
+  "categories": ["business", "productivity"],
   "icons": [
     {
-      "src": "/brand/logo-official-gold.png",
+      "src": "/icons/pwa-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/brand/logo-official-gold.png",
+      "src": "/icons/pwa-512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/pwa-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Contact",
+      "short_name": "Contact",
+      "url": "/contact",
+      "icons": [{ "src": "/icons/pwa-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Orbit Software",
+      "short_name": "Software",
+      "url": "/orbit-software",
+      "icons": [{ "src": "/icons/pwa-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Projects",
+      "short_name": "Projects",
+      "url": "/projects",
+      "icons": [{ "src": "/icons/pwa-192.png", "sizes": "192x192" }]
     }
   ]
 }

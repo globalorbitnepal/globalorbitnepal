@@ -18,8 +18,14 @@ export function MobileAppExperience() {
     if (touch) {
       root.classList.add("orbit-touch", "orbit-mobile-lite");
     }
+
+    const standalone =
+      window.matchMedia("(display-mode: standalone)").matches ||
+      Boolean((navigator as Navigator & { standalone?: boolean }).standalone);
+    if (standalone) root.classList.add("orbit-standalone");
+
     if ("serviceWorker" in navigator) {
-      void navigator.serviceWorker.register("/sw.js");
+      void navigator.serviceWorker.register("/sw.js").catch(() => {});
     }
 
     setAppViewportUnit();
@@ -75,7 +81,7 @@ export function MobileAppExperience() {
       window.removeEventListener("orientationchange", setAppViewportUnit);
       document.removeEventListener("visibilitychange", onVisibility);
       visibilityObserver?.disconnect();
-      root.classList.remove("orbit-touch", "orbit-mobile-lite");
+      root.classList.remove("orbit-touch", "orbit-mobile-lite", "orbit-standalone");
     };
   }, []);
 

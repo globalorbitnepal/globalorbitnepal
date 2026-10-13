@@ -14557,3 +14557,331 @@ html.orbit-mobile-lite .orbit-premium-reveal {
     width: 100%;
   }
 }
+
+/* —— Mobile app shell: install banner + bottom dock —— */
+.orbit-app-dock,
+.orbit-pwa-banner,
+.orbit-pwa-ios {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .orbit-app-shell {
+    padding-bottom: calc(4.25rem + var(--safe-bottom));
+  }
+
+  .orbit-app-dock {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    position: fixed;
+    z-index: 48;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    gap: 0.1rem;
+    padding: 0.35rem 0.35rem calc(0.35rem + var(--safe-bottom));
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(8, 8, 14, 0.94);
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+    box-shadow: 0 -12px 32px rgba(0, 0, 0, 0.45);
+  }
+
+  .orbit-app-dock-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.15rem;
+    min-height: 3.15rem;
+    border: 0;
+    border-radius: 0.85rem;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.55);
+    font-size: 0.62rem;
+    font-weight: 650;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .orbit-app-dock-item span {
+    font-size: 1.05rem;
+    line-height: 1;
+  }
+
+  .orbit-app-dock-item.is-active,
+  .orbit-app-dock-item:active {
+    color: #f0c43a;
+    background: rgba(240, 196, 58, 0.1);
+  }
+
+  .orbit-app-dock-item:disabled {
+    opacity: 0.45;
+  }
+
+  .orbit-pwa-banner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.65rem 0.85rem;
+    position: fixed;
+    z-index: 49;
+    left: max(0.65rem, var(--safe-left));
+    right: max(0.65rem, var(--safe-right));
+    bottom: calc(4.55rem + var(--safe-bottom));
+    padding: 0.75rem 0.85rem;
+    border-radius: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: linear-gradient(145deg, rgba(22, 24, 36, 0.98), rgba(8, 9, 16, 0.98));
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.5);
+  }
+
+  .orbit-pwa-banner-copy {
+    display: grid;
+    gap: 0.15rem;
+    min-width: 0;
+    flex: 1 1 10rem;
+  }
+
+  .orbit-pwa-banner-copy strong {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  .orbit-pwa-banner-copy span {
+    font-size: 0.72rem;
+    line-height: 1.35;
+    color: rgba(255, 255, 255, 0.55);
+  }
+
+  .orbit-pwa-banner-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    flex-shrink: 0;
+  }
+
+  .orbit-pwa-banner-install {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    min-height: 2.35rem;
+    padding: 0 0.85rem;
+    border: 0;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #f0c43a, #fcd34d);
+    color: #1a1408;
+    font-size: 0.78rem;
+    font-weight: 750;
+    cursor: pointer;
+  }
+
+  .orbit-pwa-banner-install .orbit-footer-chip-icon {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .orbit-pwa-banner-dismiss {
+    min-height: 2.35rem;
+    padding: 0 0.65rem;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.55);
+    font-size: 0.72rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .orbit-pwa-ios {
+    display: grid;
+    place-items: end center;
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    padding: 1rem;
+    padding-bottom: calc(5.5rem + var(--safe-bottom));
+    background: rgba(0, 0, 0, 0.55);
+  }
+
+  .orbit-pwa-ios-card {
+    width: min(100%, 22rem);
+    padding: 1.15rem 1.2rem 1.25rem;
+    border-radius: 1.15rem;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: #101018;
+    color: #fff;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+  }
+
+  .orbit-pwa-ios-card h2 {
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 700;
+  }
+
+  .orbit-pwa-ios-card ol {
+    margin: 0.85rem 0 1.1rem;
+    padding-left: 1.15rem;
+    display: grid;
+    gap: 0.45rem;
+    font-size: 0.86rem;
+    line-height: 1.45;
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  /* Lift floating actions above the dock */
+  .orbit-wa-fab {
+    bottom: calc(4.85rem + var(--safe-bottom));
+    left: max(0.75rem, var(--safe-left));
+    min-height: 3rem;
+    padding: 0.32rem 0.85rem 0.32rem 0.35rem;
+    gap: 0.45rem;
+  }
+
+  .orbit-wa-fab-copy small {
+    font-size: 0.78rem;
+  }
+
+  .orbit-gold-fab {
+    bottom: calc(4.85rem + var(--safe-bottom));
+    right: max(0.75rem, var(--safe-right));
+    width: 3rem;
+    height: 3rem;
+  }
+
+  /* Homepage / pages — app-like density, no horizontal crop */
+  .orbit-studio-home,
+  .orbit-premium-page,
+  .orbit-studio-surface {
+    overflow-x: clip;
+  }
+
+  .orbit-studio-hero-shell {
+    padding-inline: 1.15rem;
+    padding-bottom: calc(5.75rem + var(--safe-bottom));
+  }
+
+  .orbit-studio-hero-copy {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding-right: 0.25rem;
+  }
+
+  .orbit-hero-features {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.55rem 0.7rem;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0.75rem 0 0;
+    justify-content: stretch;
+    align-items: start;
+  }
+
+  .orbit-hero-features li {
+    min-width: 0;
+    align-items: flex-start;
+    gap: 0.45rem;
+  }
+
+  .orbit-hero-features strong {
+    white-space: normal;
+    font-size: 0.82rem;
+    line-height: 1.2;
+  }
+
+  .orbit-hero-features small {
+    white-space: normal;
+    font-size: 0.68rem;
+    line-height: 1.25;
+  }
+
+  .orbit-hero-scroll {
+    display: none;
+  }
+
+  /* Compact WhatsApp chip so it doesn't cover hero features */
+  .orbit-wa-fab-copy {
+    display: none;
+  }
+
+  .orbit-wa-fab {
+    padding: 0.35rem;
+    min-height: 0;
+    width: 3.15rem;
+    height: 3.15rem;
+    justify-content: center;
+  }
+
+  .orbit-sw-product-rail {
+    justify-content: flex-start;
+    padding-bottom: 0.35rem;
+  }
+
+  .orbit-sw-feature {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 1rem;
+  }
+
+  .orbit-sw-feature-stage {
+    max-width: 100%;
+    margin-inline: 0;
+  }
+
+  .orbit-soft-laptop-base {
+    width: 106%;
+    margin: 0 -3%;
+  }
+
+  .orbit-made-head {
+    padding-top: clamp(3.75rem, 9vh, 4.75rem);
+  }
+
+  .orbit-made-title {
+    font-size: clamp(1.25rem, 5vw, 1.7rem);
+  }
+
+  .orbit-process-grid,
+  .orbit-services-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .orbit-why-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .orbit-header-menu-btn {
+    width: 2.75rem;
+    height: 2.75rem;
+    font-size: 1.15rem;
+  }
+
+  #mobile-nav a,
+  #mobile-nav button {
+    min-height: 2.85rem;
+  }
+}
+
+/* Installed PWA — hide install CTA, keep dock */
+html.orbit-standalone .orbit-pwa-banner {
+  display: none !important;
+}
+
+.orbit-app-dock.is-installed,
+html.orbit-standalone .orbit-app-dock {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+@media (min-width: 768px) {
+  .orbit-app-dock,
+  .orbit-pwa-banner,
+  .orbit-pwa-ios {
+    display: none !important;
+  }
+}

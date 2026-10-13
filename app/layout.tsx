@@ -62,8 +62,14 @@ export async function generateMetadata(): Promise<Metadata> {
       title: settings?.companyName || FALLBACK_SITE.companyName,
     },
     icons: {
-      apple: "/brand/logo-official-gold.png",
-      icon: "/brand/logo-official-gold.png",
+      apple: [{ url: "/icons/apple-touch-180.png", sizes: "180x180", type: "image/png" }],
+      icon: [
+        { url: "/icons/pwa-192.png", sizes: "192x192", type: "image/png" },
+        { url: "/icons/pwa-512.png", sizes: "512x512", type: "image/png" },
+      ],
+    },
+    other: {
+      "mobile-web-app-capable": "yes",
     },
     formatDetection: {
       telephone: false,

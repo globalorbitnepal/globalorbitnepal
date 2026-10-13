@@ -1,6 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
+import { PwaInstallPrompt } from "@/components/layout/pwa-install-prompt";
 import { isOrbitAdminPath } from "@/lib/is-orbit-admin-route";
 
 export function OrbitChrome() {
@@ -51,6 +52,8 @@ export function OrbitChrome() {
           <path d="M6.5 14.5 12 8.8l5.5 5.7" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       </button>
+
+      <PwaInstallPrompt />
     </>
   );
 }
