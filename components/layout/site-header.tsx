@@ -19,15 +19,29 @@ type SiteHeaderProps = {
   phone?: string;
 };
 
+function useIsCompactNav() {
+  const [compact, setCompact] = useState(true);
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 1023px)");
+    const sync = () => setCompact(mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
+  return compact;
+}
+
 export function SiteHeader({ headerLogoSrc }: SiteHeaderProps) {
   const [open, setOpen] = useState(false);
   const [appointmentOpen, setAppointmentOpen] = useState(false);
   const pathname = usePathname();
   const isHome = pathname === "/";
+  const isCompactNav = useIsCompactNav();
   const [pastHomeHero, setPastHomeHero] = useState(false);
 
   useEffect(() => {
-    if (!isHome) {
+    // Permanent: phone/tablet always keep logo + ☰ on home (no hide-on-scroll flicker).
+    if (!isHome || isCompactNav) {
       setPastHomeHero(false);
       return;
     }
@@ -38,11 +52,8 @@ export function SiteHeader({ headerLogoSrc }: SiteHeaderProps) {
         setPastHomeHero(false);
         return;
       }
-      // Keep logo/menu while the hero is still on screen. Hide only after leaving hero.
-      // (Do NOT hide on tiny scrollY — that made the logo vanish on the hero itself.)
       const rect = hero.getBoundingClientRect();
-      const heroStillVisible = rect.bottom > 110;
-      setPastHomeHero(!heroStillVisible);
+      setPastHomeHero(rect.bottom <= 72);
     };
 
     const frame = requestAnimationFrame(update);
@@ -53,21 +64,21 @@ export function SiteHeader({ headerLogoSrc }: SiteHeaderProps) {
       window.removeEventListener("scroll", update);
       window.removeEventListener("resize", update);
     };
-  }, [isHome]);
+  }, [isHome, isCompactNav]);
 
   if (isOrbitAdminPath(pathname)) return null;
 
-  const headerHidden = isHome && pastHomeHero;
+  const headerHidden = isHome && !isCompactNav && pastHomeHero;
 
   return (
     <>
       <header
-        className={`orbit-header-bar pointer-events-none inset-x-0 top-0 z-50 text-white fixed${headerHidden ? " orbit-header-bar--past-hero" : ""}`}
+        className={`orbit-header-bar pointer-events-none inset-x-0 top-0 z-50 text-white fixed${headerHidden ? " orbit-header-bar--past-hero" : ""}${isCompactNav ? " orbit-header-bar--always-on" : ""}`}
         aria-hidden={headerHidden}
       >
         <div className="orbit-header-inner pointer-events-auto mx-auto w-full max-w-[1680px]">
           <div className="orbit-header-side is-left">
-            <BrandLogo variant="bar" src={headerLogoSrc} />
+            <BrandLogo variant="bar" src={headerLogoSrc} priority={isHome} />
           </div>
 
           <nav aria-label="Main navigation" className="orbit-header-center">
@@ -86,9 +97,9 @@ export function SiteHeader({ headerLogoSrc }: SiteHeaderProps) {
               aria-controls="mobile-nav"
               onClick={() => setOpen((value) => !value)}
             >
-            <span className="sr-only">{open ? "Close menu" : "Open menu"}</span>
-            <span aria-hidden="true">{open ? "×" : "☰"}</span>
-          </button>
+              <span className="sr-only">{open ? "Close menu" : "Open menu"}</span>
+              <span aria-hidden="true">{open ? "×" : "☰"}</span>
+            </button>
           </div>
         </div>
 
