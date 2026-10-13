@@ -7603,19 +7603,52 @@ li.orbit-card:hover {
   object-fit: contain;
   object-position: center center;
   /* Trim laptop chassis; keep full website header/footer inside the crop */
-  clip-path: inset(10% 7.25% 13.5% 7.25%);
-  transform: translate(-50%, -50%) scale(1.03);
+  clip-path: inset(9.25% 6.75% 12.25% 6.75%);
+  transform: translate(-50%, -50%);
   transform-origin: center center;
 }
 
 @media (min-width: 1024px) and (max-height: 820px) {
+  .orbit-made-track {
+    --made-slide-unit: 30vh;
+  }
+
+  .orbit-made-head {
+    padding-top: clamp(3.65rem, 6.2vh, 4.35rem);
+    padding-bottom: 0.25rem;
+  }
+
+  .orbit-made-title {
+    margin-top: 0.65rem;
+    font-size: clamp(1.32rem, 0.95rem + 1.35vh, 1.78rem);
+    line-height: 1.14;
+  }
+
   .orbit-made-shot {
-    clip-path: inset(9.5% 7% 12.5% 7%);
-    transform: translate(-50%, -50%) scale(1.02);
+    clip-path: inset(8.75% 6.25% 11.25% 6.25%);
   }
 
   .orbit-made-frame {
-    max-height: min(56vh, 500px);
+    width: min(94vw, 1080px);
+    max-height: min(calc(100dvh - 12.5rem), 52vh, 460px);
+    border-color: rgba(255, 255, 255, 0.11);
+    box-shadow:
+      0 28px 64px rgba(0, 0, 0, 0.5),
+      0 0 0 1px rgba(255, 255, 255, 0.04) inset,
+      0 0 48px rgba(99, 102, 241, 0.1);
+  }
+
+  .orbit-made-meta {
+    margin-top: clamp(0.45rem, 1vh, 0.7rem);
+  }
+
+  .orbit-made-foot {
+    padding-bottom: clamp(0.75rem, 1.6vh, 1.1rem);
+    gap: 0.65rem;
+  }
+
+  .orbit-made-stage {
+    perspective: none;
   }
 }
 
@@ -9542,8 +9575,8 @@ li.orbit-card:hover {
   .orbit-made-shot {
     object-fit: contain !important;
     object-position: center center !important;
-    clip-path: inset(9% 7% 12% 7%) !important;
-    transform: translate(-50%, -50%) scale(1.02) !important;
+    clip-path: inset(8.5% 6% 11% 6%) !important;
+    transform: translate(-50%, -50%) !important;
     transform-origin: center center !important;
   }
 
@@ -13744,6 +13777,119 @@ body.go-cms-open .orbit-gold-fab {
   .orbit-work-mosaic {
     padding-top: 5.15rem;
     gap: 6px;
+  }
+
+  .orbit-work-earth-head {
+    padding-top: clamp(4.25rem, 7vh, 5rem);
+  }
+
+  .orbit-work-earth-arena {
+    width: min(82vmin, 780px);
+    height: min(82vmin, 780px);
+    max-height: calc(100dvh - 11rem);
+  }
+
+  /* Enterprise software — fit one viewport-friendly card on 1366×768 */
+  .orbit-soft-track.orbit-soft-catalog .orbit-soft-catalog-inner {
+    padding-top: clamp(3.65rem, 6.5vh, 4.5rem);
+    padding-bottom: clamp(2.25rem, 4.5vh, 3.25rem);
+  }
+
+  .orbit-soft-catalog-title {
+    font-size: clamp(1.45rem, 1rem + 1.6vw, 2rem);
+    margin-top: 0.85rem;
+  }
+
+  .orbit-soft-catalog-lede {
+    margin-top: 0.65rem;
+    font-size: clamp(0.88rem, 0.82rem + 0.2vw, 0.98rem);
+    line-height: 1.5;
+  }
+
+  .orbit-sw-showcase-body {
+    margin-top: clamp(1.35rem, 2.5vh, 1.85rem);
+  }
+
+  .orbit-sw-product-rail {
+    margin-bottom: clamp(0.85rem, 1.8vh, 1.25rem);
+    gap: 0.4rem;
+  }
+
+  .orbit-sw-product-tab {
+    padding: 0.42rem 0.78rem;
+    font-size: 0.7rem;
+  }
+
+  .orbit-sw-feature {
+    gap: clamp(1rem, 2vh, 1.45rem);
+    padding: clamp(1.05rem, 2vh, 1.45rem);
+  }
+
+  .orbit-sw-feature-title {
+    font-size: clamp(1.2rem, 1rem + 0.8vw, 1.55rem);
+  }
+
+  .orbit-sw-feature-lede {
+    margin-top: 0.55rem;
+    font-size: 0.9rem;
+    line-height: 1.55;
+  }
+
+  .orbit-sw-feature-actions {
+    margin-top: 1rem;
+    gap: 0.65rem 1rem;
+  }
+
+  .orbit-sw-feature-stage {
+    max-width: min(30rem, 92vw);
+    margin-inline: auto;
+  }
+
+  .orbit-soft-laptop.is-hero.is-cinema {
+    max-width: min(30rem, 92vw);
+    margin-inline: auto;
+  }
+
+  .orbit-soft-laptop.is-cinema .orbit-soft-laptop-bezel {
+    transform: none;
+    animation: none;
+  }
+
+  .orbit-soft-laptop.is-hero .orbit-soft-laptop-screen {
+    width: 100%;
+    max-height: min(34vh, 300px);
+    height: auto;
+    aspect-ratio: 1024 / 535;
+  }
+
+  .orbit-soft-laptop.is-hero .orbit-soft-laptop-img {
+    object-fit: contain !important;
+    object-position: center top !important;
+  }
+
+  .orbit-process-section {
+    padding-top: clamp(2.5rem, 5vh, 3.5rem) !important;
+    padding-bottom: clamp(2rem, 4vh, 3rem) !important;
+  }
+
+  .orbit-process-grid {
+    gap: 0.85rem;
+  }
+
+  .orbit-home-section-head h2,
+  .orbit-studio-home h2 {
+    font-size: clamp(1.55rem, 1.1rem + 1.4vw, 2.15rem) !important;
+  }
+}
+
+/* 1366×768 and similar — tighten vertical rhythm */
+@media (min-width: 1024px) and (max-width: 1400px) and (max-height: 768px) {
+  .orbit-made-frame {
+    max-height: min(calc(100dvh - 13rem), 48vh, 420px);
+  }
+
+  .orbit-made-track {
+    --made-slide-unit: 28vh;
   }
 }
 

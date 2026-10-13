@@ -7,6 +7,12 @@ export function isOrbitTouch(): boolean {
   );
 }
 
+/** 13–15″ laptops at 768px height (e.g. 1366×768) — flatter scroll sections, no heavy 3D. */
+export function isOrbitCompactLaptop(): boolean {
+  if (typeof window === "undefined") return false;
+  return window.matchMedia("(min-width: 768px) and (max-height: 820px)").matches;
+}
+
 function trackNearViewport(track: HTMLElement, margin = 120): boolean {
   const rect = track.getBoundingClientRect();
   const vh = window.innerHeight;
