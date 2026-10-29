@@ -26,7 +26,9 @@ export type AdminPageId =
   | "services"
   | "website-development"
   | "privacy"
-  | "terms";
+  | "terms"
+  | "studio"
+  | "inside-orbit";
 
 export type AdminView =
   | "overview"
@@ -179,6 +181,20 @@ export const ADMIN_PAGES: AdminPage[] = [
     sections: [{ id: "seo", label: "SEO", hint: "Posts: Blog & content → All Posts" }],
   },
   {
+    id: "studio",
+    label: "Studio",
+    path: "/studio",
+    seoOnly: true,
+    sections: [{ id: "seo", label: "SEO", hint: "Metadata for /studio" }],
+  },
+  {
+    id: "inside-orbit",
+    label: "Inside Orbit",
+    path: "/inside-orbit",
+    seoOnly: true,
+    sections: [{ id: "seo", label: "SEO", hint: "Metadata for /inside-orbit" }],
+  },
+  {
     id: "packages",
     label: "Packages",
     path: "/packages",
@@ -223,7 +239,7 @@ export const ADMIN_NAV_GROUPS: AdminNavGroup[] = [
   {
     id: "catalog",
     label: "Catalog & legal",
-    pageIds: ["packages", "services", "blogs", "privacy", "terms"],
+    pageIds: ["packages", "services", "blogs", "studio", "inside-orbit", "privacy", "terms"],
   },
 ];
 

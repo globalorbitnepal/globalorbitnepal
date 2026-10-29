@@ -65,7 +65,7 @@ export async function collectSitemapPaths(): Promise<SitemapEntry[]> {
       path,
       priority: priorityFor(path),
       changeFrequency: changeFrequencyFor(path),
-      ...(postDates.has(path) ? { lastModified: postDates.get(path) } : {}),
+      lastModified: postDates.get(path) ?? new Date(),
     });
   }
 

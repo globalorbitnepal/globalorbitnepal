@@ -19,6 +19,7 @@ import {
   ADMIN_NAV_GROUPS,
   ADMIN_PAGES,
   adminPageById,
+  adminPageByPath,
   type AdminPage,
   type AdminPageId,
   type EditorSection,
@@ -246,6 +247,22 @@ export function AdminApp(props: Props) {
     });
     setBusy(false);
     setStatus(response.ok ? "Page SEO published." : "Could not save SEO.");
+  }
+
+  async function uploadOgImage(pathname: string, file: File) {
+    setBusy(true);
+    const form = new FormData();
+    form.set("kind", "ogImage");
+    form.set("file", file);
+    const response = await fetch("/api/orbit/upload", { method: "POST", body: form });
+    const data = await response.json();
+    setBusy(false);
+    if (data.url) {
+      setPages((current) => current.map((item) => (item.path === pathname ? { ...item, ogImage: data.url } : item)));
+      setStatus("Open Graph image uploaded. Publish SEO to save.");
+    } else {
+      setStatus("Could not upload Open Graph image.");
+    }
   }
 
   async function saveChrome() {
@@ -786,6 +803,36 @@ export function AdminApp(props: Props) {
           </div>
         ) : null}
 
+        {view === "seo" ? (
+          <section className="go-cms-card">
+            <h2>All page metadata</h2>
+            <p className="go-cms-help">
+              Title, description, keywords, tags, Open Graph, and index flags for every public URL. Publish after edits.
+            </p>
+            <ul className="go-cms-rows go-cms-seo-index">
+              {pages.map((item) => {
+                const ready = Boolean(item.seoTitle.trim() && item.seoDescription.trim());
+                return (
+                  <li key={item.path}>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const match = adminPageByPath(item.path);
+                        if (match) go("page", match, "seo");
+                        else setStatus(`Open ${item.path} from search or add it as a managed page.`);
+                      }}
+                    >
+                      <strong>{item.label}</strong>
+                      <span>{item.path}</span>
+                    </button>
+                    <em>{ready ? "Ready" : "Needs SEO"}</em>
+                  </li>
+                );
+              })}
+            </ul>
+          </section>
+        ) : null}
+
         {showSeo && seoPage ? (
           <SeoPanel
             label={page.label}
@@ -794,6 +841,7 @@ export function AdminApp(props: Props) {
             busy={busy}
             onChange={(patch) => setPages((current) => current.map((item) => (item.path === seoPage.path ? { ...item, ...patch } : item)))}
             onSave={() => void saveSeo()}
+            onUploadOg={(file) => void uploadOgImage(seoPage.path, file)}
           />
         ) : null}
 
@@ -876,6 +924,7 @@ function SeoPanel({
   busy,
   onChange,
   onSave,
+  onUploadOg,
 }: {
   label: string;
   path: string;
@@ -883,6 +932,7 @@ function SeoPanel({
   busy: boolean;
   onChange: (patch: Partial<PageSeo>) => void;
   onSave: () => void;
+  onUploadOg: (file: File) => void;
 }) {
   const score = scoreSeo({
     title: label,
@@ -921,7 +971,23 @@ function SeoPanel({
         </label>
         <label>
           Keywords
-          <input value={seo.keywords} onChange={(e) => onChange({ keywords: e.target.value })} />
+          <input
+            value={seo.keywords}
+            placeholder="web development nepal, erp software, android apps"
+            onChange={(e) => onChange({ keywords: e.target.value })}
+          />
+        </label>
+        <label>
+          Tags
+          <input
+            value={seo.tags}
+            placeholder="nepal, kathmandu, software"
+            onChange={(e) => onChange({ tags: e.target.value })}
+          />
+        </label>
+        <label>
+          Focus keyword
+          <input value={seo.focusKeyword} onChange={(e) => onChange({ focusKeyword: e.target.value })} />
         </label>
         <label>
           Open Graph title
@@ -931,8 +997,17 @@ function SeoPanel({
           Open Graph description
           <textarea value={seo.ogDescription} onChange={(e) => onChange({ ogDescription: e.target.value })} />
         </label>
+        <AdminMediaField
+          label="Open Graph image"
+          description="1200×630 PNG or JPG. Used for Facebook, LinkedIn, and WhatsApp previews."
+          src={seo.ogImage}
+          kind="image"
+          accept="image/png,image/jpeg,image/webp"
+          disabled={busy}
+          onPick={onUploadOg}
+        />
         <label>
-          Open Graph image
+          Open Graph image URL
           <input value={seo.ogImage} onChange={(e) => onChange({ ogImage: e.target.value })} />
         </label>
         <button type="button" disabled={busy} onClick={onSave}>

@@ -23,5 +23,6 @@ export async function POST(request: Request) {
   await savePageSeoList(pages);
   for (const page of pages) revalidatePath(page.path);
   revalidatePath("/sitemap.xml");
+  revalidatePath("/robots.txt");
   return NextResponse.json({ ok: true });
 }

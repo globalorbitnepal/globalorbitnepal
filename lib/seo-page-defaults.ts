@@ -75,6 +75,30 @@ const STATIC: Record<string, PageSeoDefaults> = {
     keywords: keywordsCsv(["digital solutions nepal", "it services kathmandu"]),
     focusKeyword: "digital marketing nepal",
   },
+  "/orbit-software/web-apps": {
+    title: "Web Apps Nepal · Next.js, PWA & Cloud Dashboards",
+    description: trimDesc(
+      "Custom web applications, PWAs, and operator dashboards from Kathmandu — Next.js, secure APIs, and SEO-ready delivery for Nepal, India, and the US.",
+    ),
+    keywords: keywordsCsv(["web app development nepal", "PWA nepal", "next.js agency kathmandu"]),
+    focusKeyword: "web app development nepal",
+  },
+  "/orbit-software/android-apps": {
+    title: "Android App Development Nepal · Kotlin & Play Store",
+    description: trimDesc(
+      "Native Android apps for Nepali businesses — Kotlin, Play Store launch, billing, and aftercare from Global Orbit Kathmandu.",
+    ),
+    keywords: keywordsCsv(["android app development nepal", "kotlin app kathmandu", "play store nepal"]),
+    focusKeyword: "android app development nepal",
+  },
+  "/orbit-software/ios-apps": {
+    title: "iOS App Development Nepal · SwiftUI & App Store",
+    description: trimDesc(
+      "iPhone and iPad apps with SwiftUI, TestFlight, and App Store launch — designed and engineered in Kathmandu for Nepal, India, and US clients.",
+    ),
+    keywords: keywordsCsv(["ios app development nepal", "swiftui kathmandu", "app store nepal"]),
+    focusKeyword: "ios app development nepal",
+  },
   "/orbit-software": {
     title: "ERP & Business Software Nepal · Billing, Hotel, POS, CRM",
     description: trimDesc(

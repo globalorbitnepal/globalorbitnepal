@@ -7,8 +7,13 @@ export default function robots(): MetadataRoute.Robots {
     rules: [
       {
         userAgent: "*",
+        allow: ["/", "/sitemap.xml"],
+        disallow: ["/admin", "/admin/", "/orbit", "/orbit/", "/api/", "/demo", "/news", "/_next/"],
+      },
+      {
+        userAgent: "GPTBot",
         allow: "/",
-        disallow: ["/admin", "/admin/", "/orbit", "/orbit/", "/api/", "/demo", "/news"],
+        disallow: ["/admin", "/orbit", "/api/"],
       },
     ],
     host,

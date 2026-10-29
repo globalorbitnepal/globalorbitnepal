@@ -41,6 +41,7 @@ export async function POST(request: Request) {
   const isPlatformClipVideo = kind === "platformClipVideo";
   const isChromeLogo = kind === "chromeLogo";
   const isWebsiteDevImage = kind === "websiteDevImage";
+  const isOgImage = kind === "ogImage";
   const logoId = String(form.get("logoId") || "")
     .trim()
     .replace(/[^a-zA-Z0-9_-]/g, "");
@@ -139,6 +140,9 @@ export async function POST(request: Request) {
   } else if (isWebsiteDevImage) {
     ext = file.type === "image/png" ? "png" : file.type === "image/webp" ? "webp" : "jpg";
     name = `website-dev-${assetKey}.${ext}`;
+  } else if (isOgImage) {
+    ext = file.type === "image/png" ? "png" : file.type === "image/webp" ? "webp" : "jpg";
+    name = `og-${Date.now()}.${ext}`;
   } else {
     name = `hero-image.${ext}`;
   }
@@ -164,7 +168,7 @@ export async function POST(request: Request) {
 
   const config = await getHeroConfig();
   const stamp = Date.now();
-  if (isBlogImage || isWebsiteDevImage) {
+  if (isBlogImage || isWebsiteDevImage || isOgImage) {
     return NextResponse.json({ ok: true, url: `/api/media/hero/${name}?v=${stamp}` });
   }
   if (isVideo) {

@@ -76,12 +76,24 @@ export const DEFAULT_FOOTER_CONFIG: FooterConfig = {
   legal: ORBIT_FOOTER_LEGAL.map((l) => ({ label: l.label, href: l.href })),
 };
 
+const STALE_FOOTER_STATS = new Set([
+  "3 Studios · NP · IN · US",
+  "Kathmandu engineering",
+]);
+
+function normalizeFooterStats(stats?: FooterStat[]): FooterStat[] {
+  if (!stats?.length) return DEFAULT_FOOTER_CONFIG.stats;
+  const jammed = stats.some((stat) => STALE_FOOTER_STATS.has(stat.label));
+  if (jammed) return DEFAULT_FOOTER_CONFIG.stats;
+  return stats;
+}
+
 export function mergeFooterConfig(partial: Partial<FooterConfig> | null | undefined): FooterConfig {
   if (!partial) return DEFAULT_FOOTER_CONFIG;
   return {
     ...DEFAULT_FOOTER_CONFIG,
     ...partial,
-    stats: partial.stats?.length ? partial.stats : DEFAULT_FOOTER_CONFIG.stats,
+    stats: normalizeFooterStats(partial.stats),
     explore: partial.explore?.length ? partial.explore : DEFAULT_FOOTER_CONFIG.explore,
     services: partial.services?.length ? partial.services : DEFAULT_FOOTER_CONFIG.services,
     offices: partial.offices?.length ? partial.offices : DEFAULT_FOOTER_CONFIG.offices,
