@@ -205,6 +205,8 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
   const frontLabelRef = useRef<HTMLParagraphElement>(null);
   const madeRef = useRef<HTMLParagraphElement>(null);
   const yawRef = useRef(12);
+  const dragYawRef = useRef(0);
+  const applyRef = useRef<(() => void) | null>(null);
   const frameRef = useRef(0);
   const drawRef = useRef<((yaw: number) => void) | null>(null);
 
@@ -402,7 +404,8 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
       const raw = clamp(-track.getBoundingClientRect().top / travel, 0, 1);
       track.classList.toggle("is-work-scrolling", raw > 0.02 && raw < 0.98);
 
-      const spin = reduce ? 20 : 8 + raw * (touch ? 300 : 420);
+      const base = reduce ? 20 : 8 + raw * (touch ? 300 : 420);
+      const spin = base + dragYawRef.current;
       yawRef.current = spin;
 
       const stage = stageRef.current;
@@ -420,8 +423,52 @@ export function OrbitStudioWhatWeDo({ config }: { config: WorkConfig }) {
     };
 
     placePlanets(8);
+    applyRef.current = apply;
     return bindOrbitScroll(track, apply, frameRef);
   }, [floaters]);
+
+  // Mobile “spin the earth” — horizontal drag rotates the globe, vertical still scrolls.
+  useEffect(() => {
+    const stage = stageRef.current;
+    if (!stage || !isOrbitTouch()) return;
+    let dragging = false;
+    let horizontal: boolean | null = null;
+    let startX = 0;
+    let startY = 0;
+    let startDrag = 0;
+    const down = (event: PointerEvent) => {
+      dragging = true;
+      horizontal = null;
+      startX = event.clientX;
+      startY = event.clientY;
+      startDrag = dragYawRef.current;
+    };
+    const move = (event: PointerEvent) => {
+      if (!dragging) return;
+      const dx = event.clientX - startX;
+      const dy = event.clientY - startY;
+      if (horizontal === null && (Math.abs(dx) > 8 || Math.abs(dy) > 8)) {
+        horizontal = Math.abs(dx) > Math.abs(dy);
+      }
+      if (!horizontal) return;
+      dragYawRef.current = clamp(startDrag + dx * 0.35, -120, 120);
+      applyRef.current?.();
+    };
+    const up = () => {
+      dragging = false;
+      horizontal = null;
+    };
+    stage.addEventListener("pointerdown", down);
+    window.addEventListener("pointermove", move, { passive: true });
+    window.addEventListener("pointerup", up);
+    window.addEventListener("pointercancel", up);
+    return () => {
+      stage.removeEventListener("pointerdown", down);
+      window.removeEventListener("pointermove", move);
+      window.removeEventListener("pointerup", up);
+      window.removeEventListener("pointercancel", up);
+    };
+  }, []);
 
   const siteCount = floaters.length;
 

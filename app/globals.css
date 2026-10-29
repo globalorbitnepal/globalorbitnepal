@@ -5165,6 +5165,21 @@ li.orbit-card:hover {
 }
 
 @media (max-width: 767px) {
+  /* App-like scroll & touch feel — no crop, no hang */
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    overscroll-behavior-y: contain;
+  }
+
+  .orbit-work-earth-arena {
+    touch-action: pan-y;
+  }
+
   .orbit-app-shell {
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
@@ -12862,13 +12877,11 @@ body.go-cms-open .orbit-gold-fab {
   font-size: 0.78rem;
 }
 .go-cms-side {
-  background:
-    radial-gradient(ellipse 80% 40% at 0% 0%, rgba(240, 196, 58, 0.14), transparent 58%),
-    linear-gradient(180deg, #07070d 0%, #0b0c16 48%, #0a0b14 100%);
-  color: #e8eef8;
+  background: linear-gradient(180deg, #f7f4ee 0%, #f4f1eb 100%);
+  color: #1c1917;
   overflow: hidden;
   padding: 0;
-  border-right: 1px solid rgba(240, 196, 58, 0.16);
+  border-right: 1px solid #e8e0d4;
   min-width: 0;
 }
 .go-cms-side-inner {
@@ -12887,9 +12900,9 @@ body.go-cms-open .orbit-gold-fab {
 .go-cms-side-foot {
   flex-shrink: 0;
   padding: 0.75rem 0.75rem 1rem;
-  border-top: 1px solid rgba(240, 196, 58, 0.14);
-  background: linear-gradient(180deg, rgba(10, 10, 18, 0.92), #07070d);
-  box-shadow: 0 -12px 24px rgba(0, 0, 0, 0.28);
+  border-top: 1px solid #e8e0d4;
+  background: #f7f4ee;
+  box-shadow: none;
 }
 .go-cms-logout {
   width: 100%;
@@ -12916,26 +12929,27 @@ body.go-cms-open .orbit-gold-fab {
   gap: 0.55rem;
   padding: 1.05rem 0.95rem 1rem;
   flex-shrink: 0;
-  border-bottom: 1px solid rgba(240, 196, 58, 0.14);
-  background: linear-gradient(180deg, rgba(240, 196, 58, 0.08), rgba(7, 7, 13, 0.4));
+  border-bottom: 1px solid #e8e0d4;
+  background: #fdfbf7;
 }
 .go-cms-mark {
   width: 11px;
   height: 11px;
   border-radius: 99px;
   background: linear-gradient(135deg, #f5d76a, #c9a227);
-  box-shadow: 0 0 16px rgba(240, 196, 58, 0.55);
+  box-shadow: 0 0 12px rgba(240, 196, 58, 0.45);
 }
 .go-cms-brand-text { display: flex; flex-direction: column; gap: 0.15rem; }
 .go-cms-brand strong {
   letter-spacing: 0.14em;
   font-size: 0.78rem;
   font-weight: 800;
+  color: #1c1917;
 }
 .go-cms-brand-text span {
   font-size: 0.65rem;
   letter-spacing: 0.06em;
-  color: #94a3b8;
+  color: #a8a29e;
   font-weight: 600;
   text-transform: uppercase;
 }
@@ -12943,7 +12957,7 @@ body.go-cms-open .orbit-gold-fab {
   margin-left: auto;
   border: 0;
   background: transparent;
-  color: #93c5fd;
+  color: #a8a29e;
   cursor: pointer;
 }
 .go-cms-side nav p {
@@ -12952,7 +12966,7 @@ body.go-cms-open .orbit-gold-fab {
   font-weight: 800;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: rgba(240, 196, 58, 0.72);
+  color: #a8a29e;
 }
 .go-cms-side nav button {
   width: 100%;
@@ -12960,34 +12974,35 @@ body.go-cms-open .orbit-gold-fab {
   align-items: center;
   gap: 0.55rem;
   text-align: left;
-  border: 1px solid transparent;
-  background: rgba(255, 255, 255, 0.03);
-  color: rgba(232, 238, 248, 0.92);
-  padding: 0.58rem 0.72rem;
-  border-radius: 0.75rem;
+  border: 1px solid #e8e2d6;
+  background: #fff;
+  color: #1c1917;
+  padding: 0.6rem 0.72rem;
+  border-radius: 0.85rem;
   font-size: 0.9rem;
   font-weight: 600;
   letter-spacing: 0.01em;
   cursor: pointer;
-  margin-bottom: 0.28rem;
-  line-height: 1.35;
-  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  margin-bottom: 0.32rem;
+  line-height: 1.3;
+  box-shadow: 0 2px 8px rgba(28, 25, 23, 0.04);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
 .go-cms-nav-icon {
   width: 1.75rem;
   height: 1.75rem;
   border-radius: 0.55rem;
-  background: rgba(255, 255, 255, 0.08);
+  background: #f1ede4;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   font-size: 0.72rem;
   font-weight: 800;
   flex-shrink: 0;
-  color: #bfdbfe;
+  color: #78716c;
 }
 .go-cms-side nav button.is-active .go-cms-nav-icon {
-  background: rgba(255, 255, 255, 0.22);
+  background: linear-gradient(135deg, #f5d76a, #c9a227);
   color: #fff;
 }
 .go-cms-nav-label {
@@ -13014,13 +13029,13 @@ body.go-cms-open .orbit-gold-fab {
   font-size: 0.68rem;
   font-weight: 600;
   letter-spacing: 0.02em;
-  color: rgba(226, 232, 240, 0.55);
+  color: #a8a29e;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 .go-cms-side nav button.is-active .go-cms-nav-hint {
-  color: rgba(255, 255, 255, 0.72);
+  color: #8a6d1f;
 }
 .go-cms-main-strip {
   display: flex;
@@ -13061,25 +13076,28 @@ body.go-cms-open .orbit-gold-fab {
   z-index: 0;
 }
 .go-cms-side nav button:hover {
-  border-color: rgba(148, 163, 184, 0.22);
-  background: rgba(30, 41, 59, 0.55);
+  border-color: #d4af37;
+  box-shadow: 0 6px 16px rgba(28, 25, 23, 0.08);
 }
 .go-cms-side nav button.is-active {
-  background: linear-gradient(135deg, rgba(240, 196, 58, 0.22), rgba(37, 99, 235, 0.55));
-  border-color: rgba(240, 196, 58, 0.35);
-  color: #fff;
-  box-shadow: 0 8px 24px rgba(37, 99, 235, 0.22);
+  background: #fbf3df;
+  border-color: #d4af37;
+  color: #1c1917;
+  box-shadow: 0 8px 20px rgba(212, 175, 55, 0.18);
 }
 .go-cms-side nav button.is-sub {
   padding-left: 1.4rem;
   font-size: 0.82rem;
   font-weight: 500;
-  color: #94a3b8;
+  color: #78716c;
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
 }
 .go-cms-side nav button em {
   margin-left: 0.35rem;
   font-style: normal;
-  background: #f97316;
+  background: #d4af37;
   color: #fff;
   border-radius: 99px;
   padding: 0 0.4rem;
