@@ -56,6 +56,7 @@ export type AdminPage = {
   id: AdminPageId;
   label: string;
   path: string;
+  hint?: string;
   editor?: EditorSection;
   platformSlug?: "web-apps" | "android-apps" | "ios-apps";
   sections: AdminSection[];
@@ -67,6 +68,7 @@ export const ADMIN_PAGES: AdminPage[] = [
     id: "home",
     label: "Homepage",
     path: "/",
+    hint: "Hero, need, work, SEO",
     editor: "hero",
     sections: [
       { id: "hero", label: "Hero", hint: "Eyebrow, headline, CTAs, video" },
@@ -81,6 +83,7 @@ export const ADMIN_PAGES: AdminPage[] = [
     id: "about",
     label: "About",
     path: "/about",
+    hint: "Story, timeline, team",
     editor: "about",
     sections: [
       { id: "about", label: "Page content", hint: "Story, timeline, team, CTA" },
@@ -91,6 +94,7 @@ export const ADMIN_PAGES: AdminPage[] = [
     id: "software",
     label: "Orbit Software",
     path: "/orbit-software",
+    hint: "ERP & product cards",
     editor: "software",
     sections: [
       { id: "software", label: "Products", hint: "ERP and product cards" },
@@ -101,6 +105,7 @@ export const ADMIN_PAGES: AdminPage[] = [
     id: "web-apps",
     label: "Web Apps",
     path: "/orbit-software/web-apps",
+    hint: "Hero video, clips, copy",
     editor: "customApps",
     platformSlug: "web-apps",
     sections: [
@@ -112,6 +117,7 @@ export const ADMIN_PAGES: AdminPage[] = [
     id: "android-apps",
     label: "Android Apps",
     path: "/orbit-software/android-apps",
+    hint: "Hero video, clips, copy",
     editor: "customApps",
     platformSlug: "android-apps",
     sections: [
@@ -123,6 +129,7 @@ export const ADMIN_PAGES: AdminPage[] = [
     id: "ios-apps",
     label: "iOS Apps",
     path: "/orbit-software/ios-apps",
+    hint: "Hero video, clips, copy",
     editor: "customApps",
     platformSlug: "ios-apps",
     sections: [
@@ -134,6 +141,7 @@ export const ADMIN_PAGES: AdminPage[] = [
     id: "projects",
     label: "Portfolio",
     path: "/projects",
+    hint: "Demos, stats, CTA",
     editor: "projects",
     sections: [
       { id: "projects", label: "Page content", hint: "Demos, stats, CTA" },
@@ -144,6 +152,7 @@ export const ADMIN_PAGES: AdminPage[] = [
     id: "careers",
     label: "Careers",
     path: "/careers",
+    hint: "Roles, culture, apply",
     editor: "careers",
     sections: [
       { id: "careers", label: "Page content", hint: "Roles, culture, apply" },
@@ -154,6 +163,7 @@ export const ADMIN_PAGES: AdminPage[] = [
     id: "contact",
     label: "Contact",
     path: "/contact",
+    hint: "Appointments, inquiries",
     editor: "appointments",
     sections: [
       { id: "appointments", label: "Appointment inbox", hint: "Book Appointment form" },
@@ -164,6 +174,7 @@ export const ADMIN_PAGES: AdminPage[] = [
     id: "website-development",
     label: "Website Development Nepal",
     path: "/service/website-development-nepal",
+    hint: "Full page editor",
     sections: [
       {
         id: "websiteDevelopment",
@@ -177,6 +188,7 @@ export const ADMIN_PAGES: AdminPage[] = [
     id: "blogs",
     label: "Blog",
     path: "/blogs",
+    hint: "Posts, categories, tags",
     seoOnly: true,
     sections: [{ id: "seo", label: "SEO", hint: "Posts: Blog & content → All Posts" }],
   },
@@ -184,6 +196,7 @@ export const ADMIN_PAGES: AdminPage[] = [
     id: "studio",
     label: "Studio",
     path: "/studio",
+    hint: "Design studio page",
     seoOnly: true,
     sections: [{ id: "seo", label: "SEO", hint: "Metadata for /studio" }],
   },
@@ -191,6 +204,7 @@ export const ADMIN_PAGES: AdminPage[] = [
     id: "inside-orbit",
     label: "Inside Orbit",
     path: "/inside-orbit",
+    hint: "Process story",
     seoOnly: true,
     sections: [{ id: "seo", label: "SEO", hint: "Metadata for /inside-orbit" }],
   },
@@ -198,6 +212,7 @@ export const ADMIN_PAGES: AdminPage[] = [
     id: "packages",
     label: "Packages",
     path: "/packages",
+    hint: "Pricing catalog",
     seoOnly: true,
     sections: [{ id: "seo", label: "SEO", hint: "Catalog copy is code; metadata is editable" }],
   },
@@ -205,6 +220,7 @@ export const ADMIN_PAGES: AdminPage[] = [
     id: "services",
     label: "Solutions",
     path: "/services",
+    hint: "Solutions catalog",
     seoOnly: true,
     sections: [{ id: "seo", label: "SEO", hint: "Catalog copy is code; metadata is editable" }],
   },
@@ -212,6 +228,7 @@ export const ADMIN_PAGES: AdminPage[] = [
     id: "privacy",
     label: "Privacy Policy",
     path: "/privacy-policy",
+    hint: "Policy metadata",
     seoOnly: true,
     sections: [{ id: "seo", label: "SEO", hint: "Metadata only" }],
   },
@@ -219,6 +236,7 @@ export const ADMIN_PAGES: AdminPage[] = [
     id: "terms",
     label: "Terms",
     path: "/terms-and-conditions",
+    hint: "Legal metadata",
     seoOnly: true,
     sections: [{ id: "seo", label: "SEO", hint: "Metadata only" }],
   },

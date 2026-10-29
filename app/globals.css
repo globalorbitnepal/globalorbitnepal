@@ -12997,6 +12997,31 @@ body.go-cms-open .orbit-gold-fab {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+.go-cms-nav-text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.08rem;
+}
+.go-cms-nav-text .go-cms-nav-label {
+  flex: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.go-cms-nav-hint {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: rgba(226, 232, 240, 0.55);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.go-cms-side nav button.is-active .go-cms-nav-hint {
+  color: rgba(255, 255, 255, 0.72);
+}
 .go-cms-main-strip {
   display: flex;
   justify-content: flex-end;
@@ -13128,6 +13153,79 @@ body.go-cms-open .orbit-gold-fab {
   border-radius: 0.8rem;
   font-weight: 700;
 }
+.go-cms-hero {
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  padding: 1.7rem 1.75rem 1.55rem;
+  border-radius: 1.35rem;
+  border: 1px solid rgba(240, 196, 58, 0.3);
+  background:
+    radial-gradient(ellipse 60% 80% at 100% 0%, rgba(240, 196, 58, 0.14), transparent 60%),
+    radial-gradient(ellipse 50% 70% at 0% 100%, rgba(37, 99, 235, 0.16), transparent 62%),
+    linear-gradient(170deg, #101019 0%, #08080f 100%);
+  color: #fff;
+  box-shadow: 0 24px 60px rgba(10, 10, 18, 0.35);
+}
+.go-cms-hero-eyebrow {
+  margin: 0;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(240, 196, 58, 0.9);
+}
+.go-cms-hero-title {
+  margin: 0.4rem 0 0;
+  font-family: Georgia, "Times New Roman", Times, serif;
+  font-size: clamp(1.9rem, 3vw, 2.5rem);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+}
+.go-cms-hero-lede {
+  margin: 0.6rem 0 0;
+  max-width: 44rem;
+  color: rgba(255, 255, 255, 0.72);
+  line-height: 1.55;
+}
+.go-cms-hero-chips {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.7rem;
+  margin-top: 1.35rem;
+}
+.go-cms-hero-chips button {
+  background: rgba(255, 255, 255, 0.055);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.9rem;
+  padding: 0.85rem 1rem;
+  text-align: left;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+.go-cms-hero-chips button:hover {
+  background: rgba(240, 196, 58, 0.12);
+  border-color: rgba(240, 196, 58, 0.35);
+  transform: translateY(-1px);
+}
+.go-cms-hero-chips strong {
+  display: block;
+  font-family: Georgia, "Times New Roman", Times, serif;
+  font-size: 1.55rem;
+  line-height: 1.1;
+  color: #f5d76a;
+}
+.go-cms-hero-chips span {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.62);
+}
 .go-cms-kpis {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -13135,27 +13233,37 @@ body.go-cms-open .orbit-gold-fab {
 }
 .go-cms-kpis button {
   background: #fff;
-  border: 1px solid #e5edf7;
+  border: 1px solid #e8e2d6;
   border-radius: 1.1rem;
-  padding: 1.05rem;
+  padding: 1.15rem 1.15rem 1.05rem;
   text-align: left;
   cursor: pointer;
-  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.04);
+  box-shadow: 0 8px 24px rgba(28, 25, 23, 0.05);
+  transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+}
+.go-cms-kpis button:hover {
+  border-color: #c4a574;
+  box-shadow: 0 14px 30px rgba(28, 25, 23, 0.09);
+  transform: translateY(-1px);
+}
+.go-cms-kpis strong {
+  display: block;
+  font-family: Georgia, "Times New Roman", Times, serif;
+  font-size: 2.15rem;
+  line-height: 1.05;
+  color: #b8860b;
 }
 .go-cms-kpis span {
-  width: 38px;
-  height: 38px;
   display: block;
-  border-radius: 0.8rem;
-  margin-bottom: 0.7rem;
+  margin-top: 0.3rem;
+  font-weight: 700;
+  color: #1c1917;
 }
-.go-cms-kpis .is-blue { background: #3b82f6; }
-.go-cms-kpis .is-green { background: #22c55e; }
-.go-cms-kpis .is-orange { background: #f97316; }
-.go-cms-kpis .is-purple { background: #8b5cf6; }
-.go-cms-kpis p { margin: 0; color: #64748b; font-weight: 700; }
-.go-cms-kpis strong { display: block; font-size: 2rem; margin: 0.15rem 0; }
-.go-cms-kpis small { color: #94a3b8; }
+.go-cms-kpis small {
+  display: block;
+  margin-top: 0.2rem;
+  color: #94a3b8;
+}
 .go-cms-split {
   margin-top: 1rem;
   display: grid;
@@ -13184,8 +13292,8 @@ body.go-cms-open .orbit-gold-fab {
 .go-cms-posts button,
 .go-cms-compose-side button {
   border: 0;
-  background: #eff6ff;
-  color: #1d4ed8;
+  background: rgba(240, 196, 58, 0.14);
+  color: #9a7b1a;
   border-radius: 0.7rem;
   padding: 0.55rem 0.8rem;
   font-weight: 700;
@@ -13732,9 +13840,15 @@ body.go-cms-open .orbit-gold-fab {
     display: none;
   }
   .go-cms-kpis, .go-cms-split, .go-cms-compose, .go-cms-quick { grid-template-columns: 1fr; }
+  .go-cms-hero { padding: 1.25rem 1.15rem 1.2rem; }
+  .go-cms-hero-chips { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .go-cms-tools { flex-wrap: wrap; }
   .go-cms-tools input { min-width: 0; width: 100%; }
   .go-cms-top { flex-direction: column; }
+}
+
+@media (max-width: 560px) {
+  .go-cms-hero-chips { grid-template-columns: 1fr; }
 }
 
 /* Site-wide responsive polish — all viewports */

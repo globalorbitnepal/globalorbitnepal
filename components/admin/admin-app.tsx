@@ -114,6 +114,30 @@ function writeHash(view: AdminView, pageId?: string, section?: string, slug?: st
   window.location.hash = params.toString();
 }
 
+function NavButton({
+  icon,
+  label,
+  hint,
+  active,
+  onClick,
+}: {
+  icon: string;
+  label: string;
+  hint?: string;
+  active: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <button type="button" className={active ? "is-active" : ""} onClick={onClick}>
+      <span className="go-cms-nav-icon" aria-hidden="true">{icon}</span>
+      <span className="go-cms-nav-text">
+        <span className="go-cms-nav-label">{label}</span>
+        {hint ? <span className="go-cms-nav-hint">{hint}</span> : null}
+      </span>
+    </button>
+  );
+}
+
 export function AdminApp(props: Props) {
   const router = useRouter();
   const start = readHash();
@@ -383,10 +407,13 @@ export function AdminApp(props: Props) {
         </div>
         <nav>
           <p>Overview</p>
-          <button type="button" className={view === "overview" ? "is-active" : ""} onClick={() => go("overview")}>
-            <span className="go-cms-nav-icon" aria-hidden="true">◆</span>
-            <span className="go-cms-nav-label">Dashboard</span>
-          </button>
+          <NavButton
+            icon="◆"
+            label="Dashboard"
+            hint="Activity & quick actions"
+            active={view === "overview"}
+            onClick={() => go("overview")}
+          />
           {ADMIN_NAV_GROUPS.map((group) => {
             const groupPages = group.pageIds
               .map((id) => ADMIN_PAGES.find((p) => p.id === id))
@@ -398,17 +425,16 @@ export function AdminApp(props: Props) {
                 <p>{group.label}</p>
                 {groupPages.map((item) => (
                   <div key={item.id}>
-                    <button
-                      type="button"
-                      className={view === "page" && pageId === item.id ? "is-active" : ""}
+                    <NavButton
+                      icon={item.label.slice(0, 1)}
+                      label={item.label}
+                      hint={item.hint}
+                      active={view === "page" && pageId === item.id}
                       onClick={() => {
                         setExpanded((current) => (current === item.id ? null : item.id));
                         go("page", item);
                       }}
-                    >
-                      <span className="go-cms-nav-icon" aria-hidden="true">{item.label.slice(0, 1)}</span>
-                      <span className="go-cms-nav-label">{item.label}</span>
-                    </button>
+                    />
                     {expanded === item.id
                       ? (
                           <>
@@ -440,51 +466,25 @@ export function AdminApp(props: Props) {
             );
           })}
           <p>Blog & content</p>
-          <button type="button" className={view === "blogs" ? "is-active" : ""} onClick={() => go("blogs")}>
-            <span className="go-cms-nav-icon" aria-hidden="true">B</span>
-            <span className="go-cms-nav-label">All Posts</span>
-          </button>
-          <button type="button" className={view === "compose" && !composeSlug ? "is-active" : ""} onClick={() => go("compose")}>
-            <span className="go-cms-nav-icon" aria-hidden="true">+</span>
-            <span className="go-cms-nav-label">Add New Post</span>
-          </button>
-          <button type="button" className={view === "categories" ? "is-active" : ""} onClick={() => go("categories")}>
-            <span className="go-cms-nav-icon" aria-hidden="true">C</span>
-            <span className="go-cms-nav-label">Categories</span>
-          </button>
-          <button type="button" className={view === "tags" ? "is-active" : ""} onClick={() => go("tags")}>
-            <span className="go-cms-nav-icon" aria-hidden="true">T</span>
-            <span className="go-cms-nav-label">Tags</span>
-          </button>
-          <button type="button" className={view === "media" ? "is-active" : ""} onClick={() => go("media")}>
-            <span className="go-cms-nav-icon" aria-hidden="true">M</span>
-            <span className="go-cms-nav-label">Media Library</span>
-          </button>
-          <button type="button" className={view === "drafts" ? "is-active" : ""} onClick={() => go("drafts")}>
-            <span className="go-cms-nav-icon" aria-hidden="true">D</span>
-            <span className="go-cms-nav-label">Drafts</span>
-          </button>
-          <button type="button" className={view === "blog-seo" ? "is-active" : ""} onClick={() => go("blog-seo")}>
-            <span className="go-cms-nav-icon" aria-hidden="true">S</span>
-            <span className="go-cms-nav-label">SEO Overview</span>
-          </button>
+          <NavButton icon="B" label="All Posts" hint="Published & drafts" active={view === "blogs"} onClick={() => go("blogs")} />
+          <NavButton icon="+" label="Add New Post" hint="Write & publish" active={view === "compose" && !composeSlug} onClick={() => go("compose")} />
+          <NavButton icon="C" label="Categories" hint="Content filters" active={view === "categories"} onClick={() => go("categories")} />
+          <NavButton icon="T" label="Tags" hint="Keyword tags" active={view === "tags"} onClick={() => go("tags")} />
+          <NavButton icon="M" label="Media Library" hint="Images & videos" active={view === "media"} onClick={() => go("media")} />
+          <NavButton icon="D" label="Drafts" hint="Unpublished posts" active={view === "drafts"} onClick={() => go("drafts")} />
+          <NavButton icon="S" label="SEO Overview" hint="Blog SEO checklist" active={view === "blog-seo"} onClick={() => go("blog-seo")} />
           <p>SEO</p>
-          <button type="button" className={view === "seo" ? "is-active" : ""} onClick={() => go("seo")}>
-            <span className="go-cms-nav-icon" aria-hidden="true">P</span>
-            <span className="go-cms-nav-label">Page metadata</span>
-          </button>
+          <NavButton icon="P" label="Page metadata" hint="Every page, one list" active={view === "seo"} onClick={() => go("seo")} />
           <p>Global</p>
-          <button type="button" className={view === "chrome" ? "is-active" : ""} onClick={() => go("chrome")}>
-            <span className="go-cms-nav-icon" aria-hidden="true">H</span>
-            <span className="go-cms-nav-label">Header & footer</span>
-          </button>
+          <NavButton icon="H" label="Header & footer" hint="Logo, identity, links" active={view === "chrome"} onClick={() => go("chrome")} />
           <p>Business</p>
-          <button type="button" className={view === "inquiries" ? "is-active" : ""} onClick={() => go("inquiries")}>
-            <span className="go-cms-nav-icon" aria-hidden="true">!</span>
-            <span className="go-cms-nav-label">
-              All inquiries {props.inquiryNew ? <em>{props.inquiryNew}</em> : null}
-            </span>
-          </button>
+          <NavButton
+            icon="!"
+            label="All inquiries"
+            hint="Leads & appointments"
+            active={view === "inquiries"}
+            onClick={() => go("inquiries")}
+          />
         </nav>
         <footer className="go-cms-side-foot">
           <button type="button" className="go-cms-logout" onClick={() => void logout()}>
@@ -543,32 +543,51 @@ export function AdminApp(props: Props) {
 
         {view === "overview" ? (
           <div className="go-cms-home">
+            <section className="go-cms-hero">
+              <p className="go-cms-hero-eyebrow">Management console</p>
+              <h2 className="go-cms-hero-title">Welcome back</h2>
+              <p className="go-cms-hero-lede">
+                Every page, section, video, image, and footer of the live site — edited from one place and published instantly.
+              </p>
+              <div className="go-cms-hero-chips">
+                <button type="button" onClick={() => go("page", ADMIN_PAGES[0], "hub")}>
+                  <strong>{pages.length}</strong>
+                  <span>Total pages</span>
+                </button>
+                <button type="button" onClick={() => go("blogs")}>
+                  <strong>{posts.length}</strong>
+                  <span>Blog posts</span>
+                </button>
+                <button type="button" onClick={() => go("inquiries")}>
+                  <strong>{props.inquiryNew}</strong>
+                  <span>New inquiries</span>
+                </button>
+                <button type="button" onClick={() => go("inquiries")}>
+                  <strong>{props.inquiryTotal}</strong>
+                  <span>All inquiries</span>
+                </button>
+              </div>
+            </section>
             <div className="go-cms-kpis">
-              <button type="button" onClick={() => go("page", ADMIN_PAGES[0], "hub")}>
-                <span className="is-blue" />
-                <p>Total pages</p>
-                <strong>{pages.length}</strong>
-                <small>{pages.filter((item) => item.robotsIndex !== false).length} indexed</small>
+              <button type="button" onClick={() => go("seo")}>
+                <strong>{pages.filter((item) => item.robotsIndex !== false).length}</strong>
+                <span>Indexed pages</span>
+                <small>Live in sitemap</small>
               </button>
               <button type="button" onClick={() => go("blogs")}>
-                <span className="is-green" />
-                <p>Blog posts</p>
-                <strong>{posts.length}</strong>
-                <small>
-                  Published {publishedPosts.length} · Draft {draftPosts.length}
-                </small>
+                <strong>{publishedPosts.length}</strong>
+                <span>Published posts</span>
+                <small>Live on /blogs</small>
               </button>
-              <button type="button" onClick={() => go("inquiries")}>
-                <span className="is-orange" />
-                <p>New inquiries</p>
-                <strong>{props.inquiryNew}</strong>
-                <small>Awaiting follow-up</small>
+              <button type="button" onClick={() => go("drafts")}>
+                <strong>{draftPosts.length}</strong>
+                <span>Draft posts</span>
+                <small>Awaiting publish</small>
               </button>
-              <button type="button" onClick={() => go("inquiries")}>
-                <span className="is-purple" />
-                <p>All inquiries</p>
-                <strong>{props.inquiryTotal}</strong>
-                <small>Total inquiries stored</small>
+              <button type="button" onClick={() => go("seo")}>
+                <strong>{missingSeo.length}</strong>
+                <span>SEO to do</span>
+                <small>Missing title or description</small>
               </button>
             </div>
             <div className="go-cms-split">
