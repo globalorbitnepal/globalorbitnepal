@@ -116,7 +116,7 @@ export function buildDefaultWebsiteDevelopmentPageConfig(): WebsiteDevelopmentPa
     hero: { ...WD_HERO },
     heroComposition: {
       caption: "Conceptual layouts — fictional brands for demonstration",
-      mainImage: "/brand/website-demos/lodge-hero.jpg",
+      mainImage: "/brand/website-demos/wd-hero-main.jpg",
       mainBrowserUrl: "yourbrand.com.np",
       satellites: [
         { src: "/brand/website-demos/trek-hero.jpg", url: "trail.demo", alt: "Trekking website concept preview" },

@@ -46,7 +46,7 @@ export function WebsiteDevelopmentPageView({ config }: { config: WebsiteDevelopm
       <section className="orbit-wd-hero-section relative isolate px-4 pb-14 pt-4 sm:px-6 lg:px-8">
         <div className="orbit-about-hero-glow pointer-events-none absolute inset-0 -z-10" aria-hidden="true" />
         <div className="orbit-about-hero-grid pointer-events-none absolute inset-0 -z-10 opacity-35" aria-hidden="true" />
-        <div className="mx-auto grid max-w-[82rem] items-center gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] lg:gap-14">
+        <div className="mx-auto grid max-w-[82rem] items-center gap-8 lg:grid-cols-[minmax(0,1fr)_22.5rem] lg:justify-between lg:gap-16">
           <div className="wd-hero-copy wd-hero-enter">
             <Badge>{hero.eyebrow}</Badge>
             <h1 className="orbit-about-hero-title mt-5 text-left font-[family-name:var(--font-jakarta)]">{hero.h1}</h1>
