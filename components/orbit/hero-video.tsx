@@ -11,11 +11,8 @@ export function OrbitHeroVideo() {
       poster="/brand/hero-uhd.jpg"
       aria-hidden="true"
     >
-      <source
-        src="https://media.base44.com/videos/public/6a19cb9aaec767c0616892e9/4987c1f14_201735-916310640_medium.mp4"
-        type="video/mp4"
-      />
       <source src="/brand/hero-developer.mp4" type="video/mp4" />
+      <source src="/brand/hero-product.mp4" type="video/mp4" />
     </video>
   );
 }

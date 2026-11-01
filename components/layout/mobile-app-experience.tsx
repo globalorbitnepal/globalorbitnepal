@@ -25,7 +25,21 @@ export function MobileAppExperience() {
     if (standalone) root.classList.add("orbit-standalone");
 
     if ("serviceWorker" in navigator) {
-      void navigator.serviceWorker.register("/sw.js").catch(() => {});
+      void navigator.serviceWorker
+        .register("/sw.js")
+        .then((reg) => {
+          void reg.update();
+          reg.addEventListener("updatefound", () => {
+            const worker = reg.installing;
+            if (!worker) return;
+            worker.addEventListener("statechange", () => {
+              if (worker.state === "activated" && navigator.serviceWorker.controller) {
+                window.location.reload();
+              }
+            });
+          });
+        })
+        .catch(() => {});
     }
 
     setAppViewportUnit();

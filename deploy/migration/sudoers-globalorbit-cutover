@@ -1,0 +1,6 @@
+# Allow Cursor/agent to finish nginx cutover without interactive password.
+# Install once (requires your sudo password one time):
+#   sudo cp deploy/migration/sudoers-globalorbit-cutover /etc/sudoers.d/globalorbit-cutover
+#   sudo chmod 440 /etc/sudoers.d/globalorbit-cutover
+#   sudo visudo -c
+sysadmin ALL=(ALL) NOPASSWD: /bin/bash /home/sysadmin/srv/apps/globalorbitnepal/deploy/migration/finish-cutover.sh

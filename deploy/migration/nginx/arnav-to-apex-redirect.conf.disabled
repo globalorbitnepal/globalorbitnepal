@@ -29,9 +29,8 @@ server {
 }
 
 server {
-    listen 443 ssl;
-    listen [::]:443 ssl;
-    http2 on;
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
     server_name arnav.theglobalorbit.com;
 
     # Keep existing staging certs so HTTPS redirects work without broken TLS
