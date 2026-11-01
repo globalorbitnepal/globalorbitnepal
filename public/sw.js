@@ -1,5 +1,10 @@
-const CACHE = "orbit-app-v3-apex-2026";
-const PRECACHE = ["/manifest.webmanifest", "/icons/pwa-192.png", "/icons/pwa-512.png"];
+const CACHE = "orbit-app-v4-brand-icons-2026";
+const PRECACHE = [
+  "/manifest.webmanifest",
+  "/icons/favicon-48.png",
+  "/icons/pwa-192.png",
+  "/icons/apple-touch-180.png",
+];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(caches.open(CACHE).then((cache) => cache.addAll(PRECACHE)));

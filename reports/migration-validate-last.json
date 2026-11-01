@@ -1,48 +1,33 @@
 {
-  "at": "2026-11-01T13:03:32.427Z",
-  "BASE": "https://theglobalorbit.com",
+  "at": "2026-11-01T13:23:02.236Z",
+  "BASE": "https://arnav.theglobalorbit.com",
   "EXPECT": "https://theglobalorbit.com",
   "isApexExpect": true,
   "results": [
     {
-      "name": "apex_reachable",
-      "status": "BLOCKED",
-      "detail": "HTTP 502 — apex may not serve this app yet"
+      "name": "staging_redirect/",
+      "status": "PASS",
+      "detail": "https://theglobalorbit.com/"
     },
     {
-      "name": "robots_http",
-      "status": "BLOCKED",
-      "detail": "HTTP 502"
+      "name": "staging_redirect/contact",
+      "status": "PASS",
+      "detail": "https://theglobalorbit.com/contact"
     },
     {
-      "name": "sitemap_http",
-      "status": "BLOCKED",
-      "detail": "HTTP 502"
+      "name": "staging_redirect/robots_txt",
+      "status": "PASS",
+      "detail": "https://theglobalorbit.com/robots.txt"
     },
     {
-      "name": "page_/contact",
-      "status": "BLOCKED",
-      "detail": "HTTP 502"
+      "name": "staging_redirect/sitemap_xml",
+      "status": "PASS",
+      "detail": "https://theglobalorbit.com/sitemap.xml"
     },
     {
-      "name": "page_/service/website-development-nepal",
-      "status": "BLOCKED",
-      "detail": "HTTP 502"
-    },
-    {
-      "name": "page_/orbit-software",
-      "status": "BLOCKED",
-      "detail": "HTTP 502"
-    },
-    {
-      "name": "page_/about",
-      "status": "BLOCKED",
-      "detail": "HTTP 502"
-    },
-    {
-      "name": "staging_redirect_contact",
-      "status": "BLOCKED",
-      "detail": "set CHECK_STAGING_REDIRECT=1 after enabling nginx redirect"
+      "name": "staging_redirect_service",
+      "status": "PASS",
+      "detail": "https://theglobalorbit.com/service/website-development-nepal"
     }
   ]
 }

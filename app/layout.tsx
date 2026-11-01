@@ -11,7 +11,8 @@ import {
   FALLBACK_SITE,
   type FallbackNavItem,
 } from "@/lib/site";
-import { SITE_ORIGIN } from "@/lib/site-origin";
+import { SITE_ORIGIN, absoluteUrl } from "@/lib/site-origin";
+import { keywordsString } from "@/lib/seo-keywords";
 import "./globals.css";
 
 export const dynamic = "force-dynamic";
@@ -51,12 +52,27 @@ export async function generateMetadata(): Promise<Metadata> {
       template: `%s · ${settings?.companyName || FALLBACK_SITE.companyName}`,
     },
     description,
+    keywords: keywordsString(),
     openGraph: {
       title,
       description,
       locale: "en_NP",
       type: "website",
       url: SITE_ORIGIN,
+      images: [
+        {
+          url: absoluteUrl("/brand/og-default.jpg"),
+          width: 1200,
+          height: 630,
+          alt: "Global Orbit — website development, apps, SEO and digital marketing in Nepal",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [absoluteUrl("/brand/og-default.jpg")],
     },
     manifest: "/manifest.webmanifest",
     appleWebApp: {
@@ -65,11 +81,14 @@ export async function generateMetadata(): Promise<Metadata> {
       title: settings?.companyName || FALLBACK_SITE.companyName,
     },
     icons: {
-      apple: [{ url: "/icons/apple-touch-180.png", sizes: "180x180", type: "image/png" }],
       icon: [
+        { url: "/icons/favicon-48.png", sizes: "48x48", type: "image/png" },
+        { url: "/icons/favicon-32.png", sizes: "32x32", type: "image/png" },
+        { url: "/brand/logo-emblem-square.png", sizes: "512x512", type: "image/png" },
         { url: "/icons/pwa-192.png", sizes: "192x192", type: "image/png" },
-        { url: "/icons/pwa-512.png", sizes: "512x512", type: "image/png" },
       ],
+      apple: [{ url: "/icons/apple-touch-180.png", sizes: "180x180", type: "image/png" }],
+      shortcut: [{ url: "/icons/favicon-48.png", type: "image/png" }],
     },
     other: {
       "mobile-web-app-capable": "yes",

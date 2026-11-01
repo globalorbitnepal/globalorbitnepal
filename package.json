@@ -10,14 +10,16 @@
     "lint": "eslint",
     "seo:verify": "node scripts/verify-seo-routes.mjs",
     "seo:audit": "node scripts/audit-seo-live.mjs",
+    "audit:full": "npm run seo:verify && CHECK_STAGING_REDIRECT=1 npm run migration:validate-apex && npm run seo:audit && npm run migration:validate-staging",
     "migration:validate": "node scripts/migration-validate.mjs",
-    "migration:validate-staging": "BASE_URL=https://arnav.theglobalorbit.com EXPECT_ORIGIN=https://arnav.theglobalorbit.com node scripts/migration-validate.mjs",
-    "migration:validate-apex": "BASE_URL=https://theglobalorbit.com EXPECT_ORIGIN=https://theglobalorbit.com node scripts/migration-validate.mjs",
+    "migration:validate-staging": "BASE_URL=https://arnav.theglobalorbit.com EXPECT_ORIGIN=https://theglobalorbit.com node scripts/migration-validate.mjs",
+    "migration:validate-apex": "CHECK_STAGING_REDIRECT=1 BASE_URL=https://theglobalorbit.com EXPECT_ORIGIN=https://theglobalorbit.com node scripts/migration-validate.mjs",
     "test:e2e": "playwright test",
     "db:generate": "prisma generate",
     "db:validate": "prisma validate",
     "db:verify-target": "node scripts/verify-database-target.mjs",
-    "videos:platform": "bash scripts/build-platform-app-videos.sh"
+    "videos:platform": "bash scripts/build-platform-app-videos.sh",
+    "icons:generate": "node scripts/generate-brand-icons.mjs"
   },
   "dependencies": {
     "@prisma/client": "^6.16.2",
@@ -27,15 +29,15 @@
   },
   "devDependencies": {
     "@ffmpeg-installer/ffmpeg": "^1.1.0",
+    "@playwright/test": "^1.51.0",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.3.4",
-    "@playwright/test": "^1.51.0",
-    "tailwindcss": "^4",
     "prisma": "^6.16.2",
+    "tailwindcss": "^4",
     "typescript": "^5"
   }
 }

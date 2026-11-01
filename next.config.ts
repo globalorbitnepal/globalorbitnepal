@@ -17,6 +17,9 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "cdn.simpleicons.org" },
     ],
   },
+  async rewrites() {
+    return [{ source: "/favicon.ico", destination: "/icons/favicon-48.png" }];
+  },
   async redirects() {
     return [
       { source: "/news", destination: "/blogs", permanent: true },

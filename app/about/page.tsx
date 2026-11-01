@@ -5,9 +5,9 @@ import { applyPageSeo } from "@/lib/apply-page-seo";
 
 export async function generateMetadata(): Promise<Metadata> {
   return applyPageSeo("/about", {
-    title: "About Us",
+    title: "About Global Orbit · Web & Software Studio Nepal",
     description:
-      "Global Orbit Pvt Ltd — enterprise software, web development, and SEO from Kathmandu with studios in Nepal, India, and the United States.",
+      "Enterprise websites, custom apps, ERP, and SEO from Kathmandu with teams in Nepal, India, and the United States — one accountable studio.",
   });
 }
 

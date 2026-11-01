@@ -28,6 +28,13 @@ if (!BASE || !EXPECT) {
 }
 
 const expectHost = new URL(EXPECT).host;
+const baseHost = (() => {
+  try {
+    return new URL(BASE).host;
+  } catch {
+    return "";
+  }
+})();
 const isApexExpect = expectHost === APEX_HOST || expectHost === `www.${APEX_HOST}`;
 
 const results = [];
@@ -99,12 +106,63 @@ function assertHost(label, urlOrHost) {
   return true;
 }
 
+function assertRedirectToApex(label, status, location, pathSuffix = "/") {
+  const expected = `https://${APEX_HOST}${pathSuffix}`;
+  if (status !== 301 && status !== 308) {
+    record(label, "FAIL", `expected 301, got ${status}`);
+    return false;
+  }
+  const loc = (location || "").replace(/\/$/, "");
+  const want = expected.replace(/\/$/, "");
+  if (loc === want || loc === expected || location === expected) {
+    record(label, "PASS", location || loc);
+    return true;
+  }
+  record(label, "FAIL", `Location=${location}, want ${expected}`);
+  return false;
+}
+
+async function runStagingRedirectAudit() {
+  console.log("Mode: staging hostname redirects to apex (post-cutover)");
+  const paths = ["/", "/contact", "/robots.txt", "/sitemap.xml"];
+  for (const p of paths) {
+    const r = await fetchText(`https://${STAGING_HOST}${p}`, { redirect: "manual" });
+    assertRedirectToApex(`staging_redirect${p.replace(/\./g, "_")}`, r.status, r.location, p);
+  }
+  const r = await fetchText(`https://${STAGING_HOST}/service/website-development-nepal`, {
+    redirect: "manual",
+  });
+  assertRedirectToApex(
+    "staging_redirect_service",
+    r.status,
+    r.location,
+    "/service/website-development-nepal",
+  );
+}
+
 const SPOT_PATHS = ["/", "/contact", "/service/website-development-nepal", "/orbit-software", "/about"];
 
 async function main() {
   console.log(`BASE_URL=${BASE}`);
   console.log(`EXPECT_ORIGIN=${EXPECT}`);
   console.log(`Apex leak check: ${isApexExpect ? "ON (fail on arnav in SEO)" : "off (staging mode)"}`);
+
+  // Post-cutover: arnav no longer serves HTML — only 301 to apex
+  if (baseHost === STAGING_HOST) {
+    const probe = await fetchText(`https://${STAGING_HOST}/`, { redirect: "manual" });
+    if (probe.status === 301 || probe.status === 308) {
+      await runStagingRedirectAudit();
+      writeReport();
+      return;
+    }
+    record(
+      "staging_serves_html",
+      "FAIL",
+      `expected 301 to apex, got HTTP ${probe.status} — restore redirect or use apex validate`,
+    );
+    writeReport();
+    return;
+  }
 
   // Reachability
   const home = await fetchText(`${BASE}/`);
@@ -245,9 +303,13 @@ async function main() {
       record("staging_redirect_contact", "FAIL", `expected 301, got ${r.status}`);
     }
   } else if (isApexExpect) {
-    record("staging_redirect_contact", "BLOCKED", "set CHECK_STAGING_REDIRECT=1 after enabling nginx redirect");
+    record("staging_redirect_contact", "BLOCKED", "set CHECK_STAGING_REDIRECT=1 (included in audit:full)");
   }
 
+  writeReport();
+}
+
+function writeReport() {
   const dir = path.join(root, "reports");
   mkdirSync(dir, { recursive: true });
   const out = path.join(dir, "migration-validate-last.json");
@@ -262,7 +324,9 @@ async function main() {
 
   const failed = results.filter((r) => r.status === "FAIL");
   const blocked = results.filter((r) => r.status === "BLOCKED");
-  console.log(`\nSummary: PASS=${results.filter((r) => r.status === "PASS").length} FAIL=${failed.length} BLOCKED=${blocked.length}`);
+  console.log(
+    `\nSummary: PASS=${results.filter((r) => r.status === "PASS").length} FAIL=${failed.length} BLOCKED=${blocked.length}`,
+  );
   console.log(`Wrote ${out}`);
   if (failed.length) process.exit(1);
 }

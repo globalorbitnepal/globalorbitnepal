@@ -78,9 +78,10 @@ export function organizationJsonLd(input: {
     "@id": `${url}/#organization`,
     name: input.name,
     url,
-    logo: absoluteUrl("/brand/logo-official-gold.png"),
-    image: absoluteUrl("/brand/logo-official-gold.png"),
+    logo: absoluteUrl("/brand/logo-emblem-square.png"),
+    image: absoluteUrl("/brand/og-default.jpg"),
     description: input.description || FALLBACK_SITE.defaultSeoDescription,
+    alternateName: ["Global Orbit Nepal", "Website development company Kathmandu"],
     address: {
       "@type": "PostalAddress",
       addressLocality: "Kathmandu",
@@ -129,8 +130,8 @@ export function localBusinessJsonLd(input: {
     name: input.name,
     description: input.description,
     url: SITE_ORIGIN,
-    image: absoluteUrl("/brand/logo-official-gold.png"),
-    logo: absoluteUrl("/brand/logo-official-gold.png"),
+    image: absoluteUrl("/brand/og-default.jpg"),
+    logo: absoluteUrl("/brand/logo-emblem-square.png"),
     email: input.email,
     telephone: input.phone,
     address: {
@@ -141,5 +142,22 @@ export function localBusinessJsonLd(input: {
     },
     areaServed: { "@type": "Country", name: "Nepal" },
     priceRange: "$$",
+    knowsAbout: [
+      "Website development Nepal",
+      "SEO services Nepal",
+      "Digital marketing Nepal",
+      "Mobile app development Nepal",
+      "Custom software development Nepal",
+    ],
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: "Digital services in Nepal",
+      itemListElement: [
+        { "@type": "Offer", itemOffered: { "@type": "Service", name: "Website development Nepal" } },
+        { "@type": "Offer", itemOffered: { "@type": "Service", name: "SEO & Google ranking Nepal" } },
+        { "@type": "Offer", itemOffered: { "@type": "Service", name: "Digital marketing Nepal" } },
+        { "@type": "Offer", itemOffered: { "@type": "Service", name: "Mobile app development Nepal" } },
+      ],
+    },
   };
 }
