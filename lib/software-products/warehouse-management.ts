@@ -3,7 +3,7 @@ import type { SoftwareProductContent } from "@/lib/software-product-types";
 export const WAREHOUSE_MANAGEMENT: SoftwareProductContent = {
   slug: "warehouse-management",
   seo: {
-    title: "Warehouse Management Software | Inventory Control | Global Orbit",
+    title: "Warehouse Management Nepal | Inventory Control | Global Orbit",
     description:
       "Warehouse and inventory management for receiving, stock tracking, transfers, picking, and reporting — with clear visibility for Nepali distributors and retailers.",
     keywords: [

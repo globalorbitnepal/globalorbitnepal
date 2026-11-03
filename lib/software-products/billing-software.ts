@@ -3,7 +3,7 @@ import type { SoftwareProductContent } from "@/lib/software-product-types";
 export const BILLING_SOFTWARE: SoftwareProductContent = {
   slug: "billing-software",
   seo: {
-    title: "Billing Software | Business Billing & Invoicing | Global Orbit",
+    title: "Billing Software Nepal | Invoicing & VAT | Global Orbit",
     description:
       "Billing and invoice management for retailers, distributors, and service businesses — sales and purchase invoices, tax-ready documents, payment tracking, and reports from Global Orbit.",
     keywords: [

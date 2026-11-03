@@ -36,7 +36,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   if (slug === WEBSITE_DEV_SLUG) {
     return applyPageSeo(item.href, {
-      title: "Website Development Nepal | Custom Business Websites | Global Orbit",
+      title: "Website Development Nepal | Custom Websites | Global Orbit",
       description:
         "Website development in Nepal — custom business sites, e-commerce, hotel and travel websites, responsive design, and SEO-ready builds by Global Orbit Kathmandu.",
       keywords: WEBSITE_DEV_KEYWORDS,
@@ -160,5 +160,5 @@ export default async function ServiceDetailPage({ params }: Props) {
     );
   }
 
-  return <OrbitArticlePage eyebrow="Service" title={item.title} summary={item.summary} />;
+  return <OrbitArticlePage eyebrow="Service" title={item.title} summary={item.summary} path={item.href} breadcrumbParent={{ name: "Solutions", path: "/services" }} />;
 }

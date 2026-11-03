@@ -3,7 +3,7 @@ import type { SoftwareProductContent } from "@/lib/software-product-types";
 export const OTA_MANAGEMENT: SoftwareProductContent = {
   slug: "ota-management-system",
   seo: {
-    title: "OTA Management System | Travel Booking Management | Global Orbit",
+    title: "OTA Management Nepal | Travel Booking System | Global Orbit",
     description:
       "Online travel agency and tour operator software for centralized bookings, supplier inventory, packages, commissions, and operational reporting — from Global Orbit.",
     keywords: [

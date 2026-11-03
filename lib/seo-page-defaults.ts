@@ -36,9 +36,9 @@ function cardSeo(card: OrbitCard, focus: string, extraKw: string[] = [], titleOv
 
 const STATIC: Record<string, PageSeoDefaults> = {
   "/": {
-    title: "Global Orbit | Web Development & Software Company in Nepal",
+    title: "Global Orbit | Web Development Company in Nepal",
     description: trimDesc(
-      "Global Orbit helps businesses in Nepal with website development, custom software, mobile apps, SEO and digital marketing. Contact our Kathmandu team for a consultation.",
+      "Website development, custom software, mobile apps, SEO and digital marketing in Nepal. Global Orbit — Kathmandu studio, teams in India and the US.",
     ),
     keywords: keywordsCsv(),
     focusKeyword: "web development company nepal",
@@ -147,23 +147,11 @@ const STATIC: Record<string, PageSeoDefaults> = {
     keywords: keywordsCsv(["software development process nepal"]),
     focusKeyword: "web development nepal",
   },
-  "/demo": {
-    title: "Software Demo · ERP, Hotel, POS & SaaS",
-    description: trimDesc(
-      "Book a live demo of billing, hotel, POS, CRM, or SaaS products from Global Orbit Nepal.",
-    ),
-    keywords: keywordsCsv(["erp demo nepal"]),
-    focusKeyword: "software demo nepal",
-  },
-  "/privacy-policy": {
-    title: "Privacy Policy · Global Orbit Nepal",
-    description: "How Global Orbit Pvt Ltd handles data for website, app, and marketing clients.",
-    keywords: keywordsCsv(["privacy policy nepal"]),
-    focusKeyword: "privacy policy",
-  },
   "/terms-and-conditions": {
     title: "Terms & Conditions · Global Orbit Nepal",
-    description: "Terms for website development, software, SEO, and digital marketing services.",
+    description: trimDesc(
+      "Terms for website development, software, SEO, and digital marketing services from Global Orbit Pvt Ltd, Kathmandu.",
+    ),
     keywords: keywordsCsv(["terms of service nepal"]),
     focusKeyword: "terms and conditions",
   },
@@ -259,10 +247,15 @@ export function mergeSeoFallback(
   const defaults = getPageSeoDefaults(pathname);
   if (!defaults) return fallback;
   const fallbackTitle = fallback.title?.trim() || "";
-  const useDefaultsTitle = !fallbackTitle || STALE_TITLES.has(fallbackTitle);
+  const fallbackDescription = fallback.description?.trim() || "";
+  // Prefer the curated SEO default whenever the page fallback is empty, stale,
+  // or too short to be a strong search snippet (e.g. bare "Studio", "Packages").
+  const useDefaultsTitle =
+    !fallbackTitle || STALE_TITLES.has(fallbackTitle) || fallbackTitle.length < 30;
+  const useDefaultsDescription = !fallbackDescription || fallbackDescription.length < 70;
   return {
     title: useDefaultsTitle ? defaults.title : fallbackTitle,
-    description: fallback.description?.trim() ? fallback.description : defaults.description,
+    description: useDefaultsDescription ? defaults.description : fallbackDescription,
     keywords: fallback.keywords?.length ? fallback.keywords : defaults.keywords,
     focusKeyword: defaults.focusKeyword,
   };

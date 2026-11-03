@@ -65,7 +65,9 @@ export async function collectSitemapPaths(): Promise<SitemapEntry[]> {
       path,
       priority: priorityFor(path),
       changeFrequency: changeFrequencyFor(path),
-      lastModified: postDates.get(path) ?? new Date(),
+      // Only real content dates. A fabricated per-request timestamp makes Google
+      // distrust every lastmod in the sitemap, so static pages omit it.
+      ...(postDates.has(path) ? { lastModified: postDates.get(path) } : {}),
     });
   }
 

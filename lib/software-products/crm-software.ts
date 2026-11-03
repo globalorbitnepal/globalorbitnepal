@@ -3,7 +3,7 @@ import type { SoftwareProductContent } from "@/lib/software-product-types";
 export const CRM_SOFTWARE: SoftwareProductContent = {
   slug: "crm-software",
   seo: {
-    title: "CRM Software | Lead & Customer Management | Global Orbit",
+    title: "CRM Software Nepal | Leads & Sales Pipeline | Global Orbit",
     description:
       "CRM software for leads, pipelines, follow-ups, deals, and sales reporting — practical customer relationship management for Nepali sales teams.",
     keywords: [

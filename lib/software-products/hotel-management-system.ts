@@ -3,7 +3,7 @@ import type { SoftwareProductContent } from "@/lib/software-product-types";
 export const HOTEL_MANAGEMENT: SoftwareProductContent = {
   slug: "hotel-management-system",
   seo: {
-    title: "Hotel Management System | Hotel Operations Software | Global Orbit",
+    title: "Hotel Management System Nepal | Hotel PMS | Global Orbit",
     description:
       "Hotel management software for front desk, reservations, room inventory, housekeeping, guest folios, and occupancy reporting — built for Nepali hospitality operators.",
     keywords: [

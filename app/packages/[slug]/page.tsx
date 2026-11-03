@@ -21,5 +21,13 @@ export default async function PackageDetailPage({ params }: Props) {
   const { slug } = await params;
   const item = findBySlug(ORBIT_PACKAGES, slug);
   if (!item) notFound();
-  return <OrbitArticlePage eyebrow="Package" title={`${item.title} — ${item.price}`} summary={item.summary} />;
+  return (
+    <OrbitArticlePage
+      eyebrow="Package"
+      title={`${item.title} — ${item.price}`}
+      summary={item.summary}
+      path={item.href}
+      breadcrumbParent={{ name: "Packages", path: "/packages" }}
+    />
+  );
 }

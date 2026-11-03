@@ -19,8 +19,8 @@ import { getWebsiteDevelopmentPageConfig } from "@/lib/website-development-store
 import { DEFAULT_SITE_CHROME, getSiteChrome } from "@/lib/site-chrome-store";
 
 export const metadata: Metadata = {
-  title: "Admin",
-  robots: { index: false, follow: false },
+  title: "Admin · Global Orbit Pvt Ltd",
+  robots: { index: false, follow: false, nocache: true },
 };
 
 export default async function AdminPage() {

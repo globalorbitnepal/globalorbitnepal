@@ -1,5 +1,6 @@
 import type { CSSProperties } from "react";
 import Link from "next/link";
+import { BreadcrumbJsonLd } from "@/components/seo/breadcrumb-json-ld";
 import { OrbitPremiumReveal } from "@/components/orbit/orbit-premium-reveal";
 import {
   OrbitCtaBand,
@@ -61,20 +62,66 @@ export function OrbitCatalogPage({
   );
 }
 
+const FAQ_ITEMS = [
+  {
+    q: "How long does it take?",
+    a: "A focused business site typically takes 2–4 weeks after content is approved. Larger builds and integrations run longer with a written timeline before work starts.",
+  },
+  {
+    q: "Do you handle SEO as well?",
+    a: "Yes. Every build ships with technical SEO — clean URLs, metadata, sitemap, schema, and Core Web Vitals — and ongoing SEO retainers are available.",
+  },
+  {
+    q: "Where are you based?",
+    a: "Kathmandu, Nepal, with teams in India and the United States. Communication happens over WhatsApp, email, and scheduled calls.",
+  },
+] as const;
+
 export function OrbitArticlePage({
   eyebrow,
   title,
   summary,
   body,
+  path,
+  breadcrumbLabel,
+  breadcrumbParent = { name: "Solutions", path: "/services" },
 }: {
   eyebrow: string;
   title: string;
   summary: string;
   body?: string;
+  path?: string;
+  breadcrumbLabel?: string;
+  breadcrumbParent?: { name: string; path: string };
 }) {
   const paragraphs = (body?.trim() || summary).split(/\n{2,}/).filter(Boolean);
   return (
     <div className="orbit-premium-page min-h-screen">
+      {path ? (
+        <BreadcrumbJsonLd
+          items={[
+            { name: "Home", path: "/" },
+            breadcrumbParent,
+            { name: breadcrumbLabel || title, path },
+          ]}
+        />
+      ) : null}
+      {path ? (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              mainEntity: FAQ_ITEMS.map((item) => ({
+                "@type": "Question",
+                name: item.q,
+                acceptedAnswer: { "@type": "Answer", text: item.a },
+              })),
+            }),
+          }}
+        />
+      ) : null}
       <OrbitPageHero eyebrow={eyebrow} title={title} lede={summary} headingId="article-hero" />
       <OrbitPremiumTrustStrip />
       <section className="orbit-premium-article mx-auto max-w-3xl space-y-6 px-4 py-[clamp(2.5rem,7vh,4rem)] text-[15px] leading-8 text-white/75 sm:px-6">
@@ -93,6 +140,25 @@ export function OrbitArticlePage({
           <li>SaaS products and SaaS management backends: tenants, roles, meters, invoices</li>
           <li>Technical SEO, local SEO, Google Ads, and social media marketing with clear reporting</li>
         </ul>
+        <OrbitPremiumReveal>
+          <h2 className="pt-4 text-2xl font-semibold text-white">Who this is for</h2>
+          <p>
+            Nepali businesses that need a credible presence on Google and a site that turns visits into enquiries —
+            hotels, trekking and travel operators, restaurants, clinics, retailers, schools, and service firms in
+            Kathmandu, Pokhara, Lalitpur, Bhaktapur, and across Nepal.
+          </p>
+        </OrbitPremiumReveal>
+        <OrbitPremiumReveal>
+          <h2 className="pt-4 text-2xl font-semibold text-white">Frequently asked</h2>
+          <div className="space-y-4">
+            {FAQ_ITEMS.map((item) => (
+              <div key={item.q}>
+                <h3 className="text-base font-semibold text-white">{item.q}</h3>
+                <p>{item.a}</p>
+              </div>
+            ))}
+          </div>
+        </OrbitPremiumReveal>
         <OrbitPremiumReveal>
           <h2 className="pt-4 text-2xl font-semibold text-white">How an engagement runs</h2>
           <p>
