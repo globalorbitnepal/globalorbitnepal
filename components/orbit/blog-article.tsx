@@ -2,12 +2,59 @@ import Link from "next/link";
 import { OrbitCtaBand, OrbitPageHero } from "@/components/orbit/page-hero";
 import type { BlogPost } from "@/lib/blog-types";
 import { looksLikeHtml } from "@/lib/sanitize-html";
+import { absoluteUrl, SITE_ORIGIN } from "@/lib/site-origin";
 
 function serverSanitize(html: string) {
   return html
     .replace(/<script[\s\S]*?>[\s\S]*?<\/script>/gi, "")
     .replace(/<style[\s\S]*?>[\s\S]*?<\/style>/gi, "")
     .replace(/\son\w+=("[^"]*"|'[^']*'|[^\s>]+)/gi, "");
+}
+
+function articleJsonLd(post: BlogPost) {
+  const url = absoluteUrl(`/blog/${post.slug}`);
+  const published = post.publishedAt ? new Date(post.publishedAt) : null;
+  const modified = post.updatedAt ? new Date(post.updatedAt) : published;
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BlogPosting",
+        headline: post.title,
+        description: post.seoDescription || post.excerpt,
+        url,
+        mainEntityOfPage: { "@type": "WebPage", "@id": url },
+        ...(published && !Number.isNaN(published.getTime())
+          ? { datePublished: published.toISOString() }
+          : {}),
+        ...(modified && !Number.isNaN(modified.getTime())
+          ? { dateModified: modified.toISOString() }
+          : {}),
+        author: { "@type": "Organization", name: post.author || "Global Orbit Pvt Ltd", url: SITE_ORIGIN },
+        publisher: {
+          "@type": "Organization",
+          name: "Global Orbit Pvt Ltd",
+          url: SITE_ORIGIN,
+          logo: {
+            "@type": "ImageObject",
+            url: absoluteUrl("/brand/logo-emblem-square.png"),
+          },
+        },
+        ...(post.featuredImage ? { image: absoluteUrl(post.featuredImage) } : {}),
+        ...(post.keywords
+          ? { keywords: post.keywords.split(",").map((k) => k.trim()).filter(Boolean).join(", ") }
+          : {}),
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_ORIGIN}/` },
+          { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE_ORIGIN}/blogs` },
+          { "@type": "ListItem", position: 3, name: post.title, item: url },
+        ],
+      },
+    ],
+  };
 }
 
 export function BlogArticle({ post, related }: { post: BlogPost; related: BlogPost[] }) {
@@ -22,6 +69,10 @@ export function BlogArticle({ post, related }: { post: BlogPost; related: BlogPo
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd(post)) }}
+      />
       <OrbitPageHero eyebrow={post.category || "Blog"} title={post.title} lede={post.excerpt} headingId="article-hero" />
       <article className="go-article">
         {post.featuredImage ? (

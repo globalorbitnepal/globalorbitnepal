@@ -3,7 +3,7 @@ import type { SoftwareProductContent } from "@/lib/software-product-types";
 export const RESTAURANT_POS: SoftwareProductContent = {
   slug: "restaurant-pos",
   seo: {
-    title: "Restaurant POS Nepal | Billing & KOT Software | Global Orbit",
+    title: "Restaurant POS Nepal | Billing & KOT | Global Orbit",
     description:
       "Restaurant POS for table service, takeaway, kitchen tickets, menu management, split bills, and shift reports — built for Kathmandu service speed.",
     keywords: [

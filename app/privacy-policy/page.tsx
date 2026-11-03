@@ -14,8 +14,9 @@ This policy may be updated; the latest version is always published on this page.
 
 export async function generateMetadata(): Promise<Metadata> {
   return applyPageSeo("/privacy-policy", {
-    title: "Privacy Policy",
-    description: "How Global Orbit collects, uses, and protects your information.",
+    title: "Privacy Policy · Global Orbit Nepal",
+    description:
+      "How Global Orbit Pvt Ltd collects, uses, stores, and protects personal data for website, app, SEO, and marketing clients.",
   });
 }
 

@@ -1,7 +1,7 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { getAppEnv } from "@/lib/env";
-import { ORBIT_BLOGS } from "@/lib/orbit/catalog";
+import { BLOG_SEEDS } from "@/lib/blog-seeds";
 import { isPublicPost } from "@/lib/blog-status";
 import {
   DEFAULT_CATEGORIES,
@@ -26,14 +26,15 @@ function seedStore(): BlogStore {
       { slug: "nepal", name: "Nepal" },
       { slug: "core-web-vitals", name: "Core Web Vitals" },
     ],
-    posts: ORBIT_BLOGS.map((item) =>
+    posts: BLOG_SEEDS.map((item) =>
       normalizePost({
         slug: item.slug,
         title: item.title,
         excerpt: item.summary,
-        body: `<p>${item.summary}</p>`,
-        seoTitle: item.title,
-        seoDescription: item.summary,
+        body: item.body,
+        seoTitle: item.seoTitle,
+        seoDescription: item.seoDescription,
+        keywords: item.keywords,
         isPublished: true,
         category: "seo",
       }),

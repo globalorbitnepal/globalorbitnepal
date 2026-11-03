@@ -5,8 +5,9 @@ import { applyPageSeo } from "@/lib/apply-page-seo";
 
 export async function generateMetadata(): Promise<Metadata> {
   return applyPageSeo("/careers", {
-    title: "Careers",
-    description: "Join Global Orbit — engineering, design, and SEO roles across Nepal, India, and the United States.",
+    title: "Careers · Web, SEO & Software Jobs Kathmandu",
+    description:
+      "Join Global Orbit Nepal — developers, designers, and SEO specialists building world-class websites and software.",
   });
 }
 

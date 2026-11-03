@@ -5,8 +5,9 @@ import { applyPageSeo } from "@/lib/apply-page-seo";
 
 export async function generateMetadata(): Promise<Metadata> {
   return applyPageSeo("/services", {
-    title: "Solutions",
-    description: "Web development, ecommerce, SEO, ads, and automation from Global Orbit Nepal.",
+    title: "Digital Solutions Nepal · Web, SEO, Ads & Automation",
+    description:
+      "Website development, ecommerce, SEO, Google ranking, digital marketing, social ads, and AI automation — one Nepal studio.",
   });
 }
 

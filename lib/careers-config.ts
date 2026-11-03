@@ -105,7 +105,7 @@ export const DEFAULT_CAREERS: CareersConfig = {
     {
       slug: "senior-full-stack-developer",
       title: "Senior Full-Stack Developer",
-      summary: "Own features across Next.js and Laravel — from API design to polished UI and production monitoring.",
+      summary: "Own features across Next.js and Laravel for Nepali and international clients — API design, polished UI, and production monitoring from our Kathmandu studio.",
       location: "Kathmandu · Hybrid",
       employmentType: "Full-time",
       department: "Engineering",
@@ -113,7 +113,7 @@ export const DEFAULT_CAREERS: CareersConfig = {
     {
       slug: "ui-ux-designer",
       title: "UI/UX Designer",
-      summary: "Design systems and product flows for hotel, trek, ecommerce, and SaaS clients — Figma to shipped UI.",
+      summary: "Design systems and product flows for hotel, trek, ecommerce, and SaaS clients — from Figma exploration to shipped production UI in Kathmandu.",
       location: "Kathmandu · On-site",
       employmentType: "Full-time",
       department: "Design",
@@ -121,7 +121,7 @@ export const DEFAULT_CAREERS: CareersConfig = {
     {
       slug: "seo-specialist",
       title: "SEO Specialist",
-      summary: "Technical SEO, content architecture, and measurable growth for Nepal and international export brands.",
+      summary: "Technical SEO, content architecture, and measurable search growth for Nepal and international export brands — audits, schema, and reporting.",
       location: "Remote · Nepal / India",
       employmentType: "Full-time",
       department: "Growth",

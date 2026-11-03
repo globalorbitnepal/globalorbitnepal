@@ -118,7 +118,7 @@ const STATIC: Record<string, PageSeoDefaults> = {
   "/blogs": {
     title: "Blog · SEO, Web Development & Digital Marketing Nepal",
     description: trimDesc(
-      "Guides on websites, SEO, ads, and software from Global Orbit — practical notes for Nepali businesses growing online.",
+      "Practical guides on websites, SEO, Google Ads, and software from Global Orbit Nepal — written for business owners and marketing teams growing online in Nepal.",
     ),
     keywords: keywordsCsv(["seo blog nepal", "web development tips nepal"]),
     focusKeyword: "seo tips nepal",
@@ -126,7 +126,7 @@ const STATIC: Record<string, PageSeoDefaults> = {
   "/careers": {
     title: "Careers · Web, SEO & Software Jobs Kathmandu",
     description: trimDesc(
-      "Join Global Orbit Nepal — developers, designers, and SEO specialists building world-class websites and software.",
+      "Join Global Orbit Nepal — full-stack developers, UI/UX designers, and SEO specialists building websites, apps, and ERP software for clients in Nepal, India, and the US.",
     ),
     keywords: keywordsCsv(["web developer jobs nepal", "seo jobs kathmandu"]),
     focusKeyword: "web developer jobs nepal",
@@ -134,7 +134,7 @@ const STATIC: Record<string, PageSeoDefaults> = {
   "/studio": {
     title: "Design Studio Nepal · Premium Websites & Brand UI",
     description: trimDesc(
-      "Ultra HD website design, motion, and brand systems from Kathmandu — built for conversion and search visibility.",
+      "Brand identity, website UI, motion, and design systems from our Kathmandu studio — production-ready Figma handed to the same engineers who ship the build.",
     ),
     keywords: keywordsCsv(["website design studio nepal", "ui ux nepal"]),
     focusKeyword: "website design nepal",
@@ -142,7 +142,7 @@ const STATIC: Record<string, PageSeoDefaults> = {
   "/inside-orbit": {
     title: "Inside Orbit · How We Ship Websites & Software",
     description: trimDesc(
-      "Process, tools, and standards behind Global Orbit deliveries — from discovery to SEO launch and aftercare.",
+      "See the six-stage process behind every Global Orbit delivery — discovery, architecture, design, build, technical SEO pass, and launch support with aftercare.",
     ),
     keywords: keywordsCsv(["software development process nepal"]),
     focusKeyword: "web development nepal",
@@ -150,7 +150,7 @@ const STATIC: Record<string, PageSeoDefaults> = {
   "/terms-and-conditions": {
     title: "Terms & Conditions · Global Orbit Nepal",
     description: trimDesc(
-      "Terms for website development, software, SEO, and digital marketing services from Global Orbit Pvt Ltd, Kathmandu.",
+      "Terms governing website development, custom software, SEO, and digital marketing engagements with Global Orbit Pvt Ltd, Kathmandu, Nepal.",
     ),
     keywords: keywordsCsv(["terms of service nepal"]),
     focusKeyword: "terms and conditions",
@@ -190,7 +190,7 @@ function buildDynamicMap(): Record<string, PageSeoDefaults> {
   for (const item of ORBIT_SERVICE_PAGES) {
     const focus = SERVICE_FOCUS[item.slug] ?? `${item.slug.replace(/-/g, " ")} nepal`;
     // Service funnel pages: commercial “company / services” framing
-    map[item.href] = cardSeo(item, focus, [], `${item.title} Services | Kathmandu · Global Orbit`);
+    map[item.href] = cardSeo(item, focus, [], `${item.title} Services Nepal | Global Orbit`);
   }
 
   for (const item of ORBIT_LANDINGS) {
@@ -252,7 +252,9 @@ export function mergeSeoFallback(
   // or too short to be a strong search snippet (e.g. bare "Studio", "Packages").
   const useDefaultsTitle =
     !fallbackTitle || STALE_TITLES.has(fallbackTitle) || fallbackTitle.length < 30;
-  const useDefaultsDescription = !fallbackDescription || fallbackDescription.length < 70;
+  // Google renders roughly 155–160 chars; anything under ~120 wastes the snippet,
+  // so the curated SEO default wins over a short page-level fallback.
+  const useDefaultsDescription = !fallbackDescription || fallbackDescription.length < 120;
   return {
     title: useDefaultsTitle ? defaults.title : fallbackTitle,
     description: useDefaultsDescription ? defaults.description : fallbackDescription,

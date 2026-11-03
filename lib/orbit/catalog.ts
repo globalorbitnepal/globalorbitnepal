@@ -34,7 +34,7 @@ export const ORBIT_SOFTWARE: OrbitCard[] = [
   {
     slug: "manufacturing-erp",
     title: "Manufacturing ERP",
-    summary: "Plan production, manage BOM, track work orders, and control quality end-to-end.",
+    summary: "Plan production, manage BOM, track work orders, and control quality end-to-end across factories in Nepal and beyond.",
     href: "/orbit-software/manufacturing-erp",
   },
   {
@@ -52,7 +52,7 @@ export const ORBIT_SOFTWARE: OrbitCard[] = [
   {
     slug: "saas-business-suite",
     title: "SaaS Business Suite",
-    summary: "All-in-one platform — billing, CRM, analytics, and automation in a single dashboard.",
+    summary: "All-in-one platform — billing, CRM, analytics, and automation in a single multi-tenant dashboard.",
     href: "/orbit-software/saas-business-suite",
   },
   {
@@ -82,7 +82,7 @@ export const ORBIT_SOFTWARE: OrbitCard[] = [
   {
     slug: "saas-management-system",
     title: "SaaS Management System",
-    summary: "Backend for your own SaaS: tenants, billing, roles, usage meters, and admin consoles.",
+    summary: "Backend for your own SaaS: tenants, billing, roles, usage meters, and admin consoles from one control plane.",
     href: "/orbit-software/saas-management-system",
   },
 ];
