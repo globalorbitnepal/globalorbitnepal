@@ -6,6 +6,14 @@ import { findNepalKeywordPage, NEPAL_KEYWORD_PAGES } from "@/lib/nepal-keyword-p
 import { findBySlug, ORBIT_LANDINGS } from "@/lib/orbit/catalog";
 import { applyPageSeo } from "@/lib/apply-page-seo";
 
+/** Thinner landings that repeat a full service page. Canonical points at the page we want indexed. */
+const CANONICAL_ALIAS: Record<string, string> = {
+  "/website-development-nepal": "/service/website-development-nepal",
+  "/web-development-nepal": "/service/website-development-nepal",
+  "/seo-services-nepal": "/service/seo-optimization-nepal",
+  "/ecommerce-website-development-nepal": "/service/ecommerce-development-nepal",
+};
+
 type Props = { params: Promise<{ slug: string }> };
 
 export function generateStaticParams() {
@@ -26,8 +34,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     });
   }
   const item = findBySlug(ORBIT_LANDINGS, slug);
-  if (!item) return { title: "Global Orbit" };
-  return applyPageSeo(item.href, { title: item.title, description: item.summary });
+  if (!item) return { title: "Global Orbit", robots: { index: false, follow: false } };
+  const alias = CANONICAL_ALIAS[item.href];
+  return applyPageSeo(item.href, { title: item.title, description: item.summary, canonical: alias });
 }
 
 export default async function LandingPage({ params }: Props) {

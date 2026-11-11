@@ -6,7 +6,7 @@ import { buildPageMetadata } from "@/lib/seo";
 
 export async function applyPageSeo(
   pathname: string,
-  fallback: { title: string; description: string; keywords?: string[] },
+  fallback: { title: string; description: string; keywords?: string[]; canonical?: string },
 ): Promise<Metadata> {
   const seo = await getPersistedPageSeo(pathname);
   const base = mergeSeoFallback(pathname, fallback);
@@ -27,7 +27,7 @@ export async function applyPageSeo(
     description,
     path: pathname,
     keywords,
-    canonical: seo?.canonical,
+    canonical: seo?.canonical || fallback.canonical,
     robotsIndex,
     ogTitle: seo?.ogTitle,
     ogDescription: seo?.ogDescription,

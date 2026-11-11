@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { isKnownPublicPath } from "@/lib/known-public-paths";
 
 const COOKIE = "orbit_editor";
 
@@ -31,6 +32,18 @@ async function sessionLooksSigned(token: string) {
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+
+  if (!isKnownPublicPath(pathname)) {
+    return new NextResponse("Not found", {
+      status: 404,
+      headers: {
+        "content-type": "text/plain; charset=utf-8",
+        "x-robots-tag": "noindex",
+        "cache-control": "public, max-age=300",
+      },
+    });
+  }
+
   if (!pathname.startsWith("/api/orbit")) return NextResponse.next();
   if (pathname === "/api/orbit/login") return NextResponse.next();
 
@@ -42,5 +55,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/api/orbit/:path*"],
+  matcher: ["/((?!_next/static|_next/image).*)"],
 };

@@ -58,6 +58,14 @@ export async function collectSitemapPaths(): Promise<SitemapEntry[]> {
     if (path.startsWith("/admin") || path === "/orbit" || path.startsWith("/orbit/") || path.startsWith("/api")) {
       continue;
     }
+    if (
+      path === "/website-development-nepal" ||
+      path === "/web-development-nepal" ||
+      path === "/seo-services-nepal" ||
+      path === "/ecommerce-website-development-nepal"
+    ) {
+      continue;
+    }
     const robots = indexed.get(path);
     if (robots === false) continue;
 
