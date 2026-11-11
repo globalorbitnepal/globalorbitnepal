@@ -9,6 +9,7 @@ import {
   ORBIT_SERVICE_PAGES,
   ORBIT_SOFTWARE,
 } from "@/lib/orbit/catalog";
+import { NEPAL_KEYWORD_PAGES } from "@/lib/nepal-keyword-pages";
 import { listSeoDefaultPaths } from "@/lib/seo-page-defaults";
 
 export type RouteRecord = {
@@ -62,6 +63,7 @@ export function listInventoryPaths(): RouteRecord[] {
   }
   for (const item of ORBIT_SERVICE_PAGES) add(item.href, "service");
   for (const item of ORBIT_LANDINGS) add(item.href, "landing");
+  for (const item of NEPAL_KEYWORD_PAGES) add(item.href, "landing");
   for (const item of ORBIT_PACKAGES) add(item.href, "package");
   for (const href of uniqueSoftwareHrefs()) add(href, "software");
   for (const svc of SERVICE_CATALOG) add(`/services/${svc.slug}`, "legacy-services");
