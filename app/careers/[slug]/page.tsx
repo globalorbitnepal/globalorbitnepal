@@ -18,9 +18,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const config = await getCareersConfig();
   const item = findCareerRole(config, slug);
   if (!item) return { title: "Role" };
+  const description =
+    item.summary.trim().length >= 120
+      ? item.summary.trim()
+      : `${item.summary.trim()} Open role at Global Orbit in Kathmandu for Nepal, India, and US client work.`;
   return applyPageSeo(`/careers/${item.slug}`, {
-    title: `${item.title} · Careers`,
-    description: item.summary,
+    title: `${item.title} Jobs in Kathmandu | Global Orbit`.slice(0, 60),
+    description,
+    keywords: [`${item.title} jobs nepal`, "careers kathmandu", "Global Orbit jobs"],
   });
 }
 
@@ -32,7 +37,14 @@ export default async function CareerDetailPage({ params }: Props) {
 
   return (
     <>
-      <OrbitArticlePage eyebrow="Careers" title={item.title} summary={item.summary} />
+      <OrbitArticlePage
+        eyebrow="Careers"
+        title={item.title}
+        summary={item.summary}
+        path={`/careers/${item.slug}`}
+        breadcrumbLabel={item.title}
+        breadcrumbParent={{ name: "Careers", path: "/careers" }}
+      />
       <div className="orbit-about-page px-4 pb-16 sm:px-6 lg:px-8">
         <div className="mx-auto flex max-w-xl flex-wrap justify-center gap-3">
           <Link href="/careers" className="orbit-btn-glass inline-flex h-11 items-center rounded-full px-6 text-sm font-semibold text-white">
