@@ -15,16 +15,18 @@ const appDir = path.join(root, "app");
 const GLOBE = path.join(brand, "globe-emblem.webp");
 const LOGO = path.join(brand, "logo-official-gold.png");
 const BG = { r: 7, g: 7, b: 11, alpha: 1 };
+/** Google SERP shows favicons on a light background — use white so the gold globe reads clearly. */
+const SERP_BG = { r: 255, g: 255, b: 255, alpha: 1 };
 
-async function squareGlobe(size, outPath, padding = 0.12) {
+async function squareGlobe(size, outPath, { background = BG, padding = 0.12 } = {}) {
   const inner = Math.round(size * (1 - padding * 2));
   const globe = await sharp(GLOBE).resize(inner, inner, { fit: "contain" }).png().toBuffer();
   const canvas = sharp({
-    create: { width: size, height: size, channels: 4, background: BG },
+    create: { width: size, height: size, channels: 4, background },
   });
   await canvas
     .composite([{ input: globe, gravity: "centre" }])
-    .png()
+    .png({ compressionLevel: 9 })
     .toFile(outPath);
 }
 
@@ -58,19 +60,19 @@ async function main() {
   mkdirSync(icons, { recursive: true });
 
   await squareGlobe(512, path.join(icons, "pwa-512.png"));
-  await squareGlobe(512, path.join(icons, "pwa-maskable-512.png"));
+  await squareGlobe(512, path.join(icons, "pwa-maskable-512.png"), { padding: 0.2 });
   await squareGlobe(192, path.join(icons, "pwa-192.png"));
-  await squareGlobe(180, path.join(icons, "apple-touch-180.png"));
-  await squareGlobe(48, path.join(icons, "favicon-48.png"));
-  await squareGlobe(32, path.join(icons, "favicon-32.png"));
+  await squareGlobe(180, path.join(icons, "apple-touch-180.png"), { background: SERP_BG, padding: 0.07 });
+  await squareGlobe(96, path.join(icons, "favicon-96.png"), { background: SERP_BG, padding: 0.06 });
+  await squareGlobe(48, path.join(icons, "favicon-48.png"), { background: SERP_BG, padding: 0.06 });
+  await squareGlobe(32, path.join(icons, "favicon-32.png"), { background: SERP_BG, padding: 0.06 });
   await squareGlobe(512, path.join(brand, "logo-emblem-square.png"));
-  await squareGlobe(192, path.join(brand, "google-logo-192.png"));
+  await squareGlobe(192, path.join(brand, "google-logo-192.png"), { background: SERP_BG, padding: 0.06 });
 
   await buildOgDefault();
 
-  await sharp(path.join(icons, "favicon-48.png"))
-    .resize(32, 32)
-    .toFile(path.join(appDir, "icon.png"));
+  await sharp(path.join(icons, "favicon-48.png")).toFile(path.join(appDir, "icon.png"));
+  await sharp(path.join(icons, "favicon-48.png")).toFile(path.join(root, "public/favicon.png"));
 
   await sharp(path.join(icons, "apple-touch-180.png")).toFile(path.join(appDir, "apple-icon.png"));
 

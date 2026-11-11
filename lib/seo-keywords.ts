@@ -20,6 +20,9 @@ export const NEPAL_AGENCY_KEYWORDS = [
   "website banau nepal",
   "professional website kathmandu",
   "Global Orbit Nepal",
+  "the global orbit",
+  "global orbit",
+  "Global Orbit Kathmandu",
 ] as const;
 
 export function keywordsCsv(extra: string[] = []): string[] {

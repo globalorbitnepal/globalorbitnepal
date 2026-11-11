@@ -78,10 +78,21 @@ export function organizationJsonLd(input: {
     "@id": `${url}/#organization`,
     name: input.name,
     url,
-    logo: absoluteUrl("/brand/logo-emblem-square.png"),
+    logo: {
+      "@type": "ImageObject",
+      url: absoluteUrl("/brand/google-logo-192.png"),
+      width: 192,
+      height: 192,
+    },
     image: absoluteUrl("/brand/og-default.jpg"),
     description: input.description || FALLBACK_SITE.defaultSeoDescription,
-    alternateName: ["Global Orbit Nepal", "Website development company Kathmandu"],
+    alternateName: [
+      "The Global Orbit",
+      "Global Orbit",
+      "Global Orbit Nepal",
+      "Global Orbit Kathmandu",
+      "Website development company Kathmandu",
+    ],
     address: {
       "@type": "PostalAddress",
       addressLocality: "Kathmandu",
@@ -131,7 +142,7 @@ export function localBusinessJsonLd(input: {
     description: input.description,
     url: SITE_ORIGIN,
     image: absoluteUrl("/brand/og-default.jpg"),
-    logo: absoluteUrl("/brand/logo-emblem-square.png"),
+    logo: absoluteUrl("/brand/google-logo-192.png"),
     email: input.email,
     telephone: input.phone,
     address: {

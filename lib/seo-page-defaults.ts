@@ -36,7 +36,7 @@ function cardSeo(card: OrbitCard, focus: string, extraKw: string[] = [], titleOv
 
 const STATIC: Record<string, PageSeoDefaults> = {
   "/": {
-    title: "Global Orbit | Web Development Company in Nepal",
+    title: "The Global Orbit | Web Development Company in Nepal",
     description: trimDesc(
       "Website development, custom software, mobile apps, SEO and digital marketing in Nepal. Global Orbit — Kathmandu studio, teams in India and the US.",
     ),
