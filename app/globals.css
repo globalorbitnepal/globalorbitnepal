@@ -4791,8 +4791,8 @@ li.orbit-card:hover {
 
 .orbit-header-inner {
   /* Logo column — bar asset is wide; height drives visual size on desktop */
-  --orbit-header-logo-w: clamp(12rem, 26.4vw, 21.6rem);
-  --orbit-header-logo-h: clamp(3.3rem, 6vw, 3.78rem);
+  --orbit-header-logo-w: clamp(13.2rem, 29.04vw, 23.76rem);
+  --orbit-header-logo-h: clamp(3.63rem, 6.6vw, 4.16rem);
   --orbit-header-nav-h: clamp(3.18rem, 4.32vw, 3.78rem);
   position: relative;
   display: grid;
@@ -4812,8 +4812,8 @@ li.orbit-card:hover {
 
 @media (min-width: 1024px) {
   .orbit-header-inner {
-    --orbit-header-logo-h: clamp(6.24rem, calc(var(--orbit-header-nav-h) * 3.6), 9.12rem);
-    --orbit-header-logo-w: clamp(15.84rem, 34.56vw, 28.8rem);
+    --orbit-header-logo-h: clamp(6.86rem, calc(var(--orbit-header-nav-h) * 3.96), 10.03rem);
+    --orbit-header-logo-w: clamp(17.42rem, 38.02vw, 31.68rem);
     grid-template-columns: minmax(0, 0.38fr) minmax(0, 1fr) minmax(0, 0.36fr);
     gap: 1rem;
     align-items: center;
@@ -4948,8 +4948,8 @@ li.orbit-card:hover {
 @media (max-width: 1023px) {
   .orbit-header-inner {
     /* +30% vs previous mobile logo size */
-    --orbit-header-logo-w: min(94vw, 31.2rem);
-    --orbit-header-logo-h: clamp(7.56rem, 24.96vw, 9.9rem);
+    --orbit-header-logo-w: min(94vw, 34.32rem);
+    --orbit-header-logo-h: clamp(8.32rem, 27.46vw, 10.89rem);
     grid-template-columns: minmax(0, 1fr) auto;
     gap: 0.55rem;
     padding-top: calc(env(safe-area-inset-top, 0px) + 0.35rem);
@@ -4957,8 +4957,8 @@ li.orbit-card:hover {
   }
 
   .orbit-brand-logo-bar {
-    width: min(504px, calc(100vw - 5rem));
-    max-width: min(504px, calc(100vw - 5rem));
+    width: min(554px, calc(100vw - 5rem));
+    max-width: min(554px, calc(100vw - 5rem));
     min-width: 0;
     height: var(--orbit-header-logo-h);
     max-height: var(--orbit-header-logo-h);
