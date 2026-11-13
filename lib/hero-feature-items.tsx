@@ -31,12 +31,12 @@ export const HERO_FEATURE_ITEMS: HeroFeatureItem[] = [
     hint: "Scalable Platforms",
     icon: (
       <svg viewBox="0 0 24 24" aria-hidden="true">
-        <path
-          d="M7 16a4.5 4.5 0 1 1 1.2-8.8A6 6 0 0 1 20 11.5 3.5 3.5 0 0 1 18 18H7Z"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.7"
-        />
+        <rect x="3.5" y="4.5" width="17" height="15" rx="2.4" fill="none" stroke="currentColor" strokeWidth="1.7" />
+        <path d="M3.5 9.2h17" fill="none" stroke="currentColor" strokeWidth="1.7" />
+        <circle cx="7" cy="6.85" r="0.7" fill="currentColor" />
+        <circle cx="9.4" cy="6.85" r="0.7" fill="currentColor" />
+        <rect x="7" y="12" width="5.2" height="4.2" rx="0.8" fill="none" stroke="currentColor" strokeWidth="1.5" />
+        <rect x="13.4" y="12" width="4.4" height="4.2" rx="0.8" fill="none" stroke="currentColor" strokeWidth="1.5" />
       </svg>
     ),
   },

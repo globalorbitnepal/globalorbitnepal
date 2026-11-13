@@ -37,10 +37,11 @@ export function OrbitStudioHeroCopy({ config }: Props) {
       </div>
 
       <ul className="orbit-hero-features">
-        {HERO_FEATURE_ITEMS.map((item) => (
+        {HERO_FEATURE_ITEMS.map((item, index) => (
           <li key={item.title}>
             <span className="orbit-hero-feature-icon">{item.icon}</span>
-            <span>
+            <span className="orbit-hero-feature-copy">
+              <span className="orbit-hero-feature-index">{String(index + 1).padStart(2, "0")}</span>
               <strong>{item.title}</strong>
               <small>{item.hint}</small>
             </span>

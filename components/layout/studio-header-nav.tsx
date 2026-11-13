@@ -219,7 +219,7 @@ export function StudioHeaderNav({ onNavigate, className }: { onNavigate?: () => 
   const pathname = usePathname();
 
   return (
-    <ul className={`orbit-header-nav-list flex flex-nowrap items-center text-[clamp(0.95rem,1.05vw,1.125rem)] font-medium tracking-[-0.02em] ${className ?? ""}`}>
+    <ul className={`orbit-header-nav-list flex flex-nowrap items-center text-[clamp(1.01rem,1.1vw,1.2rem)] font-medium ${className ?? ""}`}>
       {STUDIO_HEADER_NAV.map((item) => {
         if (isNavDropdown(item)) {
           return <ServicesDropdown key={item.label} pathname={pathname} onNavigate={onNavigate} />;
