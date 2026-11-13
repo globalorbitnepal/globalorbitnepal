@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { AdminBlogStudio, type BlogMode } from "@/components/admin/admin-blog-studio";
@@ -40,6 +40,7 @@ import type { HomeSurfaceConfig } from "@/lib/home-surface-config";
 import type { WebsiteDevelopmentPageConfig } from "@/lib/website-development-page-config";
 import type { SiteChrome } from "@/lib/site-chrome-store";
 import { scoreSeo } from "@/lib/seo-score";
+import { adminNavIcon, adminPageIcon } from "@/components/admin/admin-nav-icons";
 
 type AdminView =
   | "overview"
@@ -121,7 +122,7 @@ function NavButton({
   active,
   onClick,
 }: {
-  icon: string;
+  icon: ReactNode;
   label: string;
   hint?: string;
   active: boolean;
@@ -129,7 +130,9 @@ function NavButton({
 }) {
   return (
     <button type="button" className={active ? "is-active" : ""} onClick={onClick}>
-      <span className="go-cms-nav-icon" aria-hidden="true">{icon}</span>
+      <span className="go-cms-nav-icon" aria-hidden="true">
+        {icon}
+      </span>
       <span className="go-cms-nav-text">
         <span className="go-cms-nav-label">{label}</span>
         {hint ? <span className="go-cms-nav-hint">{hint}</span> : null}
@@ -413,7 +416,7 @@ export function AdminApp(props: Props) {
         <nav>
           <p>Overview</p>
           <NavButton
-            icon="◆"
+            icon={adminNavIcon("dashboard")}
             label="Dashboard"
             hint="Activity & quick actions"
             active={view === "overview"}
@@ -431,7 +434,7 @@ export function AdminApp(props: Props) {
                 {groupPages.map((item) => (
                   <div key={item.id}>
                     <NavButton
-                      icon={item.label.slice(0, 1)}
+                      icon={adminPageIcon(item.id)}
                       label={item.label}
                       hint={item.hint}
                       active={view === "page" && pageId === item.id}
@@ -471,20 +474,20 @@ export function AdminApp(props: Props) {
             );
           })}
           <p>Blog & content</p>
-          <NavButton icon="B" label="All Posts" hint="Published & drafts" active={view === "blogs"} onClick={() => go("blogs")} />
-          <NavButton icon="+" label="Add New Post" hint="Write & publish" active={view === "compose" && !composeSlug} onClick={() => go("compose")} />
-          <NavButton icon="C" label="Categories" hint="Content filters" active={view === "categories"} onClick={() => go("categories")} />
-          <NavButton icon="T" label="Tags" hint="Keyword tags" active={view === "tags"} onClick={() => go("tags")} />
-          <NavButton icon="M" label="Media Library" hint="Images & videos" active={view === "media"} onClick={() => go("media")} />
-          <NavButton icon="D" label="Drafts" hint="Unpublished posts" active={view === "drafts"} onClick={() => go("drafts")} />
-          <NavButton icon="S" label="SEO Overview" hint="Blog SEO checklist" active={view === "blog-seo"} onClick={() => go("blog-seo")} />
+          <NavButton icon={adminNavIcon("posts")} label="All Posts" hint="Published & drafts" active={view === "blogs"} onClick={() => go("blogs")} />
+          <NavButton icon={adminNavIcon("compose")} label="Add New Post" hint="Write & publish" active={view === "compose" && !composeSlug} onClick={() => go("compose")} />
+          <NavButton icon={adminNavIcon("categories")} label="Categories" hint="Content filters" active={view === "categories"} onClick={() => go("categories")} />
+          <NavButton icon={adminNavIcon("tags")} label="Tags" hint="Keyword tags" active={view === "tags"} onClick={() => go("tags")} />
+          <NavButton icon={adminNavIcon("media")} label="Media Library" hint="Images & videos" active={view === "media"} onClick={() => go("media")} />
+          <NavButton icon={adminNavIcon("drafts")} label="Drafts" hint="Unpublished posts" active={view === "drafts"} onClick={() => go("drafts")} />
+          <NavButton icon={adminNavIcon("blog-seo")} label="SEO Overview" hint="Blog SEO checklist" active={view === "blog-seo"} onClick={() => go("blog-seo")} />
           <p>SEO</p>
-          <NavButton icon="P" label="Page metadata" hint="Every page, one list" active={view === "seo"} onClick={() => go("seo")} />
+          <NavButton icon={adminNavIcon("seo")} label="Page metadata" hint="Every page, one list" active={view === "seo"} onClick={() => go("seo")} />
           <p>Global</p>
-          <NavButton icon="H" label="Header & footer" hint="Logo, identity, links" active={view === "chrome"} onClick={() => go("chrome")} />
+          <NavButton icon={adminNavIcon("chrome")} label="Header & footer" hint="Logo, identity, links" active={view === "chrome"} onClick={() => go("chrome")} />
           <p>Business</p>
           <NavButton
-            icon="!"
+            icon={adminNavIcon("inquiries")}
             label="All inquiries"
             hint="Leads & appointments"
             active={view === "inquiries"}
