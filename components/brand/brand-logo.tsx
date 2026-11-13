@@ -8,7 +8,7 @@ type BrandLogoProps = {
 };
 
 export function BrandLogo({ priority = false, variant = "default", src }: BrandLogoProps) {
-  const imageSrc = src?.trim() || "/brand/logo-official-gold.png";
+  const imageSrc = src?.trim() || "/brand/logo-official-gold.png?v=2";
   const bar = variant === "bar";
   const hero = variant === "hero";
   const footer = variant === "footer";

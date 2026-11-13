@@ -11,8 +11,8 @@ export function OrbitHeroVideo() {
       poster="/brand/hero-uhd.jpg"
       aria-hidden="true"
     >
-      <source src="/brand/hero-developer.mp4" type="video/mp4" />
-      <source src="/brand/hero-product.mp4" type="video/mp4" />
+      <source src="/stream/brand/hero-developer" type="video/mp4" />
+      <source src="/stream/brand/hero-product" type="video/mp4" />
     </video>
   );
 }

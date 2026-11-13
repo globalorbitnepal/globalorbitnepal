@@ -2,6 +2,7 @@
 
 import type { CustomAppsVideoClip } from "@/lib/custom-apps-config";
 import type { PlatformPageSlug } from "@/lib/platform-page-slugs";
+import { mediaStreamSrc } from "@/lib/media-stream";
 import { platformVideoSrc } from "@/lib/platform-video-version";
 
 function videoMime(src: string) {
@@ -60,7 +61,7 @@ export function CustomAppsVideoShowcase({
                     preload="metadata"
                     disablePictureInPicture
                   >
-                    <source src={platformVideoSrc(clip.videoSrc)} type={videoMime(clip.videoSrc)} />
+                    <source src={mediaStreamSrc(platformVideoSrc(clip.videoSrc))} type={videoMime(clip.videoSrc)} />
                   </video>
                 </div>
               ) : (
@@ -81,7 +82,7 @@ export function CustomAppsVideoShowcase({
                     preload="metadata"
                     disablePictureInPicture
                   >
-                    <source src={platformVideoSrc(clip.videoSrc)} type={videoMime(clip.videoSrc)} />
+                    <source src={mediaStreamSrc(platformVideoSrc(clip.videoSrc))} type={videoMime(clip.videoSrc)} />
                   </video>
                 </div>
               )}

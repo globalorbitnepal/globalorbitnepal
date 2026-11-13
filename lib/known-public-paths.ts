@@ -33,6 +33,7 @@ export function isKnownPublicPath(pathname: string): boolean {
   if (pathname.startsWith("/orbit/")) return true;
   if (pathname.startsWith("/news/") || pathname === "/news") return true;
   if (pathname.startsWith("/brand/") || pathname.startsWith("/icons/") || pathname.startsWith("/uploads/")) return true;
+  if (pathname.startsWith("/stream/")) return true;
   const clean = pathname.length > 1 && pathname.endsWith("/") ? pathname.slice(0, -1) : pathname;
   if (KNOWN.has(clean) || KNOWN.has(pathname)) return true;
   const last = clean.split("/").pop() || "";

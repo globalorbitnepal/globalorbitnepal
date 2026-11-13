@@ -6,6 +6,7 @@ import { OrbitCodeBackdrop } from "@/components/orbit/code-backdrop";
 import { bindOrbitAutoplay, bindOrbitScroll } from "@/lib/orbit/scroll-performance";
 import type { NeedConfig } from "@/lib/need-config";
 import { DEFAULT_NEED } from "@/lib/need-config";
+import { mediaStreamSrc, mediaStreamType } from "@/lib/media-stream";
 
 function clamp(value: number, min = 0, max = 1) {
   return Math.min(max, Math.max(min, value));
@@ -209,12 +210,13 @@ export function OrbitStudioNeed({ config }: { config: NeedConfig }) {
             muted
             loop
             playsInline
-            preload="auto"
+            preload="metadata"
             disablePictureInPicture
             controls={false}
+            controlsList="nodownload"
             aria-label="Product reel"
           >
-            <source src={videoSrc} type={videoSrc.endsWith(".webm") ? "video/webm" : "video/mp4"} />
+            <source src={mediaStreamSrc(videoSrc)} type={mediaStreamType(videoSrc)} />
           </video>
         </div>
       </div>

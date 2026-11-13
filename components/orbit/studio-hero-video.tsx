@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { bindOrbitAutoplay } from "@/lib/orbit/scroll-performance";
 import type { HeroConfig } from "@/lib/hero-config";
+import { mediaStreamSrc, mediaStreamType } from "@/lib/media-stream";
 
 type Props = {
   config: HeroConfig;
@@ -51,11 +52,12 @@ export function OrbitStudioHeroVideo({ config }: Props) {
         muted
         loop
         playsInline
-        preload="auto"
+        preload="metadata"
         disablePictureInPicture
         controls={false}
+        controlsList="nodownload"
       >
-        <source src={videoSrc} type={videoSrc.endsWith(".webm") ? "video/webm" : "video/mp4"} />
+        <source src={mediaStreamSrc(videoSrc)} type={mediaStreamType(videoSrc)} />
       </video>
     </div>
   );

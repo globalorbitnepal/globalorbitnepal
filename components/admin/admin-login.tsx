@@ -93,7 +93,7 @@ export function AdminLogin() {
       <div className="go-login-shell">
         <section className="go-login-brand">
           <img
-            src="/brand/logo-admin-gold.png"
+            src="/brand/logo-admin-gold.png?v=2"
             alt="Global Orbit Pvt Ltd"
             className="go-login-logo"
             width={522}

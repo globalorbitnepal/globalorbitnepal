@@ -11,7 +11,7 @@ export function HeroDeveloperVideo() {
       poster="/brand/hero-scene.jpg"
       aria-hidden="true"
     >
-      <source src="/brand/hero-developer.mp4" type="video/mp4" />
+      <source src="/stream/brand/hero-developer" type="video/mp4" />
     </video>
   );
 }

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import type { PlatformPageSlug } from "@/lib/platform-page-slugs";
+import { mediaStreamSrc } from "@/lib/media-stream";
 import { platformVideoSrc } from "@/lib/platform-video-version";
 
 function videoMime(src: string) {
@@ -53,7 +54,7 @@ export function CustomAppsHeroVideo({ src, platform }: { src: string; platform: 
             preload="auto"
             disablePictureInPicture
           >
-            <source src={videoSrc} type={videoMime(src)} />
+            <source src={mediaStreamSrc(videoSrc)} type={videoMime(src)} />
           </video>
         </div>
       </div>
@@ -81,7 +82,7 @@ export function CustomAppsHeroVideo({ src, platform }: { src: string; platform: 
           preload="auto"
           disablePictureInPicture
         >
-          <source src={videoSrc} type={videoMime(src)} />
+          <source src={mediaStreamSrc(videoSrc)} type={videoMime(src)} />
         </video>
       </div>
     </div>

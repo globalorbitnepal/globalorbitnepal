@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef, type CSSProperties, type ReactNode } from "react";
 import { bindOrbitAutoplay } from "@/lib/orbit/scroll-performance";
+import { mediaStreamSrc } from "@/lib/media-stream";
 
 const SERVICES = [
   {
@@ -173,8 +174,9 @@ export function OrbitStudioServicesShowcase() {
               playsInline
               preload="metadata"
               disablePictureInPicture
+              controlsList="nodownload"
             >
-              <source src="/brand/need-phone-reel.mp4" type="video/mp4" />
+              <source src={mediaStreamSrc("/brand/need-phone-reel.mp4")} type="video/mp4" />
             </video>
           </div>
         </div>

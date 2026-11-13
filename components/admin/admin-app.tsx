@@ -399,9 +399,14 @@ export function AdminApp(props: Props) {
       <aside className={`go-cms-side ${navOpen ? "is-open" : ""}`}>
         <div className="go-cms-side-inner">
         <div className="go-cms-brand">
-          <span className="go-cms-mark" aria-hidden="true" />
+          <img
+            src="/brand/logo-admin-gold.png?v=2"
+            alt="Global Orbit Pvt Ltd"
+            className="go-cms-brand-logo"
+            width={522}
+            height={116}
+          />
           <div className="go-cms-brand-text">
-            <strong>GLOBAL ORBIT</strong>
             <span>Management console</span>
           </div>
         </div>
@@ -888,7 +893,7 @@ export function AdminApp(props: Props) {
             <AdminMediaField
               label="Header & footer logo"
               description="Transparent PNG recommended. Replaces the gold Global Orbit mark in the site header and footer."
-              src={chrome.headerLogoSrc || "/brand/logo-official-gold.png"}
+              src={chrome.headerLogoSrc || "/brand/logo-official-gold.png?v=2"}
               kind="image"
               accept="image/png,image/webp,image/jpeg,image/svg+xml"
               disabled={busy}
