@@ -132,15 +132,19 @@ function ServicesDropdown({ pathname, onNavigate }: { pathname: string; onNaviga
   }, [open]);
 
   return (
-    <li ref={rootRef} className="relative">
+    <li
+      ref={rootRef}
+      className="relative"
+      onMouseEnter={() => setOpen(true)}
+      onMouseLeave={() => setOpen(false)}
+    >
       <button
         type="button"
-        className={`orbit-header-nav-link inline-flex items-center gap-1.5 whitespace-nowrap ${active ? "is-active" : ""}`}
+        className={`orbit-header-nav-link inline-flex items-center gap-1.5 whitespace-nowrap ${active || open ? "is-active" : ""}`}
         aria-expanded={open}
         aria-controls={menuId}
         aria-haspopup="menu"
         onClick={() => setOpen((value) => !value)}
-        onMouseEnter={() => setOpen(true)}
       >
         Services
         <svg
@@ -155,8 +159,7 @@ function ServicesDropdown({ pathname, onNavigate }: { pathname: string; onNaviga
         <div
           id={menuId}
           role="menu"
-          className="orbit-header-dropdown absolute left-1/2 top-[calc(100%+0.65rem)] z-[60] min-w-[12.5rem] -translate-x-1/2 rounded-2xl p-2"
-          onMouseLeave={() => setOpen(false)}
+          className="orbit-header-dropdown absolute left-1/2 top-full z-[80] min-w-[13.5rem] -translate-x-1/2 rounded-2xl p-2 pt-3"
         >
           <ul className="flex flex-col gap-0.5">
             {children.map((child) => (

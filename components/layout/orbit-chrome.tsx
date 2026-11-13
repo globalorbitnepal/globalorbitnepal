@@ -51,7 +51,7 @@ export function OrbitChrome() {
         </span>
         <span className="orbit-wa-fab-copy">
           <strong>WhatsApp</strong>
-          <small>+977-9812322339</small>
+          <small>GlobalOrbit</small>
         </span>
       </a>
 
